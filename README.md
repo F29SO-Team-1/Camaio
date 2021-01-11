@@ -14,3 +14,9 @@ See [Getting Started](GETTING_STARTED.md) for more detailed instruction.
 
 ### Quick Start
 
+cd Camaio
+dotnet watch run
+
+### Urls
+
+https://docs.microsoft.com/en-us/aspnet/core/
