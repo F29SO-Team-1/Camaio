@@ -18,10 +18,12 @@
 Domain : [https://camaio.co.uk/](https://camaio.co.uk/)
 
 ### Dependencies
-- APS.NET CORE
+- ASP.NET CORE
 - C#
 
 See [Getting Started](GETTING_STARTED.md) for more detailed instruction.
+
+See [Contibution Guidelines](CONTRIBUTING.md) before making changes to the projects codebase.
 
 #### Quick Start
 
