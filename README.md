@@ -4,13 +4,29 @@
 
 **It is unlikely that this project will be maintained after May 2021**
 
+# Project Status (Develop Branch)
+
+![.NET](https://github.com/F29SO-Team-1/Camaio/workflows/.NET/badge.svg?branch=develop)
+
 ## Installation
 
-### Dependencies
+### Current live versions of the project can be accessed:
+[Develop](http://145.14.158.110:81/) Branch
 
-- 
+[Main](http://145.14.158.110:81/) Branch
+
+Domain : [https://camaio.co.uk/](https://camaio.co.uk/)
+
+### Dependencies
+- APS.NET CORE
+- C#
 
 See [Getting Started](GETTING_STARTED.md) for more detailed instruction.
 
-### Quick Start
+#### Quick Start
 
+- Clone the repo onto your local machine  `git clone https://github.com/F29SO-Team-1/Camaio/`
+- Get into the project directory          `cd Camaio`
+- Have the Dependencies installed
+- Start the application                   `dotnet watch run`
+- Navigate to [`http://localhost:5001`](http://localhost:5001)
