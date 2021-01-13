@@ -1,0 +1,20 @@
+# This is a script to do a pull request everytime their is a push to the branch company-website
+name: CompanyWebsite
+
+on:
+  push:
+    branches: [ company-website ]
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/company-website'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Push to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_USER_PASSWORD }}
+          script: cd ${{ secrets.COMPANY_PATH }} && git pull
