@@ -21,9 +21,9 @@ jobs:
           # ssh username
           username: ${{ secrets.REMOTE_USER }}
           # ssh password
-          password: ${{ secrets.REMOTE_USER_PASSWORD }}
+          #password: ${{ secrets.REMOTE_USER_PASSWORD }}
           # content of ssh private key. ex raw content of ~/.ssh/id_rsa
-          # key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           # execute commands
           script: cd ${{ secrets.COMPANY_PATH }} && git pull
     
