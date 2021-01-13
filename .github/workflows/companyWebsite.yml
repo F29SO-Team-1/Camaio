@@ -26,4 +26,3 @@ jobs:
           #key: ${{ secrets.SSH_KEY }}
           # execute commands
           script: cd ${{ secrets.COMPANY_PATH }} && git pull
-    
