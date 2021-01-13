@@ -3,7 +3,8 @@ name: CompanyWebsite
 
 on:
   push:
-    branches: [ company-website ]
+    branches: 
+     - company-website 
 
 jobs:
   build:
@@ -14,15 +15,15 @@ jobs:
         uses: appleboy/ssh-action@v0.1.4
         with:
           # ssh host
-          host: ${{ secret.REMOTE_HOST }}
+          host: ${{ secrets.REMOTE_HOST }}
           # ssh port
-          port: ${{ secret.PORT }}
+          port: ${{ secrets.PORT }}
           # ssh username
           username: ${{ secret.REMOTE_USER }}
           # ssh password
-          password: ${{ secret.REMOTE_USER_PASSWORD }}
+          password: ${{ secrets.REMOTE_USER_PASSWORD }}
           # content of ssh private key. ex raw content of ~/.ssh/id_rsa
-          key: ${{ secret.SSH_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           # execute commands
           script: cd ${{ secrets.COMPANY_PATH }} && git pull
     
