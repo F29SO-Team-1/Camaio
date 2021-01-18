@@ -1,7 +1,89 @@
 body{
-    background-color: black;
-    color: white;
+    background-color: var(--background-color);
+    color: var(--font-color);
 }
+
+h1 {
+    color: var(--secondary-color);
+}
+
+a {
+    color: var(--primary-color);
+}
+
+:root{
+    --primary-color: #2E4600;
+    --secondary-color: #A2C523;
+    --font-color: black; 
+    --background-color: #486B00;
+}
+
+[data-theme="dark"] {
+    --primary-color: #164A41;
+    --secondary-color: #9DC88D;
+    --font-color: white;  
+    --background-color: #4D774E;
+}
+
+.dark-mode-switch{
+    display: flex;
+    align-items: center;
+}
+
+em{
+    margin-left: 10px;
+    font-size: 1rem ;
+}
+
+.mode-switch{
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.mode-switch input{
+    display: none;
+}
+
+.slider{
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    right: 0;
+    top: 0;
+    position:absolute;
+    transition: .4s;
+}
+
+.slider:before{
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position:absolute;
+    width: 26px;
+}
+
+input:checked + .slider{
+    background-color: #66bb6a;
+}
+
+input:checked + .slider:before{
+    transform: translateX(26px);
+}
+
+.slider.round{
+    border-radius: 34px;
+}
+ 
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
 
 container {width: 100%; margin-left: 15%; margin-right: 15%;}
 
