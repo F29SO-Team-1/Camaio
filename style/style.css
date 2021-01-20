@@ -16,10 +16,20 @@ a {
 }
 
 :root {
+
+    
     --primary-color: red; 
-    --secondary-color: black; /* h2 & h4 headings */ 
+    --secondary-color: black; 
     --font-color: black; 
     --background-color: white; 
+
+    /*
+
+    --primary-color: red; 
+    --secondary-color: white; 
+    --font-color: white; 
+    --background-color: black; 
+    */ 
 }
 
 [data-theme="dark"] {
