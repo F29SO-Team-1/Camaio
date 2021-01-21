@@ -1,4 +1,4 @@
-const toggleColorMode = e => {
+ var toggleColorMode = function toggleColorMode(e) {
     // Switch to Light Mode
     if (e.currentTarget.classList.contains("light--hidden")) {
         // Sets the custom html attribute
@@ -15,39 +15,11 @@ const toggleColorMode = e => {
     localStorage.setItem("color-mode", "dark"); 
 };
 
-
 // Get the buttons in the DOM
-const toggleColorButtons = document.querySelectorAll(".color-mode_btn");
+var toggleColorButtons = document.querySelectorAll(".color-mode_btn");
 
 // Set up even listeners
-toggleColorButtons.forEach(btn => {
-    btn.addEventListener("click", toggleColorMode)
+toggleColorButtons.forEach(function(btn) {
+    btn.addEventListener("click", toggleColorMode); 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
-
-function switchTheme(e) {
-    if (e.currenttarget.checked) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
-    else {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }    
-}
-
-toggleSwitch.addEventListener('change', switchTheme, false);
-
-
 
