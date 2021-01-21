@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html color-mode="light" lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -26,13 +26,23 @@
                 </div>
             </div>
 
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider round"></div>
-              </label>
-              <em>Dark Mode</em>
-            </div>
+            <!-- Light Mode Button -->
+            <button class="color-mode_btn light--hidden" aria-label="Toggle light mode">
+                Toggle Light Mode
+                <svg aria-hidden="true">
+                    <title>Light Mode</title>
+                    <use href="#sun"></use>
+                </svg>
+            </button>
+
+            <!-- Dark Mode Button -->
+            <button class="color-mode_btn dark--hidden" aria-label="Toggle dark mode">
+                Toggle Dark Mode
+                <svg aria-hidden="true">
+                    <title>Dark Mode</title>
+                    <use href="#moon"></use>
+                </svg>
+            </button>
 
             <!-- Main image banner -->
             <div class="row" style="text-align: center; background-color: #1D1D1F; margin-bottom: 1%;">
