@@ -160,9 +160,6 @@
     }
     }
 
-
-
-
 body{
     background-color: var(--background-color);
     color: var(--font-color);
@@ -179,6 +176,14 @@ h4{
 a {
     color: var(--primary-color);
 }
+
+.header {
+    padding: 40px;
+    text-align: center;
+    width:100%; 
+    outline: 4px solid black; 
+}
+
 
 :root {
     --radius: 50px;
