@@ -1,3 +1,4 @@
+
     .wrapper{
     width: 130px;
     height:100px;
@@ -86,6 +87,7 @@
     animation: sun .7s forwards ease;
     }
 
+    /* Makes the transition for the sun when the button is clicked  */ 
     @keyframes sun{
     0%{
         transform: rotate(170deg);
@@ -135,6 +137,7 @@
      animation: moon .7s forwards ease;
     }
 
+     /* Makes the transition for the moon when the button is clicked */ 
     @keyframes moon{
     0%{
         transform: rotate(0deg);
@@ -157,7 +160,7 @@
     }
     }
 
-    /* MY CODE */ 
+
 
 
 body{
