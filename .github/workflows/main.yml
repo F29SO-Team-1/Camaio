@@ -1,0 +1,28 @@
+name: VPS pull and publish
+
+on:
+  push:
+    branches: [ feature ]
+  pull_request:
+    branches: [ feature ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          # ssh host
+          host: ${{ secrets.REMOTE_HOST }}
+          # ssh port
+          port: ${{ secrets.PORT }}
+          # ssh username
+          username: ${{ secrets.REMOTE_USER }}
+          # ssh password
+          password: ${{ secrets.REMOTE_USER_PASSWORD }}
+          # content of ssh private key. ex raw content of ~/.ssh/id_rsa
+          #key: ${{ secrets.SSH_KEY }}
+          # execute commands
+          script: cd ${{ secrets.FEATURE_PATH }} && git pull && dotnet build && dotnet publish
