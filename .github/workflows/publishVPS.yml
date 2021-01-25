@@ -25,4 +25,4 @@ jobs:
           # content of ssh private key. ex raw content of ~/.ssh/id_rsa
           #key: ${{ secrets.SSH_KEY }}
           # execute commands
-          script: cd ${{ secrets.FEATURE_PATH }} && git pull && dotnet build && dotnet publish
+          script: cd ${{ secrets.FEARURE_PATH }} && git pull && dotnet build && dotnet publish
