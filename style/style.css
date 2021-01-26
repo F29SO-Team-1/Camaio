@@ -168,6 +168,10 @@ a {
   color: var(--primary-color);
 }
 
+p.{
+    color: var(--primary-color);
+}
+
 .header {
   padding: 40px;
   text-align: center;
