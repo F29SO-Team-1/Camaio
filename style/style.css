@@ -173,10 +173,10 @@ p.{
 }
 
 .header {
-  padding: 40px;
- 
+  padding: 1px;
   width: 100%;
   outline: 4px solid black;
+
 }
 .header img{
   float: left;
