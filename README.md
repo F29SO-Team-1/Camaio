@@ -11,13 +11,17 @@
 ## Installation
 
 ### Current live versions of the project can be accessed:
+
 [Develop](http://145.14.158.110:81/) Branch
 
 [Main](http://145.14.158.110:81/) Branch
 
+[Company-webside](http://145.14.158.110:82/) Branch
+
 Domain : [https://camaio.co.uk/](https://camaio.co.uk/)
 
 ### Dependencies
+
 - ASP.NET CORE
 - C#
 
@@ -27,8 +31,8 @@ See [Contibution Guidelines](CONTRIBUTING.md) before making changes to the proje
 
 #### Quick Start
 
-- Clone the repo onto your local machine  `git clone https://github.com/F29SO-Team-1/Camaio/`
-- Get into the project directory          `cd Camaio`
+- Clone the repo onto your local machine `git clone https://github.com/F29SO-Team-1/Camaio/`
+- Get into the project directory `cd Camaio`
 - Have the Dependencies installed
-- Start the application                   `dotnet watch run`
+- Start the application `dotnet watch run`
 - Navigate to [`http://localhost:5001`](http://localhost:5001)
