@@ -168,7 +168,7 @@ a {
   color: var(--primary-color);
 }
 
-p{
+p.{
     color: var(--primary-color);
 }
 
@@ -194,17 +194,17 @@ p{
 }
 
 :root[color-mode="light"] {
-  --primary-color: red;
-  --secondary-color: #a2c523; /* h2 & h4 headings */
-  --font-color: black;
-  --background-color: white;
+    --primary-color: red; 
+    --secondary-color:  #108500;/* h2 & h4 headings */ 
+    --font-color: black; 
+    --background-color:#F0F0F0;  
 }
 
 :root[color-mode="dark"] {
-  --primary-color: red;
-  --secondary-color: #164a41; /* h2 & h4 headings */
-  --font-color: white;
-  --background-color: grey;
+    --primary-color: red; 
+    --secondary-color: #A2C523; /* h2 & h4 headings */ 
+    --font-color: white; 
+    --background-color: #343434;  
 }
 
 @media (min-width: 640px) {
