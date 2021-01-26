@@ -1,266 +1,259 @@
+.wrapper {
+  width: 130px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+}
 
-    .wrapper{
-    width: 130px;
-    height:100px;
-    position: absolute;
-    top:50%;
-    left:0%;
-    transform: translate(-50%, -50%);
-    }
-    
-    .switch{
-    position: relative;
-    width: 130px;
-    height: 50px;
-    margin: 0px;
-    appearance: none;
-    border-radius: 25px;
-    box-shadow: inset 0px 0px 2px black; 
-    
-    outline: none;
-    cursor: pointer;
-    overflow: hidden;
-    }
-    
-    .switch:after{
-    content: '';
+.switch {
+  position: relative;
+  width: 130px;
+  height: 50px;
+  margin: 0px;
+  appearance: none;
+  border-radius: 25px;
+  box-shadow: inset 0px 0px 2px black;
+
+  outline: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.switch:after {
+  content: "";
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  transform: translateX(0px);
+  animation: off 0.7s forwards cubic-bezier(0.8, 0.5, 0.2, 1.4);
+  box-shadow: inset 5px -5px 4px rgba(53, 53, 53, 0.3);
+}
+
+@keyframes off {
+  0% {
+    transform: translateX(80px);
     width: 46px;
-    height:46px;
-    border-radius: 50%;
-    background-color: #fff;
-    position: absolute;
-    left: 2px;
-    top: 2px;
+  }
+  50% {
+    width: 75px;
+    border-radius: 25px;
+  }
+  100% {
     transform: translateX(0px);
-    animation: off .7s forwards cubic-bezier(.8, .5, .2, 1.4);
-    box-shadow: inset 5px -5px 4px rgba(53, 53, 53, 0.3);
-    }
-    
-    @keyframes off{
-    0%{
-        transform: translateX(80px);
-        width: 46px;
-    }
-    50%{
-        width: 75px;  
-        border-radius: 25px;   
-    }
-    100%{
-        transform: translateX(0px); 
-        width: 46px;
-    }
-    }
-    
+    width: 46px;
+  }
+}
 
-    .switch:checked:after{
-    animation: on .7s forwards cubic-bezier(.8, .5, .2, 1.4);
-    box-shadow: inset -5px -5px 4px rgba(53, 53, 53, 0.3);
-    }
-    
-    @keyframes on{
-    0%{
-        transform: translateX(0px);
-        width: 46px;
-    }
-    50%{
-        width: 75px;  
-        border-radius: 25px;   
-    }
-    100%{
-        transform: translateX(80px); 
-        width: 46px;
-    }
-    }
-    
-    .switch:checked:before{
-    content: '';
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    position: absolute;
-    left: 15px;
-    top: 5px;
-    transform-origin: 53px 10px;
+.switch:checked:after {
+  animation: on 0.7s forwards cubic-bezier(0.8, 0.5, 0.2, 1.4);
+  box-shadow: inset -5px -5px 4px rgba(53, 53, 53, 0.3);
+}
+
+@keyframes on {
+  0% {
+    transform: translateX(0px);
+    width: 46px;
+  }
+  50% {
+    width: 75px;
+    border-radius: 25px;
+  }
+  100% {
+    transform: translateX(80px);
+    width: 46px;
+  }
+}
+
+.switch:checked:before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
+  left: 15px;
+  top: 5px;
+  transform-origin: 53px 10px;
+  background-color: transparent;
+  box-shadow: 5px -1px 0px #fff;
+  filter: blur(0px);
+  animation: sun 0.7s forwards ease;
+}
+
+/* Makes the transition for the sun when the button is clicked  */
+@keyframes sun {
+  0% {
+    transform: rotate(170deg);
     background-color: transparent;
     box-shadow: 5px -1px 0px #fff;
     filter: blur(0px);
-    animation: sun .7s forwards ease;
-    }
-
-    /* Makes the transition for the sun when the button is clicked  */ 
-    @keyframes sun{
-    0%{
-        transform: rotate(170deg);
-        background-color: transparent;
-        box-shadow: 5px -1px 0px #fff;
-        filter: blur(0px);
-    }
-    50%{
-        background-color: transparent;
-        box-shadow: 5px -1px 0px #fff;
-        filter: blur(0px);
-    }
-    90%{
-        background-color: #f5daaa;
-        box-shadow: 0px 0px 10px #f5deb4,
-        0px 0px 20px #f5deb4,
-        0px 0px 30px #f5deb4,
-         inset 0px 0px 2px #efd3a3;
-         filter: blur(1px);
-    }
-    100%{
-        transform: rotate(0deg);
-        background-color: #f5daaa;
-        box-shadow: 0px 0px 10px #f5deb4,
-        0px 0px 20px #f5deb4,
-        0px 0px 30px #f5deb4,
-         inset 0px 0px 2px #efd3a3;
-         filter: blur(1px);
-    }
-    }
-    
-    .switch:before{
-    content: '';
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    position: absolute;
-    left: 15px;
-    top: 5px;
-    filter: blur(1px);
+  }
+  50% {
+    background-color: transparent;
+    box-shadow: 5px -1px 0px #fff;
+    filter: blur(0px);
+  }
+  90% {
     background-color: #f5daaa;
-    box-shadow: 0px 0px 10px #f5deb4,
-    0px 0px 20px #f5deb4,
-    0px 0px 30px #f5deb4,
-     inset 0px 0px 2px #efd3a3;
-     transform-origin: 53px 10px;
-     animation: moon .7s forwards ease;
-    }
+    box-shadow: 0px 0px 10px #f5deb4, 0px 0px 20px #f5deb4, 0px 0px 30px #f5deb4,
+      inset 0px 0px 2px #efd3a3;
+    filter: blur(1px);
+  }
+  100% {
+    transform: rotate(0deg);
+    background-color: #f5daaa;
+    box-shadow: 0px 0px 10px #f5deb4, 0px 0px 20px #f5deb4, 0px 0px 30px #f5deb4,
+      inset 0px 0px 2px #efd3a3;
+    filter: blur(1px);
+  }
+}
 
-     /* Makes the transition for the moon when the button is clicked */ 
-    @keyframes moon{
-    0%{
-        transform: rotate(0deg);
-        filter: blur(1px);
-    }
-    50%{
-        filter: blur(1px);
-    }
-    90%{
-        background-color: transparent;
-        box-shadow: 5px -1px 0px #fff;
-        filter: blur(0px);
-    
-    }
-    100%{
-        transform: rotate(170deg);
-        background-color: transparent;
-        box-shadow: 5px -1px 0px #fff;
-        filter: blur(0px);
-    }
-    }
+.switch:before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
+  left: 15px;
+  top: 5px;
+  filter: blur(1px);
+  background-color: #f5daaa;
+  box-shadow: 0px 0px 10px #f5deb4, 0px 0px 20px #f5deb4, 0px 0px 30px #f5deb4,
+    inset 0px 0px 2px #efd3a3;
+  transform-origin: 53px 10px;
+  animation: moon 0.7s forwards ease;
+}
 
-body{
-    background-color: var(--background-color);
-    color: var(--font-color);
+/* Makes the transition for the moon when the button is clicked */
+@keyframes moon {
+  0% {
+    transform: rotate(0deg);
+    filter: blur(1px);
+  }
+  50% {
+    filter: blur(1px);
+  }
+  90% {
+    background-color: transparent;
+    box-shadow: 5px -1px 0px #fff;
+    filter: blur(0px);
+  }
+  100% {
+    transform: rotate(170deg);
+    background-color: transparent;
+    box-shadow: 5px -1px 0px #fff;
+    filter: blur(0px);
+  }
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
 h1 {
-    color: var(--secondary-color);
+  color: var(--secondary-color);
 }
 
-h4{
-    color: var(--secondary-color); 
+h4 {
+  color: var(--secondary-color);
 }
 
 a {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .header {
-    padding: 40px;
-    text-align: center;
-    width:100%; 
-    outline: 4px solid black; 
+  padding: 40px;
+  text-align: center;
+  width: 100%;
+  outline: 4px solid black;
 }
 
-
 :root {
-    --radius: 50px;
-    --sans: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, oxygen, ubuntu,
-      cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
+  --radius: 50px;
+  --sans: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, oxygen, ubuntu,
+    cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
 
 :root[color-mode="light"] .light--hidden {
-    display: none; 
+  display: none;
 }
 
 :root[color-mode="dark"] .dark--hidden {
-    display: none; 
+  display: none;
 }
 
 :root[color-mode="light"] {
-    --primary-color: red; 
-    --secondary-color: #A2C523; /* h2 & h4 headings */ 
-    --font-color: black; 
-    --background-color: white;  
+  --primary-color: red;
+  --secondary-color: #a2c523; /* h2 & h4 headings */
+  --font-color: black;
+  --background-color: white;
 }
 
 :root[color-mode="dark"] {
-    --primary-color: red; 
-    --secondary-color: #164A41; /* h2 & h4 headings */ 
-    --font-color: white; 
-    --background-color: grey; 
+  --primary-color: red;
+  --secondary-color: #164a41; /* h2 & h4 headings */
+  --font-color: white;
+  --background-color: grey;
 }
 
-  @media (min-width: 640px) {
-    .color-mode {
-      padding: 2rem;
-    }
+@media (min-width: 640px) {
+  .color-mode {
+    padding: 2rem;
   }
+}
 
-  @media (min-width: 640px) {
-    .color-mode_section {
-      padding: 1rem 3rem;
-    }
+@media (min-width: 640px) {
+  .color-mode_section {
+    padding: 1rem 3rem;
   }
-  
-  @media (min-width: 640px) {
-    .color-mode_excerpt {
-      padding: 1rem 2rem;
-      margin: 2rem;
-    }
-  }
-  
+}
 
-container {width: 100%; margin-left: 15%; margin-right: 15%;}
+@media (min-width: 640px) {
+  .color-mode_excerpt {
+    padding: 1rem 2rem;
+    margin: 2rem;
+  }
+}
+
+container {
+  width: 100%;
+  margin-left: 15%;
+  margin-right: 15%;
+}
 
 @media (min-width: 576px) {
-    .container {
-        max-width: 540px;
-    }
+  .container {
+    max-width: 540px;
+  }
 }
 
 @media (min-width: 768px) {
-    .container {
-        max-width: 720px;
-    }
+  .container {
+    max-width: 720px;
+  }
 }
 
 @media (min-width: 992px) {
-    .container {
-        max-width: 960px;
-    }
+  .container {
+    max-width: 960px;
+  }
 }
 
 @media (min-width: 1200px) {
-    .container {
-        max-width: 1140px;
-    }
+  .container {
+    max-width: 1140px;
+  }
 }
 
 @media (min-width: 1452px) {
-    .container {
-        max-width: 1360px;
-    }
+  .container {
+    max-width: 1360px;
+  }
 }
