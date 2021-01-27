@@ -70,6 +70,16 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
+
+/*-----------------Start of 'Privacy Page' CSS---------------------------*/
+
+h1{
+  color: green;
+}
+
+/*-----------------End of 'Privacy Page' CSS-----------------------------*/ 
+
+
 /*-----------------Start of 'Login Page' CSS---------------------------*/
 
 /*-----------------End of 'Login Page' CSS-----------------------------*/ 
