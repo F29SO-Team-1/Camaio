@@ -47,6 +47,11 @@ namespace Login.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [EmailAddress]
+            [DataType(DataType.Text)]
+            public string Username { get; set; }
+
+            [Required]
             [DataType(DataType.Text)]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
@@ -86,7 +91,7 @@ namespace Login.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new LoginUser {
-                    UserName = Input.Email,
+                    UserName = Input.Username,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName
