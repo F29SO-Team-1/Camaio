@@ -17,10 +17,14 @@ namespace Login.Areas.Identity
         {
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<LoginContext>(options =>
-                    options.UseSqlServer(
+                    options.UseMySql(
                         context.Configuration.GetConnectionString("LoginContextConnection")));
 
-                services.AddDefaultIdentity<LoginUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<LoginUser>(options => {
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.SignIn.RequireConfirmedAccount = false;
+                })
                     .AddEntityFrameworkStores<LoginContext>();
             });
         }
