@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
-
+using Login.Models;
 
 namespace Login.Controllers
 {
@@ -22,39 +22,39 @@ namespace Login.Controllers
 
     //Api
     [Route("api/[controller]")]
-    [ApiController]
     public class PostsController : ControllerBase
     {
-        // GET: api/<PostsController>
+        internal AppDb Db { get; }
+
+        public PostsController(AppDb db)
+        {
+            Db = db;
+        }
+
+        // GET: api/posts
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            await Db.Connection.OpenAsync();
+            var query = new PostModel.PostQuery(Db);
+            var result = await query.LatestPostsAsync();
+            return new OkObjectResult(result);
+
         }
 
-        // GET api/<PostsController>/5
+        // GET: api/posts/{id}
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetOne(int id)
         {
-            return "value";
+            await Db.Connection.OpenAsync();
+            var query = new PostModel.PostQuery(Db);
+            var result = await query.FindOneAsync(id);
+            if (result is null) return new NotFoundResult();
+            return new OkObjectResult(result);
         }
 
-        // POST api/<PostsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        // POST api/posts
 
-        // PUT api/<PostsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PostsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //PUT api/blog/{id}
     }
 }

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 //for deployment
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
+//
+using Login.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Login
 {
@@ -28,6 +31,8 @@ namespace Login
         {
             services.AddControllersWithViews();
 
+            services.AddControllers();
+
             services.AddRazorPages();
 
             //server, deployment
@@ -35,6 +40,11 @@ namespace Login
             {
                 options.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
             });
+
+            //add the services for the connection using the connection string, initial connection when the appication is run
+            services.AddTransient<AppDb>(_ => new AppDb(Configuration["ConnectionStrings:LoginContextConnection"]));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
