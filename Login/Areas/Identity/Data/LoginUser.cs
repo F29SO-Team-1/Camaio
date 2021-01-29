@@ -14,5 +14,8 @@ namespace Login.Areas.Identity.Data
 
         [PersonalData]
         public string LastName { get; set; }
+
+        /*[PersonalData]
+        public Object Avatar { get; set; }*/
     }
 }
