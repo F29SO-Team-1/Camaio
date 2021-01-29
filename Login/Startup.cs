@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Login.Models;
+using Microsoft.EntityFrameworkCore.InMemory;
 
 namespace Login
 {
@@ -29,17 +31,22 @@ namespace Login
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-
-            services.AddControllers();
-
-            services.AddRazorPages();
+            
 
             //server, deployment
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
             });
+
+            //connection to the db 
+            services.AddDbContext<PostContent>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
+
+
+            //other services
+            services.AddControllersWithViews();
+            services.AddControllers();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +62,7 @@ namespace Login
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {

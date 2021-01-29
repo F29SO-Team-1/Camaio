@@ -1,4 +1,4 @@
-﻿/*using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Login.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Login.Controllers
 {
@@ -20,42 +21,80 @@ namespace Login.Controllers
         }
     }
 
-    //Api
+    // Api/posts
     [Route("api/[controller]")]
+    [ApiController]
     public class PostsController : ControllerBase
     {
-        internal AppDb Db { get; }
+        private readonly PostContent _context;
 
-        public PostsController(AppDb db)
+        public PostsController(PostContent content)
         {
-            Db = db;
+            _context = content;
+        }
+        private bool PostsExists(int id)
+        {
+            return _context.Posts.Any(e => e.Post_id == id);
         }
 
         // GET: api/posts
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
         {
-            await Db.Connection.OpenAsync();
-            var query = new PostModel.PostQuery(Db);
-            var result = await query.LatestPostsAsync();
-            return new OkObjectResult(result);
-
+            return await _context.Posts.ToListAsync();
         }
 
         // GET: api/posts/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOne(int id)
+        public async Task<ActionResult<Post>> GetOne(int id)
         {
-            await Db.Connection.OpenAsync();
-            var query = new PostModel.PostQuery(Db);
-            var result = await query.FindOneAsync(id);
-            if (result is null) return new NotFoundResult();
-            return new OkObjectResult(result);
+            var posts = await _context.Posts.FindAsync(id);
+            if (posts == null) return NotFound();
+            return posts;
         }
 
-        // POST api/posts
+        // POST: api/posts
+        // Used to send data to server to create/update
+        // Use this more than PUT
+        [HttpPost]
+        public async Task<ActionResult<Post>> PostaPost(Post post)
+        {
+            _context.Posts.Add(post);
+            await _context.SaveChangesAsync();
 
-        //PUT api/blog/{id}
+            return CreatedAtAction(nameof(GetPosts), new { id = post.Post_id }, post);
+        }
+
+        // PUT api/posts/{id}
+        // Create/update
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PostEdit(int id, Post post)
+        {
+            if (id != post.Post_id) return BadRequest();
+            
+            _context.Entry(post).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PostsExists(id)) return NotFound(); 
+                else throw; 
+            }
+            return NoContent();
+        }
+
+        // DELETE api/blog/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Post>> DeletePost(int id)
+        {
+            var todoItem = await _context.Posts.FindAsync(id);
+            if (todoItem == null) return NotFound();
+            _context.Posts.Remove(todoItem);
+            await _context.SaveChangesAsync();
+            return todoItem;
+        }
     }
 }
-*/
