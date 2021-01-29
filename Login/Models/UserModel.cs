@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -31,7 +31,7 @@ namespace Login.Models
         // public async Task InsertAsync()
         // {
         //     using var cmd = Db.Connection.CreateCommand();
-        //     /*Insert SQL string here*/
+        //     /*Insert SQL string here*//*
         //     BindParams(cmd);
         //     await cmd.ExecuteNonQueryAsync();
         //     Id = cmd.LastInsertedId;
@@ -40,7 +40,7 @@ namespace Login.Models
         public async Task UpdateAsync()
         {
             using var cmd = Db.Connection.CreateCommand();
-            /*Update SQL string here*/
+            *//*Update SQL string here*//*
             BindParams(cmd);
             BindId(cmd);
             await cmd.ExecuteNonQueryAsync();
@@ -49,7 +49,7 @@ namespace Login.Models
         public async Task DeleteAsync()
         {
             using var cmd = Db.Connection.CreateCommand();
-            /*Delete SQL string here*/
+            *//*Delete SQL string here*//*
             BindId(cmd);
             await cmd.ExecuteNonQueryAsync();
         }
@@ -99,4 +99,4 @@ namespace Login.Models
         }
     }
     
-}
+}*/

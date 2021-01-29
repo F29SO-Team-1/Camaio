@@ -1,19 +1,19 @@
+using Login.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-//for deployment
-using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
-//
-using Login.Models;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Login
 {
@@ -40,11 +40,6 @@ namespace Login
             {
                 options.KnownProxies.Add(IPAddress.Parse("127.0.0.1"));
             });
-
-            //add the services for the connection using the connection string, initial connection when the appication is run
-            services.AddTransient<AppDb>(_ => new AppDb(Configuration["ConnectionStrings:LoginContextConnection"]));
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +55,7 @@ namespace Login
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {

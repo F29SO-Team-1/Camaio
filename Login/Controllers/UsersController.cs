@@ -1,4 +1,4 @@
-﻿using Login.Models;
+﻿/*using Login.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -55,3 +55,4 @@ namespace Login.Controllers
         }
     }
 }
+*/
