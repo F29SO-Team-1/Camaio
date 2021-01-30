@@ -15,7 +15,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Login.Models;
-using Microsoft.EntityFrameworkCore.InMemory;
 
 namespace Login
 {

@@ -1,0 +1,6 @@
+﻿If you are using Package manager use the following commands
+
+Add-Migration "InitialCreate"
+Update-Database
+
+this will use the context that you have made and make a Table in the SQL DB

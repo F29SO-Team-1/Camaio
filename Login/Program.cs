@@ -1,3 +1,5 @@
+using Login.Data;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -6,8 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Login.Data;
-using Microsoft.Extensions.DependencyInjection;
+
 
 namespace Login
 {
@@ -17,7 +18,6 @@ namespace Login
         {
             var host = CreateHostBuilder(args).Build();
             CreateDbIfNotExists(host);
-
             host.Run();
         }
 
