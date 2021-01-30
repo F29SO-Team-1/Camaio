@@ -40,8 +40,7 @@ namespace Login
             });
 
             //connection to the db 
-            services.AddDbContext<PostContent>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
-
+            services.AddDbContext<ThreadContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
 
             //other services
             services.AddControllersWithViews();
@@ -52,6 +51,10 @@ namespace Login
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); /*app.UseDatabaseErrorPage();*/}
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            else { app.UseExceptionHandler("/Home/Error"); app.UseHsts(); }
+
 
             //server, deployment
             app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -59,24 +62,17 @@ namespace Login
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                //app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
             app.UseHttpsRedirection();
+            // makes the app use static files and enables default file maping
             app.UseStaticFiles();
+            app.UseDefaultFiles();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            //app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {
