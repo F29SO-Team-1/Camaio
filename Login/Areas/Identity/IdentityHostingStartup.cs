@@ -20,7 +20,7 @@ namespace Login.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("LoginContextConnection")));
 
-                services.AddDefaultIdentity<LoginUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<LoginUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<LoginContext>();
             });
         }

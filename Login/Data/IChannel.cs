@@ -6,19 +6,15 @@ using Login.Models;
 
 namespace Login.Data
 {
-    public interface IThread
+    public interface IChannel //Copyright Apple Inc.
     {
         Thread GetById(int id);
-        IEnumerable<Thread> GetAll();
-
-        //crud
         Task Create(Thread thread);
-        Task Edit(int threadId);
         Task Delete(int threadId);
-
         Task UpdateThreadTitle(int threadId, string newTitle);
         Task UpdateDescription(int threadId, string newDescription);
+
         Task LikedThread(int threadId, int FromLiked);
-        Task UploadPicture(int threadId, Uri pic);
+        Task UploadPicture(int threadId, string pic);
     }
 }

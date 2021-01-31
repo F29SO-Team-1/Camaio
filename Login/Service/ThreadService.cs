@@ -27,6 +27,11 @@ namespace Login.Service
             throw new NotImplementedException();
         }
 
+        public Task Edit(int threadId)
+        {
+            throw new NotImplementedException();
+        }
+
         //returns a list of all the thread
         public IEnumerable<Thread> GetAll()
         {
@@ -35,7 +40,7 @@ namespace Login.Service
 
         public Thread GetById(int id)
         {
-            throw new NotImplementedException();
+            return GetAll().FirstOrDefault(thread => thread.ID == id);
         }
 
         public Task LikedThread(int threadId, int FromLiked)
@@ -53,9 +58,12 @@ namespace Login.Service
             throw new NotImplementedException();
         }
 
-        public Task UploadPicture(int threadId, string pic)
+        public async Task UploadPicture(int threadId, Uri pic)
         {
-            throw new NotImplementedException();
+            var thread = GetById(threadId);
+            thread.Image = pic.AbsoluteUri;
+            _context.Update(thread);
+            await _context.SaveChangesAsync();
         }
     }
 }
