@@ -18,9 +18,12 @@ namespace Login.Controllers
     public class ThreadController : Controller
     {
         private readonly IThread _threadService;
-        public ThreadController(IThread thread)
+        private readonly ThreadContext _context;
+
+        public ThreadController(IThread thread, ThreadContext context)
         {
             _threadService = thread;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -46,6 +49,21 @@ namespace Login.Controllers
             return View();
         }
 
-   
+        // POST: Threads/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ID,UserID,Title,Location,Image,Description,CreateDate,Votes")] Thread thread)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(thread);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(thread);
+        }
+
     }
 }
