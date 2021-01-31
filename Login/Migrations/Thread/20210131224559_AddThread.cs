@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Login.Migrations.Thread
 {
-    public partial class CreateThread : Migration
+    public partial class AddThread : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,13 +14,11 @@ namespace Login.Migrations.Thread
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<string>(nullable: true),
-                    PostedIn = table.Column<int>(nullable: false),
-                    Location = table.Column<string>(nullable: true),
-                    Votes = table.Column<int>(nullable: false),
-                    Content = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false)
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    Votes = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
