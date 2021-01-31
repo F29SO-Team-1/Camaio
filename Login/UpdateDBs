@@ -1,0 +1,3 @@
+﻿How to update the Database with the context files 
+Add-Migration "InitialCreate" -Context <The context that you wanna update>
+Update-Database -Context <The context that you wanna update>
