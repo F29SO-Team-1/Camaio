@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Login.Models;
 
 namespace Login.Areas.Identity.Data
 {
@@ -12,5 +13,6 @@ namespace Login.Areas.Identity.Data
         public string ProfileImageUrl { get;  set; }
         public string Ratting { get;  set; }
         public DateTime MemberSince { get; internal set; }
+        public ICollection<ChannelMember> ChannelMembers { get; set; }
     }
 }
