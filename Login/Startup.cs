@@ -41,7 +41,7 @@ namespace Login
 
             //connection to the db 
             services.AddDbContext<ThreadContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
+            services.AddDbContext<ChannelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
 
             //other services
             services.AddControllersWithViews();
