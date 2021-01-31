@@ -25,14 +25,19 @@ namespace Login.Service
             return GetAll().FirstOrDefault(u => u.Id == id);
         }
 
+        public LoginUser GetByUserName(string username)
+        {
+            return GetAll().FirstOrDefault(u => u.UserName == username);
+        }
+
         public Task IncrementRating(string id, Type type)
         {
             throw new NotImplementedException();
         }
 
-        public async Task SetProfileImage(string id, Uri uri)
+        public async Task SetProfileImage(string username, Uri uri)
         {
-            var user = GetById(id);
+            var user = GetByUserName(username);
             user.ProfileImageUrl = uri.AbsoluteUri;
             _context.Update(user);
             await _context.SaveChangesAsync();

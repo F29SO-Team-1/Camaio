@@ -9,6 +9,8 @@ namespace Login.Data
     public interface IApplicationUsers
     {
         LoginUser GetById(string id);
+
+        LoginUser GetByUserName(string username);
         IEnumerable<LoginUser> GetAll();
 
         Task IncrementRating(string id, Type type);

@@ -2,18 +2,20 @@
 
 <h1>Threads</h1>
 
-<table class="table table-hover" id="threadIndexTable">
-    <tbody>
-        @foreach (var thread in Model.ThreadList)
-        {
-            <tr>
-                <td>
-                    @thread.Title
-                </td>
-                <td>
-                    @thread.Description
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+
+<div class="card-deck">
+    @foreach (var thread in Model.ThreadList)
+    {
+         <div class="card">
+            <img class="card-img-top" src="./download.svg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@thread.Title</h5>
+                <p class="card-text">@thread.Description</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Uploaded 3 mins ago</small>
+            </div>
+        </div>
+    }
+</div>
