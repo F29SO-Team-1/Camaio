@@ -18,12 +18,12 @@
             {
                 <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
                     <div id="upload">
-                        <label id="upload">
-                            Browse<input type="file" id="file" name="file" style="display: none" />
-                        </label>
+                        <label for="file"id="upload"> Select an image to upload 
+                            <input type="file" id="file" name="file"/> </label>
                     </div>
-                    <button type="submit" id="btn-profile">Submit</button>
+                    <button type="submit" id="btn-profile">Upload</button>
                 </form>
+               
             }
             <div class="profile-usertitle">
                 <div class="profile-usertitle-name">
