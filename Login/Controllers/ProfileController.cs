@@ -1,62 +1,81 @@
-﻿using Login.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
+using Login.Models.ApplicationUser;
+using Login.Service;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Login.Areas.Identity.Data;
-using Login.Data;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace Login.Controllers
 {
     public class ProfileController : Controller
     {
         private readonly UserManager<LoginUser> _userManager;
-        private readonly UserContext _context;
+        private readonly IApplicationUsers _userService;
+        private readonly IConfiguration _configuration;
+        private readonly IUpload _uploadService;
 
-        public ProfileController(UserManager<LoginUser> userManager, UserContext context)
+        public ProfileController(
+            UserManager<LoginUser> userManager,
+            IApplicationUsers userService,
+            IUpload uploadService,
+            IConfiguration configuration
+            )
         {
             _userManager = userManager;
-            _context = context;
+            _userService = userService;
+            _configuration = configuration;
+            _uploadService = uploadService;
         }
-        
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var username = _userManager.GetUserName(User);
-            ViewData["username"] = username;
-            return View();
-        }
-        public async Task<IActionResult> Users(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .FirstOrDefaultAsync(table => table.UserName == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            var username = _userManager.GetUserName(User);
-            ViewData["username"] = id;
-            if (username == id) 
-            {
-                return View("../Profile/Index");
-            }
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Detail(string username)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var user = _userService.GetByUserName(username);
+            var model = new ProfileModel()
+            {
+                UserId = user.Id,
+                Username = user.UserName,
+                UserRating = user.Ratting,
+                Email = user.Email,
+                ProfileImageUrl = user.ProfileImageUrl,
+                MemmberSince = user.MemberSince
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadProfileImage(IFormFile file)
+        {
+            var userName = _userManager.GetUserName(User);
+            //connect to azure account container
+            var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
+            //get the blog container
+            var container = _uploadService.GetBlobContainer(connectionString);
+            //parse the context disposition response header
+            var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+            //grab the filename
+            var filename = contentDisposition.FileName.Trim('"');
+            //get a refrence to a block blob
+            var blockBlob = container.GetBlockBlobReference(filename);
+            //On that block blob, Upload our file <-- file uploaded to the cloud
+            await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+            //set the users profileimage to the URI
+            await _userService.SetProfileImage(userName, blockBlob.Uri);
+            //redirects to the users's profile page
+            return RedirectToAction("Detail", "Profile", new { username = userName });
         }
     }
 }
+

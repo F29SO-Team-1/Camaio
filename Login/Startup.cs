@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Login.Models;
+using Login.Service;
 
 namespace Login
 {
@@ -46,6 +47,14 @@ namespace Login
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddRazorPages();
+
+            //services
+            services.AddScoped<IThread, ThreadService>();
+            services.AddScoped<IApplicationUsers, ApplicationUserService>();
+            services.AddScoped<IUpload, UploadService>();
+
+            //added the connetion to Azure
+            services.AddSingleton(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
