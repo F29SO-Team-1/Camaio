@@ -1,0 +1,19 @@
+﻿@model Login.Models.Threadl.ThreadIndexModel
+
+<h1>Threads</h1>
+
+<table class="table table-hover" id="threadIndexTable">
+    <tbody>
+        @foreach (var thread in Model.ThreadList)
+        {
+            <tr>
+                <td>
+                    @thread.Title
+                </td>
+                <td>
+                    @thread.Description
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

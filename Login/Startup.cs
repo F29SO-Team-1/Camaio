@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Login.Models;
+using Login.Service;
 
 namespace Login
 {
@@ -45,6 +46,8 @@ namespace Login
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddRazorPages();
+
+            services.AddScoped<IThread, ThreadService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
