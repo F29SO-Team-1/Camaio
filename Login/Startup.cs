@@ -47,7 +47,13 @@ namespace Login
             services.AddControllers();
             services.AddRazorPages();
 
+            //services
             services.AddScoped<IThread, ThreadService>();
+            services.AddScoped<IApplicationUsers, ApplicationUserService>();
+            services.AddScoped<IUpload, UploadService>();
+
+            //added the connetion to Azure
+            services.AddSingleton(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
