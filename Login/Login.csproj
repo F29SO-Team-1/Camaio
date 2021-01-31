@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pictures\**" />
+    <Content Remove="Pictures\**" />
+    <EmbeddedResource Remove="Pictures\**" />
+    <None Remove="Pictures\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\download.svg" />
   </ItemGroup>
 
@@ -23,10 +30,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pictures\" />
   </ItemGroup>
 
 </Project>

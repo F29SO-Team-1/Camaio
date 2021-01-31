@@ -27,6 +27,11 @@ namespace Login.Service
             throw new NotImplementedException();
         }
 
+        public Task Edit(int threadId)
+        {
+            throw new NotImplementedException();
+        }
+
         //returns a list of all the thread
         public IEnumerable<Thread> GetAll()
         {

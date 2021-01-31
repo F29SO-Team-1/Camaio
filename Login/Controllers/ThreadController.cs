@@ -17,9 +17,6 @@ namespace Login.Controllers
 {
     public class ThreadController : Controller
     {
-
-
-
         private readonly IThread _threadService;
         public ThreadController(IThread thread)
         {
@@ -49,6 +46,6 @@ namespace Login.Controllers
             return View();
         }
 
-        
+   
     }
 }
