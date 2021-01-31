@@ -1,4 +1,4 @@
-﻿/*using Login.Models;
+﻿using Login.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,41 +10,46 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Login.Areas.Identity.Data;
 using Login.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Login.Controllers
 {
-    public class UsersController : Controller
+    public class ProfileController : Controller
     {
         private readonly UserManager<LoginUser> _userManager;
-        private readonly ILogger<UsersController> _logger;
-        
-        internal AppDb Db { get; }
+        private readonly UserContext _context;
 
-        public UsersController(ILogger<UsersController> logger, UserManager<LoginUser> userManager, AppDb db)
+        public ProfileController(UserManager<LoginUser> userManager, UserContext context)
         {
-            _logger = logger;
             _userManager = userManager;
-            Db = db;
+            _context = context;
         }
-
-        public async Task<IActionResult> Profile(string id)
+        
+        public async Task<IActionResult> Index()
+        {
+            var username = _userManager.GetUserName(User);
+            ViewData["username"] = username;
+            return View();
+        }
+        public async Task<IActionResult> Users(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            await Db.Connection.OpenAsync();
-            var query = new UserModel.UserQuery(Db);
-            var result = await query.FindUser(id);
-            if (result is null) return NotFound();
 
-            var username = _userManager.GetUserName(User);
-            if (id==username) {
-                ViewData["ownership"] = true;
-            } else {
-                ViewData["ownership"] = false;
+            var user = await _context.Users
+                .FirstOrDefaultAsync(table => table.UserName == id);
+            if (user == null)
+            {
+                return NotFound();
             }
+            var username = _userManager.GetUserName(User);
             ViewData["username"] = id;
+            if (username == id) 
+            {
+                return View("../Profile/Index");
+            }
             return View();
         }
 
@@ -55,4 +60,3 @@ namespace Login.Controllers
         }
     }
 }
-*/
