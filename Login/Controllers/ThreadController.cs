@@ -6,11 +6,20 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Login.Models.Threadl;
+using Login.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Login.Service;
+using System.Net.Http.Headers;
 
 namespace Login.Controllers
 {
     public class ThreadController : Controller
     {
+
+
+
         private readonly IThread _threadService;
         public ThreadController(IThread thread)
         {
@@ -33,5 +42,13 @@ namespace Login.Controllers
 
             return View(model);
         }
+
+        // GET: Threads/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        
     }
 }
