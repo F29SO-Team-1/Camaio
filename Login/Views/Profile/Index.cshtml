@@ -2,45 +2,55 @@
 @using Login.Areas.Identity.Data
 @model Login.Models.ApplicationUser.ProfileModel
 
-@inject SignInManager<LoginUser> SignInManager  
+@inject SignInManager<LoginUser> SignInManager
 @inject UserManager<LoginUser> UserManager
 <header>
     <h1 style="text-align:center"> @ViewData["Title"]</h1>
     <link rel="stylesheet" type="text/css" href="./css/site.css" media="screen" />
 
 </header>
-		<div class="container">
-			<div class="row m-b-r m-t-3">
-				<div class="col-md-2 offset-md-1">
-					<img src="/pictures/avatar.png" alt="" class="img-circle img-fluid">
-				</div>
-				<div class="col-md-9 p-t-2">
-					<h2 class="h2-responsive">@UserManager.GetUserName(User)
-                        <button type="button"> Follow </button></h2>
-					<p>Thank you for checking out my profile, follow me on my photography adventure.</p>
-
-					<ul class="flex-menu">
-						<li><strong>41</strong> posts</li>
-						<li><strong>5</strong> followers</li>
-						<li><strong>3</strong> following</li>
-					</ul>
-				</div>
-			</div>
-
+<body> 
 <div class="container">
-    <div class="row userProfile">
-        <div class="col-md-4">
-            <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl)"></div>
-            @if (User.Identity.Name == Model.Username)
-            {
-                <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
-                    <div id="upload">
-                        <label for="file"id="upload"> Select an image to upload
-                            <input type="file" id="file" name="file"/> </label>
+    <div class="row m-b-r m-t-3">
+        <div class="avatar-picture">
+            <img src="/pictures/avatar.png" class="img-circle img-fluid">
+        </div>
+
+        <div class="user-profile">
+            <h2 class="user-name">@UserManager.GetUserName(User)
+                <button type="button"> Follow </button>
+            </h2>
+
+            <p>Thank you for checking out my profile, follow me on my photography adventure.</p> 
+            
+            <div class="user-followers-info">
+                    <li><strong>41</strong><span> posts</span></li>
+                    <li><strong>5</strong><span> followers</span></li>
+                    <li><strong>3</strong><span> following</span></li>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row userProfile">
+                <div class="col-md-4">
+                    <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl)"></div>
+                    @if (User.Identity.Name == Model.Username)
+                    {
+                        <form method="post" enctype="multipart/form-data" asp-controller="Profile"
+                            asp-action="UploadProfileImage">
+                            <div id="upload">
+                                <label for="file" id="upload"> Select an image to upload
+                                    <input type="file" id="file" name="file" /> </label>
+                            </div> <input type="submit" id="btn-profile" value="Upload">
+                            </form>
+                        }
                     </div>
-                    <input type="submit" id="btn-profile" value="Upload"> 
-                </form>
-            }
+                </div>
+            </div>
+        
+        
         </div>
     </div>
 </div>
+</body>
+            
