@@ -87,8 +87,11 @@ body {
 #userProfileImage {
     display: inline-block;
     width: 500px;
-    height: 500px;
+    height:500px;
     background-color: #ddd;
+    top: 10%;
+    bottom: 100px;  
+    background-color: green;
 }
 
 .avatar-picture{
@@ -96,6 +99,11 @@ body {
     height: 15%; 
 }
 
+.col-md-4{
+    top: 25px;
+    width: 500px;
+    height: 500px; 
+}
 .user-followers-info{
     margin-top: .6em;
     color: #81878b; }
