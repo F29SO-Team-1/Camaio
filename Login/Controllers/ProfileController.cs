@@ -35,18 +35,15 @@ namespace Login.Controllers
             _configuration = configuration;
             _uploadService = uploadService;
         }
-/*        public IActionResult Index()
-        {
-            return View();
-        }*/
 
+        [Route("Profile/{username}")]
         public IActionResult Index(string username)
         {
             var user = _userService.GetByUserName(username);
             var model = new ProfileModel()
             {
-                UserId = user.Id,
                 Username = user.UserName,
+                UserId = user.Id,
                 UserRating = user.Ratting,
                 Email = user.Email,
                 ProfileImageUrl = user.ProfileImageUrl,
