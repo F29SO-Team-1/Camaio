@@ -131,8 +131,11 @@ body {
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
     border-radius: 5px;
- 
+}
 
+.follow-button:hover{
+    background-color: green;
+    cursor: pointer;
 }
 
 /*-----------------Start of 'Home Page' CSS---------------------------*/
