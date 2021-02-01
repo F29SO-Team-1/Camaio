@@ -117,6 +117,24 @@ body {
         font-weight:700;
 }
 
+.follow-button{
+    margin: 1.5em auto 0 auto;
+    background-color: #2589cc;
+    width: 150px;
+    color: white;
+    font-size: 15px;
+    font-family: "Lato";
+    text-align: center;
+    padding: .5em;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+ 
+
+}
+
 /*-----------------Start of 'Home Page' CSS---------------------------*/
 * {
     box-sizing: border-box;
