@@ -96,6 +96,27 @@ body {
     height: 15%; 
 }
 
+.user-followers-info{
+    margin-top: .6em;
+    color: #81878b; }
+    .user-followers-info li {
+      width: 32%;
+      text-align: center;
+      display: inline-block;
+      font-size: 1.5em;
+      font-family: 'Lato';
+      border-right: solid 1px #bdc3c7; }
+      .user-followers-info li:last-child {
+        border: none; }
+        .user-followers-info li span {
+        display: block;
+        text-transform: uppercase;
+        font-family: 'Quicksand';
+        font-size: .5em;
+        margin-top: .6em;
+        font-weight:700;
+}
+
 /*-----------------Start of 'Home Page' CSS---------------------------*/
 * {
     box-sizing: border-box;
