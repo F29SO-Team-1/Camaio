@@ -10,6 +10,10 @@
 
 </header>
 
+            <div class="profile-usertitle">
+                <div class="profile-usertitle-name"> <h4> @UserManager.GetUserName(User)</h4> </div>
+            </div>
+
 <div class="container">
     <div class="row userProfile">
         <div class="col-md-4">
@@ -18,18 +22,12 @@
             {
                 <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
                     <div id="upload">
-                        <label id="upload">
-                            Browse<input type="file" id="file" name="file" style="display: none" />
-                        </label>
+                        <label for="file"id="upload"> Select an image to upload
+                            <input type="file" id="file" name="file"/> </label>
                     </div>
-                    <button type="submit" id="btn-profile">Submit</button>
+                    <input type="submit" id="btn-profile" value="Upload"> 
                 </form>
             }
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">
-                    @UserManager.GetUserName(User)
-                </div>
-            </div>
         </div>
     </div>
 </div>
