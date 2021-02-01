@@ -71,7 +71,7 @@ namespace Login.Controllers
             //set the users profileimage to the URI
             await _userService.SetProfileImage(userName, blockBlob.Uri);
             //redirects to the users's profile page
-            return RedirectToAction("Detail", "Profile", new { username = userName });
+            return RedirectToAction("Index", "Profile", new { username = userName });
         }
     }
 }
