@@ -9,6 +9,5 @@ namespace Login.Service
     public interface IUpload
     {
         CloudBlobContainer GetBlobContainer(string connectionString);
-
     }
 }

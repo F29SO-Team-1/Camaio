@@ -19,11 +19,13 @@ namespace Login.Controllers
     {
         private readonly IThread _threadService;
         private readonly ThreadContext _context;
+        private readonly IConfiguration _configuration;
 
-        public ThreadController(IThread thread, ThreadContext context)
+        public ThreadController(IThread thread, ThreadContext context, IConfiguration configuration)
         {
             _threadService = thread;
             _context = context;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
