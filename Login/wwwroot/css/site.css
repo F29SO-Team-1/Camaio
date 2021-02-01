@@ -141,10 +141,10 @@ body {
     border-radius: 5px;
 }
 
-.follow-button:hover{
-    background-color: #1d6ca1 ;
-    cursor: pointer;
-}
+
+
+
+
 
 /*-----------------Start of 'Home Page' CSS---------------------------*/
 * {
@@ -199,6 +199,7 @@ body {
       flex: 100%;
       max-width: 100%;
     }
+}
   
 
 
@@ -208,7 +209,7 @@ body {
 
 /*-----------------Start of 'Privacy Page' CSS---------------------------*/
 
-.h4 {
+.h1 {
     color: green;
 }
 
@@ -227,17 +228,11 @@ body {
 
 /*-----------------Start of the 'Account' Page' CSS---------------------*/
 
-.avatar-picture{
-    position: absolute;
-    left: 150px;
-    width: 200px;
-    height: 120px;
-    border: 3px solid green;
-}
+
 
 
 /*-----------------End of the 'Account Page' CSS-----------------------*/
 
 
 
-}
+
