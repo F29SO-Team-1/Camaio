@@ -13,6 +13,7 @@ header{
     background: #39603D;
     display: flex;
     justify-content: flex-start;
+    overflow: hidden;
 }
 
 .home-image{
@@ -30,13 +31,16 @@ header{
     color:#fff;
     background: #020202;
 }
+
 .rounded{
     background-color: #020202;
     border:none;
 }
+
 .login-details{
     float: right;
 }
+
 .user-button{
     background:url(../pictures/avatar.png);
     border:none;
@@ -49,6 +53,34 @@ header{
     border:5px;
     margin-right:20px;
 }
+
+.logout-container{
+    padding-top:30px;
+    margin-left:20px;
+}
+
+/* lists styling*/
+ul {
+    overflow: hidden;
+    background-color: #333333;
+    list-style-type: none;
+}
+  
+li {
+    float: left;
+    list-style-type: none;
+}
+  
+li a {
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-link{
+    margin-top:10px;
+}
+  
 /* Provide sufficient contrast against white background */
 a {
     color: #0366d6;
