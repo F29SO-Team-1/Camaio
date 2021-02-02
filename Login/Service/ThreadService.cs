@@ -1,4 +1,5 @@
-﻿using Login.Data;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
 using Login.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -41,6 +42,12 @@ namespace Login.Service
         public Thread GetById(int id)
         {
             return GetAll().FirstOrDefault(thread => thread.ID == id);
+        }
+
+        //list of all users post
+        public IEnumerable<Thread> UserThreads(string userName)
+        {
+            return GetAll().Where(thread => thread.UserID == userName);
         }
 
         public Task LikedThread(int threadId, int FromLiked)

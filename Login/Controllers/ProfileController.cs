@@ -1,11 +1,14 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Models.ApplicationUser;
+using Login.Models.Threadl;
 using Login.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -18,24 +21,31 @@ namespace Login.Controllers
         private readonly IApplicationUsers _userService;
         private readonly IConfiguration _configuration;
         private readonly IUpload _uploadService;
+        private readonly IThread _threadService;
 
         public ProfileController(
             UserManager<LoginUser> userManager,
             IApplicationUsers userService,
             IUpload uploadService,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IThread threadService
             )
         {
             _userManager = userManager;
             _userService = userService;
             _configuration = configuration;
             _uploadService = uploadService;
+            _threadService = threadService;
         }
 
         [Route("Profile/{username}")]
         public IActionResult Index(string username)
         {
             var user = _userService.GetByUserName(username);
+            var userId = _userManager.GetUserId(User);
+            //want a list of threads, tick
+            var threads = BuildThreadList(userId);
+
             var model = new ProfileModel()
             {
                 Username = user.UserName,
@@ -43,9 +53,23 @@ namespace Login.Controllers
                 UserRating = user.Ratting,
                 Email = user.Email,
                 ProfileImageUrl = user.ProfileImageUrl,
-                MemmberSince = user.MemberSince
+                MemmberSince = user.MemberSince,
+                Threads = threads
             };
             return View(model);
+        }
+
+        //makes the model to me passed in the view
+        private IEnumerable<ThreadModel> BuildThreadList(string userId)
+        {
+            return _threadService.UserThreads(userId).Select(threads => new ThreadModel
+            {
+                Id = threads.ID,
+                Title = threads.Title,
+                Description = threads.Description,
+                Created = threads.CreateDate,
+                Picture = threads.Image
+            });
         }
 
         [HttpPost]

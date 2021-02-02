@@ -17,7 +17,5 @@ namespace Login.Models.Threadl
 
         public string AuthorId { get; set; }
 
-        public IFormFile Image { get; set; }
-
     }
 }

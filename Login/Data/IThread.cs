@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Login.Areas.Identity.Data;
 using Login.Models;
+using Login.Models.Threadl;
 
 namespace Login.Data
 {
@@ -11,7 +13,10 @@ namespace Login.Data
         Thread GetById(int id);
         IEnumerable<Thread> GetAll();
 
-        //crud
+        //will have to return a list of threads 
+        IEnumerable<Thread> UserThreads(string userName);
+
+
         Task Create(Thread thread);
         Task Edit(int threadId);
         Task Delete(int threadId);

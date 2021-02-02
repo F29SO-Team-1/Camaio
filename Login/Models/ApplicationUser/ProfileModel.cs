@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Login.Models.Threadl;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace Login.Models.ApplicationUser
         public string ProfileImageUrl { get; set; }
         public DateTime MemmberSince { get; set; }
         public IFormFile ImageUpload { get; set; }
+
+        public IEnumerable<ThreadModel> Threads {get;set;}
     }
 }
