@@ -3,8 +3,8 @@
 <a class="nav-link text-dark" asp-area="" asp-controller="Thread" asp-action="Create">Create New Thread</a>
 <a class="nav-link text-dark" asp-area="" asp-controller="Thread" asp-action="ThreadList">ThreadList</a>
 <div class="card-deck">
-    Title : @Model.Title
-    Created : @Model.Created
-    Description : @Model.Description
-    Picture : @Model.Picture
+    <p>Title : @Model.Title</p>
+    <p>Created : @Model.Created</p>
+    <p>Description : @Model.Description</p>
+    <div id="userProfileImage" style="background-image: url(@Model.Picture)"></div>  
 </div>

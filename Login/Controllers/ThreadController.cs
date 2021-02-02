@@ -8,6 +8,9 @@ using Login.Models;
 using Microsoft.AspNetCore.Identity;
 using Login.Areas.Identity.Data;
 using System;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using Login.Service;
 
 namespace Login.Controllers
 {
@@ -17,13 +20,19 @@ namespace Login.Controllers
         private readonly ThreadContext _context;
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
+        private readonly IUpload _uploadService;
 
-        public ThreadController(IThread thread, ThreadContext context, IConfiguration configuration, UserManager<LoginUser> userManager)
+        public ThreadController(IThread thread, 
+            ThreadContext context, 
+            IConfiguration configuration, 
+            UserManager<LoginUser> userManager, 
+            IUpload uploadService)
         {
             _service = thread;
             _context = context;
             _configuration = configuration;
             _userManager = userManager;
+            _uploadService = uploadService;
         }
 
         [Route("Thread/{id}")]
@@ -50,7 +59,7 @@ namespace Login.Controllers
         }
 
         // Returns a list of threads 
-        public IActionResult ThreadList()
+        public IActionResult List()
         {
             var threads = _service.GetAll().Select(t => new ThreadModel
             {
@@ -75,32 +84,56 @@ namespace Login.Controllers
 
         //SQL database stuff
         [HttpPost]
-        public async Task<IActionResult> AddThread(Thread model)
+        public async Task<IActionResult> AddThread(Thread model, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userId);
 
-            var thread = BuildThread(model, user);
+            var thread = BuildThread(model, user, file);
 
             _context.Add(thread);
-            //TODO User score HERE
+
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", thread.ID);
+            UploadTreadImage(file, thread.ID);
+            //TODO User score HERE
+
+
+
+            return RedirectToAction("Index", "Thread", new { thread = thread.ID });
         }
 
-        private Thread BuildThread(Thread model, LoginUser user)
+        private Thread BuildThread(Thread model, LoginUser user, IFormFile file)
         {
+
             return new Thread
             {
                 Title = model.Title,
                 CreateDate = DateTime.Now,
                 Description = model.Description,
                 ID = model.ID,
-                Image = model.Image,
                 UserID = user.Id,
                 Votes = model.Votes
             };
+        }
+
+        public void UploadTreadImage(IFormFile file, int id)
+        {
+            var thread = _service.GetById(id);
+            //connect to azure account container
+            var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
+            //get the blog container
+            var container = _uploadService.GetBlobContainer(connectionString);
+            //parse the context disposition response header
+            var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+            //grab the filename
+            var filename = contentDisposition.FileName.Trim('"');
+            //get a refrence to a block blob
+            var blockBlob = container.GetBlockBlobReference(filename);
+            //On that block blob, Upload our file <-- file uploaded to the cloud
+            blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+            //set the thread image to the URI
+            _service.UploadPicture(thread.ID, blockBlob.Uri);
         }
     }
 }

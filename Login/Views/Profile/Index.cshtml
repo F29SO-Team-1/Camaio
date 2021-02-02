@@ -36,8 +36,9 @@
                     <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl)"></div>
                     @if (User.Identity.Name == Model.Username)
                     {
-                        <form method="post" enctype="multipart/form-data" asp-controller="Profile"
-                            asp-action="UploadProfileImage">
+                        <form method="post" enctype="multipart/form-data" 
+                              asp-controller="Profile"
+                              asp-action="UploadProfileImage">
                             <div id="upload">
                                 <label for="file" id="upload"> Select an image to upload
                                     <input type="file" id="file" name="file" /> </label>

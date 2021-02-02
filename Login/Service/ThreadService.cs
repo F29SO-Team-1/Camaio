@@ -58,12 +58,12 @@ namespace Login.Service
             throw new NotImplementedException();
         }
 
-        public async Task UploadPicture(int threadId, Uri pic)
+        public void UploadPicture(int threadId, Uri pic)
         {
             var thread = GetById(threadId);
             thread.Image = pic.AbsoluteUri;
             _context.Update(thread);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
     }
 }

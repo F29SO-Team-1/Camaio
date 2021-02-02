@@ -1,4 +1,5 @@
 ﻿using Login.Areas.Identity.Data;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace Login.Models.Threadl
         public DateTime Created { get; set; }
 
         public string AuthorId { get; set; }
+
+        public IFormFile Image { get; set; }
 
     }
 }
