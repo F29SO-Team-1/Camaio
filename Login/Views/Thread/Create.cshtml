@@ -11,26 +11,23 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="AddThread" method="post">
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
+                <label asp-for="Title"></label>
                 <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description"></label>
                 <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
+                <label asp-for="Image"></label>
                 <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            <button type="submit" id="submitThreadBtn" class="btn btn-submitThread">
+                Submit
+            </button>
+            <input asp-for="UserID" type="hidden">
         </form>
     </div>
 </div>

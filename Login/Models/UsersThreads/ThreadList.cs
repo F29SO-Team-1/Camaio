@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Login.Models.Threadl
 {
-    public class ThreadIndexModel
+    public class ThreadList
     {
-        public IEnumerable<ThreadListingModel> ThreadList { get; set; }
+        public IEnumerable<ThreadModel> ThreadLists { get; set; }
     }
 }

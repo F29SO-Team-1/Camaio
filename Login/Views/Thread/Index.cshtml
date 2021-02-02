@@ -1,18 +1,10 @@
-﻿@model Login.Models.Threadl.ThreadIndexModel
+﻿@model Login.Models.Threadl.ThreadModel
 <h1>Threads</h1>
 <a class="nav-link text-dark" asp-area="" asp-controller="Thread" asp-action="Create">Create New Thread</a>
+<a class="nav-link text-dark" asp-area="" asp-controller="Thread" asp-action="ThreadList">ThreadList</a>
 <div class="card-deck">
-    @foreach (var thread in Model.ThreadList)
-    {
-         <div class="card">
-            <img class="card-img-top" src="./download.svg" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">@thread.Title</h5>
-                <p class="card-text">@thread.Description</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Uploaded 3 mins ago</small>
-            </div>
-        </div>
-    }
+    Title : @Model.Title
+    Created : @Model.Created
+    Description : @Model.Description
+    Picture : @Model.Picture
 </div>
