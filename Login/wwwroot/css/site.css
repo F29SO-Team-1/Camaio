@@ -59,6 +59,18 @@ header{
     margin-left:20px;
 }
 
+.upload-image img{
+    background:url(../pictures/upload-button.png);
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 86px;
+    top: 13px;
+}
+.upload-image{
+    margin-left:50px;
+}
+
 /* lists styling*/
 ul {
     overflow: hidden;
@@ -311,7 +323,6 @@ body {
 
 .col1{
     max-width:220px;
-    height:100%;
 }
 
 .nav-item{

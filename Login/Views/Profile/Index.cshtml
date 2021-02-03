@@ -6,41 +6,43 @@
 @inject UserManager<LoginUser> UserManager
 <body> 
 <div class="container">
-  <div class="row">
+    <div class="row">
+        <div class="col-sm col1">
+            <div class="avatar-picture">
+                <img src="/pictures/avatar.png" class="img-circle img-fluid">
+            </div>
+            <br>
+            @if (SignInManager.IsSignedIn(User)){
+                <p class="text-center">My profile</p>
+            }
+            else{
+                <p class="text-center">Welcome to My profile</p>
+            }
 
-    <div class="col-sm col1">
-        <div class="avatar-picture">
-            <img src="/pictures/avatar.png" class="img-circle img-fluid">
+            <div class="span6"></div>
+            <br>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>My pictures</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>My albums</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>Comments</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>Analytics</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>Analytics</p></a>
+                </li>
+            </ul>
         </div>
-        <br>
-    @if (SignInManager.IsSignedIn(User)){
-        <p class="text-center">My profile</p>
-    }
-    else{
-        <p class="text-center">Welcome to My profile</p>
-    }
-
-    <div class="span6"></div>
-    <br>
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link" href="#"><p>My pictures</p></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><p>My albums</p></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><p>Comments</p></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><p>Analytics</p></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><p>Analytics</p></a>
-        </li>
-    </ul>
-
-  </div>
-</div>
+        <div class="col">
+            <div class="container"></div>
+            <div class="container"></div>
+        </div>
+    </div>
 </body>
             
