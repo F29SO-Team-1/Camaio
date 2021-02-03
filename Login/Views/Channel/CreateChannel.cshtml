@@ -1,0 +1,14 @@
+﻿@model Login.Models.Channel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Your channel has been created!</h1>
+
+<a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@ViewData["Channel"]><h4>Go to your channel</h4></a>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
