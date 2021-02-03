@@ -5,6 +5,14 @@
 <div class="text-center">
     <h1 class="display-4">Welcome to Channel</h1>
     <div>
-        
+        @if ((bool)ViewData["owner"]==false) 
+        {
+            @if ((bool)ViewData["member"]==false) 
+            {
+                <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="JoinChannel" asp-route-id=@Model.Title><h4>Join</h4></a>
+            } else {
+                <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="LeaveChannel" asp-route-id=@Model.Title><h4>Leave</h4></a>
+            }
+        }
     </div>
 </div>

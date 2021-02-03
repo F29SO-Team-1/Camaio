@@ -33,7 +33,61 @@ namespace Login.Controllers
             {
                 return NotFound();
             }
+            ViewData["owner"] = false;
+            var userId = _userManager.GetUserId(User);
+            var channelMember = await _context.ChannelMembers
+                .Where(table => table.ChannelId == channel.Id)
+                .Where(table => table.UserId == userId)
+                .FirstOrDefaultAsync();
+            if (channelMember == null) 
+            {
+                ViewData["member"] = false;
+            } else 
+            {
+                ViewData["member"] = true;
+            }
+            if (channel.Creator == _userManager.GetUserName(User))
+            {
+                ViewData["owner"] = true;
+            }
             return View(channel);
+        }
+        public async Task<IActionResult> JoinChannel(string id)
+        {
+            var channel = await _context.Channel
+                .FirstOrDefaultAsync(table => table.Title == id);
+            var userId = _userManager.GetUserId(User);
+            var channelMember = new ChannelMember 
+            {
+                ChannelId = channel.Id,
+                UserId = userId
+            };
+            _context.Add(channelMember);
+            _context.SaveChanges();
+            return RedirectToAction("Main", "Channel", new { id = channel.Title} );
+            // return View($"../Main/{id}", channel);
+        }
+        public async Task<IActionResult> LeaveChannel(string id)
+        {
+            var channel = await _context.Channel
+                .FirstOrDefaultAsync(table => table.Title == id);
+            var userId = _userManager.GetUserId(User);
+            var channelMember = await _context.ChannelMembers
+                .Where(table => table.ChannelId == channel.Id)
+                .Where(table => table.UserId == userId)
+                .FirstOrDefaultAsync();
+            _context.ChannelMembers.Remove(channelMember);
+            _context.SaveChanges();
+            return RedirectToAction("Main", "Channel", new { id = channel.Title} );
+        }
+
+        public async Task<IActionResult> DeleteChannel(string id)
+        {
+            var channel = await _context.Channel
+                .FirstOrDefaultAsync(table => table.Title == id);
+            var userId = _userManager.GetUserId(User);
+
+            return NotFound();
         }
 
         public IActionResult Create()
