@@ -51,9 +51,13 @@ namespace Login.Service
             return GetAll().Where(thread => thread.UserID == userName);
         }
 
-        public Task LikedThread(int threadId, int FromLiked)
+        //adds +1 to when you press the button
+        public async Task IncrementRating(int? threadId)
         {
-            throw new NotImplementedException();
+            var thread = GetById(threadId);
+            thread.Votes = thread.Votes + 1;
+            _context.Update(thread);
+            await _context.SaveChangesAsync();
         }
 
         public Task UpdateDescription(int threadId, string newDescription)

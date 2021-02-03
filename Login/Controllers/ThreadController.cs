@@ -40,7 +40,7 @@ namespace Login.Controllers
 
         [Route("Thread/{id?}")]
         //To view ONE thread whatever
-        public IActionResult Index(int id)
+        public IActionResult Index(int? id)
         {
             //get the id of the thread
             var thread = _service.GetById(id);
@@ -55,12 +55,19 @@ namespace Login.Controllers
                 Created = thread.CreateDate,
                 Description = thread.Description,
                 Picture = thread.Image,
-                Title = thread.Title
+                Title = thread.Title,
+                Rating = thread.Votes
             };
 
             return View(model);
         }
 
+
+        public IActionResult RatingIncrement(int? id)
+        {
+            _service.IncrementRating(id);
+            //return View();
+        }
 
         // Visual to the website
         [Authorize]
@@ -126,7 +133,6 @@ namespace Login.Controllers
 
         private Thread BuildThread(Thread model, LoginUser user, IFormFile file)
         {
-
             return new Thread
             {
                 Title = model.Title,
