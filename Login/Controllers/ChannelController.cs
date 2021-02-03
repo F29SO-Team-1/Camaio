@@ -65,7 +65,6 @@ namespace Login.Controllers
             _context.Add(channelMember);
             _context.SaveChanges();
             return RedirectToAction("Main", "Channel", new { id = channel.Title} );
-            // return View($"../Main/{id}", channel);
         }
         public async Task<IActionResult> LeaveChannel(string id)
         {
