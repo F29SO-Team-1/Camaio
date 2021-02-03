@@ -7,6 +7,80 @@ a.navbar-brand {
     word-break: break-all;
 }
 
+header{
+    height:66px;
+    width:100%;
+    background: #39603D;
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.home-image{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 17px;
+    top: 8px;
+    background:url(../pictures/home-button.png);
+}
+
+.input-group{
+    max-width:500px;
+    margin: auto;
+    color:#fff;
+    background: #020202;
+}
+
+.rounded{
+    background-color: #020202;
+    border:none;
+}
+
+.login-details{
+    float: right;
+}
+
+.user-button{
+    background:url(../pictures/avatar.png);
+    border:none;
+}
+
+.profile-img{
+    width: 50px;
+    height: 50px;
+    margin-top: 8px;
+    border:5px;
+    margin-right:20px;
+}
+
+.logout-container{
+    padding-top:30px;
+    margin-left:20px;
+}
+
+/* lists styling*/
+ul {
+    overflow: hidden;
+    background-color: #333333;
+    list-style-type: none;
+}
+  
+li {
+    float: left;
+    list-style-type: none;
+}
+  
+li a {
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-link{
+    margin-top:10px;
+}
+  
 /* Provide sufficient contrast against white background */
 a {
     color: #0366d6;
@@ -63,7 +137,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    
+    background-color: #DADED4;
 }
 
 .footer {
@@ -141,10 +215,10 @@ body {
     border-radius: 5px;
 }
 
-.follow-button:hover{
-    background-color: #1d6ca1 ;
-    cursor: pointer;
-}
+
+
+
+
 
 /*-----------------Start of 'Home Page' CSS---------------------------*/
 * {
@@ -199,6 +273,7 @@ body {
       flex: 100%;
       max-width: 100%;
     }
+}
   
 
 
@@ -208,7 +283,7 @@ body {
 
 /*-----------------Start of 'Privacy Page' CSS---------------------------*/
 
-.h4 {
+.h1 {
     color: green;
 }
 
@@ -227,17 +302,11 @@ body {
 
 /*-----------------Start of the 'Account' Page' CSS---------------------*/
 
-.avatar-picture{
-    position: absolute;
-    left: 150px;
-    width: 200px;
-    height: 120px;
-    border: 3px solid green;
-}
+
 
 
 /*-----------------End of the 'Account Page' CSS-----------------------*/
 
 
 
-}
+
