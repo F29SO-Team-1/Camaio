@@ -27,9 +27,9 @@ namespace Login.Controllers
 
         public IActionResult Index()
         {
-            var user = _userManager.GetUserId(User);
+            var user = _userManager.GetUserName(User);
             var userChannels = _context.ChannelMembers
-                .Where(table => table.UserId == user)
+                .Where(table => table.UserName == user)
                 .Join(
                     _context.Channel,
                     channelMembers => channelMembers.ChannelId,
@@ -53,10 +53,10 @@ namespace Login.Controllers
                 return NotFound();
             }
             ViewData["owner"] = false;
-            var userId = _userManager.GetUserId(User);
+            var userName = _userManager.GetUserName(User);
             var channelMember = await _context.ChannelMembers
                 .Where(table => table.ChannelId == channel.Id)
-                .Where(table => table.UserId == userId)
+                .Where(table => table.UserName == userName)
                 .FirstOrDefaultAsync();
             if (channelMember == null) 
             {
@@ -65,7 +65,7 @@ namespace Login.Controllers
             {
                 ViewData["member"] = true;
             }
-            if (channel.Creator == _userManager.GetUserName(User))
+            if (channel.Creator == userName)
             {
                 ViewData["owner"] = true;
             }
@@ -75,11 +75,11 @@ namespace Login.Controllers
         {
             var channel = await _context.Channel
                 .FirstOrDefaultAsync(table => table.Title == id);
-            var userId = _userManager.GetUserId(User);
+            var userName = _userManager.GetUserName(User);
             var channelMember = new ChannelMember 
             {
                 ChannelId = channel.Id,
-                UserId = userId
+                UserName = userName
             };
             _context.Add(channelMember);
             _context.SaveChanges();
@@ -89,22 +89,64 @@ namespace Login.Controllers
         {
             var channel = await _context.Channel
                 .FirstOrDefaultAsync(table => table.Title == id);
-            var userId = _userManager.GetUserId(User);
+            var userName = _userManager.GetUserName(User);
             var channelMember = await _context.ChannelMembers
                 .Where(table => table.ChannelId == channel.Id)
-                .Where(table => table.UserId == userId)
+                .Where(table => table.UserName == userName)
                 .FirstOrDefaultAsync();
             _context.ChannelMembers.Remove(channelMember);
             _context.SaveChanges();
             return RedirectToAction("Main", "Channel", new { id = channel.Title} );
         }
 
-        public async Task<IActionResult> DeleteChannel(string id)
-        {
+        public async Task<IActionResult> Delete(string id)
+        {   var channel = await _context.Channel
+                .FirstOrDefaultAsync(table => table.Title == id);
+            var user = _userManager.GetUserName(User);
+            if (user == channel.Creator) 
+            {
+                _context.ChannelMembers.RemoveRange(_context.ChannelMembers
+                    .Where(table => table.ChannelId == channel.Id)
+                    .ToList());
+                _context.Channel.Remove(channel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            return NotFound();
+        }
+        public async Task<IActionResult> RemoveMembers(string id)
+        {   var channel = await _context.Channel
+                .FirstOrDefaultAsync(table => table.Title == id);
+            var user = _userManager.GetUserName(User);
+            if (user == channel.Creator) 
+            {
+                var channelUsers = _context.ChannelMembers
+                .Where(table => table.ChannelId == channel.Id)
+                .Select(table => table.UserName)
+                .ToList();
+                ViewData["Channel"] = channel.Title;
+                return View(channelUsers);
+            }
+            return NotFound();
+        }
+        public async Task<IActionResult> RemoveMember(string id, string userName)
+        {   
             var channel = await _context.Channel
                 .FirstOrDefaultAsync(table => table.Title == id);
-            var userId = _userManager.GetUserId(User);
-
+            var user = _userManager.GetUserName(User);
+            if (user == channel.Creator) 
+            {
+                if (user != userName) 
+                {
+                    var channelMember = await _context.ChannelMembers
+                        .Where(table => table.ChannelId == channel.Id)
+                        .Where(table => table.UserName == userName)
+                        .FirstOrDefaultAsync();
+                    _context.ChannelMembers.Remove(channelMember);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Main", "Channel", new { id = channel.Title} );
+            }
             return NotFound();
         }
 
@@ -112,6 +154,33 @@ namespace Login.Controllers
         {
             ViewData["Exists"] = false;
             return View();
+        }
+        public async Task<IActionResult> Manage(string id)
+        {   
+            if (id == null) {
+                return NotFound();
+            }
+            var channel = await _context.Channel
+                .FirstOrDefaultAsync(table => table.Title == id);
+            var user = _userManager.GetUserName(User);
+            if (user == channel.Creator) 
+            {
+                return View(channel);
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> UpdateChannel(string id, string description)
+        {   var channel = await _context.Channel
+                .FirstOrDefaultAsync(table => table.Title == id);
+            var user = _userManager.GetUserName(User);
+            if (user == channel.Creator) 
+            {
+                channel.Description = description;
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Main", "Channel", new { id = channel.Title} );
+            }
+            return NotFound();
         }
 
         public async Task<IActionResult> CreateChannel(string title, string description)
@@ -136,7 +205,7 @@ namespace Login.Controllers
                 var ChannelMember = new ChannelMember() 
                 { 
                     ChannelId = channel.Id, 
-                    UserId = _userManager.GetUserId(User)
+                    UserName = _userManager.GetUserName(User)
                 };
                 _context.Add(ChannelMember);
                 await _context.SaveChangesAsync();

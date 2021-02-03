@@ -73,7 +73,8 @@ namespace Login.Migrations.Channel
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -123,14 +124,14 @@ namespace Login.Migrations.Channel
                     b.Property<int>("ChannelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ChannelId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserName");
 
                     b.ToTable("ChannelMember");
                 });
@@ -145,7 +146,8 @@ namespace Login.Migrations.Channel
 
                     b.HasOne("Login.Areas.Identity.Data.LoginUser", "LoginUser")
                         .WithMany("ChannelMembers")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserName")
+                        .HasPrincipalKey("UserName");
                 });
 #pragma warning restore 612, 618
         }

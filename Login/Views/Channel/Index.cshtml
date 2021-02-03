@@ -7,7 +7,7 @@
     <a class="createButton" id="Create" asp-area="" asp-controller="Channel" asp-action="Create">Create a channel</a>
     <div>
         @foreach (var channel in Model) {
-            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@channel>@channel</a>
+            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@channel><h3>@channel</h3></a>
         }
     </div>
 </div>
