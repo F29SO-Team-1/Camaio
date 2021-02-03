@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using Login.Service;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Login.Controllers
 {
@@ -59,32 +60,29 @@ namespace Login.Controllers
             return View(model);
         }
 
-        // Returns a list of threads 
-        public IActionResult List()
-        {
-            var threads = _service.GetAll().Select(t => new ThreadModel
-            {
-                Id = t.ID,
-                Title = t.Title,
-                Description = t.Description
-            });
-
-            var model = new ThreadList
-            {
-                ThreadLists = threads
-            };
-
-            return View(model);
-        }
 
         // Visual to the website
+        [Authorize]
         public IActionResult Create() //id is the username
         {
             return View();
         }
 
+
+        public async Task<IActionResult> Edit()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Delete()
+        {
+            return View();
+        }
+
+
         //SQL database stuff
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddThread(Thread model, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);
