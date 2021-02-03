@@ -35,6 +35,16 @@
   box-shadow: inset 5px -5px 4px rgba(53, 53, 53, 0.3);
 }
 
+.camaio-button{
+  border-color: transparent; 
+  border-radius: 5px; 
+  border: 2px solid var(--secondary-color);
+  background-color: black; 
+  color: white; 
+  height: 40px;
+  width: 25px; 
+}
+
 @keyframes off {
   0% {
     transform: translateX(80px);
