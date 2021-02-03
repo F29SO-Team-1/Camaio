@@ -22,7 +22,7 @@ header{
     height: 50px;
     left: 17px;
     top: 8px;
-    background:url(../pictures/home.png);
+    background:url(~/pictures/home.png);
 }
 
 .input-group{
@@ -42,7 +42,7 @@ header{
 }
 
 .user-button{
-    background:url(../pictures/avatar.png);
+    background:url(~/pictures/avatar.png);
     border:none;
 }
 
@@ -60,7 +60,7 @@ header{
 }
 
 .upload-image img{
-    background:url(../pictures/upload-button.png);
+    background:url(~/pictures/upload-button.png);
     position: absolute;
     width: 40px;
     height: 40px;

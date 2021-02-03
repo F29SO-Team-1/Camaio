@@ -8,7 +8,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <button type="button" style="border-radius: 50%;" class="user-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <img class="profile-img" src="../pictures/avatar.png">
+        <img class="profile-img" src="~/pictures/avatar.png">
     </button>
     <div class="dropdown-menu">
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">@UserManager.GetUserName(User)</a>
