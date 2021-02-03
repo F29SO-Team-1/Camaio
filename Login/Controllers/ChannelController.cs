@@ -24,9 +24,28 @@ namespace Login.Controllers
             _userManager = userManager;
             _context = context;
         }
+
+        public IActionResult Index()
+        {
+            var user = _userManager.GetUserId(User);
+            var userChannels = _context.ChannelMembers
+                .Where(table => table.UserId == user)
+                .Join(
+                    _context.Channel,
+                    channelMembers => channelMembers.ChannelId,
+                    channel => channel.Id,
+                    (channelMember, channel) => channel.Title
+                )
+                .ToList();
+            return View(userChannels);
+        }
         
         public async Task<IActionResult> Main(string id)
         {
+            if (id == null) 
+            {
+                return NotFound();
+            }
             var channel = await _context.Channel
                 .FirstOrDefaultAsync(table => table.Title == id);
             if (channel == null) 
