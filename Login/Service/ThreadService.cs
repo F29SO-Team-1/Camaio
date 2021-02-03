@@ -28,9 +28,10 @@ namespace Login.Service
             throw new NotImplementedException();
         }
 
-        public Task Edit(int threadId)
+        public async Task Edit(Thread thread)
         {
-            throw new NotImplementedException();
+            _context.Update(thread);
+            await _context.SaveChangesAsync();
         }
 
         //returns a list of all the thread
@@ -39,7 +40,7 @@ namespace Login.Service
             return _context.Threads;
         }
 
-        public Thread GetById(int id)
+        public Thread GetById(int? id)
         {
             return GetAll().FirstOrDefault(thread => thread.ID == id);
         }
@@ -71,6 +72,11 @@ namespace Login.Service
             thread.Image = pic.AbsoluteUri;
             _context.Update(thread);
             await _context.SaveChangesAsync();
+        }
+
+        public bool ThreadExists(int id)
+        {
+            return _context.Threads.Any(x => x.ID == id);
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using Login.Service;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Login.Controllers
 {
@@ -68,16 +69,39 @@ namespace Login.Controllers
             return View();
         }
 
-
-        public async Task<IActionResult> Edit()
+        //Get request, View
+        public IActionResult Edit(int? threadId)
         {
-            return View();
-        }
-        public async Task<IActionResult> Delete()
-        {
-            return View();
+            if (threadId == null) return NotFound();
+
+            var thread = _service.GetById(threadId);
+            if (thread == null) return NotFound();
+
+            return View(thread);
         }
 
+        // does the post to the db
+        [HttpPost]
+        public async Task<IActionResult> Edit(Thread thread)
+        {
+            if (thread == null) return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _service.Edit(thread);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_service.ThreadExists(thread.ID)) return NotFound(); 
+                    else throw;
+                }
+                return RedirectToAction("Index", "Thread", new { @id = thread.ID });
+            }
+
+            return View(thread);
+        }
 
         //SQL database stuff
         [HttpPost]

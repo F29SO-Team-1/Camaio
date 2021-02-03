@@ -1,4 +1,4 @@
-﻿@model Login.Models.Threadl.ThreadModel
+﻿@model Login.Models.Thread
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,8 +13,8 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="AuthorId" />
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="UserID" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -25,11 +25,10 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Picture" class="control-label"></label>
-                <input asp-for="Picture" class="form-control" />
-                <span asp-validation-for="Picture" class="text-danger"></span>
-            </div>
+            <div id="userProfileImage" style="background-image: url(@Model.Image)"></div>
+            <input asp-for="Image" type="hidden">
+            <input asp-for="CreateDate" type="hidden">
+            <input asp-for="Votes" type="hidden">
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
