@@ -24,6 +24,6 @@ namespace Login.Data
         Task UpdateThreadTitle(int threadId, string newTitle);
         Task UpdateDescription(int threadId, string newDescription);
         Task LikedThread(int threadId, int FromLiked);
-        void UploadPicture(int threadId, Uri pic);
+        Task UploadPicture(int threadId, Uri pic);
     }
 }

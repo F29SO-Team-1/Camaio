@@ -11,6 +11,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using Login.Service;
+using Microsoft.AspNetCore.Routing;
 
 namespace Login.Controllers
 {
@@ -35,7 +36,7 @@ namespace Login.Controllers
             _uploadService = uploadService;
         }
 
-        [Route("Thread/{id}")]
+        [Route("Thread/{id?}")]
         //To view ONE thread whatever
         public IActionResult Index(int id)
         {
@@ -95,12 +96,10 @@ namespace Login.Controllers
 
             await _context.SaveChangesAsync();
 
-            UploadTreadImage(file, thread.ID);
+            await UploadTreadImage(file, thread.ID);
             //TODO User score HERE
 
-
-
-            return RedirectToAction("Index", "Thread", new { thread = thread.ID });
+            return RedirectToAction("Index", "Thread", new { @id = thread.ID });
         }
 
         private Thread BuildThread(Thread model, LoginUser user, IFormFile file)
@@ -117,13 +116,14 @@ namespace Login.Controllers
             };
         }
 
-        public void UploadTreadImage(IFormFile file, int id)
+        [HttpPost]
+        public async Task<IActionResult> UploadTreadImage(IFormFile file, int id)
         {
             var thread = _service.GetById(id);
             //connect to azure account container
             var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
             //get the blog container
-            var container = _uploadService.GetBlobContainer(connectionString);
+            var container = _uploadService.GetBlobContainer(connectionString, "thread-storage");
             //parse the context disposition response header
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
             //grab the filename
@@ -131,9 +131,11 @@ namespace Login.Controllers
             //get a refrence to a block blob
             var blockBlob = container.GetBlockBlobReference(filename);
             //On that block blob, Upload our file <-- file uploaded to the cloud
-            blockBlob.UploadFromStreamAsync(file.OpenReadStream());
+            await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
             //set the thread image to the URI
-            _service.UploadPicture(thread.ID, blockBlob.Uri);
+            await _service.UploadPicture(thread.ID, blockBlob.Uri);
+
+            return RedirectToAction("Index", "Profile");
         }
     }
 }

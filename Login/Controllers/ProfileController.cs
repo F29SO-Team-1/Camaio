@@ -76,10 +76,11 @@ namespace Login.Controllers
         public async Task<IActionResult> UploadProfileImage(IFormFile file)
         {
             var userName = _userManager.GetUserName(User);
+            if (file == null) return RedirectToAction("Index", "Profile", new { username = userName });
             //connect to azure account container
             var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
             //get the blog container
-            var container = _uploadService.GetBlobContainer(connectionString);
+            var container = _uploadService.GetBlobContainer(connectionString, "profile-images");
             //parse the context disposition response header
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
             //grab the filename

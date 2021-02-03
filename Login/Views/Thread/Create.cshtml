@@ -1,4 +1,4 @@
-﻿@model Login.Models.Thread
+﻿@model Login.Models.Threadl.ThreadModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,27 +14,27 @@
         <form asp-action="AddThread" enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <label asp-for="Title"></label>
+                <span asp-validation-for="Title"></span>
                 <input asp-for="Title" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="Description"></label>
+                <span asp-validation-for="Description"></span>
                 <input asp-for="Description" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Image"></label>
-                <input asp-for="Image" type="file" id="file" name="file"/>
+                <label asp-for="Picture"></label>
+                <span asp-validation-for="Picture"></span>
+                <input asp-for="Picture" type="file" id="file" name="file"/>
             </div>
             <button type="submit" id="submitThreadBtn" class="btn btn-submitThread">
                 Submit
             </button>
-            <input asp-for="UserID" type="hidden">
+            <input asp-for="AuthorId" type="hidden">
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
