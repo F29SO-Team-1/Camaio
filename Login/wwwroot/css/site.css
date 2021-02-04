@@ -23,6 +23,17 @@ header{
     left: 17px;
     top: 8px;
 }
+@media only screen and (max-width:870px){
+    .input-group{
+        display:none;
+    }
+    .login-details{
+        position: absolute;
+        left:80px;
+        top:2px;
+    }
+}
+
 
 .input-group{
     max-width:500px;
