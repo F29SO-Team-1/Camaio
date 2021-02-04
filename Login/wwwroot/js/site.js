@@ -2,3 +2,15 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+// Function to change the follow button to follow 
+$(document).ready(
+
+	function click(){
+	$('.follow-button').on("click", function(){
+		$('.follow-button').css('background-color','green');
+		$('.follow-button').html('<div class="icon-ok"></div> Following');
+	});	
+	}
+
+);

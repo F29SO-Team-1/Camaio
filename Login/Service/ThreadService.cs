@@ -1,4 +1,5 @@
-﻿using Login.Data;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
 using Login.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,9 +28,10 @@ namespace Login.Service
             throw new NotImplementedException();
         }
 
-        public Task Edit(int threadId)
+        public async Task Edit(Thread thread)
         {
-            throw new NotImplementedException();
+            _context.Update(thread);
+            await _context.SaveChangesAsync();
         }
 
         //returns a list of all the thread
@@ -38,14 +40,24 @@ namespace Login.Service
             return _context.Threads;
         }
 
-        public Thread GetById(int id)
+        public Thread GetById(int? id)
         {
             return GetAll().FirstOrDefault(thread => thread.ID == id);
         }
 
-        public Task LikedThread(int threadId, int FromLiked)
+        //list of all users post
+        public IEnumerable<Thread> UserThreads(string userName)
         {
-            throw new NotImplementedException();
+            return GetAll().Where(thread => thread.UserID == userName);
+        }
+
+        //adds +1 to when you press the button
+        public async Task IncrementRating(int? threadId)
+        {
+            var thread = GetById(threadId);
+            thread.Votes = thread.Votes + 1;
+            _context.Update(thread);
+            await _context.SaveChangesAsync();
         }
 
         public Task UpdateDescription(int threadId, string newDescription)
@@ -64,6 +76,11 @@ namespace Login.Service
             thread.Image = pic.AbsoluteUri;
             _context.Update(thread);
             await _context.SaveChangesAsync();
+        }
+
+        public bool ThreadExists(int id)
+        {
+            return _context.Threads.Any(x => x.ID == id);
         }
     }
 }

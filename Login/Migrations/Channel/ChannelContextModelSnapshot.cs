@@ -73,7 +73,8 @@ namespace Login.Migrations.Channel
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -102,6 +103,9 @@ namespace Login.Migrations.Channel
                     b.Property<bool>("Public")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("VisibleToGuests")
                         .HasColumnType("bit");
 
@@ -113,12 +117,19 @@ namespace Login.Migrations.Channel
             modelBuilder.Entity("Login.Models.ChannelMember", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ChannelId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id", "UserName");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId");
 
                     b.HasIndex("UserName");
 
@@ -129,15 +140,14 @@ namespace Login.Migrations.Channel
                 {
                     b.HasOne("Login.Models.Channel", "Channel")
                         .WithMany("ChannelMembers")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ChannelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Login.Areas.Identity.Data.LoginUser", "LoginUser")
                         .WithMany("ChannelMembers")
                         .HasForeignKey("UserName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasPrincipalKey("UserName");
                 });
 #pragma warning restore 612, 618
         }

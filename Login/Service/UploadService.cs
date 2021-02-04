@@ -5,11 +5,11 @@ namespace Login.Service
 {
     public class UploadService : IUpload
     {
-        public CloudBlobContainer GetBlobContainer(string connectionString)
+        public CloudBlobContainer GetBlobContainer(string connectionString, string blobName)
         {
             var storageAcount = CloudStorageAccount.Parse(connectionString);
             var blobClient = storageAcount.CreateCloudBlobClient();
-            return blobClient.GetContainerReference("profile-images");
+            return blobClient.GetContainerReference(blobName);
         }
     }
 }
