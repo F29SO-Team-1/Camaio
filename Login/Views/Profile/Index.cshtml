@@ -12,10 +12,10 @@
 <body>
     <div class="container">
         <div class="row m-b-r m-t-3">
-            <div class="container">
+            <div class="col-sm col1">
                 <div class="row userProfile">
                     <div class="col-md-4">
-                        <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl)"></div>
+                        <div id="userProfileImage" class="img-circle img-fluid" style="background-image: url(@Model.ProfileImageUrl)"></div>
                         @if (User.Identity.Name == Model.Username)
                         {
                             <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
@@ -54,6 +54,36 @@
                     </div>*@
                 </div>
             </div>
+            <br>
+            @if (SignInManager.IsSignedIn(User)){
+                <p class="text-center">My profile</p>
+            }
+            else{
+                <p class="text-center">Welcome to My profile</p>
+            }
+
+            <div class="span6"></div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>My pictures</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>My albums</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>Comments</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>Analytics</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><p>Analytics</p></a>
+                </li>
+            </ul>
+        </div>
+        <div class="col">
+            <div class="container"></div>
+            <div class="container"></div>
         </div>
     </div>
 </body>
