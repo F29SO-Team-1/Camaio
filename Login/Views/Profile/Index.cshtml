@@ -21,11 +21,10 @@
                             <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
                                 <div id="form-group">
                                     <div class="form-group">
-                                        <label asp-for="ProfileImageUrl"></label>
                                         <span asp-validation-for="ProfileImageUrl"></span>
                                         <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
                                     </div>
-                                    <button type="submit" id="submitProfilePicBtn" class="btn btn-submitProfilePic">
+                                    <button type="submit" id="submitProfilePicBtn" class="btn btn-primary">
                                         Submit
                                     </button>
                                 </div>
