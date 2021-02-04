@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Channels</h1>
+    <a class="createButton" id="Create" asp-area="" asp-controller="Channel" asp-action="Create">Create a channel</a>
+    <div>
+        @foreach (var channel in Model) {
+            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@channel><h3>@channel</h3></a>
+        }
+    </div>
+</div>
