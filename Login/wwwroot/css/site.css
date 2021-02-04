@@ -361,15 +361,22 @@ body {
 }
 
 .auth-form .content {
+    flex-direction: column;
     margin: 30% 0;
     color: white;
 }
 
 .auth-form .form-group {
+    flex-direction: column;
     color: greenyellow;
 }
 
+.auth-form .form-control{
+    width: auto;
+}
+
 .auth-form .submit-group{
+    flex-direction: column;
     margin: 5% 0;
     text-align: center;
     color: greenyellow;
