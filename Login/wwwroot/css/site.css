@@ -293,6 +293,57 @@ body {
 
 /*-----------------Start of 'Login Page' CSS---------------------------*/
 
+.auth-form {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+.auth-form .content {
+    margin: 30% 0;
+    color: white;
+}
+
+.auth-form .form-group {
+    color: greenyellow;
+}
+
+.auth-form .submit-group{
+    margin: 5% 0;
+    text-align: center;
+    color: greenyellow;
+}
+
+.auth-form h1 {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+}
+
+.auth-form a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: greenyellow;
+}
+
+.auth-form .btn-primary {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+}
+
+.auth-form .btn-primary:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+  
 /*-----------------End of 'Login Page' CSS-----------------------------*/
 
 
