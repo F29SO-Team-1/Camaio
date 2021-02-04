@@ -63,9 +63,10 @@ namespace Login.Controllers
         }
 
 
-        public void RatingIncrement(int? id)
+        public IActionResult RatingIncrement(int? id)
         {
             _service.IncrementRating(id);
+            return PartialView();
         }
 
         // Visual to the website
