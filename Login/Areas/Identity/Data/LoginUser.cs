@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Login.Models;
 
 namespace Login.Areas.Identity.Data
 {
     // Add profile data for application users by adding properties to the LoginUser class
     public class LoginUser : IdentityUser
     {
-        [PersonalData]
-        public string FirstName { get; set; }
-
-        [PersonalData]
-        public string LastName { get; set; }
+        public string ProfileImageUrl { get;  set; }
+        public string Ratting { get;  set; }
+        public DateTime MemberSince { get; internal set; }
+        public ICollection<ChannelMember> ChannelMembers { get; set; }
     }
 }
