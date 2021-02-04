@@ -63,11 +63,11 @@ namespace Login.Controllers
         }
 
 
-        public IActionResult RatingIncrement(int? id)
+        /*public IActionResult RatingIncrement(int? id)
         {
             _service.IncrementRating(id);
-            return PartialView();
-        }
+            //return View();
+        }*/
 
         // Visual to the website
         [Authorize]

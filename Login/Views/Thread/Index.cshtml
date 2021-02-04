@@ -23,18 +23,13 @@
     <div id="userProfileImage" style="background-image: url(@Model.Picture)"></div>
     <a asp-action="Edit" asp-route-threadId="@Model.Id">|Edit|</a>
 
-
-    <a 
-       data-ajax="true" 
-       data-ajax-mode="replace" 
-       data-ajax-update="#likesNumber" 
-       data-ajax-url="@Url.Page("Index", "ServerDate")" ></a>
-    <button type="button" id="likeBtn">Like</button>
+@*    <a asp-action="RatingIncrement" asp-route-id="@Model.Id">Like</a>
 
     Description :
     <div id="likesNumber">
         <p>@Model.Rating</p>
     </div>
 
-
+    <p>Description : @Model.Rating</p>
+*@
 </div>
