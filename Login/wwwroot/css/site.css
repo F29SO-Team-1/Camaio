@@ -3,13 +3,14 @@ for details on configuring this project to bundle and minify static web assets. 
 
 
 .content-box{
-    width:500px;
+    width:600px;
     margin:auto;
     height:auto;
     background: #39603D;
     color:white;
     text-align:center;
     padding:10px;
+    margin-top:20px;
     line-height: 1.6;
     vertical-align: auto;
 }
@@ -35,6 +36,10 @@ header{
     display: flex;
     justify-content: flex-start;
     overflow: hidden;
+}
+head-spacer{
+    height:20px;
+    width:100%;
 }
 
 .home-image{
