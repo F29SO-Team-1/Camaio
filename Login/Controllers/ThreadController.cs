@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using Login.Service;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Login.Controllers
 {
@@ -59,32 +61,52 @@ namespace Login.Controllers
             return View(model);
         }
 
-        // Returns a list of threads 
-        public IActionResult List()
-        {
-            var threads = _service.GetAll().Select(t => new ThreadModel
-            {
-                Id = t.ID,
-                Title = t.Title,
-                Description = t.Description
-            });
-
-            var model = new ThreadList
-            {
-                ThreadLists = threads
-            };
-
-            return View(model);
-        }
 
         // Visual to the website
+        [Authorize]
         public IActionResult Create() //id is the username
         {
             return View();
         }
 
+        //Get request, View
+        public IActionResult Edit(int? threadId)
+        {
+            if (threadId == null) return NotFound();
+
+            var thread = _service.GetById(threadId);
+            if (thread == null) return NotFound();
+
+            return View(thread);
+        }
+
+        // does the post to the db
+        [HttpPost]
+        public async Task<IActionResult> Edit(Thread thread)
+        {
+            if (thread == null) return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _service.Edit(thread);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_service.ThreadExists(thread.ID)) return NotFound(); 
+                    else throw;
+                }
+                return RedirectToAction("Index", "Thread", new { @id = thread.ID });
+            }
+
+            return View(thread);
+        }
+
         //SQL database stuff
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddThread(Thread model, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);

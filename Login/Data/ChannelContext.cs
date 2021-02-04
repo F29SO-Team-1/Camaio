@@ -23,16 +23,17 @@ namespace Login.Data
         {
             modelBuilder.Entity<Channel>().ToTable("Channel");
             modelBuilder.Entity<ChannelMember>().ToTable("ChannelMember");
-            modelBuilder.Entity<ChannelMember>()
-                .HasKey(cm => new { cm.Id, cm.UserName });  
+            // modelBuilder.Entity<ChannelMember>()
+            //     .HasKey(cm => new { cm.ChannelId, cm.UserId });  
             modelBuilder.Entity<ChannelMember>()
                 .HasOne(cm => cm.Channel)
                 .WithMany(c => c.ChannelMembers)
-                .HasForeignKey(cm => cm.Id);  
+                .HasForeignKey(cm => cm.ChannelId);  
             modelBuilder.Entity<ChannelMember>()
                 .HasOne(cm => cm.LoginUser)
                 .WithMany(pm => pm.ChannelMembers)
-                .HasForeignKey(cm => cm.UserName);
+                .HasForeignKey(cm => cm.UserName)
+                .HasPrincipalKey(c => c.UserName);
         }
     }
 }

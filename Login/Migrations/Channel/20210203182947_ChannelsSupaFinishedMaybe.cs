@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Login.Migrations.Channel
 {
-    public partial class CreatingChannels : Migration
+    public partial class ChannelsSupaFinishedMaybe : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,6 +14,7 @@ namespace Login.Migrations.Channel
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Creator = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Public = table.Column<bool>(nullable: false),
                     VisibleToGuests = table.Column<bool>(nullable: false),
@@ -30,7 +31,7 @@ namespace Login.Migrations.Channel
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: false),
                     NormalizedUserName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     NormalizedEmail = table.Column<string>(nullable: true),
@@ -51,21 +52,24 @@ namespace Login.Migrations.Channel
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LoginUser", x => x.Id);
+                    table.UniqueConstraint("AK_LoginUser_UserName", x => x.UserName);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ChannelMember",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
-                    UserName = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ChannelId = table.Column<int>(nullable: false),
+                    UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChannelMember", x => new { x.Id, x.UserName });
+                    table.PrimaryKey("PK_ChannelMember", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChannelMember_Channel_Id",
-                        column: x => x.Id,
+                        name: "FK_ChannelMember_Channel_ChannelId",
+                        column: x => x.ChannelId,
                         principalTable: "Channel",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -73,9 +77,14 @@ namespace Login.Migrations.Channel
                         name: "FK_ChannelMember_LoginUser_UserName",
                         column: x => x.UserName,
                         principalTable: "LoginUser",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserName",
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChannelMember_ChannelId",
+                table: "ChannelMember",
+                column: "ChannelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChannelMember_UserName",

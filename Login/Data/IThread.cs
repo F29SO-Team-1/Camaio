@@ -10,15 +10,16 @@ namespace Login.Data
 {
     public interface IThread
     {
-        Thread GetById(int id);
+        Thread GetById(int? id);
         IEnumerable<Thread> GetAll();
 
         //will have to return a list of threads 
         IEnumerable<Thread> UserThreads(string userName);
 
+        bool ThreadExists(int id);
 
         Task Create(Thread thread);
-        Task Edit(int threadId);
+        Task Edit(Thread thread);
         Task Delete(int threadId);
 
         Task UpdateThreadTitle(int threadId, string newTitle);
