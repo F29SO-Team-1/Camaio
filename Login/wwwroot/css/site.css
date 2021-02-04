@@ -22,7 +22,6 @@ header{
     height: 50px;
     left: 17px;
     top: 8px;
-    background:url(../pictures/home.png);
 }
 
 .input-group{
@@ -69,6 +68,11 @@ header{
 }
 .upload-image{
     margin-left:50px;
+}
+
+.search-button {
+    background-color: #DADED4;
+    border-color: #DADED4;
 }
 
 /* lists styling*/
@@ -329,18 +333,23 @@ body {
     max-width:220px;
 }
 
-.nav-item{
-    color:black;
+.nav-item {
+    color: black;
     background-color: #39603D;
-    margin:6px;
+    margin: 6px;
     font-size: 20px;
-    text-align:center;
+    text-align: center;
     line-height: 14px;
-    max-height:48px;
+    max-height: 48px;
+    border-radius: 7px;
 }
 
 .p{
     font-family: Arial, sans-serif;
+}
+
+.account-button{
+    border-radius: 25px;
 }
 
 /*-----------------End of the 'Account Page' CSS-----------------------*/
