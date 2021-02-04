@@ -5,20 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Thread</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="content-box">
+        <h3>Upload Images</h3>
         <form asp-action="AddThread" enctype="multipart/form-data" method="post">
             <div class="form-group">
-                <label asp-for="Title"></label>
+                <p>Title: </p>
                 <span asp-validation-for="Title"></span>
                 <input asp-for="Title" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Description"></label>
+                <p>Description: </p>
                 <span asp-validation-for="Description"></span>
                 <input asp-for="Description" class="form-control" />
             </div>
@@ -27,7 +25,8 @@
                 <span asp-validation-for="Picture"></span>
                 <input asp-for="Picture" type="file" id="file" name="file"/>
             </div>
-            <button type="submit" id="submitThreadBtn" class="btn btn-submitThread">
+            <br/>
+            <button type="submit" id="btn-light submitThreadBtn " class="btn btn-submitThread">
                 Submit
             </button>
             <input asp-for="AuthorId" type="hidden">
