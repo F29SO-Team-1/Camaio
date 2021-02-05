@@ -119,7 +119,7 @@ namespace Login.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userId);
 
-            var thread = BuildThread(model, user, file);
+            var thread = BuildThread(model, user);
 
             _context.Add(thread);
 
@@ -131,7 +131,7 @@ namespace Login.Controllers
             return RedirectToAction("Index", "Thread", new { @id = thread.ID });
         }
 
-        private Thread BuildThread(Thread model, LoginUser user, IFormFile file)
+        private Thread BuildThread(Thread model, LoginUser user)
         {
             return new Thread
             {
