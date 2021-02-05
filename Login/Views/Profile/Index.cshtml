@@ -2,37 +2,62 @@
 @using Login.Areas.Identity.Data
 @model Login.Models.ApplicationUser.ProfileModel
 
-@inject SignInManager<LoginUser> SignInManager
-@inject UserManager<LoginUser> UserManager
-<header>
-    <h1 style="text-align:center"> @ViewData["Title"]</h1>
-    <link rel="stylesheet" type="text/css" href="./css/site.css" media="screen" />
+@{
+    ViewData["Title"] = "Profile Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-</header>
-<body>
-    <div class="container">
-        <div class="row m-b-r m-t-3">
-            <div class="container">
-                <div class="row userProfile">
-                    <div class="col-md-4">
-                        <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl)"></div>
-                        @if (User.Identity.Name == Model.Username)
-                        {
-                            <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
-                                <div id="form-group">
-                                    <div class="form-group">
-                                        <span asp-validation-for="ProfileImageUrl"></span>
-                                        <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
-                                    </div>
-                                    <button type="submit" id="submitProfilePicBtn" class="btn btn-light">
-                                        Submit
-                                    </button>
-                                </div>
-                            </form>
-                        }
-                    </div>
-                </div>
+
+<div id="userProfileImage">
+    <img src="@Model.ProfileImageUrl" />
+</div>
+@if (User.Identity.Name == Model.Username)
+{
+    <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
+        <div id="form-group">
+            <div class="form-group">
+                <span asp-validation-for="ProfileImageUrl"></span>
+                <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
             </div>
+            <button type="submit" id="submitProfilePicBtn" class="btn btn-light">
+                Submit
+            </button>
         </div>
-    </div>
-</body>
+    </form>
+}
+
+<hr />
+<div class="container">
+    <h2 style="text-align:center"> @Model.Username Posts</h2>
+</div>
+<hr />
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Created</th>
+            <th scope="col">Description</th>
+            <th scope="col">Picture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var thread in Model.Threads)
+        {
+            //if there is no picture dont display
+            @if (thread.Picture == null) continue;
+            //loops through the db and displays it
+            <tr>
+                <th>@thread.Title</th>
+                <th>@thread.Rating</th>
+                <td>@thread.Created</td>
+                <td>@thread.Description</td>
+                <td>
+                    <img src="@thread.Picture" alt="Image" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
