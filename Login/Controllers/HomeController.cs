@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Login.Data;
+using Login.Models.Threadl;
 
 namespace Login.Controllers
 {
@@ -14,15 +16,27 @@ namespace Login.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IThread _threadService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IThread thread)
         {
             _logger = logger;
+            _threadService = thread;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var threadModel = _threadService.GetAll().Select(threads => new ThreadModel
+            {
+                Title = threads.Title,
+                Rating = threads.Votes,
+                Description = threads.Description,
+                Created = threads.CreateDate,
+                Picture = threads.Image
+            });
+
+            var threadList= new ThreadList { ThreadLists = threadModel };
+            return View(threadList);
         }
 
         public IActionResult Privacy()

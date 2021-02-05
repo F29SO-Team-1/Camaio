@@ -26,5 +26,7 @@ namespace Login.Data
         Task UpdateDescription(int threadId, string newDescription);
         Task IncrementRating(int? threadId);
         Task UploadPicture(int threadId, Uri pic);
+
+
     }
 }

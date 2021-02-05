@@ -13,5 +13,9 @@ namespace Login.Data
         Task JoinChannel();
         Task LeaveChannelP();
         Task ChangeSettings();
+
+
+        IEnumerable<Channel> UserChannel(string userName);
+        IEnumerable<Channel> GetAll();
     }
 }

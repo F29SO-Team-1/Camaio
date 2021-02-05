@@ -1,5 +1,6 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
+using Login.Models;
 using Login.Models.ApplicationUser;
 using Login.Models.Threadl;
 using Login.Service;
@@ -22,13 +23,15 @@ namespace Login.Controllers
         private readonly IConfiguration _configuration;
         private readonly IUpload _uploadService;
         private readonly IThread _threadService;
+        private readonly IChannel _channelSerivce;
 
         public ProfileController(
             UserManager<LoginUser> userManager,
             IApplicationUsers userService,
             IUpload uploadService,
             IConfiguration configuration,
-            IThread threadService
+            IThread threadService,
+            IChannel channelSerivce
             )
         {
             _userManager = userManager;
@@ -36,6 +39,7 @@ namespace Login.Controllers
             _configuration = configuration;
             _uploadService = uploadService;
             _threadService = threadService;
+            _channelSerivce = channelSerivce;
         }
 
         [Route("Profile/{username}")]
@@ -45,6 +49,8 @@ namespace Login.Controllers
             var userId = _userManager.GetUserId(User);
             //want a list of threads, tick
             var threads = BuildThreadList(userId);
+            //want a list of channels that the user is part of, tick
+            var channels = BuildChannelsList(username);
 
             var model = new ProfileModel()
             {
@@ -54,9 +60,21 @@ namespace Login.Controllers
                 Email = user.Email,
                 ProfileImageUrl = user.ProfileImageUrl,
                 MemmberSince = user.MemberSince,
-                Threads = threads
+                Threads = threads,
+                Channels = channels
             };
             return View(model);
+        }
+
+        private IEnumerable<ChannelModel> BuildChannelsList(string username)
+        {
+            return _channelSerivce.UserChannel(username).Select(c => new ChannelModel
+            {
+                Id = c.Id,
+                Title = c.Title,
+                Description = c.Description,
+                CreationDate = c.CreationDate
+            });
         }
 
         //makes the model to me passed in the view

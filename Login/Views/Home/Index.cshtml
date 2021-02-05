@@ -1,40 +1,36 @@
-﻿@{
+﻿@model  Login.Models.Threadl.ThreadList
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div style="height:80px;"></div>   
 
-@*<div class="row"> 
-
-<div class="column">
-    <img src="../../pictures/img1.jpg" style="width:100%">
-    <img src="../pictures/img2.jpg" style="width:100%">
-    <img src="/pictures/img3.jpg" style="width:100%">
-    <img src="/pictures/img4.jpg" style="width:100%">
-</div>
-
-<div class="column">
-    <img src="pictures/img5.jpg" style="width:100%">
-    <img src="/pictures/img14.jpg" style="width:100%">
-    <img src="/pictures/img7.jpg" style="width:100%">
-    <img src="/pictures/img8.jpg" style="width:100%">
-</div>
-
-<div class="column">
-    <img src="pictures/img9.jpg" style="width:100%">
-    <img src="/pictures/img10.jpg" style="width:100%">
-    <img src="/pictures/img11.jpg" style="width:100%">
-    <img src="/pictures/img12.jpg" style="width:100%">
-</div>
-
-<div class="column">
-    <img src="pictures/img13.jpg" style="width:100%">
-    <img src="/pictures/img6.jpg" style="width:100%">
-    <img src="/pictures/img15.jpg" style="width:100%">
-    <img src="/pictures/img16.jpg" style="width:100%">
-</div>
-
-</div> *@
-
- 
-
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Created</th>
+            <th scope="col">Description</th>
+            <th scope="col">Picture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var thread in Model.ThreadLists)
+        {
+            //if there is no picture dont display
+            @if (thread.Picture == null) continue;
+             //loops through the db and displays it
+        <tr>
+            <th>@thread.Title</th>
+            <th>@thread.Rating</th>
+            <td>@thread.Created</td>
+            <td>@thread.Description</td>
+            <td>
+                <img src="@thread.Picture" alt="Image" />
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

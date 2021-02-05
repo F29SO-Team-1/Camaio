@@ -1,7 +1,5 @@
-﻿using Login.Areas.Identity.Data;
-using Login.Data;
+﻿using Login.Data;
 using Login.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

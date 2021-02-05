@@ -1,5 +1,20 @@
 ﻿@model Login.Models.Threadl.ThreadModel
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
+}
+
 <h1>Threads</h1>
+<script>
+    $(document).ready(function () {
+        console.log("pressed");
+        $("#likeBtn").click(function () {
+            console.log("pressed");
+            $("#likesNumber").load("/Thread/RatingIncrement");
+        });
+    });
+</script>
 <a class="nav-link text-dark" asp-area="" asp-controller="Thread" asp-action="Create">Create New Thread</a>
 <div class="card-deck">
     <p>Title : @Model.Title</p>
@@ -10,6 +25,10 @@
 
 @*    <a asp-action="RatingIncrement" asp-route-id="@Model.Id">Like</a>
 
+    Description :
+    <div id="likesNumber">
+        <p>@Model.Rating</p>
+    </div>
 
     <p>Description : @Model.Rating</p>
 *@
