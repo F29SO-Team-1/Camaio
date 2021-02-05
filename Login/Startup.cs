@@ -52,6 +52,7 @@ namespace Login
             services.AddScoped<IThread, ThreadService>();
             services.AddScoped<IApplicationUsers, ApplicationUserService>();
             services.AddScoped<IUpload, UploadService>();
+            services.AddScoped<IChannel, ChannelService>();
 
             //added the connetion to Azure
             services.AddSingleton(Configuration);

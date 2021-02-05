@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Login.Models.ApplicationUser
 {
@@ -20,5 +18,7 @@ namespace Login.Models.ApplicationUser
         public IFormFile ImageUpload { get; set; }
 
         public IEnumerable<ThreadModel> Threads {get;set;}
+        
+        public IEnumerable<ChannelModel> Channels { get; set; }
     }
 }

@@ -27,37 +27,63 @@
 }
 
 <hr />
+
+
 <div class="container">
-    <h2 style="text-align:center"> @Model.Username Posts</h2>
+    <div class="row">
+        <div class="col-sm">
+            <h2 style="text-align:center"> @Model.Username Posts</h2>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Picture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var thread in Model.Threads)
+                    {
+                        //if there is no picture dont display
+                        @if (thread.Picture == null) continue;
+                        //loops through the db and displays it
+                        <tr>
+                            <th>@thread.Title</th>
+                            <th>@thread.Rating</th>
+                            <td>@thread.Created</td>
+                            <td>@thread.Description</td>
+                            <td>
+                                <img src="@thread.Picture" alt="Image" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            <h2 style="text-align:center"> @Model.Username Channels</h2>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var channels in Model.Channels)
+                    {
+                        <tr>
+                            <th>@channels.Title</th>
+                            <th>@channels.Description</th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<hr />
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Created</th>
-            <th scope="col">Description</th>
-            <th scope="col">Picture</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var thread in Model.Threads)
-        {
-            //if there is no picture dont display
-            @if (thread.Picture == null) continue;
-            //loops through the db and displays it
-            <tr>
-                <th>@thread.Title</th>
-                <th>@thread.Rating</th>
-                <td>@thread.Created</td>
-                <td>@thread.Description</td>
-                <td>
-                    <img src="@thread.Picture" alt="Image" />
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    
