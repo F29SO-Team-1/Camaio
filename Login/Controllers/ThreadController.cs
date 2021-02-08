@@ -44,7 +44,7 @@ namespace Login.Controllers
         {
             //get the id of the thread
             var thread = _service.GetById(id);
-
+            if (thread == null) return NotFound();
             //TODO Replies
 
             //make a view model for the thread
@@ -56,7 +56,8 @@ namespace Login.Controllers
                 Description = thread.Description,
                 Picture = thread.Image,
                 Title = thread.Title,
-                Rating = thread.Votes
+                Rating = thread.Votes,
+                AuthorUserName = thread.UserName
             };
 
             return View(model);
@@ -140,7 +141,8 @@ namespace Login.Controllers
                 Description = model.Description,
                 ID = model.ID,
                 UserID = user.Id,
-                Votes = model.Votes
+                Votes = model.Votes,
+                UserName = user.UserName
             };
         }
 
@@ -164,6 +166,21 @@ namespace Login.Controllers
             await _service.UploadPicture(thread.ID, blockBlob.Uri);
 
             return RedirectToAction("Index", "Profile");
+        }
+
+        public IActionResult Delete(int? threadId)
+        {
+            var thread = _service.GetById(threadId);
+            return View(thread);
+        }
+
+        public async Task<ActionResult<Thread>> DeleteThread(int id)
+        {
+            var todoItem = await _context.Threads.FindAsync(id);
+            if (todoItem == null) return NotFound();
+            _context.Threads.Remove(todoItem);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

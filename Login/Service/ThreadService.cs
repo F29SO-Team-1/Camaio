@@ -46,7 +46,7 @@ namespace Login.Service
         //list of all users post
         public IEnumerable<Thread> UserThreads(string userName)
         {
-            return GetAll().Where(thread => thread.UserID == userName);
+            return GetAll().Where(thread => thread.UserName == userName);
         }
 
         //adds +1 to when you press the button

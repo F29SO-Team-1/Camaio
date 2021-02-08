@@ -46,10 +46,14 @@
                     @foreach (var thread in Model.Threads)
                     {
                         //if there is no picture dont display
-                        @if (thread.Picture == null) continue;
+                        //@if (thread.Picture == null) continue;
                         //loops through the db and displays it
                         <tr>
-                            <th>@thread.Title</th>
+                            <th>
+                                <a asp-action="index" asp-controller="Thread" asp-route-id="@thread.Id">
+                                    @thread.Title
+                                </a>
+                            </th>
                             <th>@thread.Rating</th>
                             <td>@thread.Created</td>
                             <td>@thread.Description</td>
