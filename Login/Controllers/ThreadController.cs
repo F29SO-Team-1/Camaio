@@ -78,12 +78,14 @@ namespace Login.Controllers
         }
 
         //Get request, View
+        [Authorize]
         public IActionResult Edit(int? threadId)
         {
+            var userName = _userManager.GetUserName(User);
             if (threadId == null) return NotFound();
-
             var thread = _service.GetById(threadId);
             if (thread == null) return NotFound();
+            if (thread.UserName != userName) return NotFound();
 
             return View(thread);
         }
@@ -170,7 +172,9 @@ namespace Login.Controllers
 
         public IActionResult Delete(int? threadId)
         {
+            var userName = _userManager.GetUserName(User);
             var thread = _service.GetById(threadId);
+            if (thread.UserName != userName) return NotFound();
             return View(thread);
         }
 
