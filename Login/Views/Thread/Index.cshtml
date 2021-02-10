@@ -1,17 +1,24 @@
 ﻿@model Login.Models.Threadl.ThreadModel
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
-}
-
 <h1>Thread</h1>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
-        console.log("pressed");
-        $("#likeBtn").click(function () {
-            console.log("pressed");
-            $("#likesNumber").load("/Thread/RatingIncrement");
+        $('#likeBtn').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Thread/RatingIncrement",
+                dataType: 'JSON',
+                data: JSON.stringify(@Model.Id),
+                contentType: "application/json",
+                success: function (result) {
+                    $('#likeNumber').html(result);
+                    console.log("sucess");
+                    console.log(result);
+                },
+                error: function (err) {
+                    console.log("Error: " + err);
+                }
+            })
         });
     });
 </script>
@@ -26,14 +33,7 @@
         <a asp-action="Delete" asp-route-threadId="@Model.Id">|Delete|</a>
     }
 
-
-    @*    <a asp-action="RatingIncrement" asp-route-id="@Model.Id">Like</a>
-
-        Description :
-        <div id="likesNumber">
-            <p>@Model.Rating</p>
-        </div>
-
-        <p>Description : @Model.Rating</p>
-    *@
+    <input type="button" id="likeBtn"  />
+        
+    Like Number: <div id="likeNumber">@Model.Rating</div>
 </div>

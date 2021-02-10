@@ -14,6 +14,8 @@ using Login.Service;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+
 
 namespace Login.Controllers
 {
@@ -59,16 +61,18 @@ namespace Login.Controllers
                 Rating = thread.Votes,
                 AuthorUserName = thread.UserName
             };
-
             return View(model);
         }
 
-
-        /*public IActionResult RatingIncrement(int? id)
+        //takes in a ajax call from the view, returns a JSON back to the view
+        public async Task<IActionResult> RatingIncrement([FromBody]int? id)
         {
-            _service.IncrementRating(id);
-            //return View();
-        }*/
+            if (id == null) NotFound();
+            await _service.IncrementRating(id); //this increments
+            JsonResult result = this.Json(JsonConvert.SerializeObject(id));
+            var thread = _service.GetById(id).Votes;
+            return Json(thread);
+        }
 
         // Visual to the website
         [Authorize]
@@ -79,6 +83,7 @@ namespace Login.Controllers
 
         //Get request, View
         [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int? threadId)
         {
             var userName = _userManager.GetUserName(User);
@@ -129,7 +134,6 @@ namespace Login.Controllers
             await _context.SaveChangesAsync();
 
             await UploadTreadImage(file, thread.ID);
-            //TODO User score HERE
 
             return RedirectToAction("Index", "Thread", new { @id = thread.ID });
         }
@@ -178,6 +182,7 @@ namespace Login.Controllers
             return View(thread);
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult<Thread>> DeleteThread(int id)
         {
             var todoItem = await _context.Threads.FindAsync(id);
