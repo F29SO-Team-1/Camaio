@@ -1,19 +1,21 @@
 ﻿@model Login.Models.Threadl.ThreadModel
+@*this is the model that can be used within the View, check the path what can be passed in*@
 
 <h1>Thread</h1>
 <script type="text/javascript">
     $(document).ready(function () {
+        @*
+            When the Like button is pressed do the following Ajax call
+        *@
         $('#likeBtn').click(function () {
             $.ajax({
                 type: "POST",
                 url: "/Thread/RatingIncrement",
                 dataType: 'JSON',
-                data: JSON.stringify(@Model.Id),
+                data: JSON.stringify(@Model.Id), @*Passes the current Id of the thread*@
                 contentType: "application/json",
-                success: function (result) {
+                success: function (result) {    @*If the response from the contoler is correct then do the following*@
                     $('#likeNumber').html(result);
-                    console.log("sucess");
-                    console.log(result);
                 },
                 error: function (err) {
                     console.log("Error: " + err);
@@ -26,14 +28,15 @@
     <p>Title : @Model.Title</p>
     <p>Created : @Model.Created</p>
     <p>Description : @Model.Description</p>
-    <div id="userProfileImage" style="background-image: url(@Model.Picture)"></div>
+    <img src="@Model.Picture" style="width: 20%; height:20%" />
+    @*Checks if the user is the create of the thread if so show; Edit and Delete features*@
     @if (User.Identity.Name == Model.AuthorUserName)
     {
         <a asp-action="Edit" asp-route-threadId="@Model.Id">|Edit|</a>
         <a asp-action="Delete" asp-route-threadId="@Model.Id">|Delete|</a>
     }
 
-    <input type="button" id="likeBtn"  />
-        
+    <input type="button" id="likeBtn" />
+
     Like Number: <div id="likeNumber">@Model.Rating</div>
 </div>

@@ -8,7 +8,7 @@
 }
 
 
-<img src="@Model.ProfileImageUrl" />
+<img src="@Model.ProfileImageUrl" style="width: 20%; height:20%;" alt="ProfilePic" />
 @if (User.Identity.Name == Model.Username)
 {
     <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
@@ -58,7 +58,7 @@
                             <td>@thread.Created</td>
                             <td>@thread.Description</td>
                             <td>
-                                <img src="@thread.Picture" alt="Image" />
+                                <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
                             </td>
                         </tr>
                     }
