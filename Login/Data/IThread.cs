@@ -27,10 +27,6 @@ namespace Login.Data
         //delete of a thread
         Task Delete(int? threadId);
 
-        //edit functions
-        Task UpdateThreadTitle(int threadId, string newTitle);
-        Task UpdateDescription(int threadId, string newDescription);
-
         //like functions
         Task IncrementRating(int? threadId);
 

@@ -18,10 +18,12 @@ namespace Login.Controllers
     {
         private readonly UserManager<LoginUser> _userManager;
         private readonly ChannelContext _context;
+        private readonly IChannel _service;
 
-        public ChannelController(UserManager<LoginUser> userManager, ChannelContext context)
+        public ChannelController(UserManager<LoginUser> userManager, ChannelContext context, IChannel service)
         {
             _userManager = userManager;
+            _service = service;
             _context = context;
         }
 
