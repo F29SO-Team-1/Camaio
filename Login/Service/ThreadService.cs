@@ -1,4 +1,5 @@
-﻿using Login.Data;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
 using Login.Models;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,30 @@ namespace Login.Service
             _context = context;
         }
 
-        public Task Create(Thread thread)
+        public async Task<Thread> Create(Thread model, LoginUser user)
         {
-            throw new NotImplementedException();
+            var thread = new Thread
+            {
+                Title = model.Title,
+                CreateDate = DateTime.Now,
+                Description = model.Description,
+                ID = model.ID,
+                UserID = user.Id,
+                Votes = model.Votes,
+                UserName = user.UserName
+            };
+
+            _context.Add(thread);
+            await _context.SaveChangesAsync();
+            return thread;
         }
 
-        public Task Delete(int threadId)
+
+        public async Task Delete(int? threadId)
         {
-            throw new NotImplementedException();
+            var threadPrimaryKey = await _context.Threads.FindAsync(threadId);
+            _context.Threads.Remove(threadPrimaryKey);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Edit(Thread thread)

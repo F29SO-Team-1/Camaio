@@ -82,12 +82,12 @@ namespace Login.Controllers
         {
             return _threadService.UserThreads(userName).Select(threads => new ThreadModel
             {
-                Id = threads.ID,
                 Title = threads.Title,
                 Description = threads.Description,
                 Created = threads.CreateDate,
                 Picture = threads.Image,
-                AuthorUserName = threads.UserName
+                AuthorUserName = threads.UserName,
+                Rating = threads.Votes
             });
         }
 

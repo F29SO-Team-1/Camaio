@@ -21,11 +21,11 @@ namespace Login.Data
         //checks if the thread exists by Id
         bool ThreadExists(int id);
         //makes a thread
-        Task Create(Thread thread);
+        Task<Thread> Create(Thread thread, LoginUser user);
         //edit of the thread
         Task Edit(Thread thread);
         //delete of a thread
-        Task Delete(int threadId);
+        Task Delete(int? threadId);
 
         //edit functions
         Task UpdateThreadTitle(int threadId, string newTitle);

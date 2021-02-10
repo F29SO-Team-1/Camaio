@@ -20,19 +20,16 @@ namespace Login.Controllers
     public class ThreadController : Controller
     {
         private readonly IThread _service;
-        private readonly ThreadContext _context;
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
 
         public ThreadController(IThread thread, 
-            ThreadContext context, 
             IConfiguration configuration, 
             UserManager<LoginUser> userManager, 
             IUpload uploadService)
         {
             _service = thread;
-            _context = context;
             _configuration = configuration;
             _userManager = userManager;
             _uploadService = uploadService;
@@ -79,8 +76,6 @@ namespace Login.Controllers
         }
 
         //Get request, View
-        [Authorize]
-        [ValidateAntiForgeryToken]
         public IActionResult Edit(int? threadId)
         {
             var userName = _userManager.GetUserName(User); //gets the usersName
@@ -124,30 +119,10 @@ namespace Login.Controllers
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var user = await _userManager.FindByIdAsync(userId);    //gets the userName
-
-            var thread = BuildThread(model, user);  //builds the thread
-
-            _context.Add(thread);   //adds it to the Db
-
-            await _context.SaveChangesAsync();  //saves the changes
-
-            await UploadThreadImage(file, thread.ID);    //uploads the threadImage
-
-            return RedirectToAction("Index", "Thread", new { @id = thread.ID });    //shows the thread that was created
-        }
-
-        private Thread BuildThread(Thread model, LoginUser user)
-        {
-            return new Thread
-            {
-                Title = model.Title,
-                CreateDate = DateTime.Now,
-                Description = model.Description,
-                ID = model.ID,
-                UserID = user.Id,
-                Votes = model.Votes,
-                UserName = user.UserName
-            };
+            var thread = _service.Create(model, user);  //creates the thread
+            var threadId = thread.Result.ID;    //gets the Threads id
+            await UploadThreadImage(file, threadId);    //uploads the threadImage
+            return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
         }
 
         //Uploads the Image to the Azure blob container
@@ -183,14 +158,10 @@ namespace Login.Controllers
         }
         
         //action of deleting the thread
-        [HttpDelete]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Thread>> DeleteThread(int id)
+        public async Task<IActionResult> DeleteThread(int? id)
         {
-            var todoItem = await _context.Threads.FindAsync(id);
-            if (todoItem == null) return NotFound();
-            _context.Threads.Remove(todoItem);
-            await _context.SaveChangesAsync();
+            if (id == null) return NotFound();
+            await _service.Delete(id);
             return RedirectToAction("Index", "Home");
         }
     }
