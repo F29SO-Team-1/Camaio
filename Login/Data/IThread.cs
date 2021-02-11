@@ -32,5 +32,7 @@ namespace Login.Data
 
         //upload image function
         Task UploadPicture(int threadId, Uri pic);
+
+        Task AddUserToLikeList(int? threadId, LoginUser userId);
     }
 }

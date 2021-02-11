@@ -20,5 +20,7 @@ namespace Login.Models.ApplicationUser
         public IEnumerable<ThreadModel> Threads {get;set;}
         
         public IEnumerable<ChannelModel> Channels { get; set; }
+
+        public IEnumerable<Thread> Likes { get; set; }
     }
 }

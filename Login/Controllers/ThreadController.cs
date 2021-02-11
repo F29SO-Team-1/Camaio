@@ -1,18 +1,17 @@
-﻿using Login.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Login.Models.Threadl;
-using System.Threading.Tasks;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
 using Login.Models;
-using Microsoft.AspNetCore.Identity;
-using Login.Areas.Identity.Data;
-using System;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
+using Login.Models.Threadl;
 using Login.Service;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 
 namespace Login.Controllers
@@ -24,9 +23,9 @@ namespace Login.Controllers
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
 
-        public ThreadController(IThread thread, 
-            IConfiguration configuration, 
-            UserManager<LoginUser> userManager, 
+        public ThreadController(IThread thread,
+            IConfiguration configuration,
+            UserManager<LoginUser> userManager,
             IUpload uploadService)
         {
             _service = thread;
@@ -42,7 +41,8 @@ namespace Login.Controllers
             //get the id of the thread
             var thread = _service.GetById(id);
             if (thread == null) return NotFound(); //if the thread number does not exist then not found
-            //TODO Replies
+            //make a list of users that liked the thread
+
 
             //make a view model for the thread
             var model = new ThreadModel
@@ -60,9 +60,13 @@ namespace Login.Controllers
         }
 
         //takes in a ajax call from the view, returns a JSON back to the view, the like btn
-        public async Task<IActionResult> RatingIncrement([FromBody]int? id)
+        public async Task<IActionResult> RatingIncrement([FromBody] int? id)
         {
+            var userId = _userManager.GetUserId(User);  //gets the usersId
+            LoginUser user = new LoginUser { Id = userId };
             if (id == null) NotFound();
+            //add the user that pressed the button to the list of liked on the thread
+            await _service.AddUserToLikeList(id, user);
             await _service.IncrementRating(id); //this increments the vote
             var thread = _service.GetById(id).Votes; // gets the votes from the current thread
             return Json(thread);    //makes a json with the amount of votes that are currently in the database
@@ -102,7 +106,7 @@ namespace Login.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_service.ThreadExists(thread.ID)) return NotFound(); 
+                    if (!_service.ThreadExists(thread.ID)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction("Index", "Thread", new { @id = thread.ID });
@@ -156,7 +160,7 @@ namespace Login.Controllers
             if (thread.UserName != userName) return NotFound();
             return View(thread);
         }
-        
+
         //action of deleting the thread
         public async Task<IActionResult> DeleteThread(int? id)
         {

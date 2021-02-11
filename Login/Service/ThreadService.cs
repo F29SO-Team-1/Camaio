@@ -70,7 +70,7 @@ namespace Login.Service
         public async Task IncrementRating(int? threadId)
         {
             var thread = GetById(threadId);
-            thread.Votes = thread.Votes + 1;
+            thread.Votes += 1;
             _context.Update(thread);
             await _context.SaveChangesAsync();
         }
@@ -97,5 +97,20 @@ namespace Login.Service
         {
             return _context.Threads.Any(x => x.ID == id);
         }
+
+        public LoginUser LikeThread(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task AddUserToLikeList(int? threadId, LoginUser userId)
+        {
+            var thread = GetById(threadId);
+            //add user to a list
+            _context.Add(userId.Likes);
+            _context.Update(thread);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
