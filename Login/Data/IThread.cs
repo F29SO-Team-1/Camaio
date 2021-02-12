@@ -28,11 +28,12 @@ namespace Login.Data
         Task UploadPicture(int threadId, Uri pic);
 
         //btn work
+        bool CheckAreadyLiked(Thread threadId, string userId);
+        IEnumerable<Likes> ListOfLikes(int? threadId);
+
         //like
         Task IncrementRating(int? threadId);
-        bool CheckAreadyLiked(Thread threadId, string userId);
         Task AddUserToLikeList(int? threadId, string userId);
-        IEnumerable<Likes> ListOfLikes(int? threadId);
 
         //disLike
         Task RemoveUserFromLikeList(int? threadId, string userId);

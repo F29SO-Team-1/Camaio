@@ -23,7 +23,6 @@ namespace Login.Data
                 .ToTable("Thread")
                 .HasMany(thread => thread.LikedBy)
                 .WithOne(like => like.Thread);
-            //modelBuilder.Entity<Thread>().ToTable("Likes");
         }
     }
 }

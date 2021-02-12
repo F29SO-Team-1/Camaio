@@ -4,7 +4,7 @@
 @inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
 
-<h1>Thread</h1>
+
 <script type="text/javascript">
     $(document).ready(function () {
         @*
@@ -19,13 +19,14 @@
                 contentType: "application/json",
                 success: function (result) {    @*If the response from the contoler is correct then do the following*@
                     $('#likeNumber').html(result);
+                    console.log(result);
                 },
                 error: function (err) {
                     console.log("Error: " + err);
                 }
             })
         });
-        @*need a unlike btn here*@
+        @*unlike btn here*@
         $('#disLikeBtn').click(function () {
             $.ajax({
                 type: "POST",
@@ -35,6 +36,7 @@
                 contentType: "application/json",
                 success: function (result) {    @*If the response from the contoler is correct then do the following*@
                     $('#likeNumber').html(result);
+                    console.log(result);
                 },
                 error: function (err) {
                     console.log("Error: " + err);
@@ -43,41 +45,41 @@
         });
     });
 </script>
-<div class="card-deck">
-    <p>Title : @Model.Title</p>
-    <p>Created : @Model.Created</p>
-    <p>Description : @Model.Description</p>
-    <img src="@Model.Picture" style="width: 20%; height:20%" />
-    @*Checks if the user is the create of the thread if so show; Edit and Delete features*@
-    @if (User.Identity.Name == Model.AuthorUserName)
-    {
-        <a asp-action="Edit" asp-route-threadId="@Model.Id">|Edit|</a>
-        <a asp-action="Delete" asp-route-threadId="@Model.Id">|Delete|</a>
-    }
 
 
-    @if (Model.LikedBy.Count() == 0)
-    {
-        <label for="btn">Like</label>
-        <input type="button" id="likeBtn" />
-    }
-    @foreach (var users in Model.LikedBy)
-    {
-        if (users.UserId == UserManager.GetUserId(User))
+<div class="card" style="margin-top:2%">
+    <div class="card-header">
+        <h3>@Model.Title</h3>
+    </div>
+    <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 20%; height:20%">
+    <div class="card-body">
+        <h5 class="card-title">Likes: @Model.Rating</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h6>
+        <p class="card-text">@Model.Description</p>
+        @if (Model.LikedBy.Count() == 0)
         {
-            <label for="btn">Dislike</label>
-            <input type="button" id="disLikeBtn" />
-
+    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
         }
-        else
+        @foreach (var users in Model.LikedBy)
         {
-            <label for="btn">Like</label>
-            <input type="button" id="likeBtn" />
+            if (users.UserId == UserManager.GetUserId(User))
+            {
+                <button type="button" id="disLikeBtn" class="btn btn-primary" >Unlike</button>
+
+            }
+            else
+            {
+                <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+            }
         }
-    }
-
-
-
-
-    Like Number: <div id="likeNumber">@Model.Rating</div>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted">
+            @if (User.Identity.Name == Model.AuthorUserName)
+            {
+                <a asp-action="Edit" asp-route-threadId="@Model.Id">Edit</a>
+                <a asp-action="Delete" asp-route-threadId="@Model.Id">Delete</a>
+            }
+        </small>
+    </div>
 </div>
