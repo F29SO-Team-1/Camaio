@@ -42,19 +42,20 @@ namespace Login.Controllers
             var thread = _service.GetById(id);
             if (thread == null) return NotFound(); //if the thread number does not exist then not found
             //make a list of users that liked the thread
-
+            var listOfLikes = _service.ListOfLikes(id);
 
             //make a view model for the thread
             var model = new ThreadModel
             {
                 Id = thread.ID,
                 AuthorId = thread.UserID,
+                AuthorUserName = thread.UserName,
                 Created = thread.CreateDate,
                 Description = thread.Description,
                 Picture = thread.Image,
                 Title = thread.Title,
                 Rating = thread.Votes,
-                AuthorUserName = thread.UserName
+                LikedBy = listOfLikes
             };
             return View(model);
         }
@@ -63,13 +64,22 @@ namespace Login.Controllers
         public async Task<IActionResult> RatingIncrement([FromBody] int? id)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
-            LoginUser user = new LoginUser { Id = userId };
-            if (id == null) NotFound();
-            //add the user that pressed the button to the list of liked on the thread
-            await _service.AddUserToLikeList(id, user);
-            await _service.IncrementRating(id); //this increments the vote
+            var wholeThread = _service.GetById(id);
             var thread = _service.GetById(id).Votes; // gets the votes from the current thread
-            return Json(thread);    //makes a json with the amount of votes that are currently in the database
+            if (id == null) NotFound();
+            //check if the user already pressed the btn
+            if (_service.CheckAreadyLiked(wholeThread, userId) == true)
+            {
+                return Json(thread);
+            }
+            else
+            {
+                //add the user that pressed the button to the list of liked on the thread
+                await _service.AddUserToLikeList(id, userId);
+                await _service.IncrementRating(id); //this increments the vote
+                return Json(_service.GetById(id).Votes);    //makes a json with the amount of votes that are currently in the database
+            }
+            
         }
 
         // Visual to the website

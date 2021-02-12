@@ -19,6 +19,26 @@ namespace Login.Migrations.Thread
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Login.Models.Likes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ThreadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ThreadID");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("Login.Models.Thread", b =>
                 {
                     b.Property<int>("ID")
@@ -50,6 +70,13 @@ namespace Login.Migrations.Thread
                     b.HasKey("ID");
 
                     b.ToTable("Thread");
+                });
+
+            modelBuilder.Entity("Login.Models.Likes", b =>
+                {
+                    b.HasOne("Login.Models.Thread", "Thread")
+                        .WithMany("LikedBy")
+                        .HasForeignKey("ThreadID");
                 });
 #pragma warning restore 612, 618
         }

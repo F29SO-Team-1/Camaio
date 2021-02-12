@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Login.Areas.Identity.Data;
 using Login.Models;
-using Login.Models.Threadl;
 
 namespace Login.Data
 {
@@ -33,6 +31,8 @@ namespace Login.Data
         //upload image function
         Task UploadPicture(int threadId, Uri pic);
 
-        Task AddUserToLikeList(int? threadId, LoginUser userId);
+        bool CheckAreadyLiked(Thread threadId, string userId);
+        Task AddUserToLikeList(int? threadId, string userId);
+        IEnumerable<Likes> ListOfLikes(int? threadId);
     }
 }

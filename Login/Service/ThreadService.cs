@@ -98,19 +98,39 @@ namespace Login.Service
             return _context.Threads.Any(x => x.ID == id);
         }
 
-        public LoginUser LikeThread(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task AddUserToLikeList(int? threadId, LoginUser userId)
+        public async Task AddUserToLikeList(int? threadId, string userId)
         {
             var thread = GetById(threadId);
             //add user to a list
-            _context.Add(userId.Likes);
-            _context.Update(thread);
+            var liked = new Likes 
+            { 
+                Thread = thread,
+                UserId = userId
+            };
+            _context.Likes.Add(liked);
             await _context.SaveChangesAsync();
         }
 
+        public bool CheckAreadyLiked(Thread threadId, string userId)
+        {
+            var record = _context.Likes
+                .Where(like => like.UserId == userId)
+                .Where(l => l.Thread == threadId);
+
+            if (record.Count() == 0)
+            {
+                return false;
+            } 
+            else
+            {
+                return true;
+            }
+
+        }
+
+        public IEnumerable<Likes> ListOfLikes(int? threadId)
+        {
+            return _context.Likes.Where(l => l.Thread.ID == threadId);
+        }
     }
 }

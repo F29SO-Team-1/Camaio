@@ -1,4 +1,7 @@
-﻿@model Login.Models.Threadl.ThreadModel
+﻿@using Microsoft.AspNetCore.Identity
+@using Login.Areas.Identity.Data
+@model Login.Models.Threadl.ThreadModel
+@inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
 
 <h1>Thread</h1>
@@ -22,6 +25,7 @@
                 }
             })
         });
+        @*need a unlike btn here*@
     });
 </script>
 <div class="card-deck">
@@ -36,7 +40,29 @@
         <a asp-action="Delete" asp-route-threadId="@Model.Id">|Delete|</a>
     }
 
-    <input type="button" id="likeBtn" />
+
+    @if (Model.LikedBy.Count() == 0)
+    {
+        <label for="btn">Like</label>
+        <input type="button" id="likeBtn" />
+    }
+    @foreach (var users in Model.LikedBy)
+    {
+        if (users.UserId == UserManager.GetUserId(User))
+        {
+            <label for="btn">Dislike</label>
+            <input type="button" id="UnlikeBtn" />
+
+        }
+        else
+        {
+            <label for="btn">Like</label>
+            <input type="button" id="likeBtn" />
+        }
+    }
+
+
+
 
     Like Number: <div id="likeNumber">@Model.Rating</div>
 </div>

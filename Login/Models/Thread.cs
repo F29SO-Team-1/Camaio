@@ -20,6 +20,6 @@ namespace Login.Models
         public DateTime CreateDate { get; set; }
         public int Votes { get; set; }
 
-        public IEnumerable<LoginUser> LikedBy { get; set; }
+        public IEnumerable<Likes> LikedBy { get; set; }
     }
 }
