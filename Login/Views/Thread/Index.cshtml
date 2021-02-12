@@ -4,8 +4,9 @@
 @inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
 
-
-<script type="text/javascript">
+@section Scripts
+{
+    <script type="text/javascript">
     $(document).ready(function () {
         @*
             When the Like button is pressed do the following Ajax call
@@ -44,7 +45,9 @@
             })
         });
     });
-</script>
+    </script>
+}
+
 
 
 <div class="card" style="margin-top:2%">
@@ -58,13 +61,13 @@
         <p class="card-text">@Model.Description</p>
         @if (Model.LikedBy.Count() == 0)
         {
-    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+            <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
         }
         @foreach (var users in Model.LikedBy)
         {
             if (users.UserId == UserManager.GetUserId(User))
             {
-                <button type="button" id="disLikeBtn" class="btn btn-primary" >Unlike</button>
+                <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>
 
             }
             else
