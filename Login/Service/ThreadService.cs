@@ -1,6 +1,7 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,16 +76,6 @@ namespace Login.Service
             await _context.SaveChangesAsync();
         }
 
-        public Task UpdateDescription(int threadId, string newDescription)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateThreadTitle(int threadId, string newTitle)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task UploadPicture(int threadId, Uri pic)
         {
             var thread = GetById(threadId);
@@ -110,7 +101,6 @@ namespace Login.Service
             _context.Likes.Add(liked);
             await _context.SaveChangesAsync();
         }
-
         public bool CheckAreadyLiked(Thread threadId, string userId)
         {
             var record = _context.Likes
@@ -127,10 +117,32 @@ namespace Login.Service
             }
 
         }
-
         public IEnumerable<Likes> ListOfLikes(int? threadId)
         {
             return _context.Likes.Where(l => l.Thread.ID == threadId);
         }
+
+        public async Task DecreaseRating(int? threadId)
+        {
+            var thread = GetById(threadId);
+            thread.Votes -= 1;
+            _context.Update(thread);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveUserFromLikeList(int? threadId, string userId)
+        {
+            var thread = GetById(threadId);
+            //remove from list
+            var liked = await _context.Likes
+                .Where(x => x.Thread.ID == threadId)
+                .Where(x=> x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            _context.Likes.Remove(liked);
+            await _context.SaveChangesAsync();
+        }
+
+        
     }
 }

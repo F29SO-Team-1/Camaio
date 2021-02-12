@@ -82,6 +82,27 @@ namespace Login.Controllers
             
         }
 
+        public async Task<IActionResult> RatingDecrease([FromBody]int? id)
+        {
+            var userId = _userManager.GetUserId(User);  //gets the usersId
+            var wholeThread = _service.GetById(id);
+            var thread = _service.GetById(id).Votes; // gets the votes from the current thread
+            if (id == null) NotFound();
+            if (_service.CheckAreadyLiked(wholeThread, userId) == true)
+            {
+                //decrease the rating
+                await _service.DecreaseRating(id);
+                //remove the user from the table
+                await _service.RemoveUserFromLikeList(id, userId);
+                //show the decerase 
+                return Json(_service.GetById(id).Votes);
+            }
+            else
+            {
+                return Json(thread);    //makes a json with the amount of votes that are currently in the database
+            }
+        }
+
         // Visual to the website
         [Authorize]
         public IActionResult Create()

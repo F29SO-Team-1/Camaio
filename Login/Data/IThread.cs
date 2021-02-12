@@ -23,16 +23,19 @@ namespace Login.Data
         //edit of the thread
         Task Edit(Thread thread);
         //delete of a thread
-        Task Delete(int? threadId);
-
-        //like functions
-        Task IncrementRating(int? threadId);
-
+        Task Delete(int? threadId);     
         //upload image function
         Task UploadPicture(int threadId, Uri pic);
 
+        //btn work
+        //like
+        Task IncrementRating(int? threadId);
         bool CheckAreadyLiked(Thread threadId, string userId);
         Task AddUserToLikeList(int? threadId, string userId);
         IEnumerable<Likes> ListOfLikes(int? threadId);
+
+        //disLike
+        Task RemoveUserFromLikeList(int? threadId, string userId);
+        Task DecreaseRating(int? threadId);
     }
 }

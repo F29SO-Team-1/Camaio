@@ -26,6 +26,21 @@
             })
         });
         @*need a unlike btn here*@
+        $('#disLikeBtn').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Thread/RatingDecrease",
+                dataType: 'JSON',
+                data: JSON.stringify(@Model.Id), @*Passes the current Id of the thread*@
+                contentType: "application/json",
+                success: function (result) {    @*If the response from the contoler is correct then do the following*@
+                    $('#likeNumber').html(result);
+                },
+                error: function (err) {
+                    console.log("Error: " + err);
+                }
+            })
+        });
     });
 </script>
 <div class="card-deck">
@@ -51,7 +66,7 @@
         if (users.UserId == UserManager.GetUserId(User))
         {
             <label for="btn">Dislike</label>
-            <input type="button" id="UnlikeBtn" />
+            <input type="button" id="disLikeBtn" />
 
         }
         else
