@@ -61,7 +61,8 @@ namespace Login.Controllers
                 ProfileImageUrl = user.ProfileImageUrl,
                 MemmberSince = user.MemberSince,
                 Threads = threads,
-                Channels = channels
+                Channels = channels,
+                
             };
             return View(model);
         }
@@ -87,7 +88,8 @@ namespace Login.Controllers
                 Created = threads.CreateDate,
                 Picture = threads.Image,
                 AuthorUserName = threads.UserName,
-                Rating = threads.Votes
+                Rating = threads.Votes,
+                Id = threads.ID
             });
         }
 
