@@ -18,17 +18,9 @@
             {
                 <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
             }
-            @foreach (var users in Model.LikedBy)
-            {
-                if (users.UserId == UserManager.GetUserId(User))
-                {
-                    <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>
-                }
-                else
-                {
-                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
-                }
-            }
+            @*buttons for like and dislike*@               
+            <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>  
+            <button type="button" id="likeBtn" class="btn btn-primary">Like</button>  
         </div>
     </div>
     <div class="card-footer">
