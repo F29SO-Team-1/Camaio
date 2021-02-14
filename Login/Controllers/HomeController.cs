@@ -32,7 +32,8 @@ namespace Login.Controllers
                 Rating = threads.Votes,
                 Description = threads.Description,
                 Created = threads.CreateDate,
-                Picture = threads.Image
+                Picture = threads.Image,
+                Id = threads.ID
             });
 
             var threadList= new ThreadList { ThreadLists = threadModel };

@@ -23,13 +23,15 @@
             <div class="form-group">
                 <label asp-for="Picture">Picture: </label>
                 <span asp-validation-for="Picture"></span>
-                <input asp-for="Picture" type="file" id="file" name="file"/>
+                <input asp-for="Picture" type="file" id="file" name="file" />
             </div>
-            <br/>
+            <br />
             <button type="submit" id="btn-light submitThreadBtn" class="btn btn-light btn-submitThread">
                 Submit
             </button>
             <input asp-for="AuthorId" type="hidden">
+            <input asp-for="Created" type="hidden">
+            <input asp-for="AuthorUserName" type="hidden">
         </form>
     </div>
 </div>

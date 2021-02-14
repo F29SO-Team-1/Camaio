@@ -23,12 +23,16 @@
             @if (thread.Picture == null) continue;
              //loops through the db and displays it
         <tr>
-            <th>@thread.Title</th>
+            <th>
+                <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                    @thread.Title
+                </a>
+            </th>
             <th>@thread.Rating</th>
             <td>@thread.Created</td>
             <td>@thread.Description</td>
             <td>
-                <img src="@thread.Picture" alt="Image" />
+                <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
             </td>
         </tr>
         }

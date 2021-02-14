@@ -4,40 +4,22 @@ using Login.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Login.Migrations.Thread
 {
     [DbContext(typeof(ThreadContext))]
-    partial class ThreadContextModelSnapshot : ModelSnapshot
+    [Migration("20210208102313_ThreadsUserName")]
+    partial class ThreadsUserName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Login.Models.Likes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ThreadID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ThreadID");
-
-                    b.ToTable("Likes");
-                });
 
             modelBuilder.Entity("Login.Models.Thread", b =>
                 {
@@ -70,13 +52,6 @@ namespace Login.Migrations.Thread
                     b.HasKey("ID");
 
                     b.ToTable("Thread");
-                });
-
-            modelBuilder.Entity("Login.Models.Likes", b =>
-                {
-                    b.HasOne("Login.Models.Thread", "Thread")
-                        .WithMany("LikedBy")
-                        .HasForeignKey("ThreadID");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,5 +14,6 @@ namespace Login.Areas.Identity.Data
         public string Ratting { get;  set; }
         public DateTime MemberSince { get; internal set; }
         public ICollection<ChannelMember> ChannelMembers { get; set; }
+        public Thread Likes { get; set; }
     }
 }

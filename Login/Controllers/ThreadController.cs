@@ -1,77 +1,111 @@
-﻿using Login.Data;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using Microsoft.Extensions.Configuration;
-using Login.Models.Threadl;
-using System.Threading.Tasks;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
 using Login.Models;
-using Microsoft.AspNetCore.Identity;
-using Login.Areas.Identity.Data;
-using System;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
+using Login.Models.Threadl;
 using Login.Service;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+
 
 namespace Login.Controllers
 {
     public class ThreadController : Controller
     {
         private readonly IThread _service;
-        private readonly ThreadContext _context;
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
 
-        public ThreadController(IThread thread, 
-            ThreadContext context, 
-            IConfiguration configuration, 
-            UserManager<LoginUser> userManager, 
+        public ThreadController(IThread thread,
+            IConfiguration configuration,
+            UserManager<LoginUser> userManager,
             IUpload uploadService)
         {
             _service = thread;
-            _context = context;
             _configuration = configuration;
             _userManager = userManager;
             _uploadService = uploadService;
         }
 
         [Route("Thread/{id?}")]
-        //To view ONE thread whatever
+        //To view ONE thread
         public IActionResult Index(int? id)
         {
             //get the id of the thread
             var thread = _service.GetById(id);
-
-            //TODO Replies
+            if (thread == null) return NotFound(); //if the thread number does not exist then not found
+            //make a list of users that liked the thread
+            var listOfLikes = _service.ListOfLikes(id);
 
             //make a view model for the thread
             var model = new ThreadModel
             {
                 Id = thread.ID,
                 AuthorId = thread.UserID,
+                AuthorUserName = thread.UserName,
                 Created = thread.CreateDate,
                 Description = thread.Description,
                 Picture = thread.Image,
                 Title = thread.Title,
-                Rating = thread.Votes
+                Rating = thread.Votes,
+                LikedBy = listOfLikes
             };
-
             return View(model);
         }
 
-
-        /*public IActionResult RatingIncrement(int? id)
+        //takes in a ajax call from the view, returns a JSON back to the view, the like btn
+        public async Task<IActionResult> RatingIncrement([FromBody] int? id)
         {
-            _service.IncrementRating(id);
-            //return View();
-        }*/
+            var userId = _userManager.GetUserId(User);  //gets the usersId
+            var wholeThread = _service.GetById(id);
+            var thread = _service.GetById(id).Votes; // gets the votes from the current thread
+            if (id == null) NotFound();
+            //check if the user already pressed the btn
+            if (_service.CheckAreadyLiked(wholeThread, userId) == true)
+            {
+                return Json(thread);
+            }
+            else
+            {
+                //add the user that pressed the button to the list of liked on the thread
+                await _service.AddUserToLikeList(id, userId);
+                await _service.IncrementRating(id); //this increments the vote
+                return Json(_service.GetById(id).Votes);    //makes a json with the amount of votes that are currently in the database
+            }
+            
+        }
+
+        public async Task<IActionResult> RatingDecrease([FromBody]int? id)
+        {
+            var userId = _userManager.GetUserId(User);  //gets the usersId
+            var wholeThread = _service.GetById(id);
+            var thread = _service.GetById(id).Votes; // gets the votes from the current thread
+            if (id == null) NotFound();
+            if (_service.CheckAreadyLiked(wholeThread, userId) == true)
+            {
+                //decrease the rating
+                await _service.DecreaseRating(id);
+                //remove the user from the table
+                await _service.RemoveUserFromLikeList(id, userId);
+                //show the decerase 
+                return Json(_service.GetById(id).Votes);
+            }
+            else
+            {
+                return Json(thread);    //makes a json with the amount of votes that are currently in the database
+            }
+        }
 
         // Visual to the website
         [Authorize]
-        public IActionResult Create() //id is the username
+        public IActionResult Create()
         {
             return View();
         }
@@ -79,16 +113,18 @@ namespace Login.Controllers
         //Get request, View
         public IActionResult Edit(int? threadId)
         {
-            if (threadId == null) return NotFound();
-
-            var thread = _service.GetById(threadId);
-            if (thread == null) return NotFound();
+            var userName = _userManager.GetUserName(User); //gets the usersName
+            if (threadId == null) return NotFound();    //check if the threadId is passed as a param
+            var thread = _service.GetById(threadId);    //gets the thread Id
+            if (thread == null) return NotFound();      //check if the thread is a real thread
+            if (thread.UserName != userName) return NotFound();
 
             return View(thread);
         }
 
         // does the post to the db
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Thread thread)
         {
             if (thread == null) return NotFound();
@@ -101,7 +137,7 @@ namespace Login.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_service.ThreadExists(thread.ID)) return NotFound(); 
+                    if (!_service.ThreadExists(thread.ID)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction("Index", "Thread", new { @id = thread.ID });
@@ -116,36 +152,17 @@ namespace Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddThread(Thread model, IFormFile file)
         {
-            var userId = _userManager.GetUserId(User);
-            var user = await _userManager.FindByIdAsync(userId);
-
-            var thread = BuildThread(model, user);
-
-            _context.Add(thread);
-
-            await _context.SaveChangesAsync();
-
-            await UploadTreadImage(file, thread.ID);
-            //TODO User score HERE
-
-            return RedirectToAction("Index", "Thread", new { @id = thread.ID });
+            var userId = _userManager.GetUserId(User);  //gets the usersId
+            var user = await _userManager.FindByIdAsync(userId);    //gets the userName
+            var thread = _service.Create(model, user);  //creates the thread
+            var threadId = thread.Result.ID;    //gets the Threads id
+            await UploadThreadImage(file, threadId);    //uploads the threadImage
+            return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
         }
 
-        private Thread BuildThread(Thread model, LoginUser user)
-        {
-            return new Thread
-            {
-                Title = model.Title,
-                CreateDate = DateTime.Now,
-                Description = model.Description,
-                ID = model.ID,
-                UserID = user.Id,
-                Votes = model.Votes
-            };
-        }
-
+        //Uploads the Image to the Azure blob container
         [HttpPost]
-        public async Task<IActionResult> UploadTreadImage(IFormFile file, int id)
+        public async Task<IActionResult> UploadThreadImage(IFormFile file, int id)
         {
             var thread = _service.GetById(id);
             //connect to azure account container
@@ -164,6 +181,23 @@ namespace Login.Controllers
             await _service.UploadPicture(thread.ID, blockBlob.Uri);
 
             return RedirectToAction("Index", "Profile");
+        }
+
+        //functions for displaying the Delete thread page
+        public IActionResult Delete(int? threadId)
+        {
+            var userName = _userManager.GetUserName(User);
+            var thread = _service.GetById(threadId);
+            if (thread.UserName != userName) return NotFound();
+            return View(thread);
+        }
+
+        //action of deleting the thread
+        public async Task<IActionResult> DeleteThread(int? id)
+        {
+            if (id == null) return NotFound();
+            await _service.Delete(id);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

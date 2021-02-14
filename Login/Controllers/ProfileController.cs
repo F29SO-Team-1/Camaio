@@ -46,9 +46,9 @@ namespace Login.Controllers
         public IActionResult Index(string username)
         {
             var user = _userService.GetByUserName(username);
-            var userId = _userManager.GetUserId(User);
             //want a list of threads, tick
-            var threads = BuildThreadList(userId);
+            // threads will only display if you press your username when logged in button other wise it will not display the users threads
+            var threads = BuildThreadList(username);
             //want a list of channels that the user is part of, tick
             var channels = BuildChannelsList(username);
 
@@ -61,7 +61,8 @@ namespace Login.Controllers
                 ProfileImageUrl = user.ProfileImageUrl,
                 MemmberSince = user.MemberSince,
                 Threads = threads,
-                Channels = channels
+                Channels = channels,
+                
             };
             return View(model);
         }
@@ -78,15 +79,17 @@ namespace Login.Controllers
         }
 
         //makes the model to me passed in the view
-        private IEnumerable<ThreadModel> BuildThreadList(string userId)
+        private IEnumerable<ThreadModel> BuildThreadList(string userName)
         {
-            return _threadService.UserThreads(userId).Select(threads => new ThreadModel
+            return _threadService.UserThreads(userName).Select(threads => new ThreadModel
             {
-                Id = threads.ID,
                 Title = threads.Title,
                 Description = threads.Description,
                 Created = threads.CreateDate,
-                Picture = threads.Image
+                Picture = threads.Image,
+                AuthorUserName = threads.UserName,
+                Rating = threads.Votes,
+                Id = threads.ID
             });
         }
 

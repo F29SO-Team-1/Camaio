@@ -1,5 +1,7 @@
-﻿using Login.Data;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
 using Login.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +18,30 @@ namespace Login.Service
             _context = context;
         }
 
-        public Task Create(Thread thread)
+        public async Task<Thread> Create(Thread model, LoginUser user)
         {
-            throw new NotImplementedException();
+            var thread = new Thread
+            {
+                Title = model.Title,
+                CreateDate = DateTime.Now,
+                Description = model.Description,
+                ID = model.ID,
+                UserID = user.Id,
+                Votes = model.Votes,
+                UserName = user.UserName
+            };
+
+            _context.Add(thread);
+            await _context.SaveChangesAsync();
+            return thread;
         }
 
-        public Task Delete(int threadId)
+
+        public async Task Delete(int? threadId)
         {
-            throw new NotImplementedException();
+            var threadPrimaryKey = await _context.Threads.FindAsync(threadId);
+            _context.Threads.Remove(threadPrimaryKey);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Edit(Thread thread)
@@ -46,26 +64,16 @@ namespace Login.Service
         //list of all users post
         public IEnumerable<Thread> UserThreads(string userName)
         {
-            return GetAll().Where(thread => thread.UserID == userName);
+            return GetAll().Where(thread => thread.UserName == userName);
         }
 
         //adds +1 to when you press the button
         public async Task IncrementRating(int? threadId)
         {
             var thread = GetById(threadId);
-            thread.Votes = thread.Votes + 1;
+            thread.Votes += 1;
             _context.Update(thread);
             await _context.SaveChangesAsync();
-        }
-
-        public Task UpdateDescription(int threadId, string newDescription)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateThreadTitle(int threadId, string newTitle)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task UploadPicture(int threadId, Uri pic)
@@ -80,5 +88,61 @@ namespace Login.Service
         {
             return _context.Threads.Any(x => x.ID == id);
         }
+
+        public async Task AddUserToLikeList(int? threadId, string userId)
+        {
+            var thread = GetById(threadId);
+            //add user to a list
+            var liked = new Likes 
+            { 
+                Thread = thread,
+                UserId = userId
+            };
+            _context.Likes.Add(liked);
+            await _context.SaveChangesAsync();
+        }
+        public bool CheckAreadyLiked(Thread threadId, string userId)
+        {
+            var record = _context.Likes
+                .Where(like => like.UserId == userId)
+                .Where(l => l.Thread == threadId);
+
+            if (record.Count() == 0)
+            {
+                return false;
+            } 
+            else
+            {
+                return true;
+            }
+
+        }
+        public IEnumerable<Likes> ListOfLikes(int? threadId)
+        {
+            return _context.Likes.Where(l => l.Thread.ID == threadId);
+        }
+
+        public async Task DecreaseRating(int? threadId)
+        {
+            var thread = GetById(threadId);
+            thread.Votes -= 1;
+            _context.Update(thread);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveUserFromLikeList(int? threadId, string userId)
+        {
+            var thread = GetById(threadId);
+            //remove from list
+            var liked = await _context.Likes
+                .Where(x => x.Thread.ID == threadId)
+                .Where(x=> x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            _context.Likes.Remove(liked);
+            await _context.SaveChangesAsync();
+        }
+
+        
     }
 }

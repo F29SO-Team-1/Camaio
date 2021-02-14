@@ -21,10 +21,10 @@ namespace Login.Models.Threadl
         public DateTime Created { get; set; }
 
         public string AuthorId { get; set; }
-
+        public string AuthorUserName { get; set; }
 
         public int Rating { get; set; }
-        public IEnumerable<LoginUser> LikedBy { get; set; }
+        public IEnumerable<Likes> LikedBy { get; set; }
 
     }
 }
