@@ -11,7 +11,7 @@ namespace Login.Areas.Identity.Data
     public class LoginUser : IdentityUser
     {
         public string ProfileImageUrl { get;  set; }
-        public string Ratting { get;  set; }
+        public int Ratting { get;  set; }
         public DateTime MemberSince { get; internal set; }
         public ICollection<ChannelMember> ChannelMembers { get; set; }
         public Thread Likes { get; set; }

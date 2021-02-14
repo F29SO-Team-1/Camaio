@@ -1,5 +1,7 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
+using Login.Models;
+using Login.Models.Threadl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +32,14 @@ namespace Login.Service
             return GetAll().FirstOrDefault(u => u.UserName == username);
         }
 
-        public Task IncrementRating(string id, Type type)
+        public int GetRatting(string username, IEnumerable<ThreadModel> threadList)
         {
-            throw new NotImplementedException();
+            var user = GetByUserName(username);
+            foreach (var post in threadList)
+            {
+                user.Ratting += post.Rating;
+            }
+            return user.Ratting;
         }
 
         public async Task SetProfileImage(string username, Uri uri)

@@ -1,7 +1,7 @@
 ﻿using Login.Areas.Identity.Data;
+using Login.Models.Threadl;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Login.Data
@@ -13,7 +13,7 @@ namespace Login.Data
         LoginUser GetByUserName(string username);
         IEnumerable<LoginUser> GetAll();
 
-        Task IncrementRating(string id, Type type);
+        int GetRatting(string username, IEnumerable<ThreadModel> threadList);
 
         Task SetProfileImage(string id, Uri uri);
     }

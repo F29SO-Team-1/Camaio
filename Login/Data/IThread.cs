@@ -38,5 +38,9 @@ namespace Login.Data
         //disLike
         Task RemoveUserFromLikeList(int? threadId, string userId);
         Task DecreaseRating(int? threadId);
+
+        // SCORE
+        //top threads
+        Task GetTopPost(Thread thread);
     }
 }
