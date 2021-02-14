@@ -35,11 +35,19 @@ namespace Login.Service
         public int GetRatting(string username, IEnumerable<ThreadModel> threadList)
         {
             var user = GetByUserName(username);
+            user.Ratting = 0;
             foreach (var post in threadList)
             {
                 user.Ratting += post.Rating;
             }
+            UpdateUser(user);
             return user.Ratting;
+        }
+
+        public void UpdateUser(LoginUser user)
+        {
+            _context.Update(user);
+            _context.SaveChanges();
         }
 
         public async Task SetProfileImage(string username, Uri uri)
@@ -48,6 +56,6 @@ namespace Login.Service
             user.ProfileImageUrl = uri.AbsoluteUri;
             _context.Update(user);
             await _context.SaveChangesAsync();
-        }
+        }  
     }
 }

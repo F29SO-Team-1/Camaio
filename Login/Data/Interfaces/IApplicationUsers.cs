@@ -14,6 +14,7 @@ namespace Login.Data
         IEnumerable<LoginUser> GetAll();
 
         int GetRatting(string username, IEnumerable<ThreadModel> threadList);
+        void UpdateUser(LoginUser user);
 
         Task SetProfileImage(string id, Uri uri);
     }
