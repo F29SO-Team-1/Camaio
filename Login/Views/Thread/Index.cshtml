@@ -4,52 +4,6 @@
 @inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
 
-@section Scripts
-{
-    <script type="text/javascript">
-    $(document).ready(function () {
-        @*
-            When the Like button is pressed do the following Ajax call
-        *@
-        $('#likeBtn').click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Thread/RatingIncrement",
-                dataType: 'JSON',
-                data: JSON.stringify(@Model.Id), @*Passes the current Id of the thread*@
-                contentType: "application/json",
-                success: function (result) {    @*If the response from the contoler is correct then do the following*@
-                    $('#like').html(result);
-                    console.log(result);
-                },
-                error: function (err) {
-                    console.log("Error: " + err);
-                }
-            })
-        });
-        @*unlike btn here*@
-        $('#disLikeBtn').click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Thread/RatingDecrease",
-                dataType: 'JSON',
-                data: JSON.stringify(@Model.Id), @*Passes the current Id of the thread*@
-                contentType: "application/json",
-                success: function (result) {    @*If the response from the contoler is correct then do the following*@
-                    $('#like').html(result);
-                    console.log(result);
-                },
-                error: function (err) {
-                    console.log("Error: " + err);
-                }
-            })
-        });
-    });
-    </script>
-}
-
-
-
 <div class="card" style="margin-top:2%">
     <div class="card-header">
         <h3>@Model.Title</h3>
@@ -59,22 +13,23 @@
         <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>
         <h6 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h6>
         <p class="card-text">@Model.Description</p>
-        @if (Model.LikedBy.Count() == 0)
-        {
-            <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
-        }
-        @foreach (var users in Model.LikedBy)
-        {
-            if (users.UserId == UserManager.GetUserId(User))
-            {
-                <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>
-
-            }
-            else
+        <div id="likeSection">
+            @if (Model.LikedBy.Count() == 0)
             {
                 <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
             }
-        }
+            @foreach (var users in Model.LikedBy)
+            {
+                if (users.UserId == UserManager.GetUserId(User))
+                {
+                    <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>
+                }
+                else
+                {
+                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                }
+            }
+        </div>
     </div>
     <div class="card-footer">
         <small class="text-muted">
@@ -86,3 +41,52 @@
         </small>
     </div>
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready (function () {
+
+            @*like btn here*@
+            $('#likeBtn').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Thread/RatingIncrement",
+                    dataType: 'JSON',
+                    data: JSON.stringify(@Model.Id), @*Passes the current Id of the thread*@
+                    contentType: "application/json",
+                    success: function (result) {    @*If the response from the contoler is correct then do the following*@
+                        $('#like').html(result);
+                        console.log(result);
+                    },
+                    error: function (err) {
+                        console.log("Error: " + err);
+                    }
+                })
+                @*document.getElementById("disLikeBtn").innerHTML = 'Unlike';
+                console.log("there we go");*@
+            });
+
+            @*unlike btn here*@
+            $('#disLikeBtn').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Thread/RatingDecrease",
+                    dataType: 'JSON',
+                    data: JSON.stringify(@Model.Id), @*Passes the current Id of the thread*@
+                    contentType: "application/json",
+                    success: function (result) {    @*If the response from the contoler is correct then do the following*@
+                        $('#like').html(result);
+                        console.log(result);
+                    },
+                    error: function (err) {
+                        console.log("Error: " + err);
+                    }
+                })
+                @*document.getElementById("likeBtn").innerHTML = 'Like';
+                console.log("there we go");*@
+            });
+        });
+
+    </script>
+}
