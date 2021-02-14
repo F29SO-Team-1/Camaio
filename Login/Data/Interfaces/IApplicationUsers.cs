@@ -17,5 +17,6 @@ namespace Login.Data
         void UpdateUser(LoginUser user);
 
         Task SetProfileImage(string id, Uri uri);
+
     }
 }

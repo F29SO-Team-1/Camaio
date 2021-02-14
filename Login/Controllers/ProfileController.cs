@@ -68,6 +68,23 @@ namespace Login.Controllers
             };
             return View(model);
         }
+        
+        [Route("Score/Users")]
+        public IActionResult Scores()
+        {
+            var userModel = _userService.GetAll().Select(user => new ProfileModel
+            {
+                ProfileImageUrl = user.ProfileImageUrl,
+                Username = user.UserName,
+                UserRating = user.Ratting
+            })
+                .OrderByDescending(x => x.UserRating)
+                .ToList(); ;
+
+            var userList = new ProfileModelList { ProfileList = userModel };
+
+            return View(userList);
+        }
 
         private IEnumerable<ChannelModel> BuildChannelsList(string username)
         {

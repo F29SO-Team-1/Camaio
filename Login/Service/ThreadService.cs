@@ -143,22 +143,5 @@ namespace Login.Service
             await _context.SaveChangesAsync();
         }
 
-        public Task GetTopPost(Thread thread)
-        {
-            throw new NotImplementedException();
-        }
-
-        //will return top 15 threads
-        /*public Task GetTopPost(Thread thread)
-        {
-            var top = 0;
-            var limit = 15;
-            List<Thread> topThreads;
-            foreach (var threads in GetAll())
-            {
-
-                topThreads.Add(threads);
-            }
-        }*/
     }
 }

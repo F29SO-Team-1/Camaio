@@ -56,6 +56,7 @@ namespace Login.Service
             user.ProfileImageUrl = uri.AbsoluteUri;
             _context.Update(user);
             await _context.SaveChangesAsync();
-        }  
+        }
+
     }
 }

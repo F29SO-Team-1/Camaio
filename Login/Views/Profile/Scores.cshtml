@@ -1,0 +1,30 @@
+@model Login.Models.ApplicationUser.ProfileModelList
+@{
+    ViewData["Title"] = "Score Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="text-align:center; margin-top:2%">Top Profiles</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Username</th>
+            <th scope="col">Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var users in Model.ProfileList)
+        {
+        <tr>
+            <th>
+                <img src="@users.ProfileImageUrl" alt="Image" style="width: 200px; height:200px;" />
+            </th>
+            <th>
+                @users.Username
+            </th>
+            <th>@users.UserRating</th>
+        </tr>
+        }
+    </tbody>
+</table>

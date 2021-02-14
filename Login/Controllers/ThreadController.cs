@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -58,6 +59,24 @@ namespace Login.Controllers
                 LikedBy = listOfLikes
             };
             return View(model);
+        }
+
+        [Route("Score/Threads")]
+        public IActionResult Scores()
+        {
+            var threadModel = _service.GetAll().Select(threads => new ThreadModel
+            {
+                Title = threads.Title,
+                Rating = threads.Votes,
+                Created = threads.CreateDate,
+                Picture = threads.Image,
+                Id = threads.ID
+            })
+                .OrderByDescending(x => x.Rating)
+                .ToList();
+
+            var threadList = new ThreadList { ThreadLists = threadModel };
+            return View(threadList);
         }
 
         //takes in a ajax call from the view, returns a JSON back to the view, the like btn
