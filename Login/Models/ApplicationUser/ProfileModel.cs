@@ -1,4 +1,5 @@
-﻿using Login.Models.Threadl;
+﻿using Login.Areas.Identity.Data;
+using Login.Models.Threadl;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,9 @@ namespace Login.Models.ApplicationUser
         public IEnumerable<ChannelModel> Channels { get; set; }
 
         public IEnumerable<Thread> Likes { get; set; }
+
+        public IEnumerable<Following> FollowsUser { get; set; } //which users the person follows
+
+        public IEnumerable<Following> UsersFollowed { get; set; } //which people follow this user
     }
 }

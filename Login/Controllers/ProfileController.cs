@@ -19,7 +19,7 @@ namespace Login.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<LoginUser> _userManager;
-        private readonly IApplicationUsers _userService;
+        private readonly IApplicationUsers _service;
         private readonly IConfiguration _configuration;
         private readonly IUpload _uploadService;
         private readonly IThread _threadService;
@@ -35,7 +35,7 @@ namespace Login.Controllers
             )
         {
             _userManager = userManager;
-            _userService = userService;
+            _service = userService;
             _configuration = configuration;
             _uploadService = uploadService;
             _threadService = threadService;
@@ -45,14 +45,16 @@ namespace Login.Controllers
         [Route("Profile/{username}")]
         public IActionResult Index(string username)
         {
-            var user = _userService.GetByUserName(username);
+            var user = _service.GetByUserName(username);
             //want a list of threads, tick
             // threads will only display if you press your username when logged in button other wise it will not display the users threads
             var threads = BuildThreadList(username);
             //want a list of channels that the user is part of, tick
             var channels = BuildChannelsList(username);
             //calc the users Ratting
-            var ratting = _userService.GetRatting(username, threads);
+            var ratting = _service.GetRatting(username, threads);
+
+            var listOfFollower = _service.UsersFollower(username);
 
             var model = new ProfileModel()
             {
@@ -63,16 +65,27 @@ namespace Login.Controllers
                 ProfileImageUrl = user.ProfileImageUrl,
                 MemmberSince = user.MemberSince,
                 Threads = threads,
-                Channels = channels
-                
+                Channels = channels,
+                UsersFollowed = listOfFollower
+
             };
             return View(model);
         }
         
+        
+        public async Task Follow(string id)
+        {
+            //user that presses the button
+            var user = _userManager.GetUserName(User);
+            await _service.Follows(user, id);
+            RedirectToAction("Index", id);
+        }
+
+
         [Route("Score/Users")]
         public IActionResult Scores()
         {
-            var userModel = _userService.GetAll().Select(user => new ProfileModel
+            var userModel = _service.GetAll().Select(user => new ProfileModel
             {
                 ProfileImageUrl = user.ProfileImageUrl,
                 Username = user.UserName,
@@ -130,7 +143,7 @@ namespace Login.Controllers
             //On that block blob, Upload our file <-- file uploaded to the cloud
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
             //set the users profileimage to the URI
-            await _userService.SetProfileImage(userName, blockBlob.Uri);
+            await _service.SetProfileImage(userName, blockBlob.Uri);
             //redirects to the users's profile page
             return RedirectToAction("Index", "Profile", new { username = userName });
         }

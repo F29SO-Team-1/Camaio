@@ -1,4 +1,5 @@
 ﻿using Login.Areas.Identity.Data;
+using Login.Models;
 using Login.Models.Threadl;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,8 @@ namespace Login.Data
 
         Task SetProfileImage(string id, Uri uri);
 
+        Task Follows(string userA, string userB);
+
+        IEnumerable<Following> UsersFollower(string username);
     }
 }

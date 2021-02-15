@@ -38,9 +38,6 @@ namespace Login.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LikesID")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -84,8 +81,6 @@ namespace Login.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LikesID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -156,57 +151,24 @@ namespace Login.Migrations
                     b.ToTable("ChannelMember");
                 });
 
-            modelBuilder.Entity("Login.Models.Likes", b =>
+            modelBuilder.Entity("Login.Models.Following", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ThreadID")
-                        .HasColumnType("int");
+                    b.Property<string>("FollowingUsersId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ThreadID");
+                    b.HasIndex("FollowingUsersId");
 
-                    b.ToTable("Likes");
-                });
-
-            modelBuilder.Entity("Login.Models.Thread", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Votes")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Thread");
+                    b.ToTable("Follow");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -344,13 +306,6 @@ namespace Login.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Login.Areas.Identity.Data.LoginUser", b =>
-                {
-                    b.HasOne("Login.Models.Thread", "Likes")
-                        .WithMany()
-                        .HasForeignKey("LikesID");
-                });
-
             modelBuilder.Entity("Login.Models.ChannelMember", b =>
                 {
                     b.HasOne("Login.Models.Channel", "Channel")
@@ -364,11 +319,11 @@ namespace Login.Migrations
                         .HasForeignKey("LoginUserId");
                 });
 
-            modelBuilder.Entity("Login.Models.Likes", b =>
+            modelBuilder.Entity("Login.Models.Following", b =>
                 {
-                    b.HasOne("Login.Models.Thread", "Thread")
-                        .WithMany("LikedBy")
-                        .HasForeignKey("ThreadID");
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "FollowingUsers")
+                        .WithMany("FollowsUser")
+                        .HasForeignKey("FollowingUsersId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
