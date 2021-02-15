@@ -67,15 +67,6 @@ namespace Login.Service
             return GetAll().Where(thread => thread.UserName == userName);
         }
 
-        //adds +1 to when you press the button
-        public async Task IncrementRating(int? threadId)
-        {
-            var thread = GetById(threadId);
-            thread.Votes += 1;
-            _context.Update(thread);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task UploadPicture(int threadId, Uri pic)
         {
             var thread = GetById(threadId);
@@ -100,6 +91,7 @@ namespace Login.Service
             };
             _context.Likes.Add(liked);
             await _context.SaveChangesAsync();
+            await UpdateLikes(threadId);
         }
         public bool CheckAreadyLiked(Thread threadId, string userId)
         {
@@ -122,14 +114,6 @@ namespace Login.Service
             return _context.Likes.Where(l => l.Thread.ID == threadId);
         }
 
-        public async Task DecreaseRating(int? threadId)
-        {
-            var thread = GetById(threadId);
-            thread.Votes -= 1;
-            _context.Update(thread);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task RemoveUserFromLikeList(int? threadId, string userId)
         {
             var thread = GetById(threadId);
@@ -141,8 +125,15 @@ namespace Login.Service
 
             _context.Likes.Remove(liked);
             await _context.SaveChangesAsync();
+            await UpdateLikes(threadId);
         }
 
-        
+        public async Task UpdateLikes(int? threadId)
+        {
+            Thread t = GetById(threadId);
+            var q = ListOfLikes(threadId).Count();
+            t.Votes = q;
+            await _context.SaveChangesAsync();
+        }
     }
 }

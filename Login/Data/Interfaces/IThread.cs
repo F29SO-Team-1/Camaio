@@ -30,13 +30,13 @@ namespace Login.Data
         //btn work
         bool CheckAreadyLiked(Thread threadId, string userId);
         IEnumerable<Likes> ListOfLikes(int? threadId);
+        Task UpdateLikes(int? threadId);
 
         //like
-        Task IncrementRating(int? threadId);
         Task AddUserToLikeList(int? threadId, string userId);
 
         //disLike
         Task RemoveUserFromLikeList(int? threadId, string userId);
-        Task DecreaseRating(int? threadId);
+
     }
 }

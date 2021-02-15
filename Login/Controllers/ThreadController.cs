@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -43,6 +44,8 @@ namespace Login.Controllers
             if (thread == null) return NotFound(); //if the thread number does not exist then not found
             //make a list of users that liked the thread
             var listOfLikes = _service.ListOfLikes(id);
+            //counts the amount of likes, counts the list 
+            //var count = _service.CountLikes(id);
 
             //make a view model for the thread
             var model = new ThreadModel
@@ -54,52 +57,71 @@ namespace Login.Controllers
                 Description = thread.Description,
                 Picture = thread.Image,
                 Title = thread.Title,
-                Rating = thread.Votes,
+                Rating = listOfLikes.Count(),
                 LikedBy = listOfLikes
             };
             return View(model);
         }
 
+        [Route("Score/Threads")]
+        public IActionResult Scores()
+        {
+            var threadModel = _service.GetAll().Select(threads => new ThreadModel
+            {
+                Title = threads.Title,
+                Rating = threads.Votes,
+                Created = threads.CreateDate,
+                Picture = threads.Image,
+                Id = threads.ID
+            })
+                .OrderByDescending(x => x.Rating)
+                .ToList();
+
+            var threadList = new ThreadList { ThreadLists = threadModel };
+            return View(threadList);
+        }
+
         //takes in a ajax call from the view, returns a JSON back to the view, the like btn
+        [Authorize]
         public async Task<IActionResult> RatingIncrement([FromBody] int? id)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var wholeThread = _service.GetById(id);
-            var thread = _service.GetById(id).Votes; // gets the votes from the current thread
+            //make a list of users that liked the thread
+            var listOfLikes = _service.ListOfLikes(id);
             if (id == null) NotFound();
             //check if the user already pressed the btn
             if (_service.CheckAreadyLiked(wholeThread, userId) == true)
             {
-                return Json(thread);
+                return Json(listOfLikes.Count());
             }
             else
             {
                 //add the user that pressed the button to the list of liked on the thread
                 await _service.AddUserToLikeList(id, userId);
-                await _service.IncrementRating(id); //this increments the vote
-                return Json(_service.GetById(id).Votes);    //makes a json with the amount of votes that are currently in the database
+                wholeThread.Votes = listOfLikes.Count();
+                return Json(listOfLikes.Count());    //makes a json with the amount of votes that are currently in the database
             }
             
         }
-
+        
+        [Authorize]
         public async Task<IActionResult> RatingDecrease([FromBody]int? id)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var wholeThread = _service.GetById(id);
-            var thread = _service.GetById(id).Votes; // gets the votes from the current thread
+            var listOfLikes = _service.ListOfLikes(id);
             if (id == null) NotFound();
             if (_service.CheckAreadyLiked(wholeThread, userId) == true)
             {
-                //decrease the rating
-                await _service.DecreaseRating(id);
                 //remove the user from the table
                 await _service.RemoveUserFromLikeList(id, userId);
                 //show the decerase 
-                return Json(_service.GetById(id).Votes);
+                return Json(listOfLikes.Count());
             }
             else
             {
-                return Json(thread);    //makes a json with the amount of votes that are currently in the database
+                return Json(listOfLikes.Count());    //makes a json with the amount of votes that are currently in the database
             }
         }
 

@@ -33,17 +33,14 @@ namespace Login.Controllers
                 Description = threads.Description,
                 Created = threads.CreateDate,
                 Picture = threads.Image,
-                Id = threads.ID
+                Id = threads.ID,
+                AuthorUserName = threads.UserName
             });
 
             var threadList= new ThreadList { ThreadLists = threadModel };
             return View(threadList);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         /*[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

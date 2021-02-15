@@ -51,20 +51,39 @@ namespace Login.Controllers
             var threads = BuildThreadList(username);
             //want a list of channels that the user is part of, tick
             var channels = BuildChannelsList(username);
+            //calc the users Ratting
+            var ratting = _userService.GetRatting(username, threads);
 
             var model = new ProfileModel()
             {
                 Username = user.UserName,
                 UserId = user.Id,
-                UserRating = user.Ratting,
+                UserRating = ratting,
                 Email = user.Email,
                 ProfileImageUrl = user.ProfileImageUrl,
                 MemmberSince = user.MemberSince,
                 Threads = threads,
-                Channels = channels,
+                Channels = channels
                 
             };
             return View(model);
+        }
+        
+        [Route("Score/Users")]
+        public IActionResult Scores()
+        {
+            var userModel = _userService.GetAll().Select(user => new ProfileModel
+            {
+                ProfileImageUrl = user.ProfileImageUrl,
+                Username = user.UserName,
+                UserRating = user.Ratting
+            })
+                .OrderByDescending(x => x.UserRating)
+                .ToList(); ;
+
+            var userList = new ProfileModelList { ProfileList = userModel };
+
+            return View(userList);
         }
 
         private IEnumerable<ChannelModel> BuildChannelsList(string username)

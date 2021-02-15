@@ -70,8 +70,8 @@ namespace Login.Migrations
                     b.Property<string>("ProfileImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Ratting")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Ratting")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -154,6 +154,26 @@ namespace Login.Migrations
                     b.HasIndex("LoginUserId");
 
                     b.ToTable("ChannelMember");
+                });
+
+            modelBuilder.Entity("Login.Models.Likes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ThreadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ThreadID");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Login.Models.Thread", b =>
@@ -327,7 +347,7 @@ namespace Login.Migrations
             modelBuilder.Entity("Login.Areas.Identity.Data.LoginUser", b =>
                 {
                     b.HasOne("Login.Models.Thread", "Likes")
-                        .WithMany("LikedBy")
+                        .WithMany()
                         .HasForeignKey("LikesID");
                 });
 
@@ -342,6 +362,13 @@ namespace Login.Migrations
                     b.HasOne("Login.Areas.Identity.Data.LoginUser", "LoginUser")
                         .WithMany("ChannelMembers")
                         .HasForeignKey("LoginUserId");
+                });
+
+            modelBuilder.Entity("Login.Models.Likes", b =>
+                {
+                    b.HasOne("Login.Models.Thread", "Thread")
+                        .WithMany("LikedBy")
+                        .HasForeignKey("ThreadID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
