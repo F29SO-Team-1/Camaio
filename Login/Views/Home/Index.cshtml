@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th scope="col">Title</th>
+            <th scope="col">By</th>
             <th scope="col">Rating</th>
             <th scope="col">Created</th>
             <th scope="col">Description</th>
@@ -26,6 +27,11 @@
             <th>
                 <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
                     @thread.Title
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
+                    @thread.AuthorUserName
                 </a>
             </th>
             <th>@thread.Rating</th>

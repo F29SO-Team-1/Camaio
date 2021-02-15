@@ -101,6 +101,7 @@ namespace Login.Controllers
             }
             
         }
+        
         [Authorize]
         public async Task<IActionResult> RatingDecrease([FromBody]int? id)
         {

@@ -10,9 +10,10 @@
     </div>
     <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 20%; height:20%">
     <div class="card-body">
-        <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>
+        <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
         <h6 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h6>
         <p class="card-text">@Model.Description</p>
+        <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>
         <div id="likeSection">
             @if (Model.LikedBy.Count() == 0)
             {
