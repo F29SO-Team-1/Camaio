@@ -54,7 +54,7 @@ namespace Login.Controllers
             //calc the users Ratting
             var ratting = _service.GetRatting(username, threads);
 
-            var listOfFollower = _service.UsersFollower(username);
+            var listOfFollower = _service.UsersFollowers(user);
 
             var model = new ProfileModel()
             {

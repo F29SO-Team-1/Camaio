@@ -74,9 +74,12 @@ namespace Login.Service
             await _context.SaveChangesAsync();
         }
 
-        public List<Following> UsersFollower(string username)
+        //returns a list of users that the user follows
+        public IEnumerable<Following> UsersFollowers(LoginUser user)
         {
-            //return _context.Follow.Where(f => f.Username == username).Select(x => x.FollowingUsers).ToList();
+            return _context.Follow
+                .Where(f => f.FollowingUsers == user)
+                .ToList();
         }
 
     }

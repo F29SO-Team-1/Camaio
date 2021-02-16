@@ -7,6 +7,8 @@ namespace Login.Models
     {
         public int Id { get; set; }
         public string Username { get; set; } //user follows
-        public string FollowingUsers { get; set; } //which user they are following
+        
+        //fkey in LoginUser
+        public LoginUser FollowingUsers { get; set; } //which user they are following
     }
 }

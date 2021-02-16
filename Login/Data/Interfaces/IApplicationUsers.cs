@@ -9,18 +9,25 @@ namespace Login.Data
 {
     public interface IApplicationUsers
     {
+        //gets the users Id
         LoginUser GetById(string id);
 
+        //gets the users name
         LoginUser GetByUserName(string username);
+        
+        //gets all users
         IEnumerable<LoginUser> GetAll();
 
+        //gets the ratting of the user
         int GetRatting(string username, IEnumerable<ThreadModel> threadList);
         void UpdateUser(LoginUser user);
 
         Task SetProfileImage(string id, Uri uri);
 
+        //Adds a user to a following list
         Task Follows(string userA, string userB);
 
-        IEnumerable<Following> UsersFollower(string username);
+        //returns a list of the users that that user follows
+        IEnumerable<Following> UsersFollowers(LoginUser user);
     }
 }
