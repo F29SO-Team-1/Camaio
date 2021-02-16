@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Login.Models;
 
@@ -14,6 +12,6 @@ namespace Login.Areas.Identity.Data
         public int Ratting { get;  set; }
         public DateTime MemberSince { get; internal set; }
         public ICollection<ChannelMember> ChannelMembers { get; set; }
-        public Thread Likes { get; set; }
+        public IEnumerable<Following> FollowsUser { get; set; }
     }
 }

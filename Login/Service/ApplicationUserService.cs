@@ -58,5 +58,29 @@ namespace Login.Service
             await _context.SaveChangesAsync();
         }
 
+        public async Task Follows(string userA, string userB)
+        {
+            var fromUser = GetByUserName(userA);
+            var wantsToFollow = GetByUserName(userB);
+
+            //new instance of follow
+            var follow = new Following
+            {
+                Username = fromUser.UserName,
+                FollowingUsers = wantsToFollow
+            };
+            _context.Add(follow);
+
+            await _context.SaveChangesAsync();
+        }
+
+        //returns a list of users that the user follows
+        public IEnumerable<Following> UsersFollowers(LoginUser user)
+        {
+            return _context.Follow
+                .Where(f => f.FollowingUsers == user)
+                .ToList();
+        }
+
     }
 }
