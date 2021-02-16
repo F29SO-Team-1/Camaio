@@ -4,6 +4,7 @@ using Login.Models;
 using Login.Models.ApplicationUser;
 using Login.Models.Threadl;
 using Login.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -53,9 +54,10 @@ namespace Login.Controllers
             var channels = BuildChannelsList(username);
             //calc the users Ratting
             var ratting = _service.GetRatting(username, threads);
-
+            //list of all the users that the user follows
             var listOfFollower = _service.UsersFollowers(user);
 
+            //build model
             var model = new ProfileModel()
             {
                 Username = user.UserName,
@@ -72,7 +74,7 @@ namespace Login.Controllers
             return View(model);
         }
         
-        
+        [Authorize]
         public async Task Follow(string id)
         {
             //user that presses the button
