@@ -156,12 +156,31 @@ namespace Login.Service
 
             _context.Reports.Add(reported);
             await _context.SaveChangesAsync();
-
+            await UpdateReports(threadId);
         }
+        private async Task UpdateReports(int? threadId)
+        {
+            Thread t = GetById(threadId);
+            var q = ListOfReports(threadId).Count();
+            t.NoReports = q;
+            await _context.SaveChangesAsync();
+        }
+
         //makes a list of reports for a thread
         public IEnumerable<Report> ListOfReports(int? threadId)
         {
             return _context.Reports.Where(report => report.Thread.ID == threadId);
+        }
+
+        //deletes all the reports for the current thread/post, WORKING !!!
+        public async Task ResetReports(int? threadId)
+        {
+            //when the btn is pressed remove all the reports regarding the thread and recount 
+            //delete all the reports with the spesific thread Id 
+            _context.Reports.RemoveRange(_context.Reports.Where(x => x.Thread.ID == threadId));
+
+            await _context.SaveChangesAsync();
+            await UpdateReports(threadId);
         }
     }
 }

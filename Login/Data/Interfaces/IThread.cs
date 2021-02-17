@@ -41,6 +41,6 @@ namespace Login.Data
         //report
         Task Report(int? threadId, string userName);
         IEnumerable<Report> ListOfReports(int? threadId);
-
+        Task ResetReports(int? threadId);
     }
 }

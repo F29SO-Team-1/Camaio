@@ -64,6 +64,34 @@ namespace Login.Controllers
             return View(model);
         }
 
+        //only allow modertators and admins to access the page
+        [Route("Reported")]
+        public IActionResult Reported()
+        {
+            var threadModel = _service.GetAll().Select(threads => new ThreadModel
+            {
+                Id = threads.ID,
+                Title = threads.Title,
+                Created = threads.CreateDate,
+                Description = threads.Description,
+                Rating = threads.Votes,
+                AuthorUserName = threads.UserName,
+                NoReports = threads.NoReports
+            })
+                .Where(x => x.NoReports >= 1)
+                .OrderByDescending(x => x.NoReports)
+                .ToList();
+
+            var threadList = new ThreadList { ThreadLists = threadModel };
+            return View(threadList);
+        }
+
+        public async Task<IActionResult> ResetReports(int? threadsId)
+        {
+            await _service.ResetReports(threadsId);
+            return RedirectToAction("Reported", "Thread");
+        }
+
         [Authorize]
         public async Task<IActionResult> Report(int? threadId)
         {
