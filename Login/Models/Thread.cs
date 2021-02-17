@@ -13,6 +13,7 @@ namespace Login.Models
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
         public int Votes { get; set; }
+        public int NoReports { get; set; }
 
         public IEnumerable<Likes> LikedBy { get; set; }
 

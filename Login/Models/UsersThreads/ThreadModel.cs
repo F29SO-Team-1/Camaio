@@ -24,8 +24,10 @@ namespace Login.Models.Threadl
         public string AuthorUserName { get; set; }
 
         public int Rating { get; set; }
-        public IEnumerable<Likes> LikedBy { get; set; }
         public int NoReports { get; set; }
+
+        public IEnumerable<Likes> LikedBy { get; set; }
+        
 
     }
 }

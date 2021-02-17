@@ -1,0 +1,48 @@
+@model Login.Models.Threadl.ThreadList
+@{
+    ViewData["Title"] = "Report Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="text-align:center; margin-top:2%">Reported Posts</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Number Of Reports</th>
+            <th scope="col">Posted By</th>
+            <th scope="col">Created On</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var threads in Model.ThreadLists)
+        {
+        <tr>
+            <td>
+                @threads.NoReports
+            </td>
+            <td>
+                <a asp-action="Index" asp-controller="Profile" asp-route-id="@threads.AuthorUserName">
+                    @threads.AuthorUserName
+                </a>
+            </td>
+            <td>@threads.Created</td>
+            <td>
+                <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id">
+                    @threads.Title
+                </a>
+            </td>
+            <td>@threads.Description</td>
+            <td>@threads.Rating</td>
+            <td>
+                <a>Delete </a>|
+                <a> Warning </a>|
+                <a asp-action="ResetReports" asp-controller="Thread" asp-route-threadsId="@threads.Id"> Reset</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
