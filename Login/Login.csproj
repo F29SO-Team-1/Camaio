@@ -10,6 +10,10 @@
     <EmbeddedResource Remove="Pictures\**" />
     <None Remove="Pictures\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20210217161050_adding superUsers.cs" />
+    <Compile Remove="Migrations\20210217161050_adding superUsers.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\download.svg" />
