@@ -38,5 +38,8 @@ namespace Login.Data
         //disLike
         Task RemoveUserFromLikeList(int? threadId, string userId);
 
+        //report
+        Task Report(int? threadId);
+
     }
 }

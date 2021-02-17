@@ -63,6 +63,36 @@ namespace Login.Controllers
             return View(model);
         }
 
+        [Authorize]
+        public IActionResult Report(int? threadId)
+        {
+            Thread t = _service.GetById(threadId);
+            return View(t);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Report(FormCollection form)
+        {
+            bool tos = false, inappropriate = false,
+                offensive = false, otherReason = false;
+            string tosV = "", inappropriateV = "",
+                offensiveV = "", otherReasonV = "";
+
+            if (!string.IsNullOrEmpty(form["tos"])) { tos = true; }
+            if (!string.IsNullOrEmpty(form["inappropriate"])) { inappropriate = true; }
+            if (!string.IsNullOrEmpty(form["offensive"])) { offensive = true; }
+            if (!string.IsNullOrEmpty(form["otherReason"])) { otherReason = true; }
+
+            if (tos) { tosV = form["tos"]; }
+            if (inappropriate) { inappropriateV = form["inappropriate"]; }
+            if (offensive) { offensiveV = form["offensive"]; }
+            if (otherReason) { otherReasonV = form["otherReason"]; }
+
+
+            return View();
+        }
+
         [Route("Score/Threads")]
         public IActionResult Scores()
         {
@@ -139,7 +169,7 @@ namespace Login.Controllers
             if (threadId == null) return NotFound();    //check if the threadId is passed as a param
             var thread = _service.GetById(threadId);    //gets the thread Id
             if (thread == null) return NotFound();      //check if the thread is a real thread
-            if (thread.UserName != userName) return NotFound();
+            if (thread.UserName != userName) return NotFound(); //checks if the person accessing the thread is the owner
 
             return View(thread);
         }

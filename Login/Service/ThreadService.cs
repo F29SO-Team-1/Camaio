@@ -135,5 +135,11 @@ namespace Login.Service
             t.Votes = q;
             await _context.SaveChangesAsync();
         }
+
+        public async Task Report(int? threadId)
+        {
+            Thread t = GetById(threadId);
+
+        }
     }
 }
