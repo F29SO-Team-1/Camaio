@@ -44,8 +44,8 @@ namespace Login.Controllers
             if (thread == null) return NotFound(); //if the thread number does not exist then not found
             //make a list of users that liked the thread
             var listOfLikes = _service.ListOfLikes(id);
-            //counts the amount of likes, counts the list 
-            //var count = _service.CountLikes(id);
+            //get the list of reports
+            var numberOfReports = _service.ListOfReports(id).Count();
 
             //make a view model for the thread
             var model = new ThreadModel
@@ -58,38 +58,19 @@ namespace Login.Controllers
                 Picture = thread.Image,
                 Title = thread.Title,
                 Rating = listOfLikes.Count(),
-                LikedBy = listOfLikes
+                LikedBy = listOfLikes,
+                NoReports = numberOfReports
             };
             return View(model);
         }
 
         [Authorize]
-        public IActionResult Report(int? threadId)
-        {
-            Thread t = _service.GetById(threadId);
-            return View(t);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Report(FormCollection form)
+        public async Task<IActionResult> Report(int? threadId)
         {
-            bool tos = false, inappropriate = false,
-                offensive = false, otherReason = false;
-            string tosV = "", inappropriateV = "",
-                offensiveV = "", otherReasonV = "";
-
-            if (!string.IsNullOrEmpty(form["tos"])) { tos = true; }
-            if (!string.IsNullOrEmpty(form["inappropriate"])) { inappropriate = true; }
-            if (!string.IsNullOrEmpty(form["offensive"])) { offensive = true; }
-            if (!string.IsNullOrEmpty(form["otherReason"])) { otherReason = true; }
-
-            if (tos) { tosV = form["tos"]; }
-            if (inappropriate) { inappropriateV = form["inappropriate"]; }
-            if (offensive) { offensiveV = form["offensive"]; }
-            if (otherReason) { otherReasonV = form["otherReason"]; }
-
-
+            var username = _userManager.GetUserName(User);
+            await _service.Report(threadId, username);
             return View();
         }
 

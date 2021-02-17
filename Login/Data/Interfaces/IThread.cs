@@ -39,7 +39,8 @@ namespace Login.Data
         Task RemoveUserFromLikeList(int? threadId, string userId);
 
         //report
-        Task Report(int? threadId);
+        Task Report(int? threadId, string userName);
+        IEnumerable<Report> ListOfReports(int? threadId);
 
     }
 }

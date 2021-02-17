@@ -136,10 +136,31 @@ namespace Login.Service
             await _context.SaveChangesAsync();
         }
 
-        public async Task Report(int? threadId)
+        public async Task Report(int? threadId, string userName)
         {
-            Thread t = GetById(threadId);
+            //get the thread
+            var thread = GetById(threadId);
+            //add user to a list
+            var reported = new Report
+            {
+                Thread = thread,
+                UserName = userName
+            };
 
+            //check if the user already report the same thread
+            foreach (Report r in ListOfReports(threadId))
+            {
+                if (r.UserName == userName) continue;
+            }
+
+            _context.Reports.Add(reported);
+            await _context.SaveChangesAsync();
+
+        }
+        //makes a list of reports for a thread
+        public IEnumerable<Report> ListOfReports(int? threadId)
+        {
+            return _context.Reports.Where(report => report.Thread.ID == threadId);
         }
     }
 }
