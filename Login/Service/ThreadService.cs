@@ -150,7 +150,8 @@ namespace Login.Service
             //check if the user already report the same thread
             foreach (Report r in ListOfReports(threadId))
             {
-                if (r.UserName == userName) continue;
+                //if found already will just exit and do nothing
+                if (r.UserName == userName) return;
             }
 
             _context.Reports.Add(reported);

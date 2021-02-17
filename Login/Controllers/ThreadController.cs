@@ -65,13 +65,11 @@ namespace Login.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Report(int? threadId)
         {
             var username = _userManager.GetUserName(User);
             await _service.Report(threadId, username);
-            return View();
+            return RedirectToAction("Index", "Thread", new { @id = threadId });
         }
 
         [Route("Score/Threads")]
