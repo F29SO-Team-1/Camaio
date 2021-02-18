@@ -10,7 +10,9 @@
     </div>
     <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 20%; height:20%">
     <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
+        <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
+            <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
+        </a>
         <h6 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h6>
         <p class="card-text">@Model.Description</p>
         <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>

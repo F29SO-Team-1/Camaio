@@ -75,12 +75,12 @@ namespace Login.Controllers
         }
         
         [Authorize]
-        public async Task Follow(string id)
+        public async Task<IActionResult> Follow(string id)
         {
             //user that presses the button
             var user = _userManager.GetUserName(User);
             await _service.Follows(user, id);
-            RedirectToAction("Index", id);
+            return RedirectToAction(id);
         }
 
 

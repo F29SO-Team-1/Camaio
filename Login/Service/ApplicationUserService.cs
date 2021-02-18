@@ -69,6 +69,15 @@ namespace Login.Service
                 Username = fromUser.UserName,
                 FollowingUsers = wantsToFollow
             };
+
+            //check if the user already follows this user
+            foreach (Following f in UsersFollowers(wantsToFollow))
+            {
+                //the user cannot follow them selfs 
+                //and cannot keep following if already on the list
+                if (fromUser == wantsToFollow || f.Username == fromUser.UserName) return;
+            }
+
             _context.Add(follow);
 
             await _context.SaveChangesAsync();
@@ -85,7 +94,7 @@ namespace Login.Service
         public async Task GiveUserWarning(string userId)
         {
             LoginUser u = GetById(userId);
-            u.Warnings += 1;
+            //u.Warnings += 1;
             await _context.SaveChangesAsync();
         }
     }
