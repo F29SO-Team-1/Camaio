@@ -104,8 +104,8 @@ namespace Login.Controllers
             return RedirectToAction("Reported", "Thread");
         }
 
-        //Deletes the thread and gives a warning
-        public async Task<IActionResult> DeleteThread(int? threadsId)
+        //Deletes the thread and gives a warning 
+        public async Task<IActionResult> AdminDelete(int? threadsId)
         {
             Thread t = _service.GetById(threadsId);
             var user = t.UserID;
