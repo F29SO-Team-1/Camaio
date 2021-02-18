@@ -28,7 +28,9 @@ namespace Login.Service
                 ID = model.ID,
                 UserID = user.Id,
                 Votes = model.Votes,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Flagged = false,
+                NoReports = 0
             };
 
             _context.Add(thread);

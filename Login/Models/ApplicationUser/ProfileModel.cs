@@ -17,6 +17,7 @@ namespace Login.Models.ApplicationUser
         public string ProfileImageUrl { get; set; }
         public DateTime MemmberSince { get; set; }
         public IFormFile ImageUpload { get; set; }
+        public int Warnings { get; set; }
 
         public IEnumerable<ThreadModel> Threads {get;set;}
         

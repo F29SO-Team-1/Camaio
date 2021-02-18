@@ -25,6 +25,7 @@ namespace Login.Models.Threadl
 
         public int Rating { get; set; }
         public int NoReports { get; set; }
+        public bool Flagged { get; set; }
 
         public IEnumerable<Likes> LikedBy { get; set; }
         

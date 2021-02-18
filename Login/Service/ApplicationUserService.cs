@@ -94,7 +94,7 @@ namespace Login.Service
         public async Task GiveUserWarning(string userId)
         {
             LoginUser u = GetById(userId);
-            //u.Warnings += 1;
+            u.AccountWarnings += 1;
             await _context.SaveChangesAsync();
         }
     }

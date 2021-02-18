@@ -68,7 +68,8 @@ namespace Login.Controllers
                 MemmberSince = user.MemberSince,
                 Threads = threads,
                 Channels = channels,
-                UsersFollowed = listOfFollower
+                UsersFollowed = listOfFollower,
+                Warnings = user.AccountWarnings 
 
             };
             return View(model);

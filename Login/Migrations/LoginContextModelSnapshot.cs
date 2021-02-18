@@ -27,6 +27,9 @@ namespace Login.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("AccountWarnings")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -79,9 +82,6 @@ namespace Login.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
-
-                    b.Property<int>("Warnings")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
