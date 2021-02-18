@@ -42,7 +42,16 @@ namespace Login.Service
         public async Task Delete(int? threadId)
         {
             var threadPrimaryKey = await _context.Threads.FindAsync(threadId);
+            //delete all FKeys; report, like
+            await DeleteForeignKeys(threadId);
             _context.Threads.Remove(threadPrimaryKey);
+            await _context.SaveChangesAsync();
+        }
+        private async Task DeleteForeignKeys(int? threadId)
+        {
+            //get all the records that are accosiated with the threadId
+            _context.Likes.RemoveRange(_context.Likes.Where(x => x.Thread.ID == threadId));
+            _context.Reports.RemoveRange(_context.Reports.Where(y => y.Thread.ID == threadId));
             await _context.SaveChangesAsync();
         }
 
@@ -176,7 +185,7 @@ namespace Login.Service
             return _context.Reports.Where(report => report.Thread.ID == threadId);
         }
 
-        //deletes all the reports for the current thread/post, WORKING !!!
+        //deletes all the reports for the current thread/post
         public async Task ResetReports(int? threadId)
         {
             //delete all the reports with the spesific thread Id 
