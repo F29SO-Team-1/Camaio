@@ -32,5 +32,7 @@ namespace Login.Data
 
         //Gives a user a warning
         Task GiveUserWarning(string userId);
+
+        bool IfUserExists(string username);
     }
 }

@@ -46,6 +46,7 @@ namespace Login.Controllers
         [Route("Profile/{username}")]
         public IActionResult Index(string username)
         {
+            if (!_service.IfUserExists(username)) return NotFound();
             var user = _service.GetByUserName(username);
             //want a list of threads, tick
             // threads will only display if you press your username when logged in button other wise it will not display the users threads
@@ -124,7 +125,8 @@ namespace Login.Controllers
                 Picture = threads.Image,
                 AuthorUserName = threads.UserName,
                 Rating = threads.Votes,
-                Id = threads.ID
+                Id = threads.ID,
+                Flagged = threads.Flagged
             });
         }
 

@@ -49,6 +49,8 @@ namespace Login.Service
         public async Task Edit(Thread thread)
         {
             _context.Update(thread);
+            thread.Flagged = false;
+            await ResetReports(thread.ID);
             await _context.SaveChangesAsync();
         }
 

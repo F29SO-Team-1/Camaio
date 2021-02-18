@@ -109,11 +109,13 @@ namespace Login.Controllers
         {
             Thread t = _service.GetById(threadsId);
             var user = t.UserID;
-
+            //delete from reports first
+            await ResetReports(threadsId);
             //deletes the thread
             await _service.Delete(threadsId);
             //Gives a user a warining
             await _userService.GiveUserWarning(user);
+
             return RedirectToAction("Reported", "Thread");
         }
 

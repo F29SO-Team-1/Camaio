@@ -32,6 +32,11 @@ namespace Login.Service
             return GetAll().FirstOrDefault(u => u.UserName == username);
         }
 
+        public bool IfUserExists(string username)
+        {
+            return _context.Users.Any(x => x.UserName == username);
+        }
+
         public int GetRatting(string username, IEnumerable<ThreadModel> threadList)
         {
             var user = GetByUserName(username);
@@ -94,8 +99,10 @@ namespace Login.Service
         public async Task GiveUserWarning(string userId)
         {
             LoginUser u = GetById(userId);
-            u.AccountWarnings += 1;
+            u.AccountWarnings = u.AccountWarnings + 1;
             await _context.SaveChangesAsync();
         }
+
+
     }
 }
