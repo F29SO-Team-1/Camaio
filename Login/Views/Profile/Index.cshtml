@@ -20,8 +20,18 @@
 </div>
 
 
-
+@if (Model.ProfileImageUrl == null)
+{
+    <div>
+        No Image
+    </div>
+}
+else
+{
 <img src="@Model.ProfileImageUrl" style="width: 20%; height:20%;" alt="ProfilePic" />
+}
+
+
 @if (User.Identity.Name == Model.Username)
 {
     <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
@@ -38,7 +48,7 @@
 }
 
 <hr />
-Follows :
+Is Followed By :
 @foreach (var item in Model.UsersFollowed)
 {
     @item.Username;
