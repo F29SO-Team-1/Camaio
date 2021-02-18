@@ -14,6 +14,8 @@ namespace Login.Models
         public DateTime CreateDate { get; set; }
         public int Votes { get; set; }
         public int NoReports { get; set; }
+        public bool Flagged { get; set; }
+
 
         public IEnumerable<Likes> LikedBy { get; set; }
 

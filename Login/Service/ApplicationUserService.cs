@@ -82,5 +82,11 @@ namespace Login.Service
                 .ToList();
         }
 
+        public async Task GiveUserWarning(string userId)
+        {
+            LoginUser u = GetById(userId);
+            u.Warnings += 1;
+            await _context.SaveChangesAsync();
+        }
     }
 }

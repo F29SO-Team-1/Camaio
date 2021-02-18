@@ -23,16 +23,19 @@ namespace Login.Controllers
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
+        private readonly IApplicationUsers _userService;
 
         public ThreadController(IThread thread,
             IConfiguration configuration,
             UserManager<LoginUser> userManager,
-            IUpload uploadService)
+            IUpload uploadService,
+            IApplicationUsers userService)
         {
             _service = thread;
             _configuration = configuration;
             _userManager = userManager;
             _uploadService = uploadService;
+            _userService = userService;
         }
 
         [Route("Thread/{id?}")]
@@ -86,9 +89,31 @@ namespace Login.Controllers
             return View(threadList);
         }
 
+        //Clears the reports that the thread had/has
         public async Task<IActionResult> ResetReports(int? threadsId)
         {
             await _service.ResetReports(threadsId);
+            return RedirectToAction("Reported", "Thread");
+        }
+
+        //gives a user a warning and flaggs the thread/post
+        public async Task<IActionResult> FlagPost(int? threadsId)
+        {
+            //flags a thread
+            await _service.FlagThread(threadsId);
+            return RedirectToAction("Reported", "Thread");
+        }
+
+        //Deletes the thread and gives a warning
+        public async Task<IActionResult> DeleteThread(int? threadsId)
+        {
+            Thread t = _service.GetById(threadsId);
+            var user = t.UserID;
+
+            //deletes the thread
+            await _service.Delete(threadsId);
+            //Gives a user a warining
+            await _userService.GiveUserWarning(user);
             return RedirectToAction("Reported", "Thread");
         }
 

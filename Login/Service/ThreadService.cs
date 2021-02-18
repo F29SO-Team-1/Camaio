@@ -175,12 +175,18 @@ namespace Login.Service
         //deletes all the reports for the current thread/post, WORKING !!!
         public async Task ResetReports(int? threadId)
         {
-            //when the btn is pressed remove all the reports regarding the thread and recount 
             //delete all the reports with the spesific thread Id 
             _context.Reports.RemoveRange(_context.Reports.Where(x => x.Thread.ID == threadId));
-
             await _context.SaveChangesAsync();
             await UpdateReports(threadId);
         }
+
+        public async Task FlagThread(int? threadId)
+        {
+            Thread t = GetById(threadId);
+            t.Flagged = true;
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
