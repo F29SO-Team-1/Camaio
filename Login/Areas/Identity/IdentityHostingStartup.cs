@@ -20,10 +20,11 @@ namespace Login.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("LoginContextConnection")));
 
-                services.AddIdentity<LoginUser, IdentityRole>(options => 
+                services.AddIdentity<LoginUser, IdentityRole>(options =>
                     options.SignIn.RequireConfirmedAccount = false)
                         .AddEntityFrameworkStores<LoginContext>()
-                        .AddDefaultTokenProviders();
+                        .AddDefaultTokenProviders()
+                        .AddRoles<IdentityRole>();
 
             });
         }
