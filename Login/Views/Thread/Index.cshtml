@@ -16,17 +16,22 @@
         <h6 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h6>
         <p class="card-text">@Model.Description</p>
         <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>
-        <div id="likeSection">
-            @if (Model.LikedBy.Count() == 0)
-            {
-                <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
-            }
-            else
-            {
-                <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>
-                <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
-            }
-        </div>
+        @* Checks if a user is signed in and not viewing it as a guest *@
+        @if (User.Identity.Name != null)
+        {
+            <div id="likeSection">
+                @if (Model.LikedBy.Count() == 0)
+                {
+                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                }
+                else
+                {
+                    <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>
+                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                }
+            </div>
+        }
+            
     </div>
     <div class="card-footer">
         <small class="text-muted">
