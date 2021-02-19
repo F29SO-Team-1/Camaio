@@ -24,16 +24,19 @@ namespace Login.Controllers
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
         private readonly IApplicationUsers _userService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public ThreadController(IThread thread,
             IConfiguration configuration,
             UserManager<LoginUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             IUpload uploadService,
             IApplicationUsers userService)
         {
             _service = thread;
             _configuration = configuration;
             _userManager = userManager;
+            _roleManager = roleManager;
             _uploadService = uploadService;
             _userService = userService;
         }
@@ -69,6 +72,7 @@ namespace Login.Controllers
 
         //only allow modertators and admins to access the page
         [Route("Reported")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Reported()
         {
             var threadModel = _service.GetAll().Select(threads => new ThreadModel
@@ -119,6 +123,7 @@ namespace Login.Controllers
             return RedirectToAction("Reported", "Thread");
         }
 
+        //allows a user to report a thread
         [Authorize]
         public async Task<IActionResult> Report(int? threadId)
         {

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace Login.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<LoginUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IApplicationUsers _service;
         private readonly IConfiguration _configuration;
         private readonly IUpload _uploadService;
@@ -28,6 +30,7 @@ namespace Login.Controllers
 
         public ProfileController(
             UserManager<LoginUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             IApplicationUsers userService,
             IUpload uploadService,
             IConfiguration configuration,
@@ -36,6 +39,7 @@ namespace Login.Controllers
             )
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _service = userService;
             _configuration = configuration;
             _uploadService = uploadService;
