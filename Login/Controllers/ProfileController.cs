@@ -90,6 +90,7 @@ namespace Login.Controllers
         }
 
 
+        //scoreboard of all the users
         [Route("Score/Users")]
         public IActionResult Scores()
         {

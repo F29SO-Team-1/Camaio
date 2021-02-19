@@ -72,7 +72,7 @@ namespace Login.Controllers
 
         //only allow modertators and admins to access the page
         [Route("Reported")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Mod")]
         public IActionResult Reported()
         {
             var threadModel = _service.GetAll().Select(threads => new ThreadModel
@@ -109,6 +109,7 @@ namespace Login.Controllers
         }
 
         //Deletes the thread and gives a warning 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdminDelete(int? threadsId)
         {
             Thread t = _service.GetById(threadsId);
