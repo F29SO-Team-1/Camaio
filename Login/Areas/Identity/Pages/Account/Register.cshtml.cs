@@ -22,17 +22,20 @@ namespace Login.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<LoginUser> _signInManager;
         private readonly UserManager<LoginUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<LoginUser> userManager,
             SignInManager<LoginUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -77,8 +80,15 @@ namespace Login.Areas.Identity.Pages.Account
             {
                 var user = new LoginUser { UserName = Input.Email, Email = Input.Email, Ratting = 0, MemberSince = DateTime.Now };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                IdentityResult asignRole = await _userManager.AddToRoleAsync(user, "User");
+                
                 if (result.Succeeded)
                 {
+                    if (!asignRole.Succeeded)
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole("User"));
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

@@ -24,8 +24,8 @@ namespace Login.Areas.Identity
                     options.SignIn.RequireConfirmedAccount = false)
                         .AddEntityFrameworkStores<LoginContext>()
                         .AddDefaultTokenProviders()
-                        .AddRoles<IdentityRole>();
-
+                        .AddRoles<IdentityRole>()
+                        .AddDefaultUI();
             });
         }
     }
