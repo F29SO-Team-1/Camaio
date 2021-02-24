@@ -4,6 +4,8 @@ using Login.Models.ApplicationUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,9 +27,17 @@ namespace Login.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             var roles = _roleManager.Roles.ToList();
+            var adminCheck = await _roleManager.RoleExistsAsync("Admin");
+            var modCheck = await _roleManager.RoleExistsAsync("Mod");
+            if (!adminCheck && !modCheck)
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                await _roleManager.CreateAsync(new IdentityRole("Mod"));
+            }
+            
             return View(roles);
         }
 
@@ -63,7 +73,8 @@ namespace Login.Controllers
         }
 
         public IActionResult AssignUser()
-        { 
+        {
+            //var userRoles = GetUsersRole();
             var userModel = _userService.GetAll().Select(user => new ProfileModel
             {
                 Username = user.UserName,
@@ -77,6 +88,12 @@ namespace Login.Controllers
             return View(userList);
         }
 
+        private async Task<IList<string>> GetUsersRole(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            return new List<string>(await _userManager.GetRolesAsync(user));
+        }
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> MakeAdmin()
         {
@@ -87,17 +104,16 @@ namespace Login.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> MakeMod(string userId)
         {
+            //unasign from others roles and then asign to new role
             LoginUser user =  _userService.GetById(userId);
-            await _userManager.AddToRoleAsync(user, "Mod");
-            return RedirectToAction("Index");
-        }
 
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> MakeUser(string userId)
-        {
-            //need to check if they are not a different role already
-            LoginUser user = _userService.GetById(userId);
-            await _userManager.AddToRoleAsync(user, "User");
+            var userRole =  await _userManager.GetRolesAsync(user);
+            foreach (var role in userRole)
+            {
+                if (role == "Mod") return RedirectToAction("Index");
+            }
+
+            await _userManager.AddToRoleAsync(user, "Mod");
             return RedirectToAction("Index");
         }
 
