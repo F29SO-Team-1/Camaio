@@ -2,6 +2,7 @@
 using Login.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Login.Data
 {
@@ -13,7 +14,6 @@ namespace Login.Data
         }
 
         public DbSet<Following> Follow { get; set; }
-        public DbSet<AchievementModel> Achievement { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -28,7 +28,13 @@ namespace Login.Data
                .HasMany(user => user.FollowsUser)
                .WithOne(following => following.FollowingUsers);
 
-            //builder.Entity<LoginUser>().ToTable("AspNetUsers").HasMany(user => user.)
+
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(a => a.Achievements)
+                .WithOne(x=>x.UserName);
+
+
         }
     }
 }
