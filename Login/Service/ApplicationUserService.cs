@@ -32,6 +32,11 @@ namespace Login.Service
             return GetAll().FirstOrDefault(u => u.UserName == username);
         }
 
+        public bool IfUserExists(string username)
+        {
+            return _context.Users.Any(x => x.UserName == username);
+        }
+
         public int GetRatting(string username, IEnumerable<ThreadModel> threadList)
         {
             var user = GetByUserName(username);
@@ -69,6 +74,15 @@ namespace Login.Service
                 Username = fromUser.UserName,
                 FollowingUsers = wantsToFollow
             };
+
+            //check if the user already follows this user
+            foreach (Following f in UsersFollowers(wantsToFollow))
+            {
+                //the user cannot follow them selfs 
+                //and cannot keep following if already on the list
+                if (fromUser == wantsToFollow || f.Username == fromUser.UserName) return;
+            }
+
             _context.Add(follow);
 
             await _context.SaveChangesAsync();
@@ -81,6 +95,14 @@ namespace Login.Service
                 .Where(f => f.FollowingUsers == user)
                 .ToList();
         }
+
+        public async Task GiveUserWarning(string userId)
+        {
+            LoginUser u = GetById(userId);
+            u.AccountWarnings += 1;
+            await _context.SaveChangesAsync();
+        }
+
 
     }
 }

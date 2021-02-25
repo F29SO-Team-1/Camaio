@@ -20,8 +20,18 @@
 </div>
 
 
-
+@if (Model.ProfileImageUrl == null)
+{
+    <div>
+        No Image
+    </div>
+}
+else
+{
 <img src="@Model.ProfileImageUrl" style="width: 20%; height:20%;" alt="ProfilePic" />
+}
+
+
 @if (User.Identity.Name == Model.Username)
 {
     <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
@@ -38,10 +48,20 @@
 }
 
 <hr />
-Follows : 
+Is Followed By :
 @foreach (var item in Model.UsersFollowed)
 {
     @item.Username;
+}
+<hr />
+Number of Warnings : @Model.Warnings
+
+<hr />
+
+Roles:
+@foreach (var roles in @Model.Roles.Result)
+{
+    @roles
 }
 
 <hr />
@@ -53,6 +73,10 @@ Follows :
             <table class="table">
                 <thead>
                     <tr>
+                        @if (User.Identity.Name == Model.Username)
+                        {
+                            <th scope="col">Flaged</th>
+                        }
                         <th scope="col">Title</th>
                         <th scope="col">Rating</th>
                         <th scope="col">Created</th>
@@ -67,6 +91,20 @@ Follows :
                         //@if (thread.Picture == null) continue;
                         //loops through the db and displays it
                         <tr>
+                            @if (User.Identity.Name == Model.Username)
+                            {
+                                <th>
+                                    @if (@thread.Flagged)
+                                    {
+                                        <p style="color:red">Yes</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="color:green">No</p>
+                                    }
+                                </th>
+                            }
+
                             <th>
                                 <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
                                     @thread.Title

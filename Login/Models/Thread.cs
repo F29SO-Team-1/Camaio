@@ -1,11 +1,5 @@
-﻿using Login.Areas.Identity.Data;
-using Login.Models.ApplicationUser;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Login.Models
 {
@@ -19,7 +13,12 @@ namespace Login.Models
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
         public int Votes { get; set; }
+        public int NoReports { get; set; }
+        public bool Flagged { get; set; }
+
 
         public IEnumerable<Likes> LikedBy { get; set; }
+
+        public IEnumerable<Report> Reports { get; set; }
     }
 }

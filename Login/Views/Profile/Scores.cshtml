@@ -18,10 +18,21 @@
         {
         <tr>
             <th>
-                <img src="@users.ProfileImageUrl" alt="Image" style="width: 200px; height:200px;" />
+                @if (users.ProfileImageUrl == null)
+                {
+                    <div>
+                        No Image
+                    </div>
+                }
+                else
+                {
+                    <img src="@users.ProfileImageUrl" alt="Image" style="width: 200px; height:200px;" />
+                }
             </th>
             <th>
-                @users.Username
+                <a asp-action="Index" asp-controller="Profile" asp-route-username="@users.Username">
+                    @users.Username
+                </a>
             </th>
             <th>@users.UserRating</th>
         </tr>

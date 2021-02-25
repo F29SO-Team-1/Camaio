@@ -38,5 +38,18 @@ namespace Login.Data
         //disLike
         Task RemoveUserFromLikeList(int? threadId, string userId);
 
+        //report
+
+        Task Report(int? threadId, string userName);
+        //returns all the reports 
+        IEnumerable<Report> ListOfReports(int? threadId);
+        //resets all the reports and updates the number count
+        Task ResetReports(int? threadId);
+
+        //flags the thread
+        Task FlagThread(int? threadId);
+
+
+
     }
 }

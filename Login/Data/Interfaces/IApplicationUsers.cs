@@ -29,5 +29,10 @@ namespace Login.Data
 
         //returns a list of the users that that user follows
         IEnumerable<Following> UsersFollowers(LoginUser user);
+
+        //Gives a user a warning
+        Task GiveUserWarning(string userId);
+
+        bool IfUserExists(string username);
     }
 }

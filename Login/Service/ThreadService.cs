@@ -28,7 +28,9 @@ namespace Login.Service
                 ID = model.ID,
                 UserID = user.Id,
                 Votes = model.Votes,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Flagged = false,
+                NoReports = 0
             };
 
             _context.Add(thread);
@@ -40,13 +42,24 @@ namespace Login.Service
         public async Task Delete(int? threadId)
         {
             var threadPrimaryKey = await _context.Threads.FindAsync(threadId);
+            //delete all FKeys; report, like
+            await DeleteForeignKeys(threadId);
             _context.Threads.Remove(threadPrimaryKey);
+            await _context.SaveChangesAsync();
+        }
+        private async Task DeleteForeignKeys(int? threadId)
+        {
+            //get all the records that are accosiated with the threadId
+            _context.Likes.RemoveRange(_context.Likes.Where(x => x.Thread.ID == threadId));
+            _context.Reports.RemoveRange(_context.Reports.Where(y => y.Thread.ID == threadId));
             await _context.SaveChangesAsync();
         }
 
         public async Task Edit(Thread thread)
         {
             _context.Update(thread);
+            thread.Flagged = false;
+            await ResetReports(thread.ID);
             await _context.SaveChangesAsync();
         }
 
@@ -135,5 +148,58 @@ namespace Login.Service
             t.Votes = q;
             await _context.SaveChangesAsync();
         }
+
+        public async Task Report(int? threadId, string userName)
+        {
+            //get the thread
+            var thread = GetById(threadId);
+            //add user to a list
+            var reported = new Report
+            {
+                Thread = thread,
+                UserName = userName
+            };
+
+            //check if the user already report the same thread
+            foreach (Report r in ListOfReports(threadId))
+            {
+                //if found already will just exit and do nothing
+                if (r.UserName == userName) return;
+            }
+
+            _context.Reports.Add(reported);
+            await _context.SaveChangesAsync();
+            await UpdateReports(threadId);
+        }
+        private async Task UpdateReports(int? threadId)
+        {
+            Thread t = GetById(threadId);
+            var q = ListOfReports(threadId).Count();
+            t.NoReports = q;
+            await _context.SaveChangesAsync();
+        }
+
+        //makes a list of reports for a thread
+        public IEnumerable<Report> ListOfReports(int? threadId)
+        {
+            return _context.Reports.Where(report => report.Thread.ID == threadId);
+        }
+
+        //deletes all the reports for the current thread/post
+        public async Task ResetReports(int? threadId)
+        {
+            //delete all the reports with the spesific thread Id 
+            _context.Reports.RemoveRange(_context.Reports.Where(x => x.Thread.ID == threadId));
+            await _context.SaveChangesAsync();
+            await UpdateReports(threadId);
+        }
+
+        public async Task FlagThread(int? threadId)
+        {
+            Thread t = GetById(threadId);
+            t.Flagged = true;
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

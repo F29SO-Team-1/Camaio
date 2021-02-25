@@ -1,0 +1,37 @@
+@model Login.Models.ApplicationUser.ProfileModelList
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Make User a different role</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Warning</th>
+            <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var users in Model.ProfileList)
+        {
+            <tr>
+                <th>
+                    <a asp-action="Index" asp-controller="Profile" asp-route-username="@users.Username">
+                        @users.Username
+                    </a>
+                </th>
+                <th>@users.UserRating</th>
+                <th>@users.Warnings</th>
+                <td>
+                    <a asp-action="MakeMod" asp-controller="Role" asp-route-userId="@users.UserId"> Mod </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a class="btn btn-primary" asp-controller="Role" asp-action="Index">Back to List</a>
+</div>

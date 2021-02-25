@@ -41,11 +41,6 @@ namespace Login
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>{webBuilder.UseStartup<Startup>();
-            Host.CreateDefaultBuilder(args).ConfigureAppConfiguration((builderContext, config) => 
-                {
-                    IHostEnvironment env = builderContext.HostingEnvironment;
-                    config.AddJsonFile("storageSettings.json", optional: false, reloadOnChange: true);
-                });
-        });
+            });
     }
 }

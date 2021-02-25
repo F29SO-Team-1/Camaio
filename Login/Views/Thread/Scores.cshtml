@@ -19,7 +19,9 @@
         {
             <tr>
                 <th>
-                    @threads.Title
+                    <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id">
+                        @threads.Title
+                    </a>
                 </th>
                 <th>@threads.Rating</th>
                 <td>@threads.Created</td>

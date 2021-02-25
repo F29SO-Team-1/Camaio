@@ -23,16 +23,22 @@ namespace Login.Controllers
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
+        private readonly IApplicationUsers _userService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public ThreadController(IThread thread,
             IConfiguration configuration,
             UserManager<LoginUser> userManager,
-            IUpload uploadService)
+            RoleManager<IdentityRole> roleManager,
+            IUpload uploadService,
+            IApplicationUsers userService)
         {
             _service = thread;
             _configuration = configuration;
             _userManager = userManager;
+            _roleManager = roleManager;
             _uploadService = uploadService;
+            _userService = userService;
         }
 
         [Route("Thread/{id?}")]
@@ -44,8 +50,8 @@ namespace Login.Controllers
             if (thread == null) return NotFound(); //if the thread number does not exist then not found
             //make a list of users that liked the thread
             var listOfLikes = _service.ListOfLikes(id);
-            //counts the amount of likes, counts the list 
-            //var count = _service.CountLikes(id);
+            //get the list of reports
+            var numberOfReports = _service.ListOfReports(id).Count();
 
             //make a view model for the thread
             var model = new ThreadModel
@@ -58,9 +64,73 @@ namespace Login.Controllers
                 Picture = thread.Image,
                 Title = thread.Title,
                 Rating = listOfLikes.Count(),
-                LikedBy = listOfLikes
+                LikedBy = listOfLikes,
+                NoReports = numberOfReports
             };
             return View(model);
+        }
+
+        //only allow modertators and admins to access the page
+        [Route("Reported")]
+        [Authorize(Roles = "Admin, Mod")]
+        public IActionResult Reported()
+        {
+            var threadModel = _service.GetAll().Select(threads => new ThreadModel
+            {
+                Id = threads.ID,
+                Title = threads.Title,
+                Created = threads.CreateDate,
+                Description = threads.Description,
+                Rating = threads.Votes,
+                AuthorUserName = threads.UserName,
+                NoReports = threads.NoReports
+            })
+                .Where(x => x.NoReports >= 1)
+                .OrderByDescending(x => x.NoReports)
+                .ToList();
+
+            var threadList = new ThreadList { ThreadLists = threadModel };
+            return View(threadList);
+        }
+
+        //Clears the reports that the thread had/has
+        public async Task<IActionResult> ResetReports(int? threadsId)
+        {
+            await _service.ResetReports(threadsId);
+            return RedirectToAction("Reported", "Thread");
+        }
+
+        //gives a user a warning and flaggs the thread/post
+        public async Task<IActionResult> FlagPost(int? threadsId)
+        {
+            //flags a thread
+            await _service.FlagThread(threadsId);
+            return RedirectToAction("Reported", "Thread");
+        }
+
+        //Deletes the thread and gives a warning 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdminDelete(int? threadsId)
+        {
+            Thread t = _service.GetById(threadsId);
+            var user = t.UserID;
+            //delete from reports first
+            await ResetReports(threadsId);
+            //deletes the thread
+            await _service.Delete(threadsId);
+            //Gives a user a warining
+            await _userService.GiveUserWarning(user);
+
+            return RedirectToAction("Reported", "Thread");
+        }
+
+        //allows a user to report a thread
+        [Authorize]
+        public async Task<IActionResult> Report(int? threadId)
+        {
+            var username = _userManager.GetUserName(User);
+            await _service.Report(threadId, username);
+            return RedirectToAction("Index", "Thread", new { @id = threadId });
         }
 
         [Route("Score/Threads")]
@@ -139,7 +209,7 @@ namespace Login.Controllers
             if (threadId == null) return NotFound();    //check if the threadId is passed as a param
             var thread = _service.GetById(threadId);    //gets the thread Id
             if (thread == null) return NotFound();      //check if the thread is a real thread
-            if (thread.UserName != userName) return NotFound();
+            if (thread.UserName != userName) return NotFound(); //checks if the person accessing the thread is the owner
 
             return View(thread);
         }

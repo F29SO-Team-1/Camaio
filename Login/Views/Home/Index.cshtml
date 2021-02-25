@@ -6,41 +6,43 @@
 
 <div style="height:80px;"></div>   
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">By</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Created</th>
-            <th scope="col">Description</th>
-            <th scope="col">Picture</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var thread in Model.ThreadLists)
-        {
-            //if there is no picture dont display
-            @if (thread.Picture == null) continue;
-             //loops through the db and displays it
-        <tr>
-            <th>
-                <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                    @thread.Title
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
-                    @thread.AuthorUserName
-                </a>
-            </th>
-            <th>@thread.Rating</th>
-            <td>@thread.Created</td>
-            <td>@thread.Description</td>
-            <td>
-                <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">By</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Created</th>
+                <th scope="col">Description</th>
+                <th scope="col">Picture</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var thread in Model.ThreadLists)
+            {
+                //if there is no picture dont display
+                @if (thread.Picture == null) continue;
+                //loops through the db and displays it
+                <tr>
+                    <th>
+                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                            @thread.Title
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
+                            @thread.AuthorUserName
+                        </a>
+                    </th>
+                    <th>@thread.Rating</th>
+                    <td>@thread.Created</td>
+                    <td>@thread.Description</td>
+                    <td>
+                        <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

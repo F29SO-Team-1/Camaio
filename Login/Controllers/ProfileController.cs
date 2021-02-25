@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace Login.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<LoginUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IApplicationUsers _service;
         private readonly IConfiguration _configuration;
         private readonly IUpload _uploadService;
@@ -28,6 +30,7 @@ namespace Login.Controllers
 
         public ProfileController(
             UserManager<LoginUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             IApplicationUsers userService,
             IUpload uploadService,
             IConfiguration configuration,
@@ -36,6 +39,7 @@ namespace Login.Controllers
             )
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _service = userService;
             _configuration = configuration;
             _uploadService = uploadService;
@@ -46,6 +50,7 @@ namespace Login.Controllers
         [Route("Profile/{username}")]
         public IActionResult Index(string username)
         {
+            if (!_service.IfUserExists(username)) return NotFound();
             var user = _service.GetByUserName(username);
             //want a list of threads, tick
             // threads will only display if you press your username when logged in button other wise it will not display the users threads
@@ -56,6 +61,8 @@ namespace Login.Controllers
             var ratting = _service.GetRatting(username, threads);
             //list of all the users that the user follows
             var listOfFollower = _service.UsersFollowers(user);
+            //user roles 
+            var userRoles = _userManager.GetRolesAsync(user);
 
             //build model
             var model = new ProfileModel()
@@ -68,22 +75,25 @@ namespace Login.Controllers
                 MemmberSince = user.MemberSince,
                 Threads = threads,
                 Channels = channels,
-                UsersFollowed = listOfFollower
+                UsersFollowed = listOfFollower,
+                Warnings = user.AccountWarnings,
+                Roles = userRoles
 
             };
             return View(model);
         }
         
         [Authorize]
-        public async Task Follow(string id)
+        public async Task<IActionResult> Follow(string id)
         {
             //user that presses the button
             var user = _userManager.GetUserName(User);
             await _service.Follows(user, id);
-            RedirectToAction("Index", id);
+            return RedirectToAction(id);
         }
 
 
+        //scoreboard of all the users
         [Route("Score/Users")]
         public IActionResult Scores()
         {
@@ -123,7 +133,8 @@ namespace Login.Controllers
                 Picture = threads.Image,
                 AuthorUserName = threads.UserName,
                 Rating = threads.Votes,
-                Id = threads.ID
+                Id = threads.ID,
+                Flagged = threads.Flagged
             });
         }
 
