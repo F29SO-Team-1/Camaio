@@ -74,9 +74,9 @@ namespace Login.Controllers
 
         public IActionResult AssignUser()
         {
-            //var userRoles = GetUsersRole();
             var userModel = _userService.GetAll().Select(user => new ProfileModel
             {
+                UserId = user.Id,
                 Username = user.UserName,
                 UserRating = user.Ratting,
                 Warnings = user.AccountWarnings
@@ -88,11 +88,6 @@ namespace Login.Controllers
             return View(userList);
         }
 
-        private async Task<IList<string>> GetUsersRole(string userId)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            return new List<string>(await _userManager.GetRolesAsync(user));
-        }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> MakeAdmin()
@@ -110,7 +105,12 @@ namespace Login.Controllers
             var userRole =  await _userManager.GetRolesAsync(user);
             foreach (var role in userRole)
             {
-                if (role == "Mod") return RedirectToAction("Index");
+                //toggle
+                if (role == "Mod")
+                {
+                    await _userManager.RemoveFromRoleAsync(user, "Mod");
+                    return RedirectToAction("Index");
+                }
             }
 
             await _userManager.AddToRoleAsync(user, "Mod");

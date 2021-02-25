@@ -11,7 +11,6 @@
             <th scope="col">Username</th>
             <th scope="col">Rating</th>
             <th scope="col">Warning</th>
-            <th scope="col">Current Role</th>
             <th scope="col">Options</th>
         </tr>
     </thead>
@@ -26,10 +25,8 @@
                 </th>
                 <th>@users.UserRating</th>
                 <th>@users.Warnings</th>
-                <th>nothing</th>
                 <td>
-                    <a asp-action="MakeMod" asp-controller="Role" asp-route-id="@users.UserId"> Mod </a>|
-                    <a asp-action="MakeUser" asp-controller="Role" asp-route-id="@users.UserId"> User</a>
+                    <a asp-action="MakeMod" asp-controller="Role" asp-route-userId="@users.UserId"> Mod </a>
                 </td>
             </tr>
         }
