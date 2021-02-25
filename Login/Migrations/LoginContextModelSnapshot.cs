@@ -96,6 +96,54 @@ namespace Login.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Login.Models.Achievement", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Achievement");
+                });
+
+            modelBuilder.Entity("Login.Models.AchievementProgress", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AchievementId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Completed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CompletedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Progress")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserNameId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AchievementId");
+
+                    b.HasIndex("UserNameId");
+
+                    b.ToTable("AchievementProgress");
+                });
+
             modelBuilder.Entity("Login.Models.Channel", b =>
                 {
                     b.Property<int>("Id")
@@ -252,12 +300,10 @@ namespace Login.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -294,12 +340,10 @@ namespace Login.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -307,6 +351,17 @@ namespace Login.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Login.Models.AchievementProgress", b =>
+                {
+                    b.HasOne("Login.Models.Achievement", "Achievement")
+                        .WithMany("AchievementProgress")
+                        .HasForeignKey("AchievementId");
+
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "UserName")
+                        .WithMany("Achievements")
+                        .HasForeignKey("UserNameId");
                 });
 
             modelBuilder.Entity("Login.Models.ChannelMember", b =>
