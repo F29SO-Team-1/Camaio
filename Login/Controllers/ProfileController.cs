@@ -1,13 +1,16 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
+using Login.Models;
 using Login.Models.ApplicationUser;
 using Login.Models.Threadl;
 using Login.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -18,57 +21,120 @@ namespace Login.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<LoginUser> _userManager;
-        private readonly IApplicationUsers _userService;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IApplicationUsers _service;
         private readonly IConfiguration _configuration;
         private readonly IUpload _uploadService;
         private readonly IThread _threadService;
+        private readonly IChannel _channelSerivce;
 
         public ProfileController(
             UserManager<LoginUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             IApplicationUsers userService,
             IUpload uploadService,
             IConfiguration configuration,
-            IThread threadService
+            IThread threadService,
+            IChannel channelSerivce
             )
         {
             _userManager = userManager;
-            _userService = userService;
+            _roleManager = roleManager;
+            _service = userService;
             _configuration = configuration;
             _uploadService = uploadService;
             _threadService = threadService;
+            _channelSerivce = channelSerivce;
         }
 
         [Route("Profile/{username}")]
         public IActionResult Index(string username)
         {
-            var user = _userService.GetByUserName(username);
-            var userId = _userManager.GetUserId(User);
+            if (!_service.IfUserExists(username)) return NotFound();
+            var user = _service.GetByUserName(username);
             //want a list of threads, tick
-            var threads = BuildThreadList(userId);
+            // threads will only display if you press your username when logged in button other wise it will not display the users threads
+            var threads = BuildThreadList(username);
+            //want a list of channels that the user is part of, tick
+            var channels = BuildChannelsList(username);
+            //calc the users Ratting
+            var ratting = _service.GetRatting(username, threads);
+            //list of all the users that the user follows
+            var listOfFollower = _service.UsersFollowers(user);
+            //user roles 
+            var userRoles = _userManager.GetRolesAsync(user);
 
+            //build model
             var model = new ProfileModel()
             {
                 Username = user.UserName,
                 UserId = user.Id,
-                UserRating = user.Ratting,
+                UserRating = ratting,
                 Email = user.Email,
                 ProfileImageUrl = user.ProfileImageUrl,
                 MemmberSince = user.MemberSince,
-                Threads = threads
+                Threads = threads,
+                Channels = channels,
+                UsersFollowed = listOfFollower,
+                Warnings = user.AccountWarnings,
+                Roles = userRoles
+
             };
             return View(model);
         }
+        
+        [Authorize]
+        public async Task<IActionResult> Follow(string id)
+        {
+            //user that presses the button
+            var user = _userManager.GetUserName(User);
+            await _service.Follows(user, id);
+            return RedirectToAction(id);
+        }
+
+
+        //scoreboard of all the users
+        [Route("Score/Users")]
+        public IActionResult Scores()
+        {
+            var userModel = _service.GetAll().Select(user => new ProfileModel
+            {
+                ProfileImageUrl = user.ProfileImageUrl,
+                Username = user.UserName,
+                UserRating = user.Ratting
+            })
+                .OrderByDescending(x => x.UserRating)
+                .ToList(); ;
+
+            var userList = new ProfileModelList { ProfileList = userModel };
+
+            return View(userList);
+        }
+
+        private IEnumerable<ChannelModel> BuildChannelsList(string username)
+        {
+            return _channelSerivce.UserChannel(username).Select(c => new ChannelModel
+            {
+                Id = c.Id,
+                Title = c.Title,
+                Description = c.Description,
+                CreationDate = c.CreationDate
+            });
+        }
 
         //makes the model to me passed in the view
-        private IEnumerable<ThreadModel> BuildThreadList(string userId)
+        private IEnumerable<ThreadModel> BuildThreadList(string userName)
         {
-            return _threadService.UserThreads(userId).Select(threads => new ThreadModel
+            return _threadService.UserThreads(userName).Select(threads => new ThreadModel
             {
-                Id = threads.ID,
                 Title = threads.Title,
                 Description = threads.Description,
                 Created = threads.CreateDate,
-                Picture = threads.Image
+                Picture = threads.Image,
+                AuthorUserName = threads.UserName,
+                Rating = threads.Votes,
+                Id = threads.ID,
+                Flagged = threads.Flagged
             });
         }
 
@@ -90,7 +156,7 @@ namespace Login.Controllers
             //On that block blob, Upload our file <-- file uploaded to the cloud
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
             //set the users profileimage to the URI
-            await _userService.SetProfileImage(userName, blockBlob.Uri);
+            await _service.SetProfileImage(userName, blockBlob.Uri);
             //redirects to the users's profile page
             return RedirectToAction("Index", "Profile", new { username = userName });
         }

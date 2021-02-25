@@ -2,37 +2,145 @@
 @using Login.Areas.Identity.Data
 @model Login.Models.ApplicationUser.ProfileModel
 
-@inject SignInManager<LoginUser> SignInManager
-@inject UserManager<LoginUser> UserManager
-<header>
-    <h1 style="text-align:center"> @ViewData["Title"]</h1>
-    <link rel="stylesheet" type="text/css" href="./css/site.css" media="screen" />
+@{
+    ViewData["Title"] = "Profile Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-</header>
-<body>
-    <div class="container">
-        <div class="row m-b-r m-t-3">
-            <div class="container">
-                <div class="row userProfile">
-                    <div class="col-md-4">
-                        <div id="userProfileImage" style="background-image: url(@Model.ProfileImageUrl)"></div>
+
+
+<div class="container">
+    <h2>Hello @Model.Username, @Model.UserRating</h2>
+    <a class="btn btn-primary"
+       asp-controller="Profile"
+       asp-action="Follow"
+       asp-route-id="@Model.Username">
+        Follow
+    </a>
+</div>
+
+
+@if (Model.ProfileImageUrl == null)
+{
+    <div>
+        No Image
+    </div>
+}
+else
+{
+<img src="@Model.ProfileImageUrl" style="width: 20%; height:20%;" alt="ProfilePic" />
+}
+
+
+@if (User.Identity.Name == Model.Username)
+{
+    <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
+        <div id="form-group">
+            <div class="form-group">
+                <span asp-validation-for="ProfileImageUrl"></span>
+                <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
+            </div>
+            <button type="submit" id="submitProfilePicBtn" class="btn btn-light">
+                Submit
+            </button>
+        </div>
+    </form>
+}
+
+<hr />
+Is Followed By :
+@foreach (var item in Model.UsersFollowed)
+{
+    @item.Username;
+}
+<hr />
+Number of Warnings : @Model.Warnings
+
+<hr />
+
+Roles:
+@foreach (var roles in @Model.Roles.Result)
+{
+    @roles
+}
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2 style="text-align:center"> @Model.Username Posts</h2>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
                         @if (User.Identity.Name == Model.Username)
                         {
-                            <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
-                                <div id="form-group">
-                                    <div class="form-group">
-                                        <span asp-validation-for="ProfileImageUrl"></span>
-                                        <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
-                                    </div>
-                                    <button type="submit" id="submitProfilePicBtn" class="btn btn-light">
-                                        Submit
-                                    </button>
-                                </div>
-                            </form>
+                            <th scope="col">Flaged</th>
                         }
-                    </div>
-                </div>
-            </div>
+                        <th scope="col">Title</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Picture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var thread in Model.Threads)
+                    {
+                        //if there is no picture dont display
+                        //@if (thread.Picture == null) continue;
+                        //loops through the db and displays it
+                        <tr>
+                            @if (User.Identity.Name == Model.Username)
+                            {
+                                <th>
+                                    @if (@thread.Flagged)
+                                    {
+                                        <p style="color:red">Yes</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="color:green">No</p>
+                                    }
+                                </th>
+                            }
+
+                            <th>
+                                <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                                    @thread.Title
+                                </a>
+                            </th>
+                            <th>@thread.Rating</th>
+                            <td>@thread.Created</td>
+                            <td>@thread.Description</td>
+                            <td>
+                                <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            <h2 style="text-align:center"> @Model.Username Channels</h2>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var channels in Model.Channels)
+                    {
+                        <tr>
+                            <th>@channels.Title</th>
+                            <th>@channels.Description</th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
-</body>
+</div>

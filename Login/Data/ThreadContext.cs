@@ -15,10 +15,22 @@ namespace Login.Data
         {
         }
         public DbSet<Thread> Threads { get; set; }
+        public DbSet<Likes> Likes { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Thread>().ToTable("Thread");
+            //make the List Table
+            modelBuilder.Entity<Thread>()
+                .ToTable("Thread")
+                .HasMany(thread => thread.LikedBy)
+                .WithOne(like => like.Thread);
+
+            //make the report table
+            modelBuilder.Entity<Thread>()
+                .ToTable("Thread")
+                .HasMany(t => t.Reports)
+                .WithOne(report => report.Thread);
         }
     }
 }

@@ -10,6 +10,10 @@
     <EmbeddedResource Remove="Pictures\**" />
     <None Remove="Pictures\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20210217161050_adding superUsers.cs" />
+    <Compile Remove="Migrations\20210217161050_adding superUsers.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\download.svg" />
@@ -25,7 +29,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 </Project>

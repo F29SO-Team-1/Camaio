@@ -2,19 +2,11 @@ using Login.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
-using Login.Models;
 using Login.Service;
 
 namespace Login
@@ -52,6 +44,7 @@ namespace Login
             services.AddScoped<IThread, ThreadService>();
             services.AddScoped<IApplicationUsers, ApplicationUserService>();
             services.AddScoped<IUpload, UploadService>();
+            services.AddScoped<IChannel, ChannelService>();
 
             //added the connetion to Azure
             services.AddSingleton(Configuration);

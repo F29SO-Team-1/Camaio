@@ -1,5 +1,7 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
+using Login.Models;
+using Login.Models.Threadl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +32,27 @@ namespace Login.Service
             return GetAll().FirstOrDefault(u => u.UserName == username);
         }
 
-        public Task IncrementRating(string id, Type type)
+        public bool IfUserExists(string username)
         {
-            throw new NotImplementedException();
+            return _context.Users.Any(x => x.UserName == username);
+        }
+
+        public int GetRatting(string username, IEnumerable<ThreadModel> threadList)
+        {
+            var user = GetByUserName(username);
+            user.Ratting = 0;
+            foreach (var post in threadList)
+            {
+                user.Ratting += post.Rating;
+            }
+            UpdateUser(user);
+            return user.Ratting;
+        }
+
+        public void UpdateUser(LoginUser user)
+        {
+            _context.Update(user);
+            _context.SaveChanges();
         }
 
         public async Task SetProfileImage(string username, Uri uri)
@@ -42,5 +62,47 @@ namespace Login.Service
             _context.Update(user);
             await _context.SaveChangesAsync();
         }
+
+        public async Task Follows(string userA, string userB)
+        {
+            var fromUser = GetByUserName(userA);
+            var wantsToFollow = GetByUserName(userB);
+
+            //new instance of follow
+            var follow = new Following
+            {
+                Username = fromUser.UserName,
+                FollowingUsers = wantsToFollow
+            };
+
+            //check if the user already follows this user
+            foreach (Following f in UsersFollowers(wantsToFollow))
+            {
+                //the user cannot follow them selfs 
+                //and cannot keep following if already on the list
+                if (fromUser == wantsToFollow || f.Username == fromUser.UserName) return;
+            }
+
+            _context.Add(follow);
+
+            await _context.SaveChangesAsync();
+        }
+
+        //returns a list of users that the user follows
+        public IEnumerable<Following> UsersFollowers(LoginUser user)
+        {
+            return _context.Follow
+                .Where(f => f.FollowingUsers == user)
+                .ToList();
+        }
+
+        public async Task GiveUserWarning(string userId)
+        {
+            LoginUser u = GetById(userId);
+            u.AccountWarnings += 1;
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }

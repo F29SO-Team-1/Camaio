@@ -1,16 +1,103 @@
-﻿@model Login.Models.Threadl.ThreadModel
-<h1>Threads</h1>
-<a class="nav-link text-dark" asp-area="" asp-controller="Thread" asp-action="Create">Create New Thread</a>
-<div class="card-deck">
-    <p>Title : @Model.Title</p>
-    <p>Created : @Model.Created</p>
-    <p>Description : @Model.Description</p>
-    <div id="userProfileImage" style="background-image: url(@Model.Picture)"></div>
-    <a asp-action="Edit" asp-route-threadId="@Model.Id">|Edit|</a>
+﻿@using Microsoft.AspNetCore.Identity
+@using Login.Areas.Identity.Data
+@model Login.Models.Threadl.ThreadModel
+@inject UserManager<LoginUser> UserManager
+@*this is the model that can be used within the View, check the path what can be passed in*@
 
-@*    <a asp-action="RatingIncrement" asp-route-id="@Model.Id">Like</a>
-
-
-    <p>Description : @Model.Rating</p>
-*@
+<div class="card" style="margin-top:2%">
+    <div class="card-header">
+        <h3>@Model.Title</h3>
+    </div>
+    <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 20%; height:20%">
+    <div class="card-body">
+        <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
+            <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
+        </a>
+        <h6 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h6>
+        <p class="card-text">@Model.Description</p>
+        <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>
+        @* Checks if a user is signed in and not viewing it as a guest *@
+        @if (User.Identity.Name != null)
+        {
+            <div id="likeSection">
+                @if (Model.LikedBy.Count() == 0)
+                {
+                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                }
+                else
+                {
+                    <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>
+                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                }
+            </div>
+        }
+            
+    </div>
+    <div class="card-footer">
+        <small class="text-muted">
+            <a asp-action="Report" asp-route-threadId="@Model.Id">Report</a>
+            @if (User.Identity.Name == Model.AuthorUserName)
+            {
+                <a asp-action="Edit" asp-route-threadId="@Model.Id">Edit</a>
+                <a asp-action="Delete" asp-route-threadId="@Model.Id">Delete</a>
+            }
+        </small>
+    </div>
 </div>
+
+@section Scripts
+{
+    
+    <script type="text/javascript">
+        $(document).ready (function () {
+
+            @*like btn here*@
+            $('#likeBtn').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Thread/RatingIncrement",
+                    dataType: 'JSON',
+                    data: JSON.stringify(@Model.Id), @*Passes the current Id of the thread*@
+                    contentType: "application/json",
+                    success: function (result) {    @*If the response from the contoler is correct then do the following*@
+                        $('#like').html(result);
+                        console.log(result);
+                    },
+                    error: function (err) {
+                        console.log("Error: " + err);
+                    }
+                })
+                @*document.getElementById("disLikeBtn").innerHTML = 'Unlike';
+                console.log("there we go");*@
+            });
+
+            @*unlike btn here*@
+            $('#disLikeBtn').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Thread/RatingDecrease",
+                    dataType: 'JSON',
+                    data: JSON.stringify(@Model.Id), @*Passes the current Id of the thread*@
+                    contentType: "application/json",
+                    success: function (result) {    @*If the response from the contoler is correct then do the following*@
+                        $('#like').html(result);
+                        console.log(result);
+                    },
+                    error: function (err) {
+                        console.log("Error: " + err);
+                    }
+                })
+                @*document.getElementById("likeBtn").innerHTML = 'Like';
+                console.log("there we go");*@
+            });
+        });
+
+        @**@
+        var myModal = document.getElementById('myModal')
+        var myInput = document.getElementById('myInput')
+
+        myModal.addEventListener('shown.bs.modal', function () {
+            myInput.focus()
+        })
+    </script>
+}

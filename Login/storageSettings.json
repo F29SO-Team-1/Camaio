@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "AzureStorageAccount": "DefaultEndpointsProtocol=https;AccountName=camaiologinstorage;AccountKey=PZFIAfLxMcJbRAkAstYX2XAqbv4N8AREaLhh462kL+Jw4U+fSN7qYPX/jJJXECn4kjYoPPKgicu30aqNpPP00Q==;EndpointSuffix=core.windows.net"
-  }
- }

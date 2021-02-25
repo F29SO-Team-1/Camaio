@@ -1,77 +1,203 @@
-﻿using Login.Data;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using Microsoft.Extensions.Configuration;
-using Login.Models.Threadl;
-using System.Threading.Tasks;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
 using Login.Models;
-using Microsoft.AspNetCore.Identity;
-using Login.Areas.Identity.Data;
-using System;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
+using Login.Models.Threadl;
 using Login.Service;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+
 
 namespace Login.Controllers
 {
     public class ThreadController : Controller
     {
         private readonly IThread _service;
-        private readonly ThreadContext _context;
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
+        private readonly IApplicationUsers _userService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public ThreadController(IThread thread, 
-            ThreadContext context, 
-            IConfiguration configuration, 
-            UserManager<LoginUser> userManager, 
-            IUpload uploadService)
+        public ThreadController(IThread thread,
+            IConfiguration configuration,
+            UserManager<LoginUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IUpload uploadService,
+            IApplicationUsers userService)
         {
             _service = thread;
-            _context = context;
             _configuration = configuration;
             _userManager = userManager;
+            _roleManager = roleManager;
             _uploadService = uploadService;
+            _userService = userService;
         }
 
         [Route("Thread/{id?}")]
-        //To view ONE thread whatever
+        //To view ONE thread
         public IActionResult Index(int? id)
         {
             //get the id of the thread
             var thread = _service.GetById(id);
-
-            //TODO Replies
+            if (thread == null) return NotFound(); //if the thread number does not exist then not found
+            //make a list of users that liked the thread
+            var listOfLikes = _service.ListOfLikes(id);
+            //get the list of reports
+            var numberOfReports = _service.ListOfReports(id).Count();
 
             //make a view model for the thread
             var model = new ThreadModel
             {
                 Id = thread.ID,
                 AuthorId = thread.UserID,
+                AuthorUserName = thread.UserName,
                 Created = thread.CreateDate,
                 Description = thread.Description,
                 Picture = thread.Image,
                 Title = thread.Title,
-                Rating = thread.Votes
+                Rating = listOfLikes.Count(),
+                LikedBy = listOfLikes,
+                NoReports = numberOfReports
             };
-
             return View(model);
         }
 
-
-        /*public IActionResult RatingIncrement(int? id)
+        //only allow modertators and admins to access the page
+        [Route("Reported")]
+        [Authorize(Roles = "Admin, Mod")]
+        public IActionResult Reported()
         {
-            _service.IncrementRating(id);
-            //return View();
-        }*/
+            var threadModel = _service.GetAll().Select(threads => new ThreadModel
+            {
+                Id = threads.ID,
+                Title = threads.Title,
+                Created = threads.CreateDate,
+                Description = threads.Description,
+                Rating = threads.Votes,
+                AuthorUserName = threads.UserName,
+                NoReports = threads.NoReports
+            })
+                .Where(x => x.NoReports >= 1)
+                .OrderByDescending(x => x.NoReports)
+                .ToList();
+
+            var threadList = new ThreadList { ThreadLists = threadModel };
+            return View(threadList);
+        }
+
+        //Clears the reports that the thread had/has
+        public async Task<IActionResult> ResetReports(int? threadsId)
+        {
+            await _service.ResetReports(threadsId);
+            return RedirectToAction("Reported", "Thread");
+        }
+
+        //gives a user a warning and flaggs the thread/post
+        public async Task<IActionResult> FlagPost(int? threadsId)
+        {
+            //flags a thread
+            await _service.FlagThread(threadsId);
+            return RedirectToAction("Reported", "Thread");
+        }
+
+        //Deletes the thread and gives a warning 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdminDelete(int? threadsId)
+        {
+            Thread t = _service.GetById(threadsId);
+            var user = t.UserID;
+            //delete from reports first
+            await ResetReports(threadsId);
+            //deletes the thread
+            await _service.Delete(threadsId);
+            //Gives a user a warining
+            await _userService.GiveUserWarning(user);
+
+            return RedirectToAction("Reported", "Thread");
+        }
+
+        //allows a user to report a thread
+        [Authorize]
+        public async Task<IActionResult> Report(int? threadId)
+        {
+            var username = _userManager.GetUserName(User);
+            await _service.Report(threadId, username);
+            return RedirectToAction("Index", "Thread", new { @id = threadId });
+        }
+
+        [Route("Score/Threads")]
+        public IActionResult Scores()
+        {
+            var threadModel = _service.GetAll().Select(threads => new ThreadModel
+            {
+                Title = threads.Title,
+                Rating = threads.Votes,
+                Created = threads.CreateDate,
+                Picture = threads.Image,
+                Id = threads.ID
+            })
+                .OrderByDescending(x => x.Rating)
+                .ToList();
+
+            var threadList = new ThreadList { ThreadLists = threadModel };
+            return View(threadList);
+        }
+
+        //takes in a ajax call from the view, returns a JSON back to the view, the like btn
+        [Authorize]
+        public async Task<IActionResult> RatingIncrement([FromBody] int? id)
+        {
+            var userId = _userManager.GetUserId(User);  //gets the usersId
+            var wholeThread = _service.GetById(id);
+            //make a list of users that liked the thread
+            var listOfLikes = _service.ListOfLikes(id);
+            if (id == null) NotFound();
+            //check if the user already pressed the btn
+            if (_service.CheckAreadyLiked(wholeThread, userId) == true)
+            {
+                return Json(listOfLikes.Count());
+            }
+            else
+            {
+                //add the user that pressed the button to the list of liked on the thread
+                await _service.AddUserToLikeList(id, userId);
+                wholeThread.Votes = listOfLikes.Count();
+                return Json(listOfLikes.Count());    //makes a json with the amount of votes that are currently in the database
+            }
+            
+        }
+        
+        [Authorize]
+        public async Task<IActionResult> RatingDecrease([FromBody]int? id)
+        {
+            var userId = _userManager.GetUserId(User);  //gets the usersId
+            var wholeThread = _service.GetById(id);
+            var listOfLikes = _service.ListOfLikes(id);
+            if (id == null) NotFound();
+            if (_service.CheckAreadyLiked(wholeThread, userId) == true)
+            {
+                //remove the user from the table
+                await _service.RemoveUserFromLikeList(id, userId);
+                //show the decerase 
+                return Json(listOfLikes.Count());
+            }
+            else
+            {
+                return Json(listOfLikes.Count());    //makes a json with the amount of votes that are currently in the database
+            }
+        }
 
         // Visual to the website
         [Authorize]
-        public IActionResult Create() //id is the username
+        public IActionResult Create()
         {
             return View();
         }
@@ -79,16 +205,18 @@ namespace Login.Controllers
         //Get request, View
         public IActionResult Edit(int? threadId)
         {
-            if (threadId == null) return NotFound();
-
-            var thread = _service.GetById(threadId);
-            if (thread == null) return NotFound();
+            var userName = _userManager.GetUserName(User); //gets the usersName
+            if (threadId == null) return NotFound();    //check if the threadId is passed as a param
+            var thread = _service.GetById(threadId);    //gets the thread Id
+            if (thread == null) return NotFound();      //check if the thread is a real thread
+            if (thread.UserName != userName) return NotFound(); //checks if the person accessing the thread is the owner
 
             return View(thread);
         }
 
         // does the post to the db
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Thread thread)
         {
             if (thread == null) return NotFound();
@@ -101,7 +229,7 @@ namespace Login.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_service.ThreadExists(thread.ID)) return NotFound(); 
+                    if (!_service.ThreadExists(thread.ID)) return NotFound();
                     else throw;
                 }
                 return RedirectToAction("Index", "Thread", new { @id = thread.ID });
@@ -116,36 +244,17 @@ namespace Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddThread(Thread model, IFormFile file)
         {
-            var userId = _userManager.GetUserId(User);
-            var user = await _userManager.FindByIdAsync(userId);
-
-            var thread = BuildThread(model, user, file);
-
-            _context.Add(thread);
-
-            await _context.SaveChangesAsync();
-
-            await UploadTreadImage(file, thread.ID);
-            //TODO User score HERE
-
-            return RedirectToAction("Index", "Thread", new { @id = thread.ID });
+            var userId = _userManager.GetUserId(User);  //gets the usersId
+            var user = await _userManager.FindByIdAsync(userId);    //gets the userName
+            var thread = _service.Create(model, user);  //creates the thread
+            var threadId = thread.Result.ID;    //gets the Threads id
+            await UploadThreadImage(file, threadId);    //uploads the threadImage
+            return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
         }
 
-        private Thread BuildThread(Thread model, LoginUser user, IFormFile file)
-        {
-            return new Thread
-            {
-                Title = model.Title,
-                CreateDate = DateTime.Now,
-                Description = model.Description,
-                ID = model.ID,
-                UserID = user.Id,
-                Votes = model.Votes
-            };
-        }
-
+        //Uploads the Image to the Azure blob container
         [HttpPost]
-        public async Task<IActionResult> UploadTreadImage(IFormFile file, int id)
+        public async Task<IActionResult> UploadThreadImage(IFormFile file, int id)
         {
             var thread = _service.GetById(id);
             //connect to azure account container
@@ -164,6 +273,23 @@ namespace Login.Controllers
             await _service.UploadPicture(thread.ID, blockBlob.Uri);
 
             return RedirectToAction("Index", "Profile");
+        }
+
+        //functions for displaying the Delete thread page
+        public IActionResult Delete(int? threadId)
+        {
+            var userName = _userManager.GetUserName(User);
+            var thread = _service.GetById(threadId);
+            if (thread.UserName != userName) return NotFound();
+            return View(thread);
+        }
+
+        //action of deleting the thread
+        public async Task<IActionResult> DeleteThread(int? id)
+        {
+            if (id == null) return NotFound();
+            await _service.Delete(id);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
