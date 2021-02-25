@@ -61,6 +61,8 @@ namespace Login.Controllers
             var ratting = _service.GetRatting(username, threads);
             //list of all the users that the user follows
             var listOfFollower = _service.UsersFollowers(user);
+            //user roles 
+            var userRoles = _userManager.GetRolesAsync(user);
 
             //build model
             var model = new ProfileModel()
@@ -74,7 +76,8 @@ namespace Login.Controllers
                 Threads = threads,
                 Channels = channels,
                 UsersFollowed = listOfFollower,
-                Warnings = user.AccountWarnings 
+                Warnings = user.AccountWarnings,
+                Roles = userRoles
 
             };
             return View(model);
