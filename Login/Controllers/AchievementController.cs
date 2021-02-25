@@ -1,4 +1,6 @@
-﻿using Login.Data;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
+using Login.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,21 +12,27 @@ namespace Login.Controllers
 {
     public class AchievementController : Controller
     {
-        private readonly IAchievement _achievement;
-        public AchievementController(IAchievement achievement)
+        private readonly IAchievement _service;
+        public AchievementController(IAchievement service)
         {
-            _achievement = achievement;
+            _service = service;
         }
         [Route("{username}/Achievements")]
         public IActionResult Index(string username)
         {
-            //build model
-            var model = new ProfileModel()
-            {
+            var usersAchiev = _service.GetAllAchievements();
+            //var listOfAchiev = BuildAchievementsList(username);
 
-            };
-            return View(model);
-            return View();
+            //build model
+            var model = _service.GetAllAchievements().Select(achiev => new AchievementModel
+            {
+                Name = achiev.Name,
+                Description = achiev.Description,
+                Picture = achiev.Picture
+            });
+
+            var usersAchievementList = new AchievementModelList { AchievementLists = model };
+            return View(usersAchievementList);
         }
 
         [Authorize(Roles = "Admin")]
@@ -33,5 +41,16 @@ namespace Login.Controllers
             return View();
         }
 
+
+        //makes the model to me passed in the view
+        /*private IEnumerable<AchievementModel> BuildAchievementsList(LoginUser userName)
+        {
+            return _service.UsersAchievements(userName).Select(achievement => new AchievementModel
+            {
+                Name = achievement.Name,
+                Description = achievement.Description,
+                Picture = achievement.Picture
+            });
+        }*/
     }
 }
