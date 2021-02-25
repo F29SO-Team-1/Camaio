@@ -57,6 +57,14 @@ Is Followed By :
 Number of Warnings : @Model.Warnings
 
 <hr />
+
+Roles:
+@foreach (var roles in @Model.Roles.Result)
+{
+    @roles
+}
+
+<hr />
 <div class="container">
     <div class="row">
         <div class="col-sm">
