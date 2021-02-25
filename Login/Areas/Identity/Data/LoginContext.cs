@@ -13,6 +13,7 @@ namespace Login.Data
         }
 
         public DbSet<Following> Follow { get; set; }
+        public DbSet<AchievementModel> Achievement { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,10 +22,13 @@ namespace Login.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            //this is for the list of users that follow a user 
             builder.Entity<LoginUser>()
                .ToTable("AspNetUsers")
                .HasMany(user => user.FollowsUser)
                .WithOne(following => following.FollowingUsers);
+
+            //builder.Entity<LoginUser>().ToTable("AspNetUsers").HasMany(user => user.)
         }
     }
 }

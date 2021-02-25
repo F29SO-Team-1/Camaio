@@ -13,6 +13,7 @@ namespace Login.Areas.Identity.Data
         public DateTime MemberSince { get; internal set; }
         public ICollection<ChannelMember> ChannelMembers { get; set; }
         public IEnumerable<Following> FollowsUser { get; set; }
+        public IEnumerable<AchievementModel> Achievements { get; set; }
         public int AccountWarnings { get; set; }
     }
 }
