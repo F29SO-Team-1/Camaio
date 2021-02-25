@@ -12,11 +12,9 @@
 
 ### Current live versions of the project can be accessed:
 
-[feature](https://camaio.co.uk/) Branch
-
-[Company-webside](https://company.camaio.co.uk:82/) Branch
-
 Domain : [Camaio](https://camaio.co.uk/)
+
+[Company-webside](http://company.camaio.co.uk:82/) Branch
 
 ### Dependencies
 
