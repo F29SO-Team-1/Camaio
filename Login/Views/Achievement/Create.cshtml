@@ -7,33 +7,7 @@
 
 <hr />
 <div class="row">
-    <div class="content-box">
-        <h3>Upload Images</h3>
-        <form asp-action="AddThread" enctype="multipart/form-data" method="post">
-            <div class="form-group">
-                <p>Title: </p>
-                <span asp-validation-for="Title"></span>
-                <input asp-for="Title" class="form-control" />
-            </div>
-            <div class="form-group">
-                <p>Description: </p>
-                <span asp-validation-for="Description"></span>
-                <input asp-for="Description" class="form-control" maxlength="256"/>
-            </div>
-            <div class="form-group">
-                <label asp-for="Picture">Picture: </label>
-                <span asp-validation-for="Picture"></span>
-                <input asp-for="Picture" type="file" id="file" name="file" />
-            </div>
-            <br />
-            <button type="submit" id="btn-light submitThreadBtn" class="btn btn-light btn-submitThread">
-                Submit
-            </button>
-            <input asp-for="AuthorId" type="hidden">
-            <input asp-for="Created" type="hidden">
-            <input asp-for="AuthorUserName" type="hidden">
-        </form>
-    </div>
+
 </div>
 
 
