@@ -264,7 +264,7 @@ namespace Login.Controllers
             //parse the context disposition response header
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
             //grab the filename
-            var filename = contentDisposition.FileName.Trim('"');
+            var filename = contentDisposition.FileName.Trim('"').Concat(thread.UserID + thread.CreateDate).ToString();
             //get a refrence to a block blob
             var blockBlob = container.GetBlockBlobReference(filename);
             //On that block blob, Upload our file <-- file uploaded to the cloud
