@@ -5,10 +5,10 @@
 @model Login.Models.Channel
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to @Model.Title management</h1>
+    <h1 class="display-4">@Model.Title Management</h1>
     <div>
 <div class="row">
-    <div class="col-md-4">
+    <div class="manage-channel">
         <form asp-action="UpdateChannel" asp-route-id=@Model.Title>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -17,7 +17,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Update Channel" class="btn btn-primary" />
+                <input type="submit" value="Update Channel" class="createButton" />
             </div>
         </form>
     </div>

@@ -338,6 +338,137 @@ body {
 
 /*-----------------End of 'Home Page' CSS-----------------------------*/
 
+
+/*-----------------Start of 'Upload Page' CSS -----------------------*/
+
+
+btn btn-light btn-submitThread
+
+
+.upload-form  {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+
+.upload-form .form-group {
+    flex-direction: column;
+    color: greenyellow;
+}
+
+.upload-form .form-control{
+    width: auto;
+}
+
+.upload-form .form-group{
+    flex-direction: column;
+    margin: 5% 0;
+    text-align: center;
+    color: greenyellow;
+}
+
+.upload-form h1 {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.upload-form a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: greenyellow;
+}
+
+
+
+
+
+/*-----------------End of 'Upload Page' CSS-----------------------------*/
+
+
+/*-----------------Start of 'Channels Page' CSS -----------------------*/
+
+.createButton {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    color: white; 
+}
+
+.createButton:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
+.create-channel  {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+.create-channel .form-group {
+    flex-direction: column;
+    color: greenyellow;
+    margin: 5% 0;
+    text-align: center;
+}
+
+.create-channel .form-control{
+    width: auto;
+}
+
+.create-channel h1 {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.create-channel a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: greenyellow;
+}
+
+.manage-channel .form-group{
+    flex-direction: column;
+    color: greenyellow;
+    margin: 5% 0;
+    text-align: center;
+}
+
+.manage-channel  {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+.manage-channel .form-control{
+    width: auto;
+}
+
+
+
+
+/*-----------------End of 'Channels Page' CSS --------------------------*/ 
+
 /*-----------------Start of 'Privacy Page' CSS---------------------------*/
 
 .h1 {
