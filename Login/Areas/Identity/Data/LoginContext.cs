@@ -32,7 +32,7 @@ namespace Login.Data
             builder.Entity<LoginUser>()
                 .ToTable("AspNetUsers")
                 .HasMany(a => a.Achievements)
-                .WithOne(x=>x.UserName);
+                .WithOne(x=>x.User);
 
 
         }
