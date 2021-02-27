@@ -13,22 +13,33 @@ namespace Login.Controllers
     public class AchievementController : Controller
     {
         private readonly IAchievement _service;
-        public AchievementController(IAchievement service)
+        private readonly IApplicationUsers _userService;
+        public AchievementController(IAchievement service, IApplicationUsers userService)
         {
             _service = service;
+            _userService = userService;
         }
+
         [Route("{username}/Achievements")]
         public IActionResult Index(string username)
         {
-            var usersAchiev = _service.GetAllAchievements();
-            //var listOfAchiev = BuildAchievementsList(username);
+            LoginUser user = _userService.GetByUserName(username);
+            int? usersAch = _service.GetUsersAchievement(user).Count();
+            int totalAmountOfAch = _service.GetAllAchievements().Count();
+            //checks the number of Achievements compared to the number of users Achievements
+            if (usersAch != totalAmountOfAch) _service.AssignAchievementsToUser(user);
+            if (usersAch == null) return NotFound();
 
             //build model
-            var model = _service.GetAllAchievements().Select(achiev => new AchievementModel
+            var model = _service.GetUsersAchievement(user).Select(achiev => new AchievementModel
             {
-                Name = achiev.Name,
-                Description = achiev.Description,
-                Picture = achiev.Picture
+                Picture = achiev.Achievement.Picture,
+                Name = achiev.Achievement.Name,
+                Description = achiev.Achievement.Description,
+                Progress = achiev.UsersProgress,
+                MaxProgress = achiev.MaxProgress,
+                CompletedTime = achiev.CompletedTime,
+                Completed = achiev.Completed
             });
 
             var usersAchievementList = new AchievementModelList { AchievementLists = model };
@@ -41,16 +52,5 @@ namespace Login.Controllers
             return View();
         }
 
-
-        //makes the model to me passed in the view
-        /*private IEnumerable<AchievementModel> BuildAchievementsList(LoginUser userName)
-        {
-            return _service.UsersAchievements(userName).Select(achievement => new AchievementModel
-            {
-                Name = achievement.Name,
-                Description = achievement.Description,
-                Picture = achievement.Picture
-            });
-        }*/
     }
 }
