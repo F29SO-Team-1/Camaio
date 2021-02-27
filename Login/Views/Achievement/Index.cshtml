@@ -9,38 +9,51 @@
         <thead>
             <tr>
                 <th scope="col">Image</th>
-                <th scope="col">Title</th>
+                <th scope="col">Name</th>
                 <th scope="col">Description</th>
-                <th scope="col">Progress</th>
+                <th scope="col">User Progress</th>
                 <th scope="col">Achieved</th>
                 <th scope="col">When</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var ach in Model.AchievementLists)
+            @foreach (var achieve in Model.AchievementLists)
             {
                 <tr>
                     <th>
-                        <img src="@ach.Picture" alt="AchievementOne" style="width: 200px; height:200px;" />
+                        <img src="@achieve.Picture" alt="AchievementOne" style="width: 200px; height:200px;" />
                     </th>
                     <th>
-                        @ach.Name
+                        @achieve.Name
                     </th>
                     <td>
-                        @ach.Description
+                        @achieve.Description
                     </td>
                     <td>
-                        [Achievements progression bar HERE]
+                        @achieve.Progress / @achieve.MaxProgress
                     </td>
                     <td>
-                        [Achievements have it ?]
+                        @if (@achieve.Completed) 
+                        { 
+                            <div>Yes</div>
+                        } 
+                        else 
+                        { 
+                            <div>No</div> 
+                        }
                     </td>
                     <td>
-                        [Achievements date of getting it]
+                        @if (@achieve.Completed)
+                        {
+                            <div>@achieve.CompletedTime</div>
+                        }
+                        else
+                        {
+                            <div>N/A</div>
+                        }
                     </td>
                 </tr>
             }
-
         </tbody>
     </table>
 </div>
