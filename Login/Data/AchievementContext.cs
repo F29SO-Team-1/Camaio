@@ -13,11 +13,6 @@ namespace Login.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //make the List Table
-            /*modelBuilder.Entity<Achievement>()
-                .ToTable("Achievement")
-                .HasMany(x => x.AchievementProgress)
-                .WithOne(x=>x.Achievement);*/
 
         }
     }

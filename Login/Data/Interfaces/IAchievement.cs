@@ -11,6 +11,11 @@ namespace Login.Data
     {
         IEnumerable<Achievement> GetAllAchievements();
 
+        //admins only
+        Task<Achievement> MakeAchievement(Achievement model);
 
+        Task AssignAchievementsToUser(LoginUser user);
+
+        IEnumerable<AchievementProgress> GetUsersAchievement(LoginUser user);
     }
 }
