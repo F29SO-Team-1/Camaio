@@ -42,20 +42,19 @@ head-spacer{
     width:100%;
 }
 
-.home-image{
+.title{
     position: absolute;
-    width: 50px;
-    height: 50px;
     left: 17px;
     top: 8px;
+    color: white;
 }
+.title a:hover{
+    color:white;
+}
+
 @media only screen and (max-width:870px){
     .input-group{
         display:none;
-    }
-    .login-details{
-        position: absolute;
-        left:80px;
     }
 }
 
@@ -70,41 +69,6 @@ head-spacer{
 .rounded{
     background-color: #020202;
     border:none;
-}
-
-.login-details{
-    float: right;
-    padding-top:2px;
-}
-
-.user-button{
-    background:url(../pictures/avatar.png);
-    border:none;
-}
-
-.profile-img{
-    width: 50px;
-    height: 50px;
-    margin-top: 8px;
-    border:5px;
-    margin-right:20px;
-}
-
-.logout-container{
-    padding-top:30px;
-    margin-left:20px;
-}
-
-.upload-image img{
-    background:url(../pictures/upload-button.png);
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    left: 86px;
-    top: 13px;
-}
-.upload-image{
-    margin-left:50px;
 }
 
 .search-button {
@@ -135,7 +99,8 @@ li a {
   
 /* Provide sufficient contrast against white background */
 a {
-    color: #0366d6;
+    color: inherit;
+    text-decoration: none;
 }
 
 .btn-primary {
@@ -193,7 +158,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background-color: #DADED4;
+    background-color: #fff;
     width:100%;
 }
 
@@ -556,14 +521,11 @@ body {
 }
 
 .nav-item {
-    color: black;
-    background-color: #39603D;
+    border:black;
     margin: 6px;
     font-size: 20px;
-    text-align: center;
-    line-height: 14px;
-    max-height: 48px;
-    border-radius: 7px;
+    line-height: 10px;
+
 }
 
 .p{
