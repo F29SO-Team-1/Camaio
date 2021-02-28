@@ -14,14 +14,24 @@
 </head>
 <body>
   
-	<header class="border-bottom box-shadow">
-        <div class="col-1">
-            <a class="title" asp-area="" asp-controller="Home" asp-action="Index">
-                <h1>Camaio</h1>
-            </a>
+	<header>
+        <div class="navbar navbar-expand py-3">
+            <div class="col-4 align-middle">
+                <div class="row">
+                    <h1><a asp-area="" asp-controller="Home" asp-action="Index">Camaio</a></h1>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-5"></div>
+                    <div class="col-2">
+                        /**/
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+            </div>
+            <partial name="_LoginPartial" />
         </div>
-		<partial name="_LoginPartial" />
-
 	</header>
 
     <div class="container-fluid">
