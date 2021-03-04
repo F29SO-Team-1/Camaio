@@ -17,5 +17,11 @@ namespace Login.Data
         Task AssignAchievementsToUser(LoginUser user);
 
         IEnumerable<AchievementProgress> GetUsersAchievement(LoginUser user);
+
+        //checks if the user already has the following achievement
+        Task GiveFirstLoginAchievement(LoginUser user);
+
+        //checks if the user already has the following achievement; true for yes, false for no
+        bool CheckProgression(LoginUser user, int AchievementId);
     }
 }

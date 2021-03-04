@@ -59,6 +59,34 @@ namespace Login.Service
             return _context.AchievementProgress.Where(x=>x.User.UserName == user.UserName);
         }
 
+        public AchievementProgress GetUsersAchievementProgress(LoginUser user, int achievementId)
+        {
+            return _context.AchievementProgress
+                .Where(x => x.User.UserName == user.UserName)
+                .FirstOrDefault(y=> y.Achievement.Id == achievementId);
+        }
 
+        public bool CheckProgression(LoginUser user, int achievementId)
+        {
+            AchievementProgress getAch = GetUsersAchievementProgress(user, achievementId);
+            bool progress = getAch.Completed;
+
+            if (progress) return true; else return false;
+        }
+
+        public async Task GiveFirstLoginAchievement(LoginUser user)
+        {
+            //give the user the achievement
+            AchievementProgress ach =  GetUsersAchievementProgress(user, 1);
+
+            ach.UsersProgress = 1;
+            ach.CompletedTime = DateTime.Now;
+            ach.Completed = true;
+
+            await _context.SaveChangesAsync();
+
+        }
+
+        
     }
 }
