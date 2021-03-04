@@ -6,40 +6,10 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="col-4">
-        <button type="button" class="w-100 h-100 btn-link float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="h-100 w-100" src="~/pictures/avatar.png">
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">@UserManager.GetUserName(User)</a>
-            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Create">Upload</a>
-            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Channel" asp-action="Index">Channels</a>
-            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Scores">Post Score</a>
-            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">User Score</a>
-            @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>*@
 
-
-
-            @if (User.IsInRole("Admin"))
-            {
-                <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Reported">Reported Posts</a>
-                <a class="dropdown-item" id="manage" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
-            }
-
-            <div class="dropdown-divider"></div>
-            <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button id="logout" type="submit" class="dropdown-item">Logout</button>
-            </form>
-        </div>
-    </div>
 }
 else
 {  
-    <div class="col-4">
-        <div class="row float-right">
-            <div class="col-6"><h4><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a></h4></div>
-            <div class="col-6"><h4><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></h4></div>
-        </div>
-    </div>
+
 }
 

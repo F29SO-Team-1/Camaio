@@ -1,0 +1,60 @@
+@using Microsoft.AspNetCore.Identity
+@using Login.Areas.Identity.Data
+
+@inject SignInManager<LoginUser> SignInManager
+@inject UserManager<LoginUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="navbar-light navbar-expand mt-1">
+        <div class="d-flex justify-content-between pt-3">
+            <div class="col-2">
+                <div class="navbar-brand navbar-text">
+                    <h1 class="mx-2"><a asp-area="" asp-controller="Home" asp-action="Index">Camaio</a></h1>
+                </div>
+            </div>
+            <div class="col-1 mt-2 dropleft float-right">
+
+
+                <button class="imagebutton overflow-hidden" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="h-100 w-100" src="~/pictures/avatar.png">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <p>@UserManager.GetUserName(User)</p>
+                    <a class="dropdown-item" href="#">Profile</a>
+                    <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button id="logout" type="submit" class="dropdown-item">Log out</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+        <hr/>
+    </div>
+}
+else
+{  
+    <div class="navbar-light navbar-expand mt-1">
+        <div class="d-flex pt-3">
+            <div class="col-2">
+                <div class="navbar-brand navbar-text">
+                    <h1 class="mx-2"><a asp-area="" asp-controller="Home" asp-action="Index">Camaio</a></h1>
+                </div>
+            </div>
+            <div class="col-8"></div>
+            <div class="col-2">
+                <ul class="navbar-nav mt-3 float-right">
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr/>
+    </div>
+}
+

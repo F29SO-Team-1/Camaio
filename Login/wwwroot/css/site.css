@@ -1,19 +1,39 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-.navbar{
-    background-color: #E5E5E5;;
-    position: fixed;
-    top: 0; 
-    width: 100%; 
-    color: green;
-}
 
 a:hover {
     outline: none;
     color:black;
     text-decoration: none;
     color: inherit;
+}
+
+.dropdown-menu{
+    right:100px;
+}
+
+.rel{
+    position:relative;
+}
+.abs{
+    position:absolute;
+}
+
+.hr header{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid green;
+
+}
+
+.imagebutton{
+    height:50px;
+    width:50px;
+    background: none;
+    padding: 0;
+    border: none;
 }
 
 .btn-link{
@@ -51,40 +71,6 @@ a.navbar-brand {
     word-break: break-all;
 }
 
-head-spacer{
-    height:20px;
-    width:100%;
-}
-
-.title{
-    position: absolute;
-    left: 17px;
-    top: 8px;
-    color: white;
-}
-.title a:hover{
-    color:white;
-}
-
-@media only screen and (max-width:870px){
-    .input-group{
-        display:none;
-    }
-}
-
-
-.input-group{
-    max-width:500px;
-    margin: auto;
-    color:#fff;
-    background: #020202;
-}
-
-.rounded{
-    background-color: #020202;
-    border:none;
-}
-
 
 /* lists styling*/
 ul {
@@ -102,10 +88,6 @@ li a {
     text-decoration: none;
 }
 
-.nav-link{
-    margin-top:10px;
-}
-  
 /* Provide sufficient contrast against white background */
 a {
     color: inherit;
@@ -166,9 +148,11 @@ html {
 
 body {
     /* Margin bottom by footer height */
+    margin: 0;
     margin-bottom: 60px;
     background-color: #fff;
     width:100%;
+    font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
 }
 
 .footer {
@@ -255,11 +239,7 @@ body {
 * {
     box-sizing: border-box;
   }
-  
-  body {
-    margin: 0;
-    font-family: Arial;
-  }
+
   
 
   .row {
@@ -486,7 +466,6 @@ body {
 }
 
 .auth-form a {
-    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     color: greenyellow;
 }
@@ -531,10 +510,6 @@ body {
     font-size: 20px;
     line-height: 10px;
 
-}
-
-.p{
-    font-family: Arial, sans-serif;
 }
 
 .account-button{
