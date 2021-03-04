@@ -2,9 +2,8 @@
 using Login.Data;
 using Login.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +13,12 @@ namespace Login.Controllers
     {
         private readonly IAchievement _service;
         private readonly IApplicationUsers _userService;
-        public AchievementController(IAchievement service, IApplicationUsers userService)
+        private readonly UserManager<LoginUser> _userManager;
+        public AchievementController(IAchievement service, IApplicationUsers userService, UserManager<LoginUser> userManager)
         {
             _service = service;
             _userService = userService;
+            _userManager = userManager;
         }
 
         [Route("{username}/Achievements")]
@@ -29,6 +30,8 @@ namespace Login.Controllers
             //checks the number of Achievements compared to the number of users Achievements
             if (usersAch != totalAmountOfAch) _service.AssignAchievementsToUser(user);
             if (usersAch == null) return NotFound();
+
+
 
             //build model
             var model = _service.GetUsersAchievement(user).Select(achiev => new AchievementModel
@@ -52,5 +55,6 @@ namespace Login.Controllers
             return View();
         }
 
+        
     }
 }

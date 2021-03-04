@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -27,6 +26,7 @@ namespace Login.Controllers
         private readonly IUpload _uploadService;
         private readonly IThread _threadService;
         private readonly IChannel _channelSerivce;
+        private readonly IAchievement _achievementService;
 
         public ProfileController(
             UserManager<LoginUser> userManager,
@@ -35,7 +35,8 @@ namespace Login.Controllers
             IUpload uploadService,
             IConfiguration configuration,
             IThread threadService,
-            IChannel channelSerivce
+            IChannel channelSerivce,
+            IAchievement achievementService
             )
         {
             _userManager = userManager;
@@ -45,6 +46,7 @@ namespace Login.Controllers
             _uploadService = uploadService;
             _threadService = threadService;
             _channelSerivce = channelSerivce;
+            _achievementService = achievementService;
         }
 
         [Route("Profile/{username}")]
@@ -63,6 +65,9 @@ namespace Login.Controllers
             var listOfFollower = _service.UsersFollowers(user);
             //user roles 
             var userRoles = _userManager.GetRolesAsync(user);
+
+            //achievements HERE
+            GiveUserLoginAch(user);
 
             //build model
             var model = new ProfileModel()
@@ -159,6 +164,15 @@ namespace Login.Controllers
             await _service.SetProfileImage(userName, blockBlob.Uri);
             //redirects to the users's profile page
             return RedirectToAction("Index", "Profile", new { username = userName });
+        }
+
+        private void GiveUserLoginAch(LoginUser user)
+        {
+            // if the user has the following achievement then do the following else ignore
+            if (!_achievementService.CheckProgression(user, 1))
+            {
+                _achievementService.GiveFirstLoginAchievement(user);
+            }
         }
     }
 }
