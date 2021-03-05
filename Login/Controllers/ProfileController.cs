@@ -67,7 +67,9 @@ namespace Login.Controllers
             var userRoles = _userManager.GetRolesAsync(user);
 
             //achievements HERE
-            GiveUserLoginAch(user);
+            //makes sure that the user is the user
+            if(username == user.UserName) GiveUserLoginAch(user);
+            
 
             //build model
             var model = new ProfileModel()
@@ -168,6 +170,8 @@ namespace Login.Controllers
 
         private void GiveUserLoginAch(LoginUser user)
         {
+            if (_achievementService.GetUsersAchievement(user).Count() == 0) return;
+            
             // if the user has the following achievement then do the following else ignore
             if (!_achievementService.CheckProgression(user, 1))
             {
