@@ -15,6 +15,6 @@ namespace Login.Models
         public string Picture { get; set; }
         public int ProgressLimit { get; set; }
 
-
+        //public AchievementProgress AchievementProgress { get; set; }
     }
 }

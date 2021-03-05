@@ -22,10 +22,23 @@ namespace Login.Service
             return _context.Achievement;
         }
 
+        public Achievement GetById(int id)
+        {
+            return GetAllAchievements().FirstOrDefault(x => x.Id == id);
+        }
+        public async Task UploadPicture(int achId, Uri pic)
+        {
+            var ach = GetById(achId);
+            ach.Picture = pic.AbsoluteUri;
+            _context.Update(ach);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Achievement> MakeAchievement(Achievement model)
         {
             var achieve = new Achievement
             {
+                Id = model.Id,
                 Name = model.Name,
                 Description = model.Description,
                 Picture = model.Picture,
@@ -38,31 +51,96 @@ namespace Login.Service
 
         public async Task AssignAchievementsToUser(LoginUser user)
         {
-            var test = GetAllAchievements().Select(ach => new AchievementProgress
-            {
-                Achievement = ach,
-                Completed = false,
-                MaxProgress = ach.ProgressLimit,
-                User = user,
-                UsersProgress = 0,
-            });
+            var uAch = GetUsersAchievement(user).ToList();
+            var aAch = GetAllAchievements().ToList();
+            var change = new List<Achievement>();
+            var toDB = new List<AchievementProgress>();
 
-            foreach (var achieve in test)
+            if (uAch.Count() == aAch.Count())
             {
-                _context.AchievementProgress.Add(achieve);
+                return;
             }
-            await _context.SaveChangesAsync();
+
+            //when there are 0 and you need to add one
+            if (uAch.Count() == 0)
+            {
+                foreach (var toAdd in aAch)
+                {
+                    var newAchPro = new AchievementProgress
+                    {
+                        Achievement = toAdd,
+                        Completed = false,
+                        MaxProgress = toAdd.ProgressLimit,
+                        UserId = user.Id,
+                        UsersProgress = 0
+                    };
+                    toDB.Add(newAchPro);
+                }
+                var first = toDB.FirstOrDefault();
+                _context.AchievementProgress.Add(first);
+                await _context.SaveChangesAsync();
+                return;
+            }
+
+            //gets the change in the users Achievements and all the Achievements
+            //(so it does not overwrite the data that the user has on Achievements)
+            foreach (var allAch in aAch)
+            {
+                foreach (var userAch in uAch)
+                {
+                    if (userAch.Achievement.Id != allAch.Id)
+                    {
+                        change.Add(allAch);
+                    }
+                }
+            }
+            if (uAch.Count() > 1)
+            {
+                foreach (var toAdd in change)
+                {
+                    var newAchPro = new AchievementProgress
+                    {
+                        Achievement = toAdd,
+                        Completed = false,
+                        MaxProgress = toAdd.ProgressLimit,
+                        UserId = user.Id,
+                        UsersProgress = 0
+                    };
+                    toDB.Add(newAchPro);
+                }
+                await _context.AchievementProgress.AddRangeAsync(toDB);
+                await _context.SaveChangesAsync();
+                return;
+            }
+            else
+            {
+                foreach (var toAdd in change)
+                {
+                    var newAchPro = new AchievementProgress
+                    {
+                        Achievement = toAdd,
+                        Completed = false,
+                        MaxProgress = toAdd.ProgressLimit,
+                        UserId = user.Id,
+                        UsersProgress = 0
+                    };
+                    toDB.Add(newAchPro);
+                }
+                _context.AchievementProgress.Add(toDB.FirstOrDefault());
+                await _context.SaveChangesAsync();
+                return;
+            }
         }
 
         public IEnumerable<AchievementProgress> GetUsersAchievement(LoginUser user)
         {
-            return _context.AchievementProgress.Where(x=>x.User.UserName == user.UserName);
+            return _context.AchievementProgress.Where(x=>x.UserId == user.Id);
         }
 
         public AchievementProgress GetUsersAchievementProgress(LoginUser user, int achievementId)
         {
             return _context.AchievementProgress
-                .Where(x => x.User.UserName == user.UserName)
+                .Where(x => x.UserId == user.Id)
                 .FirstOrDefault(y=> y.Achievement.Id == achievementId);
         }
 
@@ -78,15 +156,22 @@ namespace Login.Service
         {
             //give the user the achievement
             AchievementProgress ach =  GetUsersAchievementProgress(user, 1);
-
-            ach.UsersProgress = 1;
-            ach.CompletedTime = DateTime.Now;
-            ach.Completed = true;
-
+            achievementDetails(ach, user, 1, true, 1);
             await _context.SaveChangesAsync();
-
         }
 
-        
+        private void achievementDetails(AchievementProgress ach, LoginUser user, int userProgress, bool completed, int ratting)
+        {
+            //give the user the achievement
+            //users progress
+            ach.UsersProgress = userProgress;
+            //when the user completed it
+            ach.CompletedTime = DateTime.Now;
+            //set it to true because its complete 
+            ach.Completed = completed;
+            //gives the user +1 to their ratting for the Achievement
+            user.Ratting += ratting;
+        }
+
     }
 }

@@ -11,8 +11,12 @@ namespace Login.Data
     {
         IEnumerable<Achievement> GetAllAchievements();
 
+        Achievement GetById(int id);
+
         //admins only
         Task<Achievement> MakeAchievement(Achievement model);
+
+        Task UploadPicture(int achId, Uri pic);
 
         Task AssignAchievementsToUser(LoginUser user);
 
