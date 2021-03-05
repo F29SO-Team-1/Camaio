@@ -10,15 +10,24 @@
 
 <div class="container-fluid">
     <div class="col-md-3 col-sm-12">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">My pictures</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"> Upload</a>
-            </li>
-        </ul>
+
+        <div class="row profilelinks">
+            <ul class="nav flex-column">
+                <li class="nav-item profile-link">
+                    <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">My pictures</a>
+                </li>
+                <li class="nav-item profile-link">
+                    <a class="nav-link" asp-area="" asp-controller="Thread" asp-action="Create"> Upload</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row profilelinks other">
+
+        </div>
     </div>
-    <div class="col-md-9 col-sm-12"></div>
+    <div class="col-md-9 col-sm-12">
+        
+    </div>
 
 </div>

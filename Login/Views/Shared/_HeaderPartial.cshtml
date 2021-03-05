@@ -6,8 +6,8 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="navbar-light navbar-expand mt-1">
-        <div class="d-flex justify-content-between pt-3">
+    <div class="navbar-light navbar-expand mt-1 navbar-fixed-top">
+        <div class="container-fluid d-flex justify-content-between pt-3">
             <div class="col-2">
                 <div class="navbar-brand navbar-text">
                     <h1 class="mx-2"><a asp-area="" asp-controller="Home" asp-action="Index">Camaio</a></h1>
@@ -20,8 +20,8 @@
                     <img class="h-100 w-100" src="~/pictures/avatar.png">
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <p>@UserManager.GetUserName(User)</p>
-                    <a class="dropdown-item" href="#">Profile</a>
+                    <p class="mx-3">@UserManager.GetUserName(User)</p>
+                    <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Profile</a>
                     <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button id="logout" type="submit" class="dropdown-item">Log out</button>
                     </form>
@@ -30,7 +30,7 @@
 
             </div>
         </div>
-        <hr/>
+        <hr class="headrule">
     </div>
 }
 else
