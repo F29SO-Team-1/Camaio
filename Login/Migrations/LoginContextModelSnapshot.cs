@@ -96,64 +96,6 @@ namespace Login.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Login.Models.Achievement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProgressLimit")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Achievement");
-                });
-
-            modelBuilder.Entity("Login.Models.AchievementProgress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AchievementId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Completed")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("CompletedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MaxProgress")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("UsersProgress")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AchievementId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AchievementProgress");
-                });
-
             modelBuilder.Entity("Login.Models.Channel", b =>
                 {
                     b.Property<int>("Id")
@@ -361,17 +303,6 @@ namespace Login.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Login.Models.AchievementProgress", b =>
-                {
-                    b.HasOne("Login.Models.Achievement", "Achievement")
-                        .WithMany("AchievementProgress")
-                        .HasForeignKey("AchievementId");
-
-                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "User")
-                        .WithMany("Achievements")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Login.Models.ChannelMember", b =>
