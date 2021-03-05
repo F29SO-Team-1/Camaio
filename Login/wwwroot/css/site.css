@@ -405,6 +405,23 @@ body {
     color: green;
 }
 
+.createButton1 {
+    width: 30%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    color: white;
+    text-decoration: none; 
+}
+
+.createButton1:hover {
+    width: 30%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+    text-decoration: none;
+}
+
 .create-channel  {
     width: 100%;
     max-width: 40%;
