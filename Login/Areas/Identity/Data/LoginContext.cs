@@ -28,13 +28,6 @@ namespace Login.Data
                .HasMany(user => user.FollowsUser)
                .WithOne(following => following.FollowingUsers);
 
-
-            builder.Entity<LoginUser>()
-                .ToTable("AspNetUsers")
-                .HasMany(a => a.Achievements)
-                .WithOne(x=>x.User);
-
-
         }
     }
 }
