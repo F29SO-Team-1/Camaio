@@ -14,3 +14,7 @@ $(document).ready(
 	}
 
 );
+
+function alertMessage() {
+	confirm("Press a button!");
+  }
