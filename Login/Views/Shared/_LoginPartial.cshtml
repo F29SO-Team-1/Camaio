@@ -22,6 +22,7 @@
 
         @if (User.IsInRole("Admin"))
         {
+            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievement" asp-action="Create">Create Achievement</a>
             <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Reported">Reported Posts</a>
             <a class="dropdown-item" id="manage" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
         }
