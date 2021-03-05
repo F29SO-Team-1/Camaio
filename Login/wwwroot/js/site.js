@@ -16,5 +16,5 @@ $(document).ready(
 );
 
 function alertMessage() {
-	confirm("Press a button!");
+	confirm("Your channel will be deleted");
   }
