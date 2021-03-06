@@ -69,7 +69,8 @@ namespace Login.Controllers
             //achievements HERE
             //makes sure that the user is the user
             if(username == user.UserName) GiveUserLoginAch(user);
-            
+            GiveTenFollowAch(user);
+
 
             //build model
             var model = new ProfileModel()
@@ -176,6 +177,24 @@ namespace Login.Controllers
             if (!_achievementService.CheckProgression(user, 1))
             {
                 _achievementService.GiveFirstLoginAchievement(user);
+            }
+        }
+
+        private void GiveTenFollowAch(LoginUser user)
+        {
+            int numberOfFollowing = _service.UsersFollowers(user).Count();
+
+            if (_achievementService.CheckProgression(user, 3))
+            {
+                return;
+            }
+            else
+            {
+                if (numberOfFollowing >= 10)
+                {
+                    _achievementService.GiveTenAchievement(user);
+                }
+                _achievementService.IncrementAchievementProgress(user, 3);
             }
         }
     }

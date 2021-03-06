@@ -24,8 +24,11 @@ namespace Login.Data
 
         //checks if the user already has the following achievement
         Task GiveFirstLoginAchievement(LoginUser user);
+        Task GiveTenAchievement(LoginUser user);
 
         //checks if the user already has the following achievement; true for yes, false for no
         bool CheckProgression(LoginUser user, int AchievementId);
+
+        Task IncrementAchievementProgress(LoginUser user, int achievementId);
     }
 }

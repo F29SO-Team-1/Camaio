@@ -52,8 +52,8 @@ namespace Login.Service
         public async Task AssignAchievementsToUser(LoginUser user)
         {
             var uAch = GetUsersAchievement(user).ToList();
+            var uuAch = new List<Achievement>();
             var aAch = GetAllAchievements().ToList();
-            var change = new List<Achievement>();
             var toDB = new List<AchievementProgress>();
 
             if (uAch.Count() == aAch.Count())
@@ -82,19 +82,19 @@ namespace Login.Service
                 return;
             }
 
-            //gets the change in the users Achievements and all the Achievements
-            //(so it does not overwrite the data that the user has on Achievements)
-            foreach (var allAch in aAch)
+            /*
+             * gets the difference in lists; the total amount of lists and the users achievement
+             * converts progress list to a achv list
+             */
+            foreach (var usersAch in uAch)
             {
-                foreach (var userAch in uAch)
-                {
-                    if (userAch.Achievement.Id != allAch.Id)
-                    {
-                        change.Add(allAch);
-                    }
-                }
+                uuAch.Add(usersAch.Achievement);
             }
-            if (uAch.Count() > 1)
+            //gets the two lists and gets the difference between the two
+            var change = aAch.Except(uuAch).ToList();
+
+           
+            if (change.Count() > 1)
             {
                 foreach (var toAdd in change)
                 {
@@ -151,12 +151,10 @@ namespace Login.Service
 
             if (progress) return true; else return false;
         }
-
-        public async Task GiveFirstLoginAchievement(LoginUser user)
+        public async Task IncrementAchievementProgress(LoginUser user, int achievementId)
         {
-            //give the user the achievement
-            AchievementProgress ach =  GetUsersAchievementProgress(user, 1);
-            achievementDetails(ach, user, 1, true, 1);
+            AchievementProgress getAch = GetUsersAchievementProgress(user, achievementId);
+            getAch.UsersProgress += 1;
             await _context.SaveChangesAsync();
         }
 
@@ -172,6 +170,22 @@ namespace Login.Service
             //gives the user +1 to their ratting for the Achievement
             user.Ratting += ratting;
         }
+
+        public async Task GiveFirstLoginAchievement(LoginUser user)
+        {
+            //give the user the achievement
+            AchievementProgress ach = GetUsersAchievementProgress(user, 1);
+            achievementDetails(ach, user, 1, true, 1);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task GiveTenAchievement(LoginUser user)
+        {
+            AchievementProgress ach = GetUsersAchievementProgress(user, 3);
+            achievementDetails(ach, user, 10, true, 1);
+            await _context.SaveChangesAsync();
+        }
+
 
     }
 }
