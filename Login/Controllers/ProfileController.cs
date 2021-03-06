@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -27,6 +26,7 @@ namespace Login.Controllers
         private readonly IUpload _uploadService;
         private readonly IThread _threadService;
         private readonly IChannel _channelSerivce;
+        private readonly IAchievement _achievementService;
 
         public ProfileController(
             UserManager<LoginUser> userManager,
@@ -35,7 +35,8 @@ namespace Login.Controllers
             IUpload uploadService,
             IConfiguration configuration,
             IThread threadService,
-            IChannel channelSerivce
+            IChannel channelSerivce,
+            IAchievement achievementService
             )
         {
             _userManager = userManager;
@@ -45,10 +46,11 @@ namespace Login.Controllers
             _uploadService = uploadService;
             _threadService = threadService;
             _channelSerivce = channelSerivce;
+            _achievementService = achievementService;
         }
 
         [Route("Profile/{username}")]
-        public IActionResult Index(string username)
+        public async Task<IActionResult> Index(string username)
         {
             if (!_service.IfUserExists(username)) return NotFound();
             var user = _service.GetByUserName(username);
@@ -63,6 +65,16 @@ namespace Login.Controllers
             var listOfFollower = _service.UsersFollowers(user);
             //user roles 
             var userRoles = _userManager.GetRolesAsync(user);
+            //gives the inital achievements to the user 
+            await _achievementService.AssignAchievementsToUser(user);
+
+            /*
+             * Achievements HERE
+             */
+            //makes sure that the user is the user
+            if (username == user.UserName) await GiveUserLoginAch(user);
+            if(listOfFollower.Count() != _achievementService.FollowAchievementProgress(user) 
+                && _achievementService.GetUsersAchievement(user).Count() != 0) GiveTenFollowAch(user);
 
             //build model
             var model = new ProfileModel()
@@ -159,6 +171,35 @@ namespace Login.Controllers
             await _service.SetProfileImage(userName, blockBlob.Uri);
             //redirects to the users's profile page
             return RedirectToAction("Index", "Profile", new { username = userName });
+        }
+
+        private async Task GiveUserLoginAch(LoginUser user)
+        {
+            if (_achievementService.GetUsersAchievement(user).Count() == 0) return;
+            
+            // if the user has the following achievement then do the following else ignore
+            if (!_achievementService.CheckProgression(user, 1))
+            {
+                await _achievementService.GiveFirstLoginAchievement(user);
+            }
+        }
+
+        private void GiveTenFollowAch(LoginUser user)
+        {
+            int numberOfFollowing = _service.UsersFollowers(user).Count();
+
+            if (_achievementService.CheckProgression(user, 3))
+            {
+                return;
+            }
+            else
+            {
+                if (numberOfFollowing >= 10)
+                {
+                    _achievementService.GiveTenAchievement(user);
+                }
+                _achievementService.IncrementAchievementProgress(user, 3);
+            }
         }
     }
 }
