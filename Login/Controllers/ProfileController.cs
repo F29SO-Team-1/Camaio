@@ -50,7 +50,7 @@ namespace Login.Controllers
         }
 
         [Route("Profile/{username}")]
-        public IActionResult Index(string username)
+        public async Task<IActionResult> Index(string username)
         {
             if (!_service.IfUserExists(username)) return NotFound();
             var user = _service.GetByUserName(username);
@@ -65,12 +65,16 @@ namespace Login.Controllers
             var listOfFollower = _service.UsersFollowers(user);
             //user roles 
             var userRoles = _userManager.GetRolesAsync(user);
+            //gives the inital achievements to the user 
+            await _achievementService.AssignAchievementsToUser(user);
 
-            //achievements HERE
+            /*
+             * Achievements HERE
+             */
             //makes sure that the user is the user
-            if(username == user.UserName) GiveUserLoginAch(user);
-            GiveTenFollowAch(user);
-
+            if (username == user.UserName) await GiveUserLoginAch(user);
+            if(listOfFollower.Count() != _achievementService.FollowAchievementProgress(user) 
+                && _achievementService.GetUsersAchievement(user).Count() != 0) GiveTenFollowAch(user);
 
             //build model
             var model = new ProfileModel()
@@ -169,14 +173,14 @@ namespace Login.Controllers
             return RedirectToAction("Index", "Profile", new { username = userName });
         }
 
-        private void GiveUserLoginAch(LoginUser user)
+        private async Task GiveUserLoginAch(LoginUser user)
         {
             if (_achievementService.GetUsersAchievement(user).Count() == 0) return;
             
             // if the user has the following achievement then do the following else ignore
             if (!_achievementService.CheckProgression(user, 1))
             {
-                _achievementService.GiveFirstLoginAchievement(user);
+                await _achievementService.GiveFirstLoginAchievement(user);
             }
         }
 

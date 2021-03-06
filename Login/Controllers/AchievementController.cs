@@ -34,17 +34,12 @@ namespace Login.Controllers
         }
 
         [Route("{username}/Achievements")]
-        public async Task<IActionResult> IndexAsync(string username)
+        public IActionResult IndexAsync(string username)
         {
             LoginUser user = _userService.GetByUserName(username);
             int? usersAch = _service.GetUsersAchievement(user).Count();     //user's Achievements
             int totalAmountOfAch = _service.GetAllAchievements().Count();   //total amount of Achievements there is 
-            if (usersAch == null || totalAmountOfAch == 0) return NotFound();
-            //checks the number of Achievements compared to the number of users Achievements
-            await _service.AssignAchievementsToUser(user);
-            
-
-
+            if (usersAch == null || totalAmountOfAch == 0) return NotFound();       
 
             //build model
             var model = _service.GetUsersAchievement(user).Select(achiev => new AchievementModel

@@ -64,22 +64,43 @@ namespace Login.Service
             //when there are 0 and you need to add one
             if (uAch.Count() == 0)
             {
-                foreach (var toAdd in aAch)
+                if (aAch.Count() == 1)
                 {
-                    var newAchPro = new AchievementProgress
+                    foreach (var toAdd in aAch)
                     {
-                        Achievement = toAdd,
-                        Completed = false,
-                        MaxProgress = toAdd.ProgressLimit,
-                        UserId = user.Id,
-                        UsersProgress = 0
-                    };
-                    toDB.Add(newAchPro);
+                        var newAchPro = new AchievementProgress
+                        {
+                            Achievement = toAdd,
+                            Completed = false,
+                            MaxProgress = toAdd.ProgressLimit,
+                            UserId = user.Id,
+                            UsersProgress = 0
+                        };
+                        toDB.Add(newAchPro);
+                    }
+                    var first = toDB.FirstOrDefault();
+                    _context.AchievementProgress.Add(first);
+                    await _context.SaveChangesAsync();
+                    return;
                 }
-                var first = toDB.FirstOrDefault();
-                _context.AchievementProgress.Add(first);
-                await _context.SaveChangesAsync();
-                return;
+                else
+                {
+                    foreach (var toAdd in aAch)
+                    {
+                        var newAchPro = new AchievementProgress
+                        {
+                            Achievement = toAdd,
+                            Completed = false,
+                            MaxProgress = toAdd.ProgressLimit,
+                            UserId = user.Id,
+                            UsersProgress = 0
+                        };
+                        toDB.Add(newAchPro);
+                    }
+                    await _context.AchievementProgress.AddRangeAsync(toDB);
+                    await _context.SaveChangesAsync();
+                    return;
+                }  
             }
 
             /*
@@ -146,6 +167,10 @@ namespace Login.Service
 
         public bool CheckProgression(LoginUser user, int achievementId)
         {
+            if (GetUsersAchievement(user).Count() == 0)
+            {
+                return false;
+            }
             AchievementProgress getAch = GetUsersAchievementProgress(user, achievementId);
             bool progress = getAch.Completed;
 
@@ -186,6 +211,11 @@ namespace Login.Service
             await _context.SaveChangesAsync();
         }
 
+        public int FollowAchievementProgress(LoginUser user)
+        {
+            AchievementProgress ach = GetUsersAchievementProgress(user, 3);
+            return ach.UsersProgress;
+        }
 
     }
 }
