@@ -3,7 +3,7 @@
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="d-flex flex-wrap flex-row container-fluid">
+<div class="d-flex flex-wrap flex-row container-fluid rel">
     <div class="col-md-3 col-sm-6 p-0 m-0" id="column-one">
     </div>
     <div class="col-md-3 col-sm-6 p-0 m-0" id="column-two">
@@ -17,12 +17,12 @@
 {
     //if there is no picture, dont display
     @if (thread.Picture == null) continue;
-    <div class="image-box m-1">
+    <div class="image-box m-1 rel">
         <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
             <img class="image rounded-top" src="@thread.Picture" alt="Image"/>
         </a>
-        <div class="overlay w-100">
-            <p class="overlaytext"></p>
+        <div class="overlay abs">
+            <p class="overlaytext">@thread.Title</p>
         </div>
     </div>
 }

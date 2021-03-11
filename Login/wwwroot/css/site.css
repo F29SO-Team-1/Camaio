@@ -288,7 +288,10 @@ body {
 }
 
 .image-box:hover .overlay {
-    height:10%;
+    height:60px;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .image-box:hover .overlaytext {
@@ -297,18 +300,18 @@ body {
 }
 
 .overlay{
-    position: relative;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    top:0;
     height: 0px;
     width: 100%;
-    transition: .5s;
-    background-color: green;
+    transition:  .5s;
+    background-color: white;
 }
 
 .overlaytext{
+    position: absolute;
     display: none;
 }
 
