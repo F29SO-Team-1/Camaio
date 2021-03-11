@@ -4,6 +4,10 @@ for details on configuring this project to bundle and minify static web assets. 
 
 /*Shared styles*/
 
+
+.nav-item{
+    color: black;
+}
 a:hover {
     outline: none;
     color:black;
@@ -67,14 +71,15 @@ hr.headrule{
     display:flex;
 }
 
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
 
 
 /* lists styling*/
+
+/*
+
+Made this commented to fix errors; Please be specific if you want
+to change something used elsewhere!
+
 ul {
     list-style-type: none;
 }
@@ -90,6 +95,8 @@ li a {
     text-decoration: none;
 }
 
+*/
+
 /* Provide sufficient contrast against white background */
 a {
     color: inherit;
@@ -101,13 +108,13 @@ a {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-
+/*
 .nav-pills, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-
+*/
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -179,7 +186,8 @@ body {
     background-color: #ddd;
     top: 10%;
     bottom: 100px;  
-    background-color: green;
+    background-color: white;
+    transition: 1s;
 }
 
 .avatar-picture{
@@ -306,13 +314,14 @@ body {
     right: 0;
     height: 0px;
     width: 100%;
-    transition:  .5s;
+    transition: .5s;
     background-color: white;
 }
 
 .overlaytext{
     position: absolute;
     display: none;
+    transition: .5s;
 }
 
 
