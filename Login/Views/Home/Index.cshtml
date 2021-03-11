@@ -3,24 +3,26 @@
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div style="height:80px;"></div>   
-<div class="container-fluid d-flex flex-row">
-    @foreach (var thread in Model.ThreadLists)
-    {
-        //if there is no picture, dont display
-        @if (thread.Picture == null) continue;
-
-        //otherwise loops through the db and displays it
-        <div class="col-md-3 col-sm-6">
-            <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-               <img class="image" src="@thread.Picture" alt="Image"/>
-            </a>
-            <div class="middle">
-                <p>@thread.Title 
-                    hello
-                </p>
-            </div>
-        </div>
-    }
+<div class="d-flex flex-wrap flex-row container-fluid">
+    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-one">
+    </div>
+    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-two">
+    </div>
+    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-three">
+    </div>
+    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-four">
+    </div>
 </div>
+@foreach (var thread in Model.ThreadLists)
+{
+    //if there is no picture, dont display
+    @if (thread.Picture == null) continue;
+    <div class="image-box m-1">
+        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+            <img class="image rounded-top" src="@thread.Picture" alt="Image"/>
+        </a>
+        <div class="overlay w-100">
+            <p class="overlaytext"></p>
+        </div>
+    </div>
+}
