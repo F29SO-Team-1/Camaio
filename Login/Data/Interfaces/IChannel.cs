@@ -8,12 +8,15 @@ namespace Login.Data
 {
     public interface IChannel //Copyright Apple Inc.
     {
-        Task CreateChannel();
-        Task DeleteChannel();
-        Task JoinChannel();
-        Task LeaveChannelP();
-        Task ChangeSettings();
-
+        List<string> GetChannels(string user);
+        Task<Channel> GetChannel(string id);
+        Task<ChannelMember> GetChannelMember(string user, Channel channel);
+        void AddMember(Channel channel, string userName);
+        void RemoveMember(ChannelMember channelMember);
+        Task DeleteChannel(Channel channel);
+        List<string> GetChannelMembers(Channel channel);
+        Task UpdateChannel(Channel channel, string description);
+        void CreateChannel(Channel channel);
 
         IEnumerable<Channel> UserChannel(string userName);
         IEnumerable<Channel> GetAll();
