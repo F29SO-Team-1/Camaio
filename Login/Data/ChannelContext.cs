@@ -31,7 +31,7 @@ namespace Login.Data
                 .HasForeignKey(cm => cm.ChannelId);  
             modelBuilder.Entity<ChannelMember>()
                 .HasOne(cm => cm.LoginUser)
-                .WithMany(pm => pm.ChannelMembers)
+                .WithMany(pm => pm.Channels)
                 .HasForeignKey(cm => cm.UserName)
                 .HasPrincipalKey(c => c.UserName);
         }
