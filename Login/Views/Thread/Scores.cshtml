@@ -6,7 +6,6 @@
 
 <h1 style="text-align:center; margin-top:2%">Top Posts</h1>
 @foreach (var threads in Model.ThreadLists){
-
 <br>
 <div class="top-score-row">
   <div class="top-score-column">
@@ -19,56 +18,5 @@
     </div>
     </a> 
   </div>
-
-    <div class="top-score-column">
-    <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
-    <div class="top-score-card">
-      <h3>@threads.Title</h3>
-      <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
-      <p>Rating: @threads.Rating</p>
-      <p>@threads.Created</p>
-    </div>
-    </a>
-  </div>
-
-  <div class="top-score-column">
-    <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
-    <div class="top-score-card">
-      <h3>@threads.Title</h3>
-      <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
-      <p>Rating: @threads.Rating</p>
-      <p>@threads.Created</p>
-    </div>
-    </a>
-  </div>
 </div>
 }
-<!-- 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Created</th>
-            <th scope="col">Picture</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var threads in Model.ThreadLists)
-        {
-            <tr>
-                <th>
-                    <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id">
-                        @threads.Title
-                    </a>
-                </th>
-                <th>@threads.Rating</th>
-                <td>@threads.Created</td>
-                <td>
-                    <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
---> 
