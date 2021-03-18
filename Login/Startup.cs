@@ -35,6 +35,9 @@ namespace Login
             services.AddDbContext<ThreadContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
             services.AddDbContext<ChannelContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
             services.AddDbContext<AchievementContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
+            services.AddDbContext<EventContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
+            services.AddDbContext<TagContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
+            services.AddDbContext<NotificationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
 
             //other services
             services.AddControllersWithViews();
