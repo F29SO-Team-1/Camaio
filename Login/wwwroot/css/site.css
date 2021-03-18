@@ -397,7 +397,6 @@ body {
 /* Remove extra left and right margins, due to padding */
 .top-score-row {
     margin: 0 -5px;
-
 }
   
 /* Clear floats after the columns */
