@@ -20,7 +20,6 @@ $(document).ready(
 		const parent3 = document.getElementById('column-three');
 		const parent4 = document.getElementById('column-four');
 		for (var i = 0; i < pictures.length; i++) {
-			console.log("t");
 			if (i%4==0){
 				parent1.appendChild(pictures[i]);
 			}
@@ -34,6 +33,12 @@ $(document).ready(
 				parent4.appendChild(pictures[i]);
 			}
 		}
+		console.log(window.location.pathname);
+		//This section hides specific elements in the navbar if you're on the page it links to
+		/*if (window.location.pathname == ""){
+
+		}
+		*/
 	}
 
 );

@@ -16,7 +16,7 @@ a:hover {
 }
 
 .dropdown-menu{
-    background-color: green;
+    background-color: white;
 }
 
 .rel{
@@ -550,7 +550,7 @@ body {
 }
 
 .profile-link{
-    background-color: green;
+    background-color: gray;
     border-radius:5px;
     margin:10px;
 }
