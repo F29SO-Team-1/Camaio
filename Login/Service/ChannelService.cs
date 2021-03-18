@@ -19,7 +19,7 @@ namespace Login.Service
 
         public List<string> GetChannels(LoginUser user)
         {
-            var channelList = _context.ChannelMembers
+            var channelList = _context.ChannelMember
                 .Where(table => table.User == user)
                 .Join(
                     _context.Channels,
@@ -40,7 +40,7 @@ namespace Login.Service
 
         public async Task<ChannelMember> GetChannelMember(LoginUser user, Channel channel)
         {
-            var channelMember = await _context.ChannelMembers
+            var channelMember = await _context.ChannelMember
                 .Where(table => table.Channel == channel)
                 .Where(table => table.User == user)
                 .FirstOrDefaultAsync();
@@ -60,13 +60,13 @@ namespace Login.Service
 
         public void RemoveMember(ChannelMember channelMember)
         {
-            _context.ChannelMembers.Remove(channelMember);
+            _context.ChannelMember.Remove(channelMember);
             _context.SaveChanges();
         }
 
         public async Task DeleteChannel(Channel channel)
         {
-            _context.ChannelMembers.RemoveRange(_context.ChannelMembers
+            _context.ChannelMember.RemoveRange(_context.ChannelMember
                     .Where(table => table.Channel == channel)
                     .ToList());
             _context.Channels.Remove(channel);
@@ -75,7 +75,7 @@ namespace Login.Service
 
         public List<string> GetChannelMembers(Channel channel)
         {
-            var channelMembers = _context.ChannelMembers
+            var channelMembers = _context.ChannelMember
                 .Where(table => table.Channel == channel)
                 .Select(table => table.User.UserName)
                 .ToList();
@@ -105,7 +105,7 @@ namespace Login.Service
         }
         public LoginUser GetByUserName(string username)
         {
-            return _context.ChannelMembers
+            return _context.ChannelMember
                         .Where(u => u.User.UserName == username)
                         .Select(table => table.User)
                         .FirstOrDefault();

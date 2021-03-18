@@ -48,7 +48,7 @@ namespace Login.Data
                 .HasMany(user => user.Channels)
                 .WithOne(cm => cm.User);
             builder.Entity<LoginUser>()
-                .ToTable("AspNetUser")
+                .ToTable("AspNetUsers")
                 .HasMany(user => user.Notifications)
                 .WithOne(n => n.User);
 

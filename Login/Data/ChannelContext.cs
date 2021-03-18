@@ -18,7 +18,7 @@ namespace Login.Data
         {
         }
         public DbSet<Channel> Channels { get; set; }
-        public DbSet<ChannelMember> ChannelMembers { get; set; }
+        public DbSet<ChannelMember> ChannelMember { get; set; }
         public DbSet<Album> Albums { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
