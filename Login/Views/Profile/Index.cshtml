@@ -24,93 +24,26 @@
             </ul>
         </div>
 
-        <div class="row profilelinks other">
-
-        </div>
     </div>
 
     <div class="col-md-10 col-sm-12">
         <p>My Posts</p>
         <div class="row">
-            @foreach (var thread in Model.Threads)
-                {
-                    @if (thread.Picture == null) continue;
-                    <div class="col-3">
-                        <div class="image-box m-1 rel profile">
-                            <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                                <img class="image rounded" src="@thread.Picture" alt="Image"/>
-                            </a>
-                        </div>
-                    </div>
-
-                }
+            
         </div>
         <p>My Channels</p>
         <div class="row">
 
         </div>
 
-<hr />
-<div class="container">
-    <a asp-area="" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username">
-        Achievements:
-    </a>
-    @*for loop through all the achieved Achievements HERE *@
-</div>
-
-
-
-<hr />
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <h2 style="text-align:center"> @Model.Username Posts</h2>
-            <hr />
-            <table class="table">
-                <thead>
-                    <tr>
-                        @if (User.Identity.Name == Model.Username)
-                        {
-                            <th scope="col">Flaged</th>
-                        }
-                        <th scope="col">Title</th>
-                        <th scope="col">Rating</th>
-                        <th scope="col">Created</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Picture</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var thread in Model.Threads)
-                    {
-                        //if there is no picture dont display
-                        //@if (thread.Picture == null) continue;
-                        //loops through the db and displays it
-                        <tr>
-                            @if (User.Identity.Name == Model.Username)
-                            {
-                                <th>
-                                    @if (@thread.Flagged)
-                                    {
-                                        <p style="color:red">Yes</p>
-                                    }
-                                    else
-                                    {
-                                        <p style="color:green">No</p>
-                                    }
-                                </th>
-                            }
-
+        <p>Following</p>
+        <div class="row">
             
         </div>
+
         <p>Followers</p>
         <div class="row">
-            @foreach (var item in Model.UsersFollowed)
-            {
-                //need to be able to retrieve user image and link from their ID
-                @if (item == null) continue;
-                <p>@item.Id, </p>
-            }
+
         </div>
         
     </div>
