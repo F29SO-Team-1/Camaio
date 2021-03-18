@@ -14,7 +14,7 @@ namespace Login.Models
     public class Notification
     {
         public int Id { get; set; }
-        public LoginUser UserName { get; set; }
+        public LoginUser User { get; set; }
         public Thread Thread { get; set; }
         public Channel Channel { get; set; }
         public Event Event { get; set; }

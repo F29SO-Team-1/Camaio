@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Login.Models;
+using Login.Areas.Identity.Data;
 using Login.Data;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
@@ -16,21 +17,36 @@ namespace Login.Data
             : base(options)
         {
         }
-        public DbSet<Channel> Channel { get; set; }
+        public DbSet<Channel> Channels { get; set; }
         public DbSet<ChannelMember> ChannelMembers { get; set; }
+        public DbSet<Album> Albums { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Channel>().ToTable("Channel");
             modelBuilder.Entity<ChannelMember>().ToTable("ChannelMember");
-            // modelBuilder.Entity<ChannelMember>()
-            //     .HasKey(cm => new { cm.ChannelId, cm.UserId });  
+            modelBuilder.Entity<Album>().ToTable("Album");
             modelBuilder.Entity<ChannelMember>()
                 .HasOne(cm => cm.Channel)
                 .WithMany(c => c.ChannelMembers);
-            modelBuilder.Entity<ChannelMember>()
-                .HasOne(cm => cm.User)
-                .WithMany(pm => pm.Channels);
+            modelBuilder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.Channels)
+                .WithOne(cm => cm.User);
+            modelBuilder.Entity<Album>()
+                .HasOne(album => album.Channel)
+                .WithMany(channel => channel.Albums);
+            modelBuilder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.Albums)
+                .WithOne(album => album.User);
+            modelBuilder.Entity<Album>()
+                .HasMany(album => album.Threads)
+                .WithOne(thread => thread.Album);
+            modelBuilder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.CreatedChannels)
+                .WithOne(channel => channel.Creator);
         }
     }
 }

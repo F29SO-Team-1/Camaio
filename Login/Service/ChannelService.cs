@@ -22,7 +22,7 @@ namespace Login.Service
             var channelList = _context.ChannelMembers
                 .Where(table => table.User == user)
                 .Join(
-                    _context.Channel,
+                    _context.Channels,
                     channelMembers => channelMembers.Channel,
                     channel => channel,
                     (channelMember, channel) => channel.Title
@@ -33,7 +33,7 @@ namespace Login.Service
 
         public Task<Channel> GetChannel(string id)
         {
-            var channel = _context.Channel
+            var channel = _context.Channels
                 .FirstOrDefaultAsync(table => table.Title == id);
             return channel;
         }
@@ -69,7 +69,7 @@ namespace Login.Service
             _context.ChannelMembers.RemoveRange(_context.ChannelMembers
                     .Where(table => table.Channel == channel)
                     .ToList());
-            _context.Channel.Remove(channel);
+            _context.Channels.Remove(channel);
             await _context.SaveChangesAsync();
         }
 
@@ -96,7 +96,7 @@ namespace Login.Service
 
         public IEnumerable<Channel> GetAll()
         {
-            return _context.Channel;
+            return _context.Channels;
         }
 
         public IEnumerable<Channel> UserChannel(string userName)
