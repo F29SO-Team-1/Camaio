@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Login.Areas.Identity.Data
+
+@inject SignInManager<LoginUser> SignInManager
+@inject UserManager<LoginUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <button type="button" style="border-radius: 50%;" class="user-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img class="profile-img" src="~/pictures/avatar.png">
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">@UserManager.GetUserName(User)</a>
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Create">Upload</a>
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Channel" asp-action="Index">Channels</a>
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Scores">Post Score</a>
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">User Score</a>
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievement" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Achievements</a>
+        @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>*@
+
+
+
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievement" asp-action="Create">Create Achievement</a>
+            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Reported">Reported Posts</a>
+            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
+        }
+
+        <div class="dropdown-divider"></div>
+        <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout" type="submit" class="dropdown-item">Logout</button>
+        </form>
+    </div>
+}
+else
+{   
+    <span class="logout-container">
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li> 
+    </span>
+}
+

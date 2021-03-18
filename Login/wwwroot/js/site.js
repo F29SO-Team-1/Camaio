@@ -45,3 +45,6 @@ $(document).ready(
 
 );
 
+function alertMessage() {
+	confirm("Your channel will be deleted");
+  }

@@ -9,6 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Login.Data;
 using Login.Models.Threadl;
+using Login.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login.Controllers
 {
@@ -17,11 +19,18 @@ namespace Login.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IThread _threadService;
+        private readonly IAchievement _achievementService;
+        private readonly UserManager<LoginUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IThread thread)
+        public HomeController(ILogger<HomeController> logger, 
+            IThread thread, 
+            IAchievement achievementService,
+            UserManager<LoginUser> userManager)
         {
             _logger = logger;
             _threadService = thread;
+            _achievementService = achievementService;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -41,5 +50,6 @@ namespace Login.Controllers
             return View(threadList);
         }
 
+        
     }
 }

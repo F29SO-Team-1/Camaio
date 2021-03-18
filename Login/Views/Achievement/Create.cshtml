@@ -1,0 +1,50 @@
+﻿@model Login.Models.AchievementModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <hr />
+    <h1>Create Achievement</h1>
+    <form asp-action="CreateAchievement" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label asp-for="Name">
+                Name: 
+            </label>
+            <span asp-validation-for="Name"></span>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Description">
+                Description:
+            </label>
+            <span asp-validation-for="Description"></span>
+            <input asp-for="Description" class="form-control" maxlength="256" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Picture">
+                Picture: 
+            </label>
+            <span asp-validation-for="Picture"></span>
+            <input asp-for="Picture" type="file" id="file" name="file" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProgressLimit">
+                Max Progress:
+            </label>
+            <span asp-validation-for="ProgressLimit"></span>
+            <input asp-for="ProgressLimit" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-light">
+            Submit
+        </button>
+    </form>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

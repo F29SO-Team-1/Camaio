@@ -50,9 +50,56 @@
 
         </div>
 
-        <p>Following</p>
-        <div class="row">
-            
+<hr />
+<div class="container">
+    <a asp-area="" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username">
+        Achievements:
+    </a>
+    @*for loop through all the achieved Achievements HERE *@
+</div>
+
+
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2 style="text-align:center"> @Model.Username Posts</h2>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        @if (User.Identity.Name == Model.Username)
+                        {
+                            <th scope="col">Flaged</th>
+                        }
+                        <th scope="col">Title</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Picture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var thread in Model.Threads)
+                    {
+                        //if there is no picture dont display
+                        //@if (thread.Picture == null) continue;
+                        //loops through the db and displays it
+                        <tr>
+                            @if (User.Identity.Name == Model.Username)
+                            {
+                                <th>
+                                    @if (@thread.Flagged)
+                                    {
+                                        <p style="color:red">Yes</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="color:green">No</p>
+                                    }
+                                </th>
+                            }
 
             
         </div>
