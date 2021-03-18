@@ -29,7 +29,7 @@ namespace Login.Data
                 .HasOne(cm => cm.Channel)
                 .WithMany(c => c.ChannelMembers);
             modelBuilder.Entity<ChannelMember>()
-                .HasOne(cm => cm.LoginUser)
+                .HasOne(cm => cm.User)
                 .WithMany(pm => pm.Channels);
         }
     }

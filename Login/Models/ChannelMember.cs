@@ -6,6 +6,6 @@ namespace Login.Models
         {
             public int Id { get; set; }
             public Channel Channel { get; set; }
-            public LoginUser LoginUser { get; set; }
+            public LoginUser User { get; set; }
         }
 }
