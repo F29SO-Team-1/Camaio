@@ -29,7 +29,7 @@ namespace Login
                 try
                 {
                     var context = services.GetRequiredService<ThreadContext>();
-                    DbInitializer.Initialize(context);
+                    //DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {
