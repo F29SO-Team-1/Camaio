@@ -14,9 +14,7 @@ namespace Login.Models
     public class EventParticipant
     {
         public int Id { get; set; }
-        public int ChannelId { get; set; }
         public Event Event { get; set; }
-        public string UserName { get; set; }
         public LoginUser LoginUser { get; set; }
 
     }

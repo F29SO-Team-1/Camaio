@@ -14,6 +14,8 @@ namespace Login.Areas.Identity.Data
         public ICollection<ChannelMember> Channels { get; set; }
         public IEnumerable<EventParticipant> Events { get; set; }
         public IEnumerable<Following> FollowsUser { get; set; }
+        public IEnumerable<Album> Albums { get; set; }
+        public IEnumerable<Notification> Notifications { get; set; }
         public int AccountWarnings { get; set; }
     }
 }

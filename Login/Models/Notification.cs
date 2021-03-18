@@ -1,4 +1,5 @@
 using System;
+using Login.Areas.Identity.Data;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -13,7 +14,7 @@ namespace Login.Models
     public class Notification
     {
         public int Id { get; set; }
-        public string UserName { get; set; }
+        public LoginUser UserName { get; set; }
         public Thread Thread { get; set; }
         public Channel Channel { get; set; }
         public Event Event { get; set; }

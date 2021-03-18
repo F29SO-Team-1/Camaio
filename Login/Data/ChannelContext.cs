@@ -27,13 +27,10 @@ namespace Login.Data
             //     .HasKey(cm => new { cm.ChannelId, cm.UserId });  
             modelBuilder.Entity<ChannelMember>()
                 .HasOne(cm => cm.Channel)
-                .WithMany(c => c.ChannelMembers)
-                .HasForeignKey(cm => cm.ChannelId);  
+                .WithMany(c => c.ChannelMembers);
             modelBuilder.Entity<ChannelMember>()
                 .HasOne(cm => cm.LoginUser)
-                .WithMany(pm => pm.Channels)
-                .HasForeignKey(cm => cm.UserName)
-                .HasPrincipalKey(c => c.UserName);
+                .WithMany(pm => pm.Channels);
         }
     }
 }

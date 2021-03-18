@@ -152,8 +152,6 @@ namespace Login.Controllers
                     Title = title,
                     Description = description,
                     Public = true,
-                    VisibleToGuests = true,
-                    MembersCanPost = true,
                     CreationDate = DateTime.Now
                 };
                 _service.CreateChannel(channel);
