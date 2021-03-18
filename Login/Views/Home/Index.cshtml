@@ -19,7 +19,7 @@
     @if (thread.Picture == null) continue;
     <div class="image-box m-1 rel">
         <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-            <img class="image rounded-top" src="@thread.Picture" alt="Image"/>
+            <img class="image rounded" src="@thread.Picture" alt="Image"/>
         </a>
         <div class="overlay abs">
             <p class="overlaytext">@thread.Title</p>
