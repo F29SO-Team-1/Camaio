@@ -61,12 +61,18 @@ else
             <div class="col-8"></div>
             <div class="col-2">
                 <ul class="navbar-nav mt-3 float-right">
-                    <li class="nav-item">
-                        <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                    </li>
+                @if (!ViewData["Title"].Equals("Log in"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        </li>
+                    }
+                @if (!ViewData["Title"].Equals("Register"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
