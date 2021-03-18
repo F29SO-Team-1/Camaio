@@ -27,14 +27,6 @@ namespace Login.Data
             modelBuilder.Entity<EventParticipant>()
                 .HasOne(ep => ep.Event)
                 .WithMany(eventThing => eventThing.Participants);
-            modelBuilder.Entity<LoginUser>()
-                .ToTable("AspNetUsers")
-                .HasMany(user => user.Events)
-                .WithOne(ep => ep.User);
-            modelBuilder.Entity<LoginUser>()
-                .ToTable("AspNetUsers")
-                .HasMany(user => user.CreatedEvents)
-                .WithOne(eventThing => eventThing.Creator);
         }
     }
 }

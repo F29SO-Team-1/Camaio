@@ -27,6 +27,30 @@ namespace Login.Data
                .ToTable("AspNetUsers")
                .HasMany(user => user.FollowsUser)
                .WithOne(following => following.FollowingUsers);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.Events)
+                .WithOne(ep => ep.User);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.CreatedEvents)
+                .WithOne(eventThing => eventThing.Creator);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.CreatedChannels)
+                .WithOne(channel => channel.Creator);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.Albums)
+                .WithOne(album => album.User);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.Channels)
+                .WithOne(cm => cm.User);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUser")
+                .HasMany(user => user.Notifications)
+                .WithOne(n => n.User);
 
         }
     }

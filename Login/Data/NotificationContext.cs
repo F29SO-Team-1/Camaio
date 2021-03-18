@@ -34,10 +34,6 @@ namespace Login.Data
                 .ToTable("Thread")
                 .HasMany(thread => thread.Notifications)
                 .WithOne(n => n.Thread);
-            modelBuilder.Entity<LoginUser>()
-                .ToTable("AspNetUser")
-                .HasMany(user => user.Notifications)
-                .WithOne(n => n.User);
         }
     }
 }

@@ -29,24 +29,12 @@ namespace Login.Data
             modelBuilder.Entity<ChannelMember>()
                 .HasOne(cm => cm.Channel)
                 .WithMany(c => c.ChannelMembers);
-            modelBuilder.Entity<LoginUser>()
-                .ToTable("AspNetUsers")
-                .HasMany(user => user.Channels)
-                .WithOne(cm => cm.User);
             modelBuilder.Entity<Album>()
                 .HasOne(album => album.Channel)
                 .WithMany(channel => channel.Albums);
-            modelBuilder.Entity<LoginUser>()
-                .ToTable("AspNetUsers")
-                .HasMany(user => user.Albums)
-                .WithOne(album => album.User);
             modelBuilder.Entity<Album>()
                 .HasMany(album => album.Threads)
                 .WithOne(thread => thread.Album);
-            modelBuilder.Entity<LoginUser>()
-                .ToTable("AspNetUsers")
-                .HasMany(user => user.CreatedChannels)
-                .WithOne(channel => channel.Creator);
         }
     }
 }
