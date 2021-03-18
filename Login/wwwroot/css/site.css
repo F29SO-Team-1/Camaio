@@ -418,6 +418,7 @@ body {
     background-color: white;
     border-radius: 25px;
     color: #020202;
+    
 }
 
 .top-score-card:hover, .top-score-card::after, .top-score-card:active{
