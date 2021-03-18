@@ -397,6 +397,11 @@ body {
 /* Remove extra left and right margins, due to padding */
 .top-score-row {
     margin: 0 -5px;
+    color: #020202;
+}
+
+.top-score-row:hover{
+    text-decoration: none;
 }
   
 /* Clear floats after the columns */
@@ -412,6 +417,11 @@ body {
     text-align: center;
     background-color: white;
     border-radius: 25px;
+    color: #020202;
+}
+
+.top-score-card:hover, .top-score-card::after, .top-score-card:active{
+    text-decoration: none;
 }
 
 /* Responsive columns */
