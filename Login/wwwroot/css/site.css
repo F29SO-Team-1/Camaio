@@ -387,6 +387,32 @@ body {
 
 /*-----------------End of 'Upload Page' CSS-----------------------------*/
 
+/*-----------------Start of 'Top Posts Page' CSS -----------------------*/
+.top-score-column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+  
+/* Remove extra left and right margins, due to padding */
+.top-score-row {margin: 0 -5px;}
+  
+/* Clear floats after the columns */
+.top-score-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.top-score-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white;
+  }
+  
+/*-----------------End of 'Top Posts' CSS-----------------------------*/
+
 
 /*-----------------Start of 'Channels Page' CSS -----------------------*/
 
