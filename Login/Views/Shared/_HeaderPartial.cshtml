@@ -51,15 +51,31 @@
 }
 else
 {  
-    <div class="navbar navbar-expand navbar-fixed-top">
-        <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Index"><h1>Camaio</h1></a>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
-            </li>
-        </ul>
+    <div class="navbar-light navbar-expand mt-1">
+        <div class="d-flex pt-3">
+            <div class="col-2">
+                <div class="navbar-brand navbar-text">
+                    <h1 class="mx-2"><a asp-area="" asp-controller="Home" asp-action="Index">Camaio</a></h1>
+                </div>
+            </div>
+            <div class="col-8"></div>
+            <div class="col-2">
+                <ul class="navbar-nav mt-3 float-right">
+                @if (!ViewData["Title"].Equals("Log in"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        </li>
+                    }
+                @if (!ViewData["Title"].Equals("Register"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <hr class="headrule">
     </div>
 }
