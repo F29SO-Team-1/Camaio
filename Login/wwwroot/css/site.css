@@ -409,6 +409,16 @@ body {
     padding: 16px;
     text-align: center;
     background-color: white;
+    border-radius: 25px;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
   }
   
 /*-----------------End of 'Top Posts' CSS-----------------------------*/
