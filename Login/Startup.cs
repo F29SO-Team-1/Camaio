@@ -50,6 +50,7 @@ namespace Login
             services.AddScoped<IUpload, UploadService>();
             services.AddScoped<IChannel, ChannelService>();
             services.AddScoped<IAchievement, AchievementService>();
+            services.AddScoped<IAlbum, AlbumService>();
 
             //added the connetion to Azure
             services.AddSingleton(Configuration);

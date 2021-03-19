@@ -137,7 +137,7 @@ namespace Login.Controllers
         //makes the model to me passed in the view
         private IEnumerable<ThreadModel> BuildThreadList(string userName)
         {
-            return _threadService.UserThreads(userName).Select(threads => new ThreadModel
+            return _threadService.UserThreadsWithoutAlbum(userName).Select(threads => new ThreadModel
             {
                 Title = threads.Title,
                 Description = threads.Description,

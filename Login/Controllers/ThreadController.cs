@@ -23,6 +23,8 @@ namespace Login.Controllers
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
+        private readonly IChannel _channelService;
+        private readonly IAlbum _albumService;
         private readonly IApplicationUsers _userService;
         private readonly RoleManager<IdentityRole> _roleManager;
 
@@ -31,7 +33,9 @@ namespace Login.Controllers
             UserManager<LoginUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IUpload uploadService,
-            IApplicationUsers userService)
+            IApplicationUsers userService,
+            IAlbum albumService,
+            IChannel channelService)
         {
             _service = thread;
             _configuration = configuration;
@@ -39,6 +43,8 @@ namespace Login.Controllers
             _roleManager = roleManager;
             _uploadService = uploadService;
             _userService = userService;
+            _albumService = albumService;
+            _channelService = channelService;
         }
 
         [Route("Thread/{id?}")]
@@ -199,6 +205,21 @@ namespace Login.Controllers
         [Authorize]
         public IActionResult Create()
         {
+            ViewData["albumId"] = -1;
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult Create(int id)
+        {
+            var album = _albumService.GetAlbum(id);
+            if (album == null) return NotFound();
+            var channel = _channelService.GetChannel(album.ChannelId).Result;
+            var user = _userManager.GetUserAsync(User).Result;
+            var channelMember = _channelService.GetChannelMember(user, channel).Result;
+            if (channelMember == null) return NotFound();
+            if (!(album.MembersCanPost || user.Id == channel.CreatorId)) return NotFound();
+            ViewData["albumId"] = id;
             return View();
         }
 
@@ -242,11 +263,11 @@ namespace Login.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddThread(Thread model, IFormFile file)
+        public async Task<IActionResult> AddThread(int id, Thread model, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var user = await _userManager.FindByIdAsync(userId);    //gets the userName
-            var thread = _service.Create(model, user);  //creates the thread
+            var thread = _service.Create(model, user, id);  //creates the thread
             var threadId = thread.Result.ID;    //gets the Threads id
             await UploadThreadImage(file, threadId);    //uploads the threadImage
             return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created

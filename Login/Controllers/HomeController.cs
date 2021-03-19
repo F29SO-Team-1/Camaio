@@ -35,7 +35,9 @@ namespace Login.Controllers
 
         public IActionResult Index()
         {
-            var threadModel = _threadService.GetAll().Select(threads => new ThreadModel
+            var threadModel = _threadService.GetAll()
+                .Where(threads => threads.Album == null)
+                .Select(threads => new ThreadModel
             {
                 Title = threads.Title,
                 Rating = threads.Votes,

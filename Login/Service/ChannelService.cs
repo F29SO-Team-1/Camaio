@@ -26,10 +26,16 @@ namespace Login.Service
             return channelList;
         }
 
-        public Task<Channel> GetChannel(string id)
+        public Task<Channel> GetChannel(string title)
         {
             var channel = _context.Channels
-                .FirstOrDefaultAsync(table => table.Title == id);
+                .FirstOrDefaultAsync(table => table.Title == title);
+            return channel;
+        }
+        public Task<Channel> GetChannel(int id)
+        {
+            var channel = _context.Channels
+                .FirstOrDefaultAsync(table => table.Id == id);
             return channel;
         }
 
@@ -87,6 +93,14 @@ namespace Login.Service
         {
             _context.Add(channel);
             _context.SaveChanges();
+        }
+        public bool CheckIfPublic(Channel channel) 
+        {
+            var isPublic = _context.Channels
+                    .Where(table => table == channel)
+                    .Select(table => table.Public)
+                    .FirstOrDefault();
+            return isPublic;
         }
 
         public IEnumerable<Channel> GetAll()

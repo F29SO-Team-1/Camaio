@@ -1,0 +1,15 @@
+﻿@model Login.Models.Album1.AlbumModel;
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to @Model.Title</h1>
+    <div>
+        @if ((bool)ViewData["CanManage"]==true) 
+        {
+            <a class="clickthing" asp-area="" asp-controller="Album" asp-action="Manage" asp-route-id=@Model.AlbumId><h2>Manage Album</h2></a>
+        }
+        @if ((bool)ViewData["CanPost"]==true) 
+        {
+            <a class="clickthing" asp-area="" asp-controller="Thread" asp-action="Create" asp-route-id=@Model.AlbumId><h2>New Post</h2></a>
+        }
+    </div>
+</div>

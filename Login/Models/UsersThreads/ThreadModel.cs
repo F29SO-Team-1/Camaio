@@ -27,8 +27,16 @@ namespace Login.Models.Threadl
         public int NoReports { get; set; }
         public bool Flagged { get; set; }
 
+        public int EventId { get; set; }
+        public Event Event { get; set; }
+        public int AlbumId { get; set; }
+        public Album Album { get; set; }
+
         public IEnumerable<Likes> LikedBy { get; set; }
-        
+
+        public IEnumerable<Report> Reports { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
+        public IEnumerable<Notification> Notifications { get; set; }
 
     }
 }

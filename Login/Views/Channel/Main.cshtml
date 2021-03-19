@@ -10,12 +10,18 @@
         {
             @if ((bool)ViewData["member"]==false) 
             {
-                <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="JoinChannel" asp-route-id=@Model.Title><h4>Join</h4></a>
+                @if ((bool)ViewData["public"]==true)
+                {
+                    <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="RequestToJoin" asp-route-id=@Model.Title><h4>Ask to join</h4></a>
+                } else {
+                    <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="JoinChannel" asp-route-id=@Model.Title><h4>Join</h4></a>
+                }
             } else {
                 <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="LeaveChannel" asp-route-id=@Model.Title><h4>Leave</h4></a>
             }
         } else {
             <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Manage" asp-route-id=@Model.Title><h2>Manage Channel</h2></a>
+            <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="CreateAlbum" asp-route-id=@Model.Title><h4>Create Album</h4></a>
         }
     </div>
 </div>

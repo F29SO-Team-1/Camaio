@@ -18,20 +18,38 @@ namespace Login.Service
             _context = context;
         }
 
-        public async Task<Thread> Create(Thread model, LoginUser user)
+        public async Task<Thread> Create(Thread model, LoginUser user, int id)
         {
-            var thread = new Thread
+            var thread = new Thread{};
+            if (id==-1) 
             {
-                Title = model.Title,
-                CreateDate = DateTime.Now,
-                Description = model.Description,
-                ID = model.ID,
-                UserID = user.Id,
-                Votes = model.Votes,
-                UserName = user.UserName,
-                Flagged = false,
-                NoReports = 0
-            };
+                thread = new Thread
+                {
+                    Title = model.Title,
+                    CreateDate = DateTime.Now,
+                    Description = model.Description,
+                    ID = model.ID,
+                    UserID = user.Id,
+                    Votes = model.Votes,
+                    UserName = user.UserName,
+                    Flagged = false,
+                    NoReports = 0
+                };
+            } else 
+            {   thread = new Thread
+                {
+                    Title = model.Title,
+                    CreateDate = DateTime.Now,
+                    Description = model.Description,
+                    ID = model.ID,
+                    UserID = user.Id,
+                    AlbumId = id,
+                    Votes = model.Votes,
+                    UserName = user.UserName,
+                    Flagged = false,
+                    NoReports = 0
+                };
+            }
 
             _context.Add(thread);
             await _context.SaveChangesAsync();
@@ -78,6 +96,18 @@ namespace Login.Service
         public IEnumerable<Thread> UserThreads(string userName)
         {
             return GetAll().Where(thread => thread.UserName == userName);
+        }
+        //list of all users post that are not a part of an album
+        public IEnumerable<Thread> UserThreadsWithoutAlbum(string userName)
+        {
+            return GetAll()
+                .Where(thread => thread.UserName == userName)
+                .Where(thread => thread.Album == null);
+        }
+        //list of all album threads
+        public IEnumerable<Thread> AlbumThreads(Album album)
+        {
+            return GetAll().Where(thread => thread.Album == album);
         }
 
         public async Task UploadPicture(int threadId, Uri pic)
