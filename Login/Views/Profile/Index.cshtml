@@ -27,11 +27,11 @@
     </div>
 
     <div class="col-md-10 col-sm-12 mt-2">
-        <p>My Posts</p>
+        <p class="mt-2">My Posts</p>
         <div class="row profile">
             @foreach (var thread in @Model.Threads)
             {
-                <div class="image-box m-1 w-100 h-100">
+                <div class="image-box m-1 profile">
                     <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
                         <img class="image rounded " src="@thread.Picture" alt="Image"/>
                     </a>
@@ -39,17 +39,17 @@
             }
         </div>
 
-        <p>My Channels</p>
+        <p class="mt-2">My Channels</p>
         <div class="row profile">
 
         </div>
 
-        <p>Following</p>
+        <p class="mt-2">Following</p>
         <div class="row profile">
             
         </div>
 
-        <p>Followers</p>
+        <p class="mt-2">Followers</p>
         <div class="row profile">
 
         </div>

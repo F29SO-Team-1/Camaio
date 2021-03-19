@@ -622,14 +622,15 @@ body {
 }
 
 .image-box.profile{
-    width:100px;
-    height:100px;
+    width:200px;
+    height:100%;
+    border-radius: 2px;
 }
 
 .row.profile{
     height:200px;
-    background-color: green;
-    opacity: 0.5;
+    background-color: lightgreen;
+    overflow:hidden;
 }
 
 
