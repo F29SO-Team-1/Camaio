@@ -20,13 +20,8 @@ namespace Login.Service
         public List<string> GetChannels(LoginUser user)
         {
             var channelList = _context.ChannelMember
-                .Where(table => table.User == user)
-                .Join(
-                    _context.Channels,
-                    channelMembers => channelMembers.Channel,
-                    channel => channel,
-                    (channelMember, channel) => channel.Title
-                )
+                .Where(channelMember => channelMember.User == user)
+                .Select(channelMember => channelMember.Channel.Title)
                 .ToList();
             return channelList;
         }

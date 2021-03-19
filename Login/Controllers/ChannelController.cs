@@ -52,7 +52,7 @@ namespace Login.Controllers
             {
                 ViewData["member"] = true;
             }
-            if (channel.Creator == user)
+            if (channel.CreatorId == user.Id)
             {
                 ViewData["owner"] = true;
             }
@@ -77,7 +77,7 @@ namespace Login.Controllers
         public async Task<IActionResult> Delete(string id)
         {   var channel = _service.GetChannel(id).Result;
             var user = _userManager.GetUserAsync(User).Result;
-            if (user == channel.Creator) 
+            if (user.Id == channel.CreatorId) 
             {
                 await _service.DeleteChannel(channel);
                 return RedirectToAction("Index", "Home");
@@ -87,7 +87,7 @@ namespace Login.Controllers
         public IActionResult RemoveMembers(string id)
         {   var channel = _service.GetChannel(id).Result;
             var user = _userManager.GetUserAsync(User).Result;
-            if (user == channel.Creator) 
+            if (user.Id == channel.CreatorId) 
             {
                 var channelUsers = _service.GetChannelMembers(channel);
                 ViewData["Channel"] = channel.Title;
@@ -99,7 +99,7 @@ namespace Login.Controllers
         {   
             var channel = _service.GetChannel(id).Result;
             var user = _userManager.GetUserAsync(User).Result;
-            if (user == channel.Creator) 
+            if (user.Id == channel.CreatorId) 
             {
                 if (user.UserName != userName) 
                 {
@@ -124,7 +124,7 @@ namespace Login.Controllers
             }
             var channel = _service.GetChannel(id).Result;
             var user = _userManager.GetUserAsync(User).Result;
-            if (user == channel.Creator) 
+            if (user.Id == channel.CreatorId) 
             {
                 return View(channel);
             }
@@ -134,7 +134,7 @@ namespace Login.Controllers
         public IActionResult UpdateChannel(string id, string description)
         {   var channel = _service.GetChannel(id).Result;
             var user = _userManager.GetUserAsync(User).Result;
-            if (user == channel.Creator) 
+            if (user.Id == channel.CreatorId) 
             {
                 _service.UpdateChannel(channel, description);
                 return RedirectToAction("Main", "Channel", new { id = channel.Title} );
@@ -142,7 +142,7 @@ namespace Login.Controllers
             return NotFound();
         }
 
-        public IActionResult CreateChannel(string title, string description)
+        public IActionResult CreateChannel(string title, string description, bool isPrivate)
         {
             var channel = _service.GetChannel(title).Result;
             var user = _userManager.GetUserAsync(User).Result;
@@ -153,7 +153,7 @@ namespace Login.Controllers
                     Creator = user,
                     Title = title,
                     Description = description,
-                    Public = true,
+                    Public = !isPrivate,
                     CreationDate = DateTime.Now
                 };
                 _service.CreateChannel(channel);
