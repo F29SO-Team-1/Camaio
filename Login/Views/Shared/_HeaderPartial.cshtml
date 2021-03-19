@@ -6,7 +6,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="navbar navbar-expand navbar-fixed-top">
+    <div class="navbar navbar-expand navbar-fixed-top border-bottom border-success">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h1>Camaio</h1></a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
@@ -39,6 +39,8 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <p class="mx-3">@UserManager.GetUserName(User)</p>
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Profile</a>
+                    <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
+                    <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">Scores</a>
                     <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button id="logout" type="submit" class="dropdown-item">Log out</button>
                     </form>
@@ -46,12 +48,10 @@
             </span>
         </div>
     </div>
-
-        
 }
 else
 {  
-    <div class="navbar navbar-expand navbar-fixed-top">
+    <div class="navbar navbar-expand navbar-fixed-top border-bottom border-success">
         <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Index"><h1>Camaio</h1></a>
         <ul class="navbar-nav">
             @if (!ViewData["Title"].Equals("Log in"))
@@ -68,8 +68,4 @@ else
                     }
         </ul>
     </div>
-
-
-
-
 }

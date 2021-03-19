@@ -21,8 +21,27 @@
         <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
             <img class="image rounded" src="@thread.Picture" alt="Image"/>
         </a>
-        <div class="overlay abs">
-            <p class="overlaytext">@thread.Title</p>
+        <div class="overlay abs d-flex">
+            <span class="col mr-auto">
+                <p class="overlaytext">
+                    <a class="" >
+                        @thread.Title
+                    </a>
+                </p><br/>
+                <p class="overlaytext">
+                    <a class="" asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
+                        @thread.AuthorUserName
+                    </a>
+                </p>
+            </span>
+            <span class="col w-25">
+                <p class="overlaytext text-right">
+                    @thread.Rating
+                </p><br/>
+                <p class="overlaytext button">
+                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                </p>
+            </span>
         </div>
     </div>
 }

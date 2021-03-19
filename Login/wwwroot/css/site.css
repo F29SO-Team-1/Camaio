@@ -4,6 +4,9 @@ for details on configuring this project to bundle and minify static web assets. 
 
 /*Shared styles*/
 
+.overlaytext.button{
+    
+}
 
 .nav-item{
     color: black;
@@ -609,13 +612,20 @@ body {
 }
 
 .profile-link{
-    background-color: gray;
-    border-radius:5px;
+    border: 1px;
+    border-radius:2px;
     margin:10px;
 }
 
 .image-box.profile{
-    max-height:200px;
+    width:100px;
+    height:100px;
+}
+
+.row.profile{
+    height:200px;
+    background-color: green;
+    opacity: 0.5;
 }
 
 

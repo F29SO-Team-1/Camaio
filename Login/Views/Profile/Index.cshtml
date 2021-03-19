@@ -11,14 +11,14 @@
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-2 col-sm-12">
         <div class="row profilelinks">
-            <ul class="nav flex-column">
-                <li class="nav-item profile-link">
+            <ul class="nav flex-column w-100">
+                <li class="nav-item profile-link w-100">
                     <a class="nav-link active" asp-area="" asp-controller="Profile" asp-action="Settings">Settings</a>
                 </li>
-                <li class="nav-item profile-link">
+                <li class="nav-item profile-link w-100">
                     <a class="nav-link" asp-area="" asp-controller="Thread" asp-action="Create"> Upload</a>
                 </li>
-                <li class="nav-item profile-link">
+                <li class="nav-item profile-link w-100">
                     <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Following"> Following</a>
                 </li>
             </ul>
@@ -26,23 +26,31 @@
 
     </div>
 
-    <div class="col-md-10 col-sm-12">
+    <div class="col-md-10 col-sm-12 mt-2">
         <p>My Posts</p>
-        <div class="row">
-            
+        <div class="row profile">
+            @foreach (var thread in @Model.Threads)
+            {
+                <div class="image-box m-1 w-100 h-100">
+                    <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                        <img class="image rounded " src="@thread.Picture" alt="Image"/>
+                    </a>
+                </div>
+            }
         </div>
+
         <p>My Channels</p>
-        <div class="row">
+        <div class="row profile">
 
         </div>
 
         <p>Following</p>
-        <div class="row">
+        <div class="row profile">
             
         </div>
 
         <p>Followers</p>
-        <div class="row">
+        <div class="row profile">
 
         </div>
         
