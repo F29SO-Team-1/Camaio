@@ -57,14 +57,14 @@ namespace Login.Controllers
             return View(usersAchievementList);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> CreateAchievement(Achievement model, IFormFile file)
         {

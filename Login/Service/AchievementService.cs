@@ -213,7 +213,12 @@ namespace Login.Service
 
         public int FollowAchievementProgress(LoginUser user)
         {
+            //need to fix if there is no achievemtns 
             AchievementProgress ach = GetUsersAchievementProgress(user, 3);
+            if(ach == null)
+            {
+                return 0;
+            }
             return ach.UsersProgress;
         }
 
