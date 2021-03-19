@@ -8,6 +8,13 @@ for details on configuring this project to bundle and minify static web assets. 
     
 }
 
+.fade-in {
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+}
 .nav-item{
     color: black;
 }
@@ -299,14 +306,13 @@ body {
 }
 
 .image-box:hover .overlay {
-    height:60px;
+    height:80px;
     bottom: 0;
     left: 0;
     right: 0;
 }
 
 .image-box:hover .overlaytext {
-    height:10%;
     display: block;
 }
 
@@ -318,7 +324,7 @@ body {
     height: 0px;
     width: 100%;
     transition: .5s;
-    background-color: white;
+    background-color: greenyellow;
 }
 
 .overlaytext{

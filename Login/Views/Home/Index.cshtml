@@ -21,8 +21,8 @@
         <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
             <img class="image rounded" src="@thread.Picture" alt="Image"/>
         </a>
-        <div class="overlay abs d-flex">
-            <span class="col mr-auto">
+        <div class="overlay abs d-flex rounded">
+            <span class="col mr-auto fade-in">
                 <p class="overlaytext">
                     <a class="" >
                         @thread.Title
@@ -34,7 +34,7 @@
                     </a>
                 </p>
             </span>
-            <span class="col w-25">
+            <span class="col">
                 <p class="overlaytext text-right">
                     @thread.Rating
                 </p><br/>
