@@ -17,13 +17,12 @@ namespace Login.Service
             _context = context;
         }
 
-        public List<string> GetChannels(LoginUser user)
+        public List<Channel> GetChannels(LoginUser user)
         {
-            var channelList = _context.ChannelMember
-                .Where(channelMember => channelMember.User == user)
-                .Select(channelMember => channelMember.Channel.Title)
+            return _context.ChannelMember
+                .Where(cm => cm.UserId == user.Id)
+                .Select(cm => cm.Channel)
                 .ToList();
-            return channelList;
         }
 
         public Task<Channel> GetChannel(string title)
@@ -106,11 +105,6 @@ namespace Login.Service
         public IEnumerable<Channel> GetAll()
         {
             return _context.Channels;
-        }
-
-        public IEnumerable<Channel> UserChannel(string userName)
-        {
-            return GetAll().Where(c => c.Creator.UserName == userName);
         }
         public LoginUser GetByUserName(string username)
         {

@@ -125,7 +125,8 @@ namespace Login.Controllers
 
         private IEnumerable<ChannelModel> BuildChannelsList(string username)
         {
-            return _channelSerivce.UserChannel(username).Select(c => new ChannelModel
+            var user = _userManager.FindByNameAsync(username).Result;
+            return _channelSerivce.GetChannels(user).Select(c => new ChannelModel
             {
                 Id = c.Id,
                 Title = c.Title,

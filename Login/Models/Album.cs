@@ -15,8 +15,6 @@ namespace Login.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string UserId { get; set; }
-        public LoginUser User { get; set; }
         public int ChannelId { get; set; }
         public Channel Channel { get; set; }
         public bool VisibleToGuests { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Login.Models;
+using Login.Models.ChannelList;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,7 @@ namespace Login.Controllers
         public IActionResult Index()
         {
             var user = _userManager.GetUserAsync(User).Result;
-            var userChannels = _service.GetChannels(user);
+            var userChannels = new ChannelList { Channels = _service.GetChannels(user) };
             return View(userChannels);
         }
         
@@ -139,45 +140,45 @@ namespace Login.Controllers
             }
             return NotFound();
         }
-        // public IActionResult CreateAlbum(string id)
-        // {
-        //     if (id == null) {
-        //         return NotFound();
-        //     }
-        //     var channel = _service.GetChannel(id).Result;
-        //     var user = _userManager.GetUserAsync(User).Result;
-        //     if (user.Id == channel.CreatorId) 
-        //     {
-        //         ViewData["channel"] = channel.Title;
-        //         return View();
-        //     }
-        //     return NotFound();
-        // }
+        public IActionResult CreateAlbum(string id)
+        {
+            if (id == null) {
+                return NotFound();
+            }
+            var channel = _service.GetChannel(id).Result;
+            var user = _userManager.GetUserAsync(User).Result;
+            if (user.Id == channel.CreatorId) 
+            {
+                ViewData["channel"] = channel.Title;
+                return View();
+            }
+            return NotFound();
+        }
 
-        // public IActionResult NewAlbum(string id, string Title, bool NotVisible, bool NoPosting)
-        // {
-        //     if (id == null) {
-        //         return NotFound();
-        //     }
-        //     var channel = _service.GetChannel(id).Result;
-        //     var user = _userManager.GetUserAsync(User).Result;
-        //     if (user.Id == channel.CreatorId) 
-        //     {
-        //         var album = _albumService.GetAlbum(channel, Title);
-        //         if (album == null)
-        //         {
-        //             var albumId = _albumService.CreateNewAlbum(channel, Title, NotVisible, NoPosting);
-        //             return RedirectToAction("Main", "Album", new { id = albumId } );
-        //         } else 
-        //         {
-        //             ViewData["channel"] = channel.Title;
-        //             ViewData["Exists"] = true;
-        //             return View("CreateAlbum");
-        //         }
+        public IActionResult NewAlbum(string id, string Title, bool NotVisible, bool NoPosting)
+        {
+            if (id == null) {
+                return NotFound();
+            }
+            var channel = _service.GetChannel(id).Result;
+            var user = _userManager.GetUserAsync(User).Result;
+            if (user.Id == channel.CreatorId) 
+            {
+                var album = _albumService.GetAlbum(channel, Title);
+                if (album == null)
+                {
+                    var albumId = _albumService.CreateNewAlbum(channel, Title, NotVisible, NoPosting);
+                    return RedirectToAction("Main", "Album", new { id = albumId } );
+                } else 
+                {
+                    ViewData["channel"] = channel.Title;
+                    ViewData["Exists"] = true;
+                    return View("CreateAlbum");
+                }
                 
-        //     }
-        //     return NotFound();
-        // }
+            }
+            return NotFound();
+        }
 
         public IActionResult UpdateChannel(string id, string description)
         {   var channel = _service.GetChannel(id).Result;

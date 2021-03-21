@@ -9,7 +9,7 @@ namespace Login.Data
 {
     public interface IChannel //Copyright Apple Inc.
     {
-        List<string> GetChannels(LoginUser user);
+        List<Channel> GetChannels(LoginUser user);
         Task<Channel> GetChannel(string title);
         Task<Channel> GetChannel(int id);
         Task<ChannelMember> GetChannelMember(LoginUser user, Channel channel);
@@ -20,8 +20,6 @@ namespace Login.Data
         Task UpdateChannel(Channel channel, string description);
         void CreateChannel(Channel channel);
         bool CheckIfPublic(Channel channel);
-
-        IEnumerable<Channel> UserChannel(string userName);
         IEnumerable<Channel> GetAll();
         LoginUser GetByUserName(string username);
     }

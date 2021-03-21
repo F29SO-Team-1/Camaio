@@ -41,10 +41,6 @@ namespace Login.Data
                 .WithOne(channel => channel.Creator);
             builder.Entity<LoginUser>()
                 .ToTable("AspNetUsers")
-                .HasMany(user => user.Albums)
-                .WithOne(album => album.User);
-            builder.Entity<LoginUser>()
-                .ToTable("AspNetUsers")
                 .HasMany(user => user.Channels)
                 .WithOne(cm => cm.User);
             builder.Entity<LoginUser>()
