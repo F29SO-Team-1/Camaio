@@ -24,7 +24,6 @@ namespace Login.Models
         public DateTime EndTime { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
         public IEnumerable<EventParticipant> Participants { get; set; }
-        public IEnumerable<Thread> Threads { get; set; }
         public IEnumerable<Notification> Notifications { get; set; }
 
     }

@@ -7,6 +7,7 @@
 <div class="text-center">
     <h1 class="display-4">@Model.Title Management</h1>
     <div>
+        <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@Model.Title><h4>Back</h4></a>
 <div class="row">
     <div class="manage-channel">
         <form asp-action="UpdateChannel" asp-route-id=@Model.Title>

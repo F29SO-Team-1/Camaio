@@ -32,12 +32,10 @@ namespace Login.Controllers
 
         public IActionResult Main(int id)
         {
+            if (id == 1) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
             var album = _service.GetAlbum(id);
-            if (album == null)
-            {
-                return NotFound();
-            }
+            if (album == null) return NotFound();
             ViewData["CanPost"] = false;
             ViewData["CanManage"] = false;
             var channel = _channelService.GetChannel(album.ChannelId).Result;

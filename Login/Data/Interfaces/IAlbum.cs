@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Login.Models;
+using Login.Models.Album1;
 using Login.Areas.Identity.Data;
 
 namespace Login.Data
@@ -12,5 +13,7 @@ namespace Login.Data
         int CreateNewAlbum(Channel channel, string Title, bool NotVisible, bool NoPosting);
         Album GetAlbum(Channel channel, string Title);
         Album GetAlbum(int id);
+        string GetAlbumImage(Album album);
+        IEnumerable<AlbumModel> GetAlbumModels(Channel channel);
     }
 }

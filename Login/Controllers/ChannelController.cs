@@ -60,7 +60,17 @@ namespace Login.Controllers
             {
                 ViewData["owner"] = true;
             }
-            return View(channel);
+            var albums = _albumService.GetAlbumModels(channel);
+            var channelModel = new ChannelModel 
+            {
+                Id = channel.Id,
+                Title = channel.Title,
+                Description = channel.Description,
+                Creator = channel.CreatorId,
+                CreationDate = channel.CreationDate,
+                Albums = albums
+            };
+            return View(channelModel);
         }
         public IActionResult JoinChannel(string id)
         {

@@ -259,11 +259,11 @@ namespace Login.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddThread(int id, Thread model, IFormFile file)
+        public async Task<IActionResult> AddThread(int albumId, Thread model, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var user = await _userManager.FindByIdAsync(userId);    //gets the userName
-            var thread = _service.Create(model, user, id);  //creates the thread
+            var thread = _service.Create(model, user, albumId);  //creates the thread
             var threadId = thread.Result.ID;    //gets the Threads id
             await UploadThreadImage(file, threadId);    //uploads the threadImage
             return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created

@@ -1,5 +1,6 @@
 ﻿using Login.Data;
 using Login.Models;
+using Login.Models.Album1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,6 @@ namespace Login.Service
             var album = _context.Albums
                 .Where(table => table.Channel == channel)
                 .Where(table => table.Title == title)
-                .Select(table => table)
                 .FirstOrDefault();
             return album;
         }
@@ -45,9 +45,36 @@ namespace Login.Service
         {
             var album = _context.Albums
                 .Where(table => table.Id == id)
-                .Select(table => table)
                 .FirstOrDefault();
             return album;
+        }
+        public IEnumerable<AlbumModel> GetAlbumModels(Channel channel)
+        {
+            return _context.Albums
+                .Where(album => album.ChannelId == channel.Id)
+                .Where(album => album.Id != 1)
+                .Select(album => new AlbumModel 
+                {
+                    AlbumId = album.Id,
+                    Title = album.Title,
+                    Channel = album.Channel
+                })
+                .ToList();
+        }
+
+        public string GetAlbumImage(Album album)
+        {
+            var image = _context.Albums
+                .Where(a => a == album)
+                .Select(a => a.Threads.FirstOrDefault().Image)
+                .FirstOrDefault();
+            if(image == null)
+            {
+                return "https://camaiologinstorage.blob.core.windows.net/thread-storage/Thumbs_Up_Skin-Color.pngtest2@gmail.com637516981283394465";
+            } else 
+            {
+                return image;
+            }
         }
     }
 }

@@ -18,16 +18,15 @@ namespace Login.Service
             _context = context;
         }
 
-        public async Task<Thread> Create(Thread model, LoginUser user, int id)
+        public async Task<Thread> Create(Thread model, LoginUser user, int albumId)
         {
            var thread = new Thread
             {
                 Title = model.Title,
                 CreateDate = DateTime.Now,
                 Description = model.Description,
-                ID = model.ID,
                 UserID = user.Id,
-                AlbumId = id,
+                AlbumId = albumId,
                 Votes = model.Votes,
                 UserName = user.UserName,
                 Flagged = false,
@@ -85,12 +84,12 @@ namespace Login.Service
         {
             return GetAll()
                 .Where(thread => thread.UserName == userName)
-                .Where(thread => thread.Album == null);
+                .Where(thread => thread.AlbumId == 1);
         }
         //list of all album threads
         public IEnumerable<Thread> AlbumThreads(Album album)
         {
-            return GetAll().Where(thread => thread.Album == album);
+            return GetAll().Where(thread => thread.AlbumId == album.Id);
         }
 
         public async Task UploadPicture(int threadId, Uri pic)

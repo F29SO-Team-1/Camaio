@@ -15,8 +15,6 @@ namespace Login.Models
         public int Votes { get; set; }
         public int NoReports { get; set; }
         public bool Flagged { get; set; }
-        public int EventId { get; set; }
-        public Event Event { get; set; }
         public int AlbumId { get; set; }
         public Album Album { get; set; }
 
