@@ -103,17 +103,17 @@ namespace Login.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ChannelId")
+                    b.Property<int>("ChannelId")
                         .HasColumnType("int");
+
+                    b.Property<string>("LoginUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("MembersCanPost")
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("VisibleToGuests")
                         .HasColumnType("bit");
@@ -122,7 +122,7 @@ namespace Login.Migrations
 
                     b.HasIndex("ChannelId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("LoginUserId");
 
                     b.ToTable("Album");
                 });
@@ -163,7 +163,7 @@ namespace Login.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ChannelId")
+                    b.Property<int>("ChannelId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -220,7 +220,10 @@ namespace Login.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EventId")
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EventId1")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -228,7 +231,7 @@ namespace Login.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventId1");
 
                     b.HasIndex("UserId");
 
@@ -282,26 +285,35 @@ namespace Login.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ChannelId")
+                    b.Property<string>("ChannelId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ChannelId1")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EventId")
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EventId1")
                         .HasColumnType("int");
 
                     b.Property<int?>("ThreadID")
                         .HasColumnType("int");
+
+                    b.Property<string>("ThreadId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChannelId");
+                    b.HasIndex("ChannelId1");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventId1");
 
                     b.HasIndex("ThreadID");
 
@@ -337,10 +349,16 @@ namespace Login.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ChannelId")
+                    b.Property<string>("ChannelId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ChannelId1")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EventId")
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EventId1")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -349,11 +367,14 @@ namespace Login.Migrations
                     b.Property<int?>("ThreadID")
                         .HasColumnType("int");
 
+                    b.Property<string>("ThreadId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ChannelId");
+                    b.HasIndex("ChannelId1");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventId1");
 
                     b.HasIndex("ThreadID");
 
@@ -367,7 +388,7 @@ namespace Login.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AlbumId")
+                    b.Property<int>("AlbumId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
@@ -376,7 +397,7 @@ namespace Login.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EventId")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Flagged")
@@ -544,11 +565,13 @@ namespace Login.Migrations
                 {
                     b.HasOne("Login.Models.Channel", "Channel")
                         .WithMany("Albums")
-                        .HasForeignKey("ChannelId");
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "User")
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", null)
                         .WithMany("Albums")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("LoginUserId");
                 });
 
             modelBuilder.Entity("Login.Models.Channel", b =>
@@ -562,7 +585,9 @@ namespace Login.Migrations
                 {
                     b.HasOne("Login.Models.Channel", "Channel")
                         .WithMany("ChannelMembers")
-                        .HasForeignKey("ChannelId");
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Login.Areas.Identity.Data.LoginUser", "User")
                         .WithMany("Channels")
@@ -580,7 +605,7 @@ namespace Login.Migrations
                 {
                     b.HasOne("Login.Models.Event", "Event")
                         .WithMany("Participants")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId1");
 
                     b.HasOne("Login.Areas.Identity.Data.LoginUser", "User")
                         .WithMany("Events")
@@ -605,11 +630,11 @@ namespace Login.Migrations
                 {
                     b.HasOne("Login.Models.Channel", "Channel")
                         .WithMany("Notifications")
-                        .HasForeignKey("ChannelId");
+                        .HasForeignKey("ChannelId1");
 
                     b.HasOne("Login.Models.Event", "Event")
                         .WithMany("Notifications")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId1");
 
                     b.HasOne("Login.Models.Thread", "Thread")
                         .WithMany("Notifications")
@@ -631,11 +656,11 @@ namespace Login.Migrations
                 {
                     b.HasOne("Login.Models.Channel", "Channel")
                         .WithMany("Tags")
-                        .HasForeignKey("ChannelId");
+                        .HasForeignKey("ChannelId1");
 
                     b.HasOne("Login.Models.Event", "Event")
                         .WithMany("Tags")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId1");
 
                     b.HasOne("Login.Models.Thread", "Thread")
                         .WithMany("Tags")
@@ -646,11 +671,15 @@ namespace Login.Migrations
                 {
                     b.HasOne("Login.Models.Album", "Album")
                         .WithMany("Threads")
-                        .HasForeignKey("AlbumId");
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Login.Models.Event", "Event")
                         .WithMany("Threads")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

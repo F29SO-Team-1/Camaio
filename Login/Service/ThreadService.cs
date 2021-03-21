@@ -20,36 +20,19 @@ namespace Login.Service
 
         public async Task<Thread> Create(Thread model, LoginUser user, int id)
         {
-            var thread = new Thread{};
-            if (id==-1) 
+           var thread = new Thread
             {
-                thread = new Thread
-                {
-                    Title = model.Title,
-                    CreateDate = DateTime.Now,
-                    Description = model.Description,
-                    ID = model.ID,
-                    UserID = user.Id,
-                    Votes = model.Votes,
-                    UserName = user.UserName,
-                    Flagged = false,
-                    NoReports = 0
-                };
-            } else 
-            {   thread = new Thread
-                {
-                    Title = model.Title,
-                    CreateDate = DateTime.Now,
-                    Description = model.Description,
-                    ID = model.ID,
-                    UserID = user.Id,
-                    AlbumId = id,
-                    Votes = model.Votes,
-                    UserName = user.UserName,
-                    Flagged = false,
-                    NoReports = 0
-                };
-            }
+                Title = model.Title,
+                CreateDate = DateTime.Now,
+                Description = model.Description,
+                ID = model.ID,
+                UserID = user.Id,
+                AlbumId = id,
+                Votes = model.Votes,
+                UserName = user.UserName,
+                Flagged = false,
+                NoReports = 0
+            };
 
             _context.Add(thread);
             await _context.SaveChangesAsync();

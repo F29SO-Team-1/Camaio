@@ -149,6 +149,7 @@ namespace Login.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             if (user.Id == channel.CreatorId) 
             {
+                ViewData["Exists"] = false;
                 ViewData["channel"] = channel.Title;
                 return View();
             }
