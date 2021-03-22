@@ -390,14 +390,16 @@ body {
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
 .top-score-column {
   float: left;
-  width: 33%;
+  width: 33.33%;
   padding: 0 10px;
+  background-color: green;
 }
   
 /* Remove extra left and right margins, due to padding */
 .top-score-row {
     margin: 0 -5px;
     color: #020202;
+    background-color: red;
 }
 
   
@@ -415,6 +417,7 @@ body {
     background-color: white;
     border-radius: 25px;
     color: #020202;
+    
     
 }
 
