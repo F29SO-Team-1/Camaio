@@ -75,7 +75,7 @@ namespace Login.Controllers
         {
             var album = _service.GetAlbum(albumId);
             var channel = _service.GetChannel(album);
-            if (channel.Creator != _userManager.GetUserAsync(User).Result) return NotFound();
+            if (channel.CreatorId != _userManager.GetUserId(User)) return NotFound();
             _service.DeleteAlbum(album);
             return RedirectToAction("Main", "Channel", new { id = channel.Title} );
         }

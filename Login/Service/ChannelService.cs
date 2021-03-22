@@ -66,9 +66,6 @@ namespace Login.Service
 
         public async Task DeleteChannel(Channel channel)
         {
-            _context.ChannelMember.RemoveRange(_context.ChannelMember
-                    .Where(table => table.Channel == channel)
-                    .ToList());
             _context.Channels.Remove(channel);
             await _context.SaveChangesAsync();
         }
