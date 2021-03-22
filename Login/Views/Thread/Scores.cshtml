@@ -5,19 +5,18 @@
 }
 
 <h1 style="text-align:center; margin-top:2%">Top Posts</h1>
-
-<br>
 <div class="top-score-row">
-
+<br>
 @foreach (var threads in Model.ThreadLists){
 <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
   <div class="top-score-column">
     <div class="top-score-card">
-      <h3>@threads.Title 1</h3>
+      <h3>@threads.Title</h3>
       <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
       <p>Rating: @threads.Rating</p>
       <p>@threads.Created</p>
     </div>
+    <br>
   </div>
   </a>
 }
@@ -25,23 +24,26 @@
     <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
    <div class="top-score-column">
     <div class="top-score-card">
-      <h3>@threads.Title 2</h3>
+      <h3>@threads.Title</h3>
       <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
       <p>Rating: @threads.Rating</p>
       <p>@threads.Created</p>
     </div>
+    <br>
   </div>
   </a>
 }
+<br>
 @foreach (var threads in Model.ThreadLists){
     <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
    <div class="top-score-column"> 
     <div class="top-score-card">
-      <h3>@threads.Title Card 3</h3>
+      <h3>@threads.Title</h3>
       <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
       <p>Rating: @threads.Rating</p>
       <p>@threads.Created</p>
     </div>
+    <br>
   </div>
   </a>
 }
