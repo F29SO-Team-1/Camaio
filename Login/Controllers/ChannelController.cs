@@ -62,12 +62,13 @@ namespace Login.Controllers
             }
             var albums = _albumService.GetAlbumModels(channel);
             var members = _service.GetChannelMembers(channel);
+            var creator = _userManager.FindByIdAsync(channel.CreatorId).Result;
             var channelModel = new ChannelModel 
             {
                 Id = channel.Id,
                 Title = channel.Title,
                 Description = channel.Description,
-                Creator = channel.CreatorId,
+                Creator = creator,
                 CreationDate = channel.CreationDate,
                 Albums = albums,
                 ChannelMembers = members

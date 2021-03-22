@@ -34,7 +34,7 @@
         <thead>
             <tr>
                 @* <th scope="col">Picture</th> *@
-                <th scope="col">Title</th>
+                <th scope="col">Albums:</th>
             </tr>
         </thead>
         <tbody>
@@ -55,23 +55,38 @@
             }
         </tbody>
     </table>
+     <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Creator:</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <th> 
+                        <a class="channelItem" id="Title" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username=@Model.Creator.UserName>@Model.Creator.UserName</a>
+                    </th>
+                </tr>
+        </tbody>
+    </table>
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Username</th>
+                <th scope="col">Members:</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var member in Model.ChannelMembers)
             {
+                @if (member.Id == Model.Creator.Id) continue;
                 <tr>
                     <th> 
                         <a class="channelItem" id="Title" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username=@member.UserName>@member.UserName</a>
                     </th>
-                    @if ((bool)ViewData["owner"]==true && member.Id != Model.Creator) 
+                    @if ((bool)ViewData["owner"]==true) 
                     {
                         <th> 
-                            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>@member.UserName</a>
+                            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>Remove</a>
                         </th>
                     }
                 </tr>
