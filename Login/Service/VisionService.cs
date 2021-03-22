@@ -73,5 +73,34 @@ namespace Login.Service
             Console.WriteLine();
         }
 
+        public bool Description(ImageAnalysis results)
+        {
+            List<string> list = new List<string>();
+            //Description
+            foreach(var tags in results.Description.Tags)
+            {
+                list.Add(tags);
+            }
+            foreach (var obj in results.Objects)
+            {
+                list.Add(obj.ObjectProperty);
+            }
+
+            return Check(list); 
+        }
+
+        //true means that it has a human element
+        //false means that it DOES NOT have a human element
+        private bool Check(List<string> l)
+        {
+            //tags that have human elements
+            IEnumerable<string> notAllowed = new List<string> { "human", "finger", "person" };
+
+            //returns a int of how many notAllowed the image contains
+             int num = l.Intersect(notAllowed).Count();
+
+            if (num >= 1) return true; else return false;
+        }
+
     }
 }

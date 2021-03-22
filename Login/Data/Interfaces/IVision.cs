@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Login.Data.Interfaces
@@ -10,5 +11,7 @@ namespace Login.Data.Interfaces
         void Tags(ImageAnalysis results);
         void Objects(ImageAnalysis results);
         void Faces(ImageAnalysis results);
+
+        bool Description(ImageAnalysis results);
     }
 }

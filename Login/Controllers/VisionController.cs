@@ -9,6 +9,7 @@ using Login.Data;
 
 namespace Login.Controllers
 {
+    [ApiController]
     public class VisionController : Controller
     {
         //azure vision api key and endpoint
@@ -36,10 +37,15 @@ namespace Login.Controllers
         }
 
         [Route("AI/{id}")]
-        /*[HttpPost]*/
-        public async Task<IActionResult> CaptureAzure(int? id)
+        //[HttpGet("{id}")]
+        public async Task<IActionResult> AI(int? id)
         {
             var thread = _threadService.GetById(id);
+
+            if (thread == null)
+            {
+                return BadRequest();
+            }
             string imageUri = thread.Image;
 
             // Create a client
@@ -51,8 +57,33 @@ namespace Login.Controllers
             _service.Objects(r);
             _service.Tags(r);
 
+            var boolHuman = _service.Description(r);
+
             //return RedirectToAction("Index", "Thread", new { @id = thread.ID });
+            return Json(boolHuman);
+        } 
+
+        [Route("AIFULL/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> FullAPI(int? id)
+        {
+            var thread = _threadService.GetById(id);
+            if (thread == null)
+            {
+                return BadRequest();
+            }
+            string imageUri = thread.Image;
+
+            // Create a client
+            ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
+            
+            var r = await _service.AnalyzeImageUrl(client, imageUri);
+
+            _service.Faces(r);
+            _service.Objects(r);
+            _service.Tags(r);
+
             return Json(r);
-        }         
+        } 
     }
 }

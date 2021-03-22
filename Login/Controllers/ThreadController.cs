@@ -151,14 +151,10 @@ namespace Login.Controllers
             return client;
         }
 
-        private async Task<IActionResult> AI(int? id)
+        private async Task<bool> AI(int? id)
         {
             var thread = _service.GetById(id);
 
-            if (thread == null)
-            {
-                return BadRequest();
-            }
             string imageUri = thread.Image;
 
             // Create a client
@@ -166,9 +162,7 @@ namespace Login.Controllers
 
             var r = await _visionService.AnalyzeImageUrl(client, imageUri);
 
-            var boolHuman = _visionService.Description(r);
-
-            return Json(boolHuman);
+            return _visionService.Description(r);
         }
 
         //allows a user to report a thread
@@ -176,18 +170,11 @@ namespace Login.Controllers
         public async Task<IActionResult> Report(int? threadId)
         {
             var username = _userManager.GetUserName(User);
+            bool hasHumanParts = await AI(threadId);
             //add AI HERE for AI (need to call flag post if the AI description has a tag of any human parts)
-            using (var client = new HttpClient())
+            if (hasHumanParts)
             {
-                client.BaseAddress = new Uri("https://localhost:5001/aifull/");
-                var responseTask = client.GetAsync(threadId.ToString());
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-                if(result.IsSuccessStatusCode)
-                {
-                    
-                }
+                await FlagPost(threadId);
             }
             await _service.Report(threadId, username);
             return RedirectToAction("Index", "Thread", new { @id = threadId });
