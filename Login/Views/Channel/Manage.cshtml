@@ -7,6 +7,7 @@
 <div class="text-center">
     <h1 class="display-4">@Model.Title Management</h1>
     <div>
+        <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@Model.Title><h4>Back</h4></a>
 <div class="row">
     <div class="manage-channel">
         <form asp-action="UpdateChannel" asp-route-id=@Model.Title>
@@ -20,14 +21,10 @@
                 <input type="submit" value="Update Description" class="createButton" />
                 <br>
                 <input onclick="alertMessage()" type="submit"  value="Delete Channel" class="createButton" asp-area="" asp-controller="Channel" asp-action="Delete" asp-route-id=@Model.Title>
-                <br>
-                <input type="submit" value="Remove Members"class="createButton" asp-area="" asp-controller="Channel" asp-action="RemoveMembers" asp-route-id=@Model.Title>
             </div>
         </form>
     </div>
 </div>
-        <!---<a class="clickthing" asp-area="" asp-controller="Channel" asp-action="RemoveMembers" asp-route-id=@Model.Title><h4>Remove Members</h4></a> --->
-        <!---<a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Delete" asp-route-id=@Model.Title><h4>Delete Channel</h4></a> --->
     </div>
 </div>
 ''

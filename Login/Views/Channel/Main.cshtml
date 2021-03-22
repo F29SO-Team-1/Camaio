@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Login.Models.ChannelModel;
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -10,12 +11,85 @@
         {
             @if ((bool)ViewData["member"]==false) 
             {
-                <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="JoinChannel" asp-route-id=@Model.Title><h4>Join</h4></a>
+                @if ((bool)ViewData["public"]==true)
+                {
+                    <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="RequestToJoin" asp-route-id=@Model.Title><h4>Ask to join</h4></a>
+                } else {
+                    <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="JoinChannel" asp-route-id=@Model.Title><h4>Join</h4></a>
+                }
             } else {
                 <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="LeaveChannel" asp-route-id=@Model.Title><h4>Leave</h4></a>
             }
         } else {
             <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Manage" asp-route-id=@Model.Title><h2>Manage Channel</h2></a>
+            <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="CreateAlbum" asp-route-id=@Model.Title><h4>Create Album</h4></a>
         }
     </div>
 </div>
+<div style="height:80px;"></div>   
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                @* <th scope="col">Picture</th> *@
+                <th scope="col">Albums:</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var album in Model.Albums)
+            {
+                <tr>
+                    @* <th>
+                        <a asp-action="Album" asp-controller="Main" asp-route-id=@album.AlbumId>
+                            <img src=@album.Image alt="Image" style="width: 200px; height:200px;" />
+                        </a>
+                    </th> *@
+                    <th>
+                        <a asp-action="Main" asp-controller="Album" asp-route-id=@album.AlbumId>
+                            @album.Title
+                        </a>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+     <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Creator:</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <th> 
+                        <a class="channelItem" id="Title" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username=@Model.Creator.UserName>@Model.Creator.UserName</a>
+                    </th>
+                </tr>
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Members:</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in Model.ChannelMembers)
+            {
+                @if (member.Id == Model.Creator.Id) continue;
+                <tr>
+                    <th> 
+                        <a class="channelItem" id="Title" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username=@member.UserName>@member.UserName</a>
+                    </th>
+                    @if ((bool)ViewData["owner"]==true) 
+                    {
+                        <th> 
+                            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>Remove</a>
+                        </th>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
