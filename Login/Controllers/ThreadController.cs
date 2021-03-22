@@ -301,6 +301,8 @@ namespace Login.Controllers
             var userName = _userManager.GetUserName(User);
             var thread = _service.GetById(threadId);
             if (thread == null) return NotFound();
+            var creator = _service.GetChannelCreator(thread);
+            if (thread.UserName != userName && creator != userName) return NotFound();
             return View(thread);
         }
 

@@ -190,6 +190,21 @@ namespace Login.Service
             t.NoReports = q;
             await _context.SaveChangesAsync();
         }
+        public string GetChannelCreator(Thread thread)
+        {
+            var albumId = _context.Threads
+                .Where(t => t.ID == thread.ID)
+                .Select(t => t.AlbumId)
+                .FirstOrDefault();
+            if (albumId != 1)
+            {
+                return _context.Threads
+                    .Where(t => t.ID == thread.ID)
+                    .Select(t => t.Album.Channel.Creator.UserName)
+                    .FirstOrDefault();
+            }
+            return null;
+        }
 
         //makes a list of reports for a thread
         public IEnumerable<Report> ListOfReports(int? threadId)

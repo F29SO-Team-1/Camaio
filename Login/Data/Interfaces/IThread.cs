@@ -52,6 +52,7 @@ namespace Login.Data
 
         //flags the thread
         Task FlagThread(int? threadId);
+        string GetChannelCreator(Thread thread);
 
 
 

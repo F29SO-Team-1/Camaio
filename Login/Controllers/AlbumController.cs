@@ -74,7 +74,9 @@ namespace Login.Controllers
         public IActionResult Delete(int albumId)
         {
             var album = _service.GetAlbum(albumId);
-            var channel = _service.DeleteAlbum(album);
+            var channel = _service.GetChannel(album);
+            if (channel.Creator != _userManager.GetUserAsync(User).Result) return NotFound();
+            _service.DeleteAlbum(album);
             return RedirectToAction("Main", "Channel", new { id = channel.Title} );
         }
 
