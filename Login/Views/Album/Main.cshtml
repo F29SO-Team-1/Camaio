@@ -6,11 +6,11 @@
         <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@Model.Channel.Title><h2>Back</h2></a>
         @if ((bool)ViewData["CanManage"]==true) 
         {
-            <a class="clickthing" asp-area="" asp-controller="Album" asp-action="Manage" asp-route-id=@Model.AlbumId><h2>Manage Album</h2></a>
+            <a class="clickthing" asp-area="" asp-controller="Album" asp-action="Delete" asp-route-albumId=@Model.AlbumId><h2>Delete Album</h2></a>
         }
         @if ((bool)ViewData["CanPost"]==true) 
         {
-            <a class="clickthing" asp-area="" asp-controller="Thread" asp-action="Create" asp-route-id=@Model.AlbumId><h2>New Post</h2></a>
+            <a class="clickthing" asp-area="" asp-controller="Thread" asp-action="Create" asp-route-albumId=@Model.AlbumId><h2>New Post</h2></a>
         }
     </div>
 </div>
@@ -52,6 +52,12 @@
                     <td>
                         <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
                     </td>
+                    @if ((bool)ViewData["CanManage"]==true) 
+                    {
+                        <td>
+                            <a class="clickthing" asp-controller="Thread" asp-action="Delete" asp-route-threadId=@thread.Id>Delete Thread</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

@@ -71,6 +71,13 @@ namespace Login.Controllers
             return View(model);
         }
 
+        public IActionResult Delete(int albumId)
+        {
+            var album = _service.GetAlbum(albumId);
+            var channel = _service.DeleteAlbum(album);
+            return RedirectToAction("Main", "Channel", new { id = channel.Title} );
+        }
+
         private IEnumerable<ThreadModel> BuildThreadList(Album album)
         {
             return _threadService.AlbumThreads(album).Select(threads => new ThreadModel

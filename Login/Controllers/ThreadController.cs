@@ -203,11 +203,11 @@ namespace Login.Controllers
 
         // Visual to the website
         [Authorize]
-        public IActionResult Create(int id)
+        public IActionResult Create(int albumId)
         {
-            if(id != 1) 
+            if(albumId != 1) 
             {
-                var album = _albumService.GetAlbum(id);
+                var album = _albumService.GetAlbum(albumId);
                 if (album == null) return NotFound();
                 var channel = _channelService.GetChannel(album.ChannelId).Result;
                 var user = _userManager.GetUserAsync(User).Result;
@@ -215,7 +215,7 @@ namespace Login.Controllers
                 if (channelMember == null) return NotFound();
                 if (!(album.MembersCanPost || user.Id == channel.CreatorId)) return NotFound();
             }
-            ViewData["albumId"] = id;
+            ViewData["albumId"] = albumId;
             return View();
         }
 
@@ -300,7 +300,7 @@ namespace Login.Controllers
         {
             var userName = _userManager.GetUserName(User);
             var thread = _service.GetById(threadId);
-            if (thread.UserName != userName) return NotFound();
+            if (thread == null) return NotFound();
             return View(thread);
         }
 

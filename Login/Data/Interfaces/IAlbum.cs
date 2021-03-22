@@ -14,6 +14,7 @@ namespace Login.Data
         Album GetAlbum(Channel channel, string Title);
         Album GetAlbum(int id);
         string GetAlbumImage(Album album);
+        Channel DeleteAlbum(Album album);
         IEnumerable<AlbumModel> GetAlbumModels(Channel channel);
     }
 }

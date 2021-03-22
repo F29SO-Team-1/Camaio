@@ -48,6 +48,16 @@ namespace Login.Service
                 .FirstOrDefault();
             return album;
         }
+        public Channel DeleteAlbum(Album album)
+        {
+            var channel = _context.Albums
+                .Where(a => a.Id == album.Id)
+                .Select(a => a.Channel)
+                .FirstOrDefault();
+            _context.RemoveRange(album);
+            _context.SaveChanges();
+            return channel;
+        }
         public IEnumerable<AlbumModel> GetAlbumModels(Channel channel)
         {
             return _context.Albums

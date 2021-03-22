@@ -9,7 +9,7 @@
 <div class="row">
     <div class="upload-form">
         <h1>Upload Images</h1>
-        <form asp-action="AddThread" asp-route-id=@ViewData["albumId"] enctype="multipart/form-data" method="post">
+        <form asp-action="AddThread" asp-route-albumId=@ViewData["albumId"] enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <p>Title: </p>
                 <span asp-validation-for="Title"></span>
