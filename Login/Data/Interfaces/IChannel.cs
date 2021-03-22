@@ -16,7 +16,7 @@ namespace Login.Data
         void AddMember(Channel channel, LoginUser userName);
         void RemoveMember(ChannelMember channelMember);
         Task DeleteChannel(Channel channel);
-        List<string> GetChannelMembers(Channel channel);
+        IEnumerable<LoginUser> GetChannelMembers(Channel channel);
         Task UpdateChannel(Channel channel, string description);
         void CreateChannel(Channel channel);
         bool CheckIfPublic(Channel channel);

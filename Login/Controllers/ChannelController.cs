@@ -61,6 +61,7 @@ namespace Login.Controllers
                 ViewData["owner"] = true;
             }
             var albums = _albumService.GetAlbumModels(channel);
+            var members = _service.GetChannelMembers(channel);
             var channelModel = new ChannelModel 
             {
                 Id = channel.Id,
@@ -68,7 +69,8 @@ namespace Login.Controllers
                 Description = channel.Description,
                 Creator = channel.CreatorId,
                 CreationDate = channel.CreationDate,
-                Albums = albums
+                Albums = albums,
+                ChannelMembers = members
             };
             return View(channelModel);
         }
@@ -101,17 +103,6 @@ namespace Login.Controllers
             {
                 await _service.DeleteChannel(channel);
                 return RedirectToAction("Index", "Home");
-            }
-            return NotFound();
-        }
-        public IActionResult RemoveMembers(string id)
-        {   var channel = _service.GetChannel(id).Result;
-            var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId) 
-            {
-                var channelUsers = _service.GetChannelMembers(channel);
-                ViewData["Channel"] = channel.Title;
-                return View(channelUsers);
             }
             return NotFound();
         }

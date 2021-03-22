@@ -73,11 +73,12 @@ namespace Login.Service
             await _context.SaveChangesAsync();
         }
 
-        public List<string> GetChannelMembers(Channel channel)
+        public IEnumerable<LoginUser> GetChannelMembers(Channel channel)
         {
             var channelMembers = _context.ChannelMember
-                .Where(table => table.Channel == channel)
-                .Select(table => table.User.UserName)
+                .Where(table => table.ChannelId == channel.Id)
+                .Select(table => table.User)
+                .Distinct()
                 .ToList();
             return channelMembers;
         }
