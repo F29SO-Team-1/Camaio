@@ -4,15 +4,19 @@
 @inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
 
-<div class="top-score-card">
+<div class="top-score-card-display">
       <h3>@Model.Title</h3>
-      <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 60%; height:60%">
+      <div class="white-space"><h3>.</h3></div>
+      <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 40%; height:40%">
+      <div class="white-space"><h3>.</h3></div>
         <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
-            <br>
             <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
         </a>
+        <div class="right-card"> 
         <h6 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h6>
         <p class="card-text">@Model.Description</p>
+        </div>
+        <div class="left-card">
         <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>
         
         @* Checks if a user is signed in and not viewing it as a guest *@
@@ -30,6 +34,8 @@
                 }
             </div>
         }
+        </div>
+        
     </div>
 
 <div class="card" style="margin-top:2%">
