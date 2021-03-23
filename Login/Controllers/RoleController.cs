@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Login.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -89,7 +89,7 @@ namespace Login.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> MakeAdmin()
         {
             await _userManager.AddToRoleAsync(await _userManager.GetUserAsync(User), "Admin");

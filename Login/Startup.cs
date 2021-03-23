@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net;
 using Login.Service;
+using Login.Data.Interfaces;
 
 namespace Login
 {
@@ -50,7 +51,9 @@ namespace Login
             services.AddScoped<IUpload, UploadService>();
             services.AddScoped<IChannel, ChannelService>();
             services.AddScoped<IAchievement, AchievementService>();
+            services.AddScoped<IVision, VisionService>();
             services.AddScoped<IAlbum, AlbumService>();
+
 
             //added the connetion to Azure
             services.AddSingleton(Configuration);

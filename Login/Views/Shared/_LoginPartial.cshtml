@@ -17,9 +17,7 @@
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">User Score</a>
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievement" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Achievements</a>
         @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>*@
-
-
-
+        
         @if (User.IsInRole("Admin"))
         {
             <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievement" asp-action="Create">Create Achievement</a>

@@ -24,6 +24,8 @@
             {
                 //if there is no picture dont display
                 @if (thread.Picture == null) continue;
+                //if thread has been flaged, will not display
+                @if (thread.Flagged) continue;
                 //loops through the db and displays it
                 <tr>
                     <th>

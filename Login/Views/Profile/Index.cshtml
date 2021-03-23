@@ -67,7 +67,7 @@ Roles:
 <hr />
 <div class="container">
     <a asp-area="" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username">
-        Achievements:
+        Achievements
     </a>
     @*for loop through all the achieved Achievements HERE *@
 </div>
@@ -83,7 +83,7 @@ Roles:
             <table class="table">
                 <thead>
                     <tr>
-                        @if (User.Identity.Name == Model.Username)
+                        @if (User.Identity.Name == Model.Username || User.IsInRole("Admin"))
                         {
                             <th scope="col">Flaged</th>
                         }
@@ -100,39 +100,39 @@ Roles:
                         //if there is no picture dont display
                         //@if (thread.Picture == null) continue;
                         //loops through the db and displays it
-                        <tr>
-                            @if (User.Identity.Name == Model.Username)
-                            {
-                                <th>
-                                    @if (@thread.Flagged)
-                                    {
-                                        <p style="color:red">Yes</p>
-                                    }
-                                    else
-                                    {
-                                        <p style="color:green">No</p>
-                                    }
-                                </th>
-                            }
-
+                    <tr>
+                        @if (User.Identity.Name == Model.Username || User.IsInRole("Admin"))
+                        {
                             <th>
-                                <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                                    @thread.Title
-                                </a>
+                                @if (@thread.Flagged)
+                                {
+                                    <p style="color:red">Yes</p>
+                                }
+                                else
+                                {
+                                    <p style="color:green">No</p>
+                                }
                             </th>
-                            <th>@thread.Rating</th>
-                            <td>@thread.Created</td>
-                            <td>@thread.Description</td>
-                            <td>
-                                <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
-                            </td>
-                        </tr>
+                        }
+
+                        <th>
+                            <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                                @thread.Title
+                            </a>
+                        </th>
+                        <th>@thread.Rating</th>
+                        <td>@thread.Created</td>
+                        <td>@thread.Description</td>
+                        <td>
+                            <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
         </div>
-        
-        <div class="col-sm">
+      
+      <div class="col-sm">
             <h2 style="text-align:center"> @Model.Username Channels</h2>
             <hr />
             <table class="table">
