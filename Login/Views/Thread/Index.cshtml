@@ -4,11 +4,11 @@
 @inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
 
-<div class="card" style="margin-top:2%">
+<div class="card" style="margin-top:2%; width: 20rem;">
     <div class="card-header">
         <h3>@Model.Title</h3>
     </div>
-    <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 20%; height:20%">
+    <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 50%; height:50%">
     <div class="card-body">
         <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
             <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>

@@ -88,6 +88,9 @@ namespace Login.Controllers
         }
 
         //only allow modertators and admins to access the page
+        /*
+         *      This is where you can change the number of reposts needed to be displayed on the report page
+         */
         [Route("Reported")]
         [Authorize(Roles = "Admin, Mod")]
         public IActionResult Reported()
