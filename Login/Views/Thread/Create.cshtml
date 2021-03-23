@@ -7,9 +7,9 @@
 
 <hr />
 <div class="row">
-    <div class="content-box">
-        <h3>Upload Images</h3>
-        <form asp-action="AddThread" enctype="multipart/form-data" method="post">
+    <div class="upload-form">
+        <h1>Upload Images</h1>
+        <form asp-action="AddThread" asp-route-albumId=@ViewData["albumId"] enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <p>Title: </p>
                 <span asp-validation-for="Title"></span>
@@ -26,7 +26,7 @@
                 <input asp-for="Picture" type="file" id="file" name="file" />
             </div>
             <br />
-            <button type="submit" id="btn-light submitThreadBtn" class="btn btn-light btn-submitThread">
+            <button type="submit" id="btn-light submitThreadBtn" class="createButton">
                 Submit
             </button>
             <input asp-for="AuthorId" type="hidden">

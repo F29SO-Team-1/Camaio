@@ -15,11 +15,15 @@ namespace Login.Data
 
         //returns the list of the users thread
         IEnumerable<Thread> UserThreads(string userName);
+        //returns the list of threads in the album
+        IEnumerable<Thread> AlbumThreads(Album album);
+        //returns the list of the users thread that are not in any albums
+        IEnumerable<Thread> UserThreadsWithoutAlbum(string userName);
 
         //checks if the thread exists by Id
         bool ThreadExists(int id);
         //makes a thread
-        Task<Thread> Create(Thread thread, LoginUser user);
+        Task<Thread> Create(Thread thread, LoginUser user, int id);
         //edit of the thread
         Task Edit(Thread thread);
         //delete of a thread
@@ -48,6 +52,7 @@ namespace Login.Data
 
         //flags the thread
         Task FlagThread(int? threadId);
+        string GetChannelCreator(Thread thread);
 
 
 

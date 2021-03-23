@@ -18,15 +18,15 @@ namespace Login.Service
             _context = context;
         }
 
-        public async Task<Thread> Create(Thread model, LoginUser user)
+        public async Task<Thread> Create(Thread model, LoginUser user, int albumId)
         {
-            var thread = new Thread
+           var thread = new Thread
             {
                 Title = model.Title,
                 CreateDate = DateTime.Now,
                 Description = model.Description,
-                ID = model.ID,
                 UserID = user.Id,
+                AlbumId = albumId,
                 Votes = model.Votes,
                 UserName = user.UserName,
                 Flagged = false,
@@ -78,6 +78,18 @@ namespace Login.Service
         public IEnumerable<Thread> UserThreads(string userName)
         {
             return GetAll().Where(thread => thread.UserName == userName);
+        }
+        //list of all users post that are not a part of an album
+        public IEnumerable<Thread> UserThreadsWithoutAlbum(string userName)
+        {
+            return GetAll()
+                .Where(thread => thread.UserName == userName)
+                .Where(thread => thread.AlbumId == 1);
+        }
+        //list of all album threads
+        public IEnumerable<Thread> AlbumThreads(Album album)
+        {
+            return GetAll().Where(thread => thread.AlbumId == album.Id);
         }
 
         public async Task UploadPicture(int threadId, Uri pic)
@@ -177,6 +189,21 @@ namespace Login.Service
             var q = ListOfReports(threadId).Count();
             t.NoReports = q;
             await _context.SaveChangesAsync();
+        }
+        public string GetChannelCreator(Thread thread)
+        {
+            var albumId = _context.Threads
+                .Where(t => t.ID == thread.ID)
+                .Select(t => t.AlbumId)
+                .FirstOrDefault();
+            if (albumId != 1)
+            {
+                return _context.Threads
+                    .Where(t => t.ID == thread.ID)
+                    .Select(t => t.Album.Channel.Creator.UserName)
+                    .FirstOrDefault();
+            }
+            return null;
         }
 
         //makes a list of reports for a thread

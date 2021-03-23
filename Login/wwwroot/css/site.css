@@ -338,6 +338,193 @@ body {
 
 /*-----------------End of 'Home Page' CSS-----------------------------*/
 
+
+/*-----------------Start of 'Upload Page' CSS -----------------------*/
+
+.upload-form  {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+
+.upload-form .form-group {
+    flex-direction: column;
+    color: greenyellow;
+}
+
+.upload-form .form-control{
+    width: auto;
+}
+
+.upload-form .form-group{
+    flex-direction: column;
+    margin: 5% 0;
+    text-align: center;
+    color: greenyellow;
+}
+
+.upload-form h1 {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.upload-form a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: greenyellow;
+}
+
+
+
+
+
+/*-----------------End of 'Upload Page' CSS-----------------------------*/
+
+/*-----------------Start of 'Top Posts Page' CSS -----------------------*/
+.top-score-column {
+  float: left;
+  width: 33.33%;
+  padding: 0 10px;
+}
+  
+/* Remove extra left and right margins, due to padding */
+.top-score-row {
+    margin: 0 -5px;
+    color: #020202;
+}
+
+  
+/* Clear floats after the columns */
+.top-score-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.top-score-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white;
+    border-radius: 25px;
+    color: #020202;
+    
+    
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+/*-----------------End of 'Top Posts' CSS-----------------------------*/
+
+
+/*-----------------Start of 'Channels Page' CSS -----------------------*/
+
+.createButton {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    color: white; 
+}
+
+.createButton:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
+.createButton1 {
+    width: 30%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    color: white;
+    text-decoration: none; 
+}
+
+.createButton1:hover {
+    width: 30%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+    text-decoration: none;
+}
+
+.create-channel  {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+.create-channel .form-group {
+    flex-direction: column;
+    color: greenyellow;
+    margin: 5% 0;
+    text-align: center;
+}
+
+.create-channel .form-control{
+    width: auto;
+}
+
+.create-channel h1 {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.create-channel a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: greenyellow;
+}
+
+.manage-channel .form-group{
+    flex-direction: column;
+    color: greenyellow;
+    margin: 5% 0;
+    text-align: center;
+}
+
+.manage-channel  {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+.manage-channel .form-control{
+    width: auto;
+}
+
+
+
+
+/*-----------------End of 'Channels Page' CSS --------------------------*/ 
+
 /*-----------------Start of 'Privacy Page' CSS---------------------------*/
 
 .h1 {
@@ -448,7 +635,4 @@ body {
 }
 
 /*-----------------End of the 'Account Page' CSS-----------------------*/
-
-
-
 
