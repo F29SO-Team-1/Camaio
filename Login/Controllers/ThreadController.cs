@@ -1,5 +1,6 @@
-﻿using Login.Areas.Identity.Data;
+using Login.Areas.Identity.Data;
 using Login.Data;
+using Login.Data.Interfaces;
 using Login.Models;
 using Login.Models.Threadl;
 using Login.Service;
@@ -8,9 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -19,6 +23,11 @@ namespace Login.Controllers
 {
     public class ThreadController : Controller
     {
+        //azure vision api key and endpoint
+        static string subscriptionKey = "5d7d56109a794e2b9532bdde2185755d";
+        static string endpoint = "https://camaioai.cognitiveservices.azure.com/";
+
+        //injections
         private readonly IThread _service;
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
@@ -26,25 +35,27 @@ namespace Login.Controllers
         private readonly IChannel _channelService;
         private readonly IAlbum _albumService;
         private readonly IApplicationUsers _userService;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IVision _visionService;
+
 
         public ThreadController(IThread thread,
             IConfiguration configuration,
             UserManager<LoginUser> userManager,
-            RoleManager<IdentityRole> roleManager,
             IUpload uploadService,
             IApplicationUsers userService,
+            IVision visionService,
             IAlbum albumService,
             IChannel channelService)
         {
             _service = thread;
             _configuration = configuration;
             _userManager = userManager;
-            _roleManager = roleManager;
             _uploadService = uploadService;
             _userService = userService;
+            _visionService = visionService;
             _albumService = albumService;
             _channelService = channelService;
+
         }
 
         [Route("Thread/{id?}")]
@@ -130,11 +141,47 @@ namespace Login.Controllers
             return RedirectToAction("Reported", "Thread");
         }
 
+        /*
+         *  Adding AI HERE 
+         */
+
+        /*
+         * AUTHENTICATE
+         * Creates a Computer Vision client used by each example.
+         */
+        private static ComputerVisionClient Authenticate(string endpoint, string key)
+        {
+            ComputerVisionClient client =
+              new ComputerVisionClient(new ApiKeyServiceClientCredentials(key))
+              { Endpoint = endpoint };
+            return client;
+        }
+
+        private async Task<bool> AI(int? id)
+        {
+            var thread = _service.GetById(id);
+
+            string imageUri = thread.Image;
+
+            // Create a client
+            ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
+
+            var r = await _visionService.AnalyzeImageUrl(client, imageUri);
+
+            return _visionService.Description(r);
+        }
+
         //allows a user to report a thread
         [Authorize]
         public async Task<IActionResult> Report(int? threadId)
         {
             var username = _userManager.GetUserName(User);
+            bool hasHumanParts = await AI(threadId);
+            //add AI HERE for AI (need to call flag post if the AI description has a tag of any human parts)
+            if (hasHumanParts)
+            {
+                await FlagPost(threadId);
+            }
             await _service.Report(threadId, username);
             return RedirectToAction("Index", "Thread", new { @id = threadId });
         }

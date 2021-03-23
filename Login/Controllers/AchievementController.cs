@@ -10,7 +10,14 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-
+/*
+ 
+    The first Achievement must be;
+    1. First Login must be Achievement id 1
+    2. Random Achievement
+    3. Has to be the 10 following achievement
+ 
+ */
 namespace Login.Controllers
 {
     public class AchievementController : Controller
@@ -57,14 +64,14 @@ namespace Login.Controllers
             return View(usersAchievementList);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> CreateAchievement(Achievement model, IFormFile file)
         {
