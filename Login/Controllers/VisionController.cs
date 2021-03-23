@@ -6,10 +6,12 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Login.Data.Interfaces;
 using Login.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Login.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class VisionController : Controller
     {
         //azure vision api key and endpoint
