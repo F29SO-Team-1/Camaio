@@ -43,7 +43,7 @@ namespace Login.Controllers
             UserManager<LoginUser> userManager,
             IUpload uploadService,
             IApplicationUsers userService,
-            IVision visionService)
+            IVision visionService,
             IAlbum albumService,
             IChannel channelService)
         {
