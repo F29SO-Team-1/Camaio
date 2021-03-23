@@ -432,14 +432,9 @@ body {
     color: #020202;
 }
 
-.right-card{
-    float:right;
-    background-color: red; 
-}
-
-.left-card{
+.card-rl{
     float:left;
-    background-color: green;
+    width:50%;
 }
 
 

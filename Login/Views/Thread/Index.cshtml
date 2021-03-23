@@ -5,18 +5,24 @@
 @*this is the model that can be used within the View, check the path what can be passed in*@
 
 <div class="top-score-card-display">
-      <h3>@Model.Title</h3>
-      <div class="white-space"><h3>.</h3></div>
+    <div class="card-title"><h3>@Model.Title</h3></div>
+    <div class="white-space"><h3>.</h3></div>
+
+    <div class="card-image">
       <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 40%; height:40%">
-      <div class="white-space"><h3>.</h3></div>
+    </div>
+    
+    <div class="white-space"><h3>.</h3></div>
+    <div class="card-description"> <p class="card-text">@Model.Description this is the description</p></div>
+
+    <div class="card-rl">
         <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
             <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
         </a>
-        <div class="right-card"> 
         <h6 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h6>
-        <p class="card-text">@Model.Description</p>
-        </div>
-        <div class="left-card">
+    </div>
+        
+    <div class="card-rl">
         <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>
         
         @* Checks if a user is signed in and not viewing it as a guest *@
@@ -34,9 +40,9 @@
                 }
             </div>
         }
-        </div>
-        
     </div>
+        
+</div>
 
 <div class="card" style="margin-top:2%">
     <div class="card-body">            
