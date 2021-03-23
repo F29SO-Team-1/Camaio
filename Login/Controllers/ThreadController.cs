@@ -134,7 +134,6 @@ namespace Login.Controllers
             return RedirectToAction("Reported", "Thread");
         }
 
-
         /*
          *  Adding AI HERE 
          */

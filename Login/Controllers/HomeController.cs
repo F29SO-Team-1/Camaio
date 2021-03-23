@@ -43,7 +43,8 @@ namespace Login.Controllers
                 Created = threads.CreateDate,
                 Picture = threads.Image,
                 Id = threads.ID,
-                AuthorUserName = threads.UserName
+                AuthorUserName = threads.UserName,
+                Flagged = threads.Flagged
             });
 
             var threadList= new ThreadList { ThreadLists = threadModel };
