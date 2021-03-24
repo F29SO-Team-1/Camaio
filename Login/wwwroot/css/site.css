@@ -446,12 +446,10 @@ body {
 
 .card-rl > .left{
     text-align: left;  
-    background-color: green;
 }
 
 .card-rl > .right{
     text-align: right; 
-    background-color: red;
 }
 
 .top-score-card:hover {
