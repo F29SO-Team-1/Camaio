@@ -1,6 +1,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Login.Areas.Identity.Data
 @model Login.Models.ApplicationUser.ProfileModel
+@inject SignInManager<LoginUser> SignInManager
 
 @{
     ViewData["Title"] = "Profile Page";
@@ -9,49 +10,60 @@
 
 
 <div class="container-fluid d-flex flex-row">
-    <div class="col-md-2 col-sm-12">
+    <div class="col-md-2 col-sm-12 mt-2">
         <div class="row profilelinks">
-            <ul class="nav  flex-column w-100">
-                <li class="nav-item active profile-link w-100">
-                    <button class="btn nav-link active" onclick="">My Pictures</button>
-                </li>
-                <hr/>
-                <li class="nav-item profile-link w-100">
-                    <a class="nav-link active" asp-area="" asp-controller="Profile" asp-action="Settings">Settings</a>
-                </li>
-                <li class="nav-item profile-link w-100">
-                    <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Following"> Following</a>
-                </li>
+            <ul class="nav flex-column w-100">
+                @if (SignInManager.IsSignedIn(User)){
+                    <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
+                }
+
+                @try{
+                    @foreach (var followed in Model.FollowsUser){
+                        @followed.Username
+                    }
+                }
+                catch(Exception){
+                    <p>Not following anyone!</p>
+                }
+
+                @try{
+                    @foreach (var followers in Model.UsersFollowed){
+                        @followers.Username
+                    }
+                }
+                catch(Exception){
+                    <p>No followers!</p>
+                }
+                
+
             </ul>
         </div>
-
+        
     </div>
 
     <div class="col-md-10 col-sm-12 mt-2">
-        <p class="mt-2">My Posts</p>
-        <div class="row profile">
+        <div class="d-flex flex-wrap flex-row container-fluid rel">
+            <div class="col-md-3 col-sm-6 p-0 m-0" id="column-one">
+            </div>
+            <div class="col-md-3 col-sm-6 p-0 m-0" id="column-two">
+            </div>
+            <div class="col-md-3 col-sm-6 p-0 m-0" id="column-three">
+            </div>
+            <div class="col-md-3 col-sm-6 p-0 m-0" id="column-four">
+            </div>
+        </div>
+
+        <div class="row">
             @foreach (var thread in @Model.Threads)
             {
-                <div class="image-box m-1 profile">
+                <div class="image-box m-1 rel">
                     <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                        <img class="image rounded " src="@thread.Picture" alt="Image"/>
+                        <img class="image rounded" src="@thread.Picture" alt="Image"/>
                     </a>
                 </div>
             }
         </div>
 
-        <p class="mt-2">My Channels</p>
-        <div class="row profile">
-            
-        </div>
-
-        <p class="mt-2">Following</p>
-        <div class="row profile">
-            
-        </div>
-
-        <p class="mt-2">Followers</p>
-        <div class="row profile">
             
         </div>
         
