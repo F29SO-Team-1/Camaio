@@ -51,6 +51,11 @@ hr.headrule{
     padding: 0;
     border: none;
 }
+.btn{
+    padding: 0;
+    border: none;
+    background: none;
+}
 
 .btn-link{
     max-height:60px;
@@ -74,11 +79,7 @@ hr.headrule{
 }
 
 .form-control{
-    width:200px;
-}
-
-.form-group{
-    display:flex;
+    width:500px;
 }
 
 
@@ -330,7 +331,6 @@ body {
 .overlaytext{
     position: absolute;
 }
-
 
 
 /*-----------------End of 'Home Page' CSS-----------------------------*/

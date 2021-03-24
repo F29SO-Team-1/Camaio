@@ -5,7 +5,7 @@
 
 // Function to change the follow button to follow 
 $(document).ready(
-
+	console.log(window.location.pathname),
 	function click(){
 	$('.follow-button').on("click", function(){
 		$('.follow-button').css('background-color','green');
@@ -47,4 +47,10 @@ $(document).ready(
 
 function alertMessage() {
 	confirm("Your channel will be deleted");
-  }
+}
+
+function searchFunc(str){
+	var stringput = str;
+	var userInputValue = document.getElementById('form1').value;
+	//document.location.href = "Search";
+}

@@ -11,28 +11,41 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">following</a>
+                    <a class="nav-link" asp-area="" asp-controller="" asp-action="Following">following</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Channels</a>
+                    <a class="nav-link" asp-area="" asp-controller="Channel" asp-action="Index">Channels</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        Search
-                    </a>
+                    <div class="dropdown dropleft">
+                        @if (ViewData["Title"].Equals("Home Page"))
+                        {
+                            <button class="overflow-hidden btn mt-1 pt-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Search
+                            </button>
+                        }
+                        <div class="dropdown-menu bg-info" aria-labelledby="dropdownMenuButton">
+                            <div class="input-group">
+                                <div class="form-outline">
+                                    <input type="search" id="form1" class="form-control rounded p-2 mx-2" />
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="searchFunc()">
+                                    Go
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Thread" asp-action="Create">
                         Post
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Notifications</a>
-                </li>
             </ul>
-            <span class="nar-item dropleft">
+            <div class="dropdown nav-item dropleft">
                 <button class="imagebutton overflow-hidden mx-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="h-100 w-100" src="~/pictures/avatar.png">
                 </button>
@@ -40,12 +53,13 @@
                     <p class="mx-3">@UserManager.GetUserName(User)</p>
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Profile</a>
                     <a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
-                    <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">Scores</a>
+                    <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">Top Users</a>
+                    <a class="dropdown-item" id="manage" asp-area="" asp-controller="Score" asp-action="Threads">Top Posts</a>
                     <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button id="logout" type="submit" class="dropdown-item">Log out</button>
                     </form>
                 </div>
-            </span>
+            </div>
         </div>
     </div>
 }
@@ -55,17 +69,17 @@ else
         <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Index"><h1>Camaio</h1></a>
         <ul class="navbar-nav">
             @if (!ViewData["Title"].Equals("Log in"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                        </li>
-                    }
+                {
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                }
             @if (!ViewData["Title"].Equals("Register"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                        </li>
-                    }
+                {
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                }
         </ul>
     </div>
 }

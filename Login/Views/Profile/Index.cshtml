@@ -11,12 +11,13 @@
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-2 col-sm-12">
         <div class="row profilelinks">
-            <ul class="nav flex-column w-100">
+            <ul class="nav  flex-column w-100">
+                <li class="nav-item active profile-link w-100">
+                    <button class="btn nav-link active" onclick="">My Pictures</button>
+                </li>
+                <hr/>
                 <li class="nav-item profile-link w-100">
                     <a class="nav-link active" asp-area="" asp-controller="Profile" asp-action="Settings">Settings</a>
-                </li>
-                <li class="nav-item profile-link w-100">
-                    <a class="nav-link" asp-area="" asp-controller="Thread" asp-action="Create"> Upload</a>
                 </li>
                 <li class="nav-item profile-link w-100">
                     <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Following"> Following</a>
