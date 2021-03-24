@@ -435,21 +435,13 @@ body {
 
 .card-rl{
     float:right;
-    width:50%;
+    width:100%;
     padding:15px;
     text-align: left; 
     border-style: solid;
     border-width: 1px;
     border-color: grey;
     
-}
-
-.card-rl > .left{
-    text-align: left;  
-}
-
-.card-rl > .right{
-    text-align: right; 
 }
 
 .top-score-card:hover {
@@ -461,6 +453,21 @@ body {
 
 .white-space{
     color: white;
+}
+
+.card-img{
+    width:50%; 
+    float:left;
+    background-color: red; 
+}
+
+.card-img > .card-description{
+    width:50%; 
+    float:right;
+    background-color: green; 
+    text-align: center;
+    height:50%; 
+     
 }
 
 .card-img-top{

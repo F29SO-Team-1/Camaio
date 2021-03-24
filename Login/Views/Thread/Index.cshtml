@@ -3,32 +3,26 @@
 @model Login.Models.Threadl.ThreadModel
 @inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
-<div class="header"></div> 
+<div class="header"></div>  
+
 <div class="top-score-card-display">
     <div class="card-title"><h3>@Model.Title</h3></div>
     <div class="white-space"><h3>.</h3></div> 
-
+ 
     <div class="card-img">
       <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 50%; height:50%">
+      <div class="card-description"> <p class="card-text">@Model.Description this is the description</p>
+      <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
+        <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
+      </a>
+      <h5></h5>Likes: <h5 class="card-titl" id="like">@Model.Rating</h5>
+      <h5 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h5>
+      </div> 
     </div>
 
     <div class="white-space"><h3>.</h3></div>
-    <div class="card-description"> <p class="card-text">@Model.Description this is the description</p></div>
-
-    <div class="card-rl">
-        <div class="right">
-        <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
-            <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
-        </a>
-        <h6 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h6>
-        <h5></h5>Likes: <h5 class="card-titl" id="like">@Model.Rating</h5>
-        </div>
-    </div>
         
     <div class="card-rl"> 
-        <div class="left">
-        
-        
         @* Checks if a user is signed in and not viewing it as a guest *@
         @if (User.Identity.Name != null)
         {
@@ -44,12 +38,13 @@
                 }
             </div>
         }
-        </div>
     </div>
 
+</div>
+
+
 <div class="card" style="margin-top:2%">
-    <div class="card-body">             
-    </div>
+    <div class="card-body"></div>
     <div class="card-footer">
         <small class="text-muted">
             <a asp-action="Report" asp-route-threadId="@Model.Id">Report</a>
@@ -62,8 +57,8 @@
     </div>
 </div>
 
-        
-</div>
+</div>   
+
 
 
 
