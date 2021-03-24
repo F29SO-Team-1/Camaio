@@ -49,8 +49,11 @@ function alertMessage() {
 	confirm("Your channel will be deleted");
 }
 
-function searchFunc(str){
-	var stringput = str;
+function searchFunc(){
 	var userInputValue = document.getElementById('form1').value;
 	//document.location.href = "Search";
+	var pictures = document.getElementsByClassName("image-box");
+	//for (var i = 0; i < pictures.length; i++){
+		//pictures[i];
+	//}
 }
