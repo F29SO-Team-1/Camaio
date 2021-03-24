@@ -26,14 +26,11 @@
                                 Search
                             </button>
                         }
-                        <div class="dropdown-menu bg-info" aria-labelledby="dropdownMenuButton">
-                            <div class="input-group">
+                        <div class="dropdown-menu bg-success mr-2" aria-labelledby="dropdownMenuButton">
+                            <div class="input-group btn-group d-flex flex-row">
                                 <div class="form-outline">
-                                    <input type="search" id="form1" class="form-control rounded p-2 mx-2" />
+                                    <input type="search" id="form1" class="form-control rounded p-2 mx-2" onkeyup="searchFunc();"/>
                                 </div>
-                                <button type="button" class="btn btn-primary" onclick="searchFunc()">
-                                    Go
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -41,7 +38,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="Thread" asp-action="Create">
-                        Post
+                        Upload
                     </a>
                 </li>
             </ul>

@@ -22,23 +22,23 @@
             <img class="image rounded" src="@thread.Picture" alt="Image"/>
         </a>
         <div class="overlay abs d-flex rounded overflow-hidden">
-            <span class="col mr-auto">
+            <span class="col mr-auto mt-2">
                 <p class="overlaytext">
                     <a class="" >
                         @thread.Title
                     </a>
                 </p><br/>
-                <p class="overlaytext">
+                <p class="overlaytext mt-1">
                     <a class="" asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
                         @thread.AuthorUserName
                     </a>
                 </p>
             </span>
-            <span class="col">
+            <span class="col-2 mt-2">
                 <p class="overlaytext text-right">
                     @thread.Rating
                 </p><br/>
-                <p class="overlaytext button">
+                <p class="overlaytext button mt-1">
                     <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
                 </p>
             </span>
