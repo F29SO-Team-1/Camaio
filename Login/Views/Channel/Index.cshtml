@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Login.Models.ChannelList.ChannelList
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -7,8 +8,8 @@
     <a type="submit" value="Create Channel" class="createButton1" id="Create" asp-area="" asp-controller="Channel" asp-action="Create">Create a channel</a>
 
     <div>
-        @foreach (var channel in Model) {
-            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@channel><h3>@channel</h3></a>
+        @foreach (var channel in Model.Channels) {
+            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@channel.Title><h3>@channel.Title</h3></a>
         }
     </div>
 </div>

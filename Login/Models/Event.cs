@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Login.Models
 {
-    public class Channel
+    public class Event
     {
         public int Id { get; set; }
         public string CreatorId { get; set; }
@@ -20,9 +20,10 @@ namespace Login.Models
         public string Description { get; set; }
         public bool Public { get; set; }
         public DateTime CreationDate { get; set; }
-        public ICollection<ChannelMember> ChannelMembers { get; set; }
-        public ICollection<Album> Albums { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
+        public IEnumerable<EventParticipant> Participants { get; set; }
         public IEnumerable<Notification> Notifications { get; set; }
 
     }

@@ -11,15 +11,13 @@
     </button>
     <div class="dropdown-menu">
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">@UserManager.GetUserName(User)</a>
-        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Create">Upload</a>
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Create" asp-route-albumId=1>Upload</a>
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Channel" asp-action="Index">Channels</a>
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Scores">Post Score</a>
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">User Score</a>
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievement" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Achievements</a>
         @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>*@
-
-
-
+        
         @if (User.IsInRole("Admin"))
         {
             <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievement" asp-action="Create">Create Achievement</a>

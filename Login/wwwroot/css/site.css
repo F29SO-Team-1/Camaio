@@ -388,7 +388,7 @@ body {
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
 .top-score-column {
   float: left;
-  width: 33%;
+  width: 33.33%;
   padding: 0 10px;
 }
   
@@ -410,10 +410,46 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 16px;
     text-align: center;
-    background-color: white;
+    background-color: white; 
     border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
     color: #020202;
+}
+
+.top-score-card-display {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white; 
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
+}
+
+.card-rl{
+    float:right;
+    width:50%;
+    padding:15px;
     
+}
+
+.top-score-card:hover {
+    background-color: #e6e6e6;
+}
+
+.white-space{
+    color: white;
+}
+
+.card-image{
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+
 }
 
 /* Responsive columns */

@@ -1,5 +1,6 @@
-﻿using Login.Areas.Identity.Data;
+using Login.Areas.Identity.Data;
 using Login.Data;
+using Login.Data.Interfaces;
 using Login.Models;
 using Login.Models.Threadl;
 using Login.Service;
@@ -8,9 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -19,26 +23,39 @@ namespace Login.Controllers
 {
     public class ThreadController : Controller
     {
+        //azure vision api key and endpoint
+        static string subscriptionKey = "5d7d56109a794e2b9532bdde2185755d";
+        static string endpoint = "https://camaioai.cognitiveservices.azure.com/";
+
+        //injections
         private readonly IThread _service;
         private readonly IConfiguration _configuration;
         private readonly UserManager<LoginUser> _userManager;
         private readonly IUpload _uploadService;
+        private readonly IChannel _channelService;
+        private readonly IAlbum _albumService;
         private readonly IApplicationUsers _userService;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IVision _visionService;
+
 
         public ThreadController(IThread thread,
             IConfiguration configuration,
             UserManager<LoginUser> userManager,
-            RoleManager<IdentityRole> roleManager,
             IUpload uploadService,
-            IApplicationUsers userService)
+            IApplicationUsers userService,
+            IVision visionService,
+            IAlbum albumService,
+            IChannel channelService)
         {
             _service = thread;
             _configuration = configuration;
             _userManager = userManager;
-            _roleManager = roleManager;
             _uploadService = uploadService;
             _userService = userService;
+            _visionService = visionService;
+            _albumService = albumService;
+            _channelService = channelService;
+
         }
 
         [Route("Thread/{id?}")]
@@ -124,11 +141,47 @@ namespace Login.Controllers
             return RedirectToAction("Reported", "Thread");
         }
 
+        /*
+         *  Adding AI HERE 
+         */
+
+        /*
+         * AUTHENTICATE
+         * Creates a Computer Vision client used by each example.
+         */
+        private static ComputerVisionClient Authenticate(string endpoint, string key)
+        {
+            ComputerVisionClient client =
+              new ComputerVisionClient(new ApiKeyServiceClientCredentials(key))
+              { Endpoint = endpoint };
+            return client;
+        }
+
+        private async Task<bool> AI(int? id)
+        {
+            var thread = _service.GetById(id);
+
+            string imageUri = thread.Image;
+
+            // Create a client
+            ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
+
+            var r = await _visionService.AnalyzeImageUrl(client, imageUri);
+
+            return _visionService.Description(r);
+        }
+
         //allows a user to report a thread
         [Authorize]
         public async Task<IActionResult> Report(int? threadId)
         {
             var username = _userManager.GetUserName(User);
+            bool hasHumanParts = await AI(threadId);
+            //add AI HERE for AI (need to call flag post if the AI description has a tag of any human parts)
+            if (hasHumanParts)
+            {
+                await FlagPost(threadId);
+            }
             await _service.Report(threadId, username);
             return RedirectToAction("Index", "Thread", new { @id = threadId });
         }
@@ -197,8 +250,19 @@ namespace Login.Controllers
 
         // Visual to the website
         [Authorize]
-        public IActionResult Create()
+        public IActionResult Create(int albumId)
         {
+            if(albumId != 1) 
+            {
+                var album = _albumService.GetAlbum(albumId);
+                if (album == null) return NotFound();
+                var channel = _channelService.GetChannel(album.ChannelId).Result;
+                var user = _userManager.GetUserAsync(User).Result;
+                var channelMember = _channelService.GetChannelMember(user, channel).Result;
+                if (channelMember == null) return NotFound();
+                if (!(album.MembersCanPost || user.Id == channel.CreatorId)) return NotFound();
+            }
+            ViewData["albumId"] = albumId;
             return View();
         }
 
@@ -242,11 +306,11 @@ namespace Login.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddThread(Thread model, IFormFile file)
+        public async Task<IActionResult> AddThread(int albumId, Thread model, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var user = await _userManager.FindByIdAsync(userId);    //gets the userName
-            var thread = _service.Create(model, user);  //creates the thread
+            var thread = _service.Create(model, user, albumId);  //creates the thread
             var threadId = thread.Result.ID;    //gets the Threads id
             await UploadThreadImage(file, threadId);    //uploads the threadImage
             return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
@@ -283,7 +347,9 @@ namespace Login.Controllers
         {
             var userName = _userManager.GetUserName(User);
             var thread = _service.GetById(threadId);
-            if (thread.UserName != userName) return NotFound();
+            if (thread == null) return NotFound();
+            var creator = _service.GetChannelCreator(thread);
+            if (thread.UserName != userName && creator != userName) return NotFound();
             return View(thread);
         }
 
