@@ -16,14 +16,17 @@
     <div class="card-description"> <p class="card-text">@Model.Description this is the description</p></div>
 
     <div class="card-rl">
+        <div class="right">
         <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
             <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
         </a>
         <h6 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h6>
+        </div>
     </div>
         
-    <div class="card-rl">
-        <h5>Likes: </h5><h5 class="card-title" id="like">@Model.Rating</h5>
+    <div class="card-rl"> 
+        <div class="left">
+        <h5></h5>Likes: <h5 class="card-titl" id="like">@Model.Rating</h5>
         
         @* Checks if a user is signed in and not viewing it as a guest *@
         @if (User.Identity.Name != null)
@@ -40,10 +43,11 @@
                 }
             </div>
         }
+        </div>
     </div>
 
 <div class="card" style="margin-top:2%">
-    <div class="card-body">            
+    <div class="card-body">             
     </div>
     <div class="card-footer">
         <small class="text-muted">

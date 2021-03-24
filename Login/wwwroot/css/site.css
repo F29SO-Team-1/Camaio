@@ -418,6 +418,7 @@ body {
     border-width: 1px; 
     border-style: solid;
     color: #020202;
+   
 }
 
 .top-score-card-display {
@@ -436,11 +437,28 @@ body {
     float:right;
     width:50%;
     padding:15px;
+    text-align: left; 
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
     
+}
+
+.card-rl > .left{
+    text-align: left;  
+    background-color: green;
+}
+
+.card-rl > .right{
+    text-align: right; 
+    background-color: red;
 }
 
 .top-score-card:hover {
     background-color: #e6e6e6;
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.5); 
 }
 
 .white-space{
