@@ -12,9 +12,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -225,11 +223,11 @@ namespace Login.Controllers
                 wholeThread.Votes = listOfLikes.Count();
                 return Json(listOfLikes.Count());    //makes a json with the amount of votes that are currently in the database
             }
-            
+
         }
-        
+
         [Authorize]
-        public async Task<IActionResult> RatingDecrease([FromBody]int? id)
+        public async Task<IActionResult> RatingDecrease([FromBody] int? id)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var wholeThread = _service.GetById(id);
@@ -252,7 +250,7 @@ namespace Login.Controllers
         [Authorize]
         public IActionResult Create(int albumId)
         {
-            if(albumId != 1) 
+            if (albumId != 1)
             {
                 var album = _albumService.GetAlbum(albumId);
                 if (album == null) return NotFound();
