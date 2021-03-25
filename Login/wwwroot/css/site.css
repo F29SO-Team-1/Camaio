@@ -671,6 +671,9 @@ body {
     overflow:hidden;
 }
 
+#toggleDIV1, #toggleDIV2, #toggleDIV3{
+    display: none;
+}
 
 /*-----------------End of the 'Account Page' CSS-----------------------*/
 

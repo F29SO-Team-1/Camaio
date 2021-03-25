@@ -56,3 +56,13 @@ function searchFunc(){
 		//pictures[i];
 	//}
 }
+
+function drawDiv(div){
+	console.log(div)
+	var x = div;//document.getElementById(div);
+	if (x.style.display === "none") {
+	  x.style.display = "block";
+	} else {
+	  x.style.display = "none";
+	}
+}

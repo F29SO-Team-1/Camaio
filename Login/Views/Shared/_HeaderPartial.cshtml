@@ -20,12 +20,18 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <div class="dropdown dropleft">
-                        @if (ViewData["Title"].Equals("Home Page"))
-                        {
-                            <button class="overflow-hidden btn mt-1 pt-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Search
-                            </button>
+                        @try{
+                            @if (ViewData["Title"].Equals("Home Page"))
+                            {
+                                <button class="overflow-hidden btn mt-1 pt-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Search
+                                </button>
+                            }
                         }
+                        catch(Exception){
+
+                        }
+
                         <div class="dropdown-menu bg-success mr-2" aria-labelledby="dropdownMenuButton">
                             <div class="input-group btn-group d-flex flex-row">
                                 <div class="form-outline">
@@ -65,18 +71,34 @@ else
     <div class="navbar navbar-expand navbar-fixed-top border-bottom border-success">
         <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Index"><h1>Camaio</h1></a>
         <ul class="navbar-nav">
-            @if (!ViewData["Title"].Equals("Log in"))
+            @try{
+                @if (!ViewData["Title"].Equals("Log in"))
                 {
                     <li class="nav-item">
                         <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
                     </li>
                 }
-            @if (!ViewData["Title"].Equals("Register"))
+            }
+            catch(Exception){
+                <li class="nav-item">
+                    <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </li>
+            }
+
+            @try
+            {
+                if (!ViewData["Title"].Equals("Register"))
                 {
                     <li class="nav-item">
                         <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
                     </li>
                 }
+            }
+            catch(Exception){
+                <li class="nav-item">
+                    <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </li>
+            }
         </ul>
     </div>
 }
