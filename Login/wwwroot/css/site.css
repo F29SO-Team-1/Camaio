@@ -664,8 +664,9 @@ body {
     border-radius: 2px;
 }
 
-.row.profile{
+.picture.profile{
     height:200px;
+    width:auto;
     background-color: lightgreen;
     overflow:hidden;
 }
