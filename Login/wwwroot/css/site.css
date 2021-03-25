@@ -456,17 +456,16 @@ body {
 }
 
 .card-img{
-    width:50%; 
     float:left;
     background-color: red; 
 }
 
 .card-img > .card-description{
-    width:50%; 
-    float:right;
+    
     background-color: green; 
     text-align: center;
-    height:50%; 
+    width:50%; 
+    float:right; 
      
 }
 
