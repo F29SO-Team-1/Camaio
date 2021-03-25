@@ -574,7 +574,9 @@ body {
 
 .auth-form {
     width: 100%;
-    max-width: 40%;
+    max-width: 50%;
+    min-width: 270px;
+    min-height: 540px;
     padding: 2.5% 10%;
     margin: 10% auto;
     background-color: #39603D;
