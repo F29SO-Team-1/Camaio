@@ -5,37 +5,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
 
-<h4>Thread</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-            <input type="hidden" asp-for="UserID" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <img src="@Model.Image" style="width: 75%; height:75%" />
-            <input asp-for="Image" type="hidden">
-            <input asp-for="CreateDate" type="hidden">
-            <input asp-for="Votes" type="hidden">
-            <input asp-for="UserName" type="hidden">
-            <input asp-for="AlbumId" type="hidden">
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="auth-form d-flex flex-column">
+    <div class="content">
+        <h1>@ViewData["Title"] Thread</h1> 
     </div>
+    
+
+    </a>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="UserID" />
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control w-100" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control w-100" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <img src="@Model.Image" class="w-100 h-auto" />
+        <input asp-for="Image" type="hidden">
+        <input asp-for="CreateDate" type="hidden">
+        <input asp-for="Votes" type="hidden">
+        <input asp-for="UserName" type="hidden">
+        <input asp-for="AlbumId" type="hidden">
+        <div class="form-group my-3">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+        <a class="btn" asp-action="Index" asp-controller="Thread" asp-route-id="@Model.ID">Back</a>
+    </form>
 </div>
 
 @section Scripts {
