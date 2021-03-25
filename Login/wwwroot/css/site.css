@@ -80,7 +80,7 @@ hr.headrule{
 }
 
 .form-control{
-    width:500px;
+    width:200px;
 }
 
 
@@ -356,7 +356,7 @@ body {
 }
 
 .upload-form .form-control{
-    width: auto;
+    width: 100%;
 }
 
 .upload-form .form-group{
