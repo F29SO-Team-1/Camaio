@@ -1,12 +1,5 @@
-using System;
 using Login.Areas.Identity.Data;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Threading.Tasks;
-using Login.Models.ApplicationUser;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
 
 namespace Login.Models

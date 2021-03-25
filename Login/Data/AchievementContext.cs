@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Login.Models;
+﻿using Login.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Login.Data
 {
