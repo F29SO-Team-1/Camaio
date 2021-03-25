@@ -568,7 +568,7 @@ body {
 
 
 
-/*-----------------Start of 'Login Page' CSS---------------------------*/
+/*-----------------Start of 'Auth Form' CSS---------------------------*/
 
 .auth-form {
     display: flex;
@@ -584,7 +584,7 @@ body {
 }
 
 .auth-form .content {
-    margin: 15% auto;
+    margin: 10% auto;
     flex-direction: column;
     color: white;
 }
@@ -631,12 +631,7 @@ body {
     color: green;
 }
   
-/*-----------------End of 'Login Page' CSS-----------------------------*/
-
-
-/*-----------------Start of the 'Register Page' CSS---------------------*/
-
-/*-----------------End of the 'Register Page' CSS-----------------------*/
+/*-----------------End of 'Auth Form' CSS-----------------------------*/
 
 /*-----------------Start of the 'Account' Page' CSS---------------------*/
 
