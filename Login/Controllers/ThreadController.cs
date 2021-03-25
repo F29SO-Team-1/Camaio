@@ -24,8 +24,8 @@ namespace Login.Controllers
     public class ThreadController : Controller
     {
         //azure vision api key and endpoint
-        static string subscriptionKey = "5d7d56109a794e2b9532bdde2185755d";
-        static string endpoint = "https://camaioai.cognitiveservices.azure.com/";
+        static readonly string subscriptionKey = "5d7d56109a794e2b9532bdde2185755d";
+        static readonly string endpoint = "https://camaioai.cognitiveservices.azure.com/";
 
         //injections
         private readonly IThread _service;
