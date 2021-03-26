@@ -390,38 +390,48 @@ body {
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
 #DIV_0 {
     width: 30%;
-    height:100%; 
+    border-color:#020202;
+    border-style: solid;
+    border-width: 1px;
     float: right;
     padding:1%;
     background-color: #e6e6e6;
     border-radius: 5%;
-    padding:1%; 
-    text-align: bottom;
-    background-color: red;
-    
+    padding:0%;
+    text-align: bottom;    
   }
   
   #DIV_1 {
     height: 75%;
     top:100; 
-    background-color: blue;
-    
+    padding:1%;
+    border-color:#020202;
+    border-style: solid;
+    border-width: 1px;
+    padding:1%;
+    border-radius: 5%;
+
   }
   
   #DIV_2 {
     height: 25%;
     bottom:100%;
-    background-color: yellow;
-     
+    padding:1%;
+    border-color:#020202;
+    border-style: solid;
+    border-width: 1px;
+    padding:1%;
+    border-radius: 5%;
   }
   
   #DIV_3 {
     float: left;
     height: 100%;
     width: 70%;
-    padding:1%; 
-    background-color: green;
+    padding:1%;  
+    background-color: blue;
   }
+
 
 .card-footer{
 
