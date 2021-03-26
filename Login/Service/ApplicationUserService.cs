@@ -1,7 +1,6 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Models;
-using Login.Models.Follow;
 using Login.Models.Threadl;
 using System;
 using System.Collections.Generic;

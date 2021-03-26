@@ -2,6 +2,7 @@
 using Login.Data;
 using Login.Models;
 using Login.Models.ApplicationUser;
+using Login.Models.Followers;
 using Login.Models.Threadl;
 using Login.Service;
 using Microsoft.AspNetCore.Authorization;
@@ -105,6 +106,21 @@ namespace Login.Controllers
             var user = _userManager.GetUserName(User);
             await _service.Follows(user, id);
             return RedirectToAction(id);
+        }
+
+
+        [Route("Profile/{username}/Followers")]
+        public IActionResult Followers(string username)
+        {
+            var user = _service.GetByUserName(username);
+
+            var model = _service.UserFollowingList(user).Select(f => new FollowersModel
+            {
+                Username = f
+            });
+
+            var listmodle = new FollowersModelList { UserList = model };
+            return View(listmodle);
         }
 
 
