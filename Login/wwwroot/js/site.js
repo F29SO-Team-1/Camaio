@@ -19,18 +19,24 @@ $(document).ready(
 		const parent2 = document.getElementById('column-two');
 		const parent3 = document.getElementById('column-three');
 		const parent4 = document.getElementById('column-four');
+		var h1,h2,h3,h3 = 0;
 		for (var i = 0; i < pictures.length; i++) {
+			var short = min(h1,h2,h3,h4);
 			if (i%4==0){
 				parent1.appendChild(pictures[i]);
+				h1+=pictures[i].clientHeight;
 			}
 			else if (i%4==1){
 				parent2.appendChild(pictures[i]);
+				h2+=pictures[i].clientHeight;
 			}
 			else if (i%4==2){
 				parent3.appendChild(pictures[i]);
+				h3+=pictures[i].clientHeight;
 			}
 			else if (i%4==3){
 				parent4.appendChild(pictures[i]);
+				h4+=pictures[i].clientHeight;
 			}
 		}
 		
