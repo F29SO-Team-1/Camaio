@@ -1,4 +1,6 @@
 using Login.Data;
+using Login.Data.Interfaces;
+using Login.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -7,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net;
-using Login.Service;
 
 namespace Login
 {
@@ -23,7 +24,7 @@ namespace Login
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
 
             //server, deployment
             services.Configure<ForwardedHeadersOptions>(options =>
@@ -51,7 +52,9 @@ namespace Login
             services.AddScoped<IUpload, UploadService>();
             services.AddScoped<IChannel, ChannelService>();
             services.AddScoped<IAchievement, AchievementService>();
+            services.AddScoped<IVision, VisionService>();
             services.AddScoped<IAlbum, AlbumService>();
+
 
             //added the connetion to Azure
             services.AddSingleton(Configuration);

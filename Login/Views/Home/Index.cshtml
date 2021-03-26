@@ -3,46 +3,45 @@
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div style="height:80px;"></div>   
-
-
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">By</th>
-                <th scope="col">Rating</th>
-                <th scope="col">Created</th>
-                <th scope="col">Description</th>
-                <th scope="col">Picture</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var thread in Model.ThreadLists)
-            {
-                //if there is no picture dont display
-                @if (thread.Picture == null) continue;
-                //loops through the db and displays it
-                <tr>
-                    <th>
-                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                            @thread.Title
-                        </a>
-                    </th>
-                    <th>
-                        <a asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
-                            @thread.AuthorUserName
-                        </a>
-                    </th>
-                    <th>@thread.Rating</th>
-                    <td>@thread.Created</td>
-                    <td>@thread.Description</td>
-                    <td>
-                        <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="d-flex flex-wrap flex-row container-fluid rel mt-2">
+    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-one">
+    </div>
+    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-two">
+    </div>
+    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-three">
+    </div>
+    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-four">
+    </div>
+</div>
+@foreach (var thread in Model.ThreadLists)
+{
+    //if there is no picture, dont display
+    @if (thread.Picture == null) continue;
+    <div class="image-box m-1 rel">
+        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+            <img class="image rounded" src="@thread.Picture" alt="Image"/>
+        </a>
+        <div class="overlay abs d-flex rounded overflow-hidden">
+            <span class="col mr-auto mt-2">
+                <p class="overlaytext">
+                    <a class="" >
+                        @thread.Title
+                    </a>
+                </p><br/>
+                <p class="overlaytext mt-1">
+                    <a class="" asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
+                        @thread.AuthorUserName
+                    </a>
+                </p>
+            </span>
+            <span class="col-2 mt-2">
+                <p class="overlaytext text-right">
+                    @thread.Rating
+                </p><br/>
+                <p class="overlaytext button mt-1">
+                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                </p>
+            </span>
+        </div>
+    </div>
+}

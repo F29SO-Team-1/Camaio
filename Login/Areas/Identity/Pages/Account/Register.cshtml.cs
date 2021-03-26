@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+﻿using Login.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Login.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace Login.Areas.Identity.Pages.Account
 {
@@ -61,8 +61,8 @@ namespace Login.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirm Password")]
+            [Compare("Password", ErrorMessage = "Both Passwords must match.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -81,7 +81,7 @@ namespace Login.Areas.Identity.Pages.Account
                 var user = new LoginUser { UserName = Input.Email, Email = Input.Email, Ratting = 0, MemberSince = DateTime.Now };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 IdentityResult asignRole = await _userManager.AddToRoleAsync(user, "User");
-                
+
                 if (result.Succeeded)
                 {
                     if (!asignRole.Succeeded)

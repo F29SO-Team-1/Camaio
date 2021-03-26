@@ -1,6 +1,4 @@
-﻿using Login.Areas.Identity.Data;
-
-namespace Login.Models
+﻿namespace Login.Models
 {
     public class Likes
     {

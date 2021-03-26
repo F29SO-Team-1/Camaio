@@ -1,12 +1,8 @@
 ﻿using Login.Data;
 using Login.Models;
 using Login.Models.Album1;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Login.Areas.Identity.Data;
 
 namespace Login.Service
 {
@@ -22,12 +18,12 @@ namespace Login.Service
         {
 
             var album = new Album()
-                {
-                    Title = title,
-                    Channel = channel,
-                    VisibleToGuests = !NotVisible,
-                    MembersCanPost = !NoPosting
-                };
+            {
+                Title = title,
+                Channel = channel,
+                VisibleToGuests = !NotVisible,
+                MembersCanPost = !NoPosting
+            };
             _context.Add(album);
             _context.SaveChanges();
             return GetAlbum(channel, title).Id;
@@ -65,7 +61,7 @@ namespace Login.Service
             return _context.Albums
                 .Where(album => album.ChannelId == channel.Id)
                 .Where(album => album.Id != 1)
-                .Select(album => new AlbumModel 
+                .Select(album => new AlbumModel
                 {
                     AlbumId = album.Id,
                     Title = album.Title,
@@ -84,10 +80,11 @@ namespace Login.Service
                 .Where(a => a == album)
                 .Select(a => a.Threads.FirstOrDefault().Image)
                 .FirstOrDefault();
-            if(image == null)
+            if (image == null)
             {
                 return "https://camaiologinstorage.blob.core.windows.net/thread-storage/Thumbs_Up_Skin-Color.pngtest2@gmail.com637516981283394465";
-            } else 
+            }
+            else
             {
                 return image;
             }

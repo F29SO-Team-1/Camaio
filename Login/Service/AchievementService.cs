@@ -100,7 +100,7 @@ namespace Login.Service
                     await _context.AchievementProgress.AddRangeAsync(toDB);
                     await _context.SaveChangesAsync();
                     return;
-                }  
+                }
             }
 
             /*
@@ -114,7 +114,7 @@ namespace Login.Service
             //gets the two lists and gets the difference between the two
             var change = aAch.Except(uuAch).ToList();
 
-           
+
             if (change.Count() > 1)
             {
                 foreach (var toAdd in change)
@@ -155,14 +155,14 @@ namespace Login.Service
 
         public IEnumerable<AchievementProgress> GetUsersAchievement(LoginUser user)
         {
-            return _context.AchievementProgress.Where(x=>x.UserId == user.Id);
+            return _context.AchievementProgress.Where(x => x.UserId == user.Id);
         }
 
         public AchievementProgress GetUsersAchievementProgress(LoginUser user, int achievementId)
         {
             return _context.AchievementProgress
                 .Where(x => x.UserId == user.Id)
-                .FirstOrDefault(y=> y.Achievement.Id == achievementId);
+                .FirstOrDefault(y => y.Achievement.Id == achievementId);
         }
 
         public bool CheckProgression(LoginUser user, int achievementId)
@@ -213,7 +213,12 @@ namespace Login.Service
 
         public int FollowAchievementProgress(LoginUser user)
         {
+            //need to fix if there is no achievemtns 
             AchievementProgress ach = GetUsersAchievementProgress(user, 3);
+            if (ach == null)
+            {
+                return 0;
+            }
             return ach.UsersProgress;
         }
 

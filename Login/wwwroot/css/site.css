@@ -2,6 +2,70 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 
+/*Shared styles*/
+
+.overlaytext.button{
+    
+}
+
+.fade-in {
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+}
+.nav-item{
+    color: black;
+}
+a:hover {
+    outline: none;
+    color:black;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dropdown-menu{
+    background-color: white;
+}
+
+.rel{
+    position:relative;
+}
+.abs{
+    position:absolute;
+}
+
+hr.headrule{
+    margin-top: 1rem;
+    width:98%;
+    margin-bottom: 1rem;
+    border: 0;
+    border: 1px solid green;
+}
+
+.imagebutton{
+    height:50px;
+    width:50px;
+    background: none;
+    padding: 0;
+    border: none;
+}
+.btn{
+    padding: 0;
+    outline: none;
+    background: none;
+    border: 0;
+}
+
+.btn-link{
+    max-height:60px;
+    max-width:60px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
 .content-box{
     width:600px;
     margin:auto;
@@ -19,102 +83,16 @@ for details on configuring this project to bundle and minify static web assets. 
     width:200px;
 }
 
-.form-group{
-    display:flex;
-}
 
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
-header{
-    height:66px;
-    width:100%;
-    background: #39603D;
-    display: flex;
-    justify-content: flex-start;
-    overflow: hidden;
-}
-head-spacer{
-    height:20px;
-    width:100%;
-}
-
-.home-image{
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    left: 17px;
-    top: 8px;
-}
-@media only screen and (max-width:870px){
-    .input-group{
-        display:none;
-    }
-    .login-details{
-        position: absolute;
-        left:80px;
-    }
-}
-
-
-.input-group{
-    max-width:500px;
-    margin: auto;
-    color:#fff;
-    background: #020202;
-}
-
-.rounded{
-    background-color: #020202;
-    border:none;
-}
-
-.login-details{
-    float: right;
-    padding-top:2px;
-}
-
-.user-button{
-    background:url(../pictures/avatar.png);
-    border:none;
-}
-
-.profile-img{
-    width: 50px;
-    height: 50px;
-    margin-top: 8px;
-    border:5px;
-    margin-right:20px;
-}
-
-.logout-container{
-    padding-top:30px;
-    margin-left:20px;
-}
-
-.upload-image img{
-    background:url(../pictures/upload-button.png);
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    left: 86px;
-    top: 13px;
-}
-.upload-image{
-    margin-left:50px;
-}
-
-.search-button {
-    background-color: #DADED4;
-    border-color: #DADED4;
-}
 
 /* lists styling*/
+
+/*
+
+Made this commented to fix errors; Please be specific if you want
+to change something used elsewhere!
+
 ul {
-    overflow: hidden;
     list-style-type: none;
 }
   
@@ -129,13 +107,12 @@ li a {
     text-decoration: none;
 }
 
-.nav-link{
-    margin-top:10px;
-}
-  
+*/
+
 /* Provide sufficient contrast against white background */
 a {
-    color: #0366d6;
+    color: inherit;
+    text-decoration: none;
 }
 
 .btn-primary {
@@ -143,16 +120,13 @@ a {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-
+/*
 .nav-pills, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-
-.nav-link:hover{
-    color:black;
-}
+*/
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -192,9 +166,11 @@ html {
 
 body {
     /* Margin bottom by footer height */
+    margin: 0;
     margin-bottom: 60px;
-    background-color: #DADED4;
+    background-color: #fff;
     width:100%;
+    font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
 }
 
 .footer {
@@ -222,7 +198,8 @@ body {
     background-color: #ddd;
     top: 10%;
     bottom: 100px;  
-    background-color: green;
+    background-color: white;
+    transition: 1s;
 }
 
 .avatar-picture{
@@ -282,15 +259,6 @@ body {
     box-sizing: border-box;
   }
   
-  body {
-    margin: 0;
-    font-family: Arial;
-  }
-  
-  .header {
-    text-align: center;
-    padding: 32px;
-  }
 
   .row {
     display: -ms-flexbox; /* IE10 */
@@ -332,8 +300,36 @@ body {
     }
 }
   
+.image{
+    width:100%;
+}
 
 
+.image-box:hover .overlay {
+    height:80px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.image-box:hover .overlaytext {
+    display: block;
+}
+
+.overlay{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0px;
+    width: 100%;
+    transition: .5s;
+    background-color: greenyellow;
+}
+
+.overlaytext{
+    position: absolute;
+}
 
 
 /*-----------------End of 'Home Page' CSS-----------------------------*/
@@ -358,7 +354,7 @@ body {
 }
 
 .upload-form .form-control{
-    width: auto;
+    width: 100%;
 }
 
 .upload-form .form-group{
@@ -387,6 +383,194 @@ body {
 
 /*-----------------End of 'Upload Page' CSS-----------------------------*/
 
+/*-----------------Start of 'Top Posts Page' CSS -----------------------*/
+#DIV_0 {
+    width: 30%;
+    border-color:#020202;
+    border-style: solid;
+    border-width: 1px;
+    float: right;
+    padding:1%;
+    background-color: #e6e6e6;
+    border-radius: 5%;
+    padding:1%;
+    text-align: bottom;    
+  }
+  
+  #DIV_1 {
+    height: 75%;
+    top:100; 
+    padding:1%;
+    
+
+  }
+  
+  #DIV_2 {
+    height: 25%;
+    bottom:100%;
+    border-color:#020202;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5%;
+
+    
+
+   
+  }
+  
+  #DIV_3 {
+    float: left;
+    height: 100%;
+    width: 70%;
+    padding:1%;  
+   
+  }
+
+
+.card-footer{
+
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+}
+
+.top-score-column {
+  float: left;
+  width: 33.33%;
+  padding: 0 10px;
+}
+  
+/* Remove extra left and right margins, due to padding */
+.top-score-row {
+    margin: 0 -5px;
+    color: #020202;
+}
+
+  
+/* Clear floats after the columns */
+.top-score-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.top-score-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white; 
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
+   
+}
+  
+.top-score-card-display {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 2%; 
+    height:80%;
+    width:80%;  
+    align-items: center;
+    background-color: white; 
+    border-radius: 2.5%;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-rl{
+    float:right;
+    width:100%;
+    padding:15px;
+    text-align: left; 
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    
+}
+
+.top-score-card:hover {
+    background-color: #e6e6e6;
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.1); 
+}
+
+.white-space{
+    color: white;
+}
+
+.card-img{
+    float:left;
+    background-color: red; 
+}
+
+.card-image{
+    border-radius: 1%;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.card-img > .card-description{
+    
+    background-color: green; 
+    text-align: bottom;
+    width:50%; 
+    height:50%; 
+    float:top; 
+    float:right;  
+     
+}
+.card-img > .tester-{
+    
+    background-color: blue; 
+    text-align: bottom;
+    height:50%; 
+    float:bottom; 
+
+     
+}
+
+.card-img-right{
+    height:100%; 
+
+}
+.card-img-top{
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+
+}
+
+.card-img-top> .top-right{
+    background-color: blue;
+}
+
+.card-img-top> .bottom-right{
+    background-color: yellow;
+}
+
+
+
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+/*-----------------End of 'Top Posts' CSS-----------------------------*/
+
 
 /*-----------------Start of 'Channels Page' CSS -----------------------*/
 
@@ -403,6 +587,23 @@ body {
     border: 2px solid green; 
     background-color:greenyellow;
     color: green;
+}
+
+.createButton1 {
+    width: 30%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    color: white;
+    text-decoration: none; 
+}
+
+.createButton1:hover {
+    width: 30%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+    text-decoration: none;
 }
 
 .create-channel  {
@@ -475,12 +676,15 @@ body {
 
 
 
-/*-----------------Start of 'Login Page' CSS---------------------------*/
+/*-----------------Start of 'Auth Form' CSS---------------------------*/
 
 .auth-form {
-    width: 100%;
-    max-width: 40%;
-    padding: 2.5% 10%;
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+    width: 50%;
+    min-width: 275px;
+    max-width: 400px;
     margin: 10% auto;
     background-color: #39603D;
     font-family: Arial, Helvetica, sans-serif;
@@ -488,8 +692,8 @@ body {
 }
 
 .auth-form .content {
+    margin: 10% auto;
     flex-direction: column;
-    margin: 30% 0;
     color: white;
 }
 
@@ -499,7 +703,7 @@ body {
 }
 
 .auth-form .form-control{
-    width: auto;
+    width: 100%;
 }
 
 .auth-form .submit-group{
@@ -535,12 +739,7 @@ body {
     color: green;
 }
   
-/*-----------------End of 'Login Page' CSS-----------------------------*/
-
-
-/*-----------------Start of the 'Register Page' CSS---------------------*/
-
-/*-----------------End of the 'Register Page' CSS-----------------------*/
+/*-----------------End of 'Auth Form' CSS-----------------------------*/
 
 /*-----------------Start of the 'Account' Page' CSS---------------------*/
 
@@ -555,27 +754,33 @@ body {
     max-width:220px;
 }
 
-.nav-item {
-    color: black;
-    background-color: #39603D;
-    margin: 6px;
-    font-size: 20px;
-    text-align: center;
-    line-height: 14px;
-    max-height: 48px;
-    border-radius: 7px;
-}
-
-.p{
-    font-family: Arial, sans-serif;
-}
 
 .account-button{
     border-radius: 25px;
 }
 
+.profile-link{
+    border: 1px;
+    border-radius:2px;
+    margin:10px;
+}
+
+.image-box.profile{
+    width:200px;
+    height:100%;
+    border-radius: 2px;
+}
+
+.picture.profile{
+    height:200px;
+    width:auto;
+    background-color: lightgreen;
+    overflow:hidden;
+}
+
+#toggleDIV1, #toggleDIV2, #toggleDIV3{
+    display: none;
+}
+
 /*-----------------End of the 'Account Page' CSS-----------------------*/
-
-
-
 

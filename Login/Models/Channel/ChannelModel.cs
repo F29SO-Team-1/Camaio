@@ -1,7 +1,7 @@
+using Login.Areas.Identity.Data;
+using Login.Models.Album1;
 using System;
 using System.Collections.Generic;
-using Login.Models.Album1;
-using Login.Areas.Identity.Data;
 
 
 namespace Login.Models

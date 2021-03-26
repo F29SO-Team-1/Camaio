@@ -5,8 +5,8 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to Channels</h1>
-    <a class="createButton" id="Create" asp-area="" asp-controller="Channel" asp-action="Create">Create a channel</a> 
-    <!--- <a><button type="submit" class="createButton" id="Create" asp-area="" asp-controller="Channel" asp-action="Create">Create a channel</button> </a> --->
+    <a type="submit" value="Create Channel" class="createButton1" id="Create" asp-area="" asp-controller="Channel" asp-action="Create">Create a channel</a>
+
     <div>
         @foreach (var channel in Model.Channels) {
             <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="Main" asp-route-id=@channel.Title><h3>@channel.Title</h3></a>

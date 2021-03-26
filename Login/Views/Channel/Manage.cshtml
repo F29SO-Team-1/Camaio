@@ -18,11 +18,13 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Update Channel" class="createButton" />
+                <input type="submit" value="Update Description" class="createButton" />
+                <br>
+                <input onclick="alertMessage()" type="submit"  value="Delete Channel" class="createButton" asp-area="" asp-controller="Channel" asp-action="Delete" asp-route-id=@Model.Title>
             </div>
         </form>
     </div>
 </div>
-        <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Delete" asp-route-id=@Model.Title><h4>Delete Channel</h4></a>
     </div>
 </div>
+''

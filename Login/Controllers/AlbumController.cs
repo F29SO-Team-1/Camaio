@@ -1,17 +1,13 @@
-﻿using Login.Models;
-using Login.Models.Threadl;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
+using Login.Models;
 using Login.Models.Album1;
-using Microsoft.AspNetCore.Authorization;
+using Login.Models.Threadl;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Login.Areas.Identity.Data;
-using Login.Data;
 
 namespace Login.Controllers
 {
@@ -39,20 +35,22 @@ namespace Login.Controllers
             ViewData["CanPost"] = false;
             ViewData["CanManage"] = false;
             var channel = _channelService.GetChannel(album.ChannelId).Result;
-            if (channel != null) {
+            if (channel != null)
+            {
                 var channelUser = _channelService.GetChannelMember(user, channel).Result;
                 if (channelUser == null)
                 {
-                    if (!album.VisibleToGuests) 
+                    if (!album.VisibleToGuests)
                     {
                         return NotFound();
                     }
-                } else 
+                }
+                else
                 {
-                    if(user.Id == channel.CreatorId || album.MembersCanPost)
+                    if (user.Id == channel.CreatorId || album.MembersCanPost)
                     {
                         ViewData["CanPost"] = true;
-                        if(user.Id == channel.CreatorId)
+                        if (user.Id == channel.CreatorId)
                         {
                             ViewData["CanManage"] = true;
                         }
@@ -60,14 +58,14 @@ namespace Login.Controllers
                 }
             }
             var threads = BuildThreadList(album);
-            var model = new AlbumModel 
+            var model = new AlbumModel
             {
                 AlbumId = album.Id,
                 Title = album.Title,
                 Channel = channel,
                 Threads = threads
             };
-            
+
             return View(model);
         }
 
@@ -87,7 +85,7 @@ namespace Login.Controllers
             var channel = _service.GetChannel(album);
             if (channel.CreatorId != _userManager.GetUserId(User)) return NotFound();
             _service.DeleteAlbum(album);
-            return RedirectToAction("Main", "Channel", new { id = channel.Title} );
+            return RedirectToAction("Main", "Channel", new { id = channel.Title });
         }
 
         private IEnumerable<ThreadModel> BuildThreadList(Album album)

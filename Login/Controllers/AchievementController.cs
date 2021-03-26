@@ -2,7 +2,6 @@
 using Login.Data;
 using Login.Models;
 using Login.Service;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,14 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-
+/*
+ 
+    The first Achievement must be;
+    1. First Login must be Achievement id 1
+    2. Random Achievement
+    3. Has to be the 10 following achievement
+ 
+ */
 namespace Login.Controllers
 {
     public class AchievementController : Controller
@@ -20,8 +26,8 @@ namespace Login.Controllers
         private readonly UserManager<LoginUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IUpload _uploadService;
-        public AchievementController(IAchievement service, 
-            IApplicationUsers userService, 
+        public AchievementController(IAchievement service,
+            IApplicationUsers userService,
             UserManager<LoginUser> userManager,
             IConfiguration configuration,
             IUpload uploadService)
@@ -39,7 +45,7 @@ namespace Login.Controllers
             LoginUser user = _userService.GetByUserName(username);
             int? usersAch = _service.GetUsersAchievement(user).Count();     //user's Achievements
             int totalAmountOfAch = _service.GetAllAchievements().Count();   //total amount of Achievements there is 
-            if (usersAch == null || totalAmountOfAch == 0) return NotFound();       
+            if (usersAch == null || totalAmountOfAch == 0) return NotFound();
 
             //build model
             var model = _service.GetUsersAchievement(user).Select(achiev => new AchievementModel
@@ -57,14 +63,14 @@ namespace Login.Controllers
             return View(usersAchievementList);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> CreateAchievement(Achievement model, IFormFile file)
         {

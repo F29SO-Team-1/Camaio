@@ -14,7 +14,7 @@
 </head>
 <body>
   
-	<header class="border-bottom box-shadow">
+	<header class="border-bottom box-shadow" partial name="_HeaderPartial">
 		<a class="home-image" asp-area="" asp-controller="Home" asp-action="Index">
 			<img src="~/pictures/home.png" style="width: 50px" />
 		</a>
@@ -36,11 +36,7 @@
 		</div>
 	</header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    @RenderBody()
 
     <footer class="border-top footer text-muted">
         <div class="container">
