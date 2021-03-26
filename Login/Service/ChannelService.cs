@@ -1,11 +1,10 @@
-﻿using Login.Data;
+﻿using Login.Areas.Identity.Data;
+using Login.Data;
 using Login.Models;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Login.Areas.Identity.Data;
 
 namespace Login.Service
 {
@@ -49,7 +48,7 @@ namespace Login.Service
 
         public void AddMember(Channel channel, LoginUser user)
         {
-            var channelMember = new ChannelMember 
+            var channelMember = new ChannelMember
             {
                 Channel = channel,
                 User = user
@@ -91,7 +90,7 @@ namespace Login.Service
             _context.Add(channel);
             _context.SaveChanges();
         }
-        public bool CheckIfPublic(Channel channel) 
+        public bool CheckIfPublic(Channel channel)
         {
             var isPublic = _context.Channels
                     .Where(table => table == channel)

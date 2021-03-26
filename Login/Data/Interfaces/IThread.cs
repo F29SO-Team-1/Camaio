@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Login.Areas.Identity.Data;
+using Login.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Login.Areas.Identity.Data;
-using Login.Models;
 
 namespace Login.Data
 {
@@ -27,7 +27,7 @@ namespace Login.Data
         //edit of the thread
         Task Edit(Thread thread);
         //delete of a thread
-        Task Delete(int? threadId);     
+        Task Delete(int? threadId);
         //upload image function
         Task UploadPicture(int threadId, Uri pic);
 

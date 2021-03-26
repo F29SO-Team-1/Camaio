@@ -20,7 +20,7 @@ namespace Login.Service
 
         public async Task<Thread> Create(Thread model, LoginUser user, int albumId)
         {
-           var thread = new Thread
+            var thread = new Thread
             {
                 Title = model.Title,
                 CreateDate = DateTime.Now,
@@ -109,8 +109,8 @@ namespace Login.Service
         {
             var thread = GetById(threadId);
             //add user to a list
-            var liked = new Likes 
-            { 
+            var liked = new Likes
+            {
                 Thread = thread,
                 UserId = userId
             };
@@ -127,7 +127,7 @@ namespace Login.Service
             if (record.Count() == 0)
             {
                 return false;
-            } 
+            }
             else
             {
                 return true;
@@ -145,7 +145,7 @@ namespace Login.Service
             //remove from list
             var liked = await _context.Likes
                 .Where(x => x.Thread.ID == threadId)
-                .Where(x=> x.UserId == userId)
+                .Where(x => x.UserId == userId)
                 .FirstOrDefaultAsync();
 
             _context.Likes.Remove(liked);

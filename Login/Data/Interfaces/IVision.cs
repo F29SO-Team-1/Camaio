@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Login.Data.Interfaces

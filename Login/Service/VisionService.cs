@@ -77,7 +77,7 @@ namespace Login.Service
         {
             List<string> list = new List<string>();
             //Description
-            foreach(var tags in results.Description.Tags)
+            foreach (var tags in results.Description.Tags)
             {
                 list.Add(tags);
             }
@@ -86,7 +86,7 @@ namespace Login.Service
                 list.Add(obj.ObjectProperty);
             }
 
-            return Check(list); 
+            return Check(list);
         }
 
         //true means that it has a human element
@@ -97,7 +97,7 @@ namespace Login.Service
             IEnumerable<string> notAllowed = new List<string> { "human", "finger", "person" };
 
             //returns a int of how many notAllowed the image contains
-             int num = l.Intersect(notAllowed).Count();
+            int num = l.Intersect(notAllowed).Count();
 
             if (num >= 1) return true; else return false;
         }

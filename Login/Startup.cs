@@ -1,4 +1,6 @@
 using Login.Data;
+using Login.Data.Interfaces;
+using Login.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -7,8 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net;
-using Login.Service;
-using Login.Data.Interfaces;
 
 namespace Login
 {
@@ -24,7 +24,7 @@ namespace Login
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
 
             //server, deployment
             services.Configure<ForwardedHeadersOptions>(options =>

@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Login.Models;
 using Microsoft.EntityFrameworkCore;
-using Login.Models;
-using Login.Areas.Identity.Data;
-using Login.Data;
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
 
 namespace Login.Data
 {
     public class NotificationContext : DbContext
     {
-        public NotificationContext(DbContextOptions<NotificationContext> options) 
+        public NotificationContext(DbContextOptions<NotificationContext> options)
             : base(options)
         {
         }

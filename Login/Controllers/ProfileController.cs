@@ -73,7 +73,7 @@ namespace Login.Controllers
              */
             //makes sure that the user is the user
             if (username == user.UserName) await GiveUserLoginAch(user);
-            if(listOfFollower.Count() != _achievementService.FollowAchievementProgress(user) 
+            if (listOfFollower.Count() != _achievementService.FollowAchievementProgress(user)
                 && _achievementService.GetUsersAchievement(user).Count() != 0) GiveTenFollowAch(user);
 
             //build model
@@ -94,7 +94,7 @@ namespace Login.Controllers
             };
             return View(model);
         }
-        
+
         [Authorize]
         public async Task<IActionResult> Follow(string id)
         {
@@ -177,7 +177,7 @@ namespace Login.Controllers
         private async Task GiveUserLoginAch(LoginUser user)
         {
             if (_achievementService.GetUsersAchievement(user).Count() == 0) return;
-            
+
             // if the user has the following achievement then do the following else ignore
             if (!_achievementService.CheckProgression(user, 1))
             {

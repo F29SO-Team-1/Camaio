@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Login.Areas.Identity.Data;
 using Login.Models;
-using Login.Areas.Identity.Data;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Login.Data
 {

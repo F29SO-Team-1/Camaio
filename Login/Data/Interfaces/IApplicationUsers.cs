@@ -14,7 +14,7 @@ namespace Login.Data
 
         //gets the users name
         LoginUser GetByUserName(string username);
-        
+
         //gets all users
         IEnumerable<LoginUser> GetAll();
 

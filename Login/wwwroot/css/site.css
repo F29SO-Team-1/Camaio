@@ -412,11 +412,46 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 16px;
     text-align: center;
-    background-color: white;
+    background-color: white; 
     border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
     color: #020202;
+}
+
+.top-score-card-display {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white; 
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
+}
+
+.card-rl{
+    float:right;
+    width:50%;
+    padding:15px;
     
-    
+}
+
+.top-score-card:hover {
+    background-color: #e6e6e6;
+}
+
+.white-space{
+    color: white;
+}
+
+.card-image{
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+
 }
 
 /* Responsive columns */
@@ -535,12 +570,15 @@ body {
 
 
 
-/*-----------------Start of 'Login Page' CSS---------------------------*/
+/*-----------------Start of 'Auth Form' CSS---------------------------*/
 
 .auth-form {
-    width: 100%;
-    max-width: 40%;
-    padding: 2.5% 10%;
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+    width: 50%;
+    min-width: 275px;
+    max-width: 400px;
     margin: 10% auto;
     background-color: #39603D;
     font-family: Arial, Helvetica, sans-serif;
@@ -548,8 +586,8 @@ body {
 }
 
 .auth-form .content {
+    margin: 10% auto;
     flex-direction: column;
-    margin: 30% 0;
     color: white;
 }
 
@@ -559,7 +597,7 @@ body {
 }
 
 .auth-form .form-control{
-    width: auto;
+    width: 100%;
 }
 
 .auth-form .submit-group{
@@ -595,12 +633,8 @@ body {
     color: green;
 }
   
-/*-----------------End of 'Login Page' CSS-----------------------------*/
+/*-----------------End of 'Auth Form' CSS-----------------------------*/
 
-
-/*-----------------Start of the 'Register Page' CSS---------------------*/
-
-/*-----------------End of the 'Register Page' CSS-----------------------*/
 
 /*-----------------Start of the 'Account' Page' CSS---------------------*/
 

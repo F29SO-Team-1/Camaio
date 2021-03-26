@@ -12,12 +12,12 @@
   <div class="top-score-column">
     <div class="top-score-card">
       <h3>@threads.Title</h3>
-      <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
+      <img src="@threads.Picture" alt="Image" class="card-image" style="width: 200px; height:200px;" />
       <p>Rating: @threads.Rating</p>
       <p>@threads.Created</p>
     </div>
     <br>
-  </div>
+  </div>         
   </a>
 }
 @foreach (var threads in Model.ThreadLists){
@@ -25,12 +25,12 @@
    <div class="top-score-column">
     <div class="top-score-card">
       <h3>@threads.Title</h3>
-      <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
+      <img src="@threads.Picture" alt="Image" class="card-image" style="width: 200px; height:200px;" />
       <p>Rating: @threads.Rating</p>
       <p>@threads.Created</p>
     </div>
     <br>
-  </div>
+  </div> 
   </a>
 }
 <br>
@@ -39,8 +39,8 @@
    <div class="top-score-column"> 
     <div class="top-score-card">
       <h3>@threads.Title</h3>
-      <img src="@threads.Picture" alt="Image" style="width: 200px; height:200px;" />
-      <p>Rating: @threads.Rating</p>
+      <img src="@threads.Picture" alt="Image" class="card-image" style="width: 200px; height:200px;" />
+      <p>Rating: @threads.Rating </p>
       <p>@threads.Created</p>
     </div>
     <br>
@@ -48,8 +48,6 @@
   </a>
 }
 </div>
-
-
 
 <!--
 <table class="table">
