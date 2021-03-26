@@ -86,7 +86,7 @@
                     @if ((bool)ViewData["owner"]==true) 
                     {
                         <th> 
-                            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>Remove</a>
+                            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>Kick</a>
                         </th>
                     }
                 </tr>

@@ -14,8 +14,26 @@
 </head>
 <body>
   
-	<header>
-        <partial name="_HeaderPartial" />
+	<header class="border-bottom box-shadow" partial name="_HeaderPartial">
+		<a class="home-image" asp-area="" asp-controller="Home" asp-action="Index">
+			<img src="~/pictures/home.png" style="width: 50px" />
+		</a>
+
+        <form class="input-group rounded" asp-area="" asp-controller="Search" asp-action="Index">
+			<input type="search" class="form-control rounded" name="searchInput" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+			<div class="input-group-append">
+				<button type="submit" class="btn btn-light search-button" >
+                    <img src="~/pictures/search.png" style="width:23px"/> 
+                </button>
+			</div>
+            <input name="searchArea" value="All" type="hidden">
+            <input name="searchOptions" value="Keywords" type="hidden">
+            <input name="sortingOptions" value="Votes" type="hidden">
+        </form>
+
+		<div class="login-details">
+			<partial name="_LoginPartial" />
+		</div>
 	</header>
 
     @RenderBody()
