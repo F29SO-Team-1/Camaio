@@ -4,22 +4,20 @@ using Login.Models.ApplicationUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 
 namespace Login.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<LoginUser> _userManager;
         private readonly IApplicationUsers _userService;
-        public RoleController(RoleManager<IdentityRole> roleManager, 
-            IApplicationUsers userService , 
+        public RoleController(RoleManager<IdentityRole> roleManager,
+            IApplicationUsers userService,
             UserManager<LoginUser> userManager)
         {
             _roleManager = roleManager;
@@ -37,7 +35,7 @@ namespace Login.Controllers
                 await _roleManager.CreateAsync(new IdentityRole("Admin"));
                 await _roleManager.CreateAsync(new IdentityRole("Mod"));
             }
-            
+
             return View(roles);
         }
 
@@ -89,7 +87,7 @@ namespace Login.Controllers
         }
 
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> MakeAdmin()
         {
             await _userManager.AddToRoleAsync(await _userManager.GetUserAsync(User), "Admin");
@@ -100,9 +98,9 @@ namespace Login.Controllers
         public async Task<IActionResult> MakeMod(string userId)
         {
             //unasign from others roles and then asign to new role
-            LoginUser user =  _userService.GetById(userId);
+            LoginUser user = _userService.GetById(userId);
 
-            var userRole =  await _userManager.GetRolesAsync(user);
+            var userRole = await _userManager.GetRolesAsync(user);
             foreach (var role in userRole)
             {
                 //toggle

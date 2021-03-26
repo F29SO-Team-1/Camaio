@@ -77,11 +77,11 @@
             <div id="likeSection">
                 @if (Model.LikedBy.Count() == 0)
                 {
-                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                    <button type="button p-2" id="likeBtn" class="btn btn-primary">Like</button>
                 }
                 else
                 {
-                    <button type="button" id="disLikeBtn" class="btn btn-primary">Unlike</button>
+                    <button type="button p-2" id="disLikeBtn" class="btn btn-primary">Unlike</button>
                     <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
                 }
             </div>
@@ -95,11 +95,6 @@
     <div class="card-footer">
         <small class="text-muted">
             <a asp-action="Report" asp-route-threadId="@Model.Id">Report</a>
-            @if (User.Identity.Name == Model.AuthorUserName)
-            {
-                <a asp-action="Edit" asp-route-threadId="@Model.Id">Edit</a>
-                <a asp-action="Delete" asp-route-threadId="@Model.Id">Delete</a>
-            }
         </small>
     </div>
 </div>

@@ -1,7 +1,5 @@
-﻿using Login.Areas.Identity.Data;
-using Login.Models.Threadl;
+﻿using Login.Models.Threadl;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,8 +20,8 @@ namespace Login.Models.ApplicationUser
         public int Warnings { get; set; }
 
         public Task<IList<string>> Roles { get; set; }
-        public IEnumerable<ThreadModel> Threads {get;set;}
-                
+        public IEnumerable<ThreadModel> Threads { get; set; }
+
         public IEnumerable<ChannelModel> Channels { get; set; }
 
         public IEnumerable<Thread> Likes { get; set; }

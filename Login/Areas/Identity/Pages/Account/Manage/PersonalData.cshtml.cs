@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using Login.Areas.Identity.Data;
+﻿using Login.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Login.Areas.Identity.Pages.Account.Manage
 {

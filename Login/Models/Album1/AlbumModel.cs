@@ -1,11 +1,5 @@
-﻿using Login.Areas.Identity.Data;
-using Login.Models.Threadl;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using System;
+﻿using Login.Models.Threadl;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace Login.Models.Album1
 {

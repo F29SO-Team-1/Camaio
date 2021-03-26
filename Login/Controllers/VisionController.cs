@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
+﻿using Login.Data;
 using Login.Data.Interfaces;
-using Login.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
+using System.Threading.Tasks;
 
 namespace Login.Controllers
 {
@@ -52,7 +49,7 @@ namespace Login.Controllers
 
             // Create a client
             ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
-            
+
             var r = await _service.AnalyzeImageUrl(client, imageUri);
 
             _service.Faces(r);
@@ -63,7 +60,7 @@ namespace Login.Controllers
 
             //return RedirectToAction("Index", "Thread", new { @id = thread.ID });
             return Json(boolHuman);
-        } 
+        }
 
         [Route("AIFULL/{id}")]
         [HttpGet]
@@ -78,7 +75,7 @@ namespace Login.Controllers
 
             // Create a client
             ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
-            
+
             var r = await _service.AnalyzeImageUrl(client, imageUri);
 
             _service.Faces(r);
@@ -86,6 +83,6 @@ namespace Login.Controllers
             _service.Tags(r);
 
             return Json(r);
-        } 
+        }
     }
 }

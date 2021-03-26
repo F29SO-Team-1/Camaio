@@ -2,7 +2,6 @@
 using Login.Data;
 using Login.Models;
 using Login.Service;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +26,8 @@ namespace Login.Controllers
         private readonly UserManager<LoginUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IUpload _uploadService;
-        public AchievementController(IAchievement service, 
-            IApplicationUsers userService, 
+        public AchievementController(IAchievement service,
+            IApplicationUsers userService,
             UserManager<LoginUser> userManager,
             IConfiguration configuration,
             IUpload uploadService)
@@ -46,7 +45,7 @@ namespace Login.Controllers
             LoginUser user = _userService.GetByUserName(username);
             int? usersAch = _service.GetUsersAchievement(user).Count();     //user's Achievements
             int totalAmountOfAch = _service.GetAllAchievements().Count();   //total amount of Achievements there is 
-            if (usersAch == null || totalAmountOfAch == 0) return NotFound();       
+            if (usersAch == null || totalAmountOfAch == 0) return NotFound();
 
             //build model
             var model = _service.GetUsersAchievement(user).Select(achiev => new AchievementModel
