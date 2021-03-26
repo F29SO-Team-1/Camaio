@@ -20,6 +20,9 @@
             <p class=" text-center">
                 Member since: @Model.MemmberSince
             </p>
+            @foreach (var role in @Model.Roles.Result){
+                <p>@role</p> <br/>
+            }
             @if (SignInManager.IsSignedIn(User)){
                 <a class="nav-item p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
             }
