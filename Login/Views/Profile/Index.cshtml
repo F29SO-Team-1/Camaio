@@ -48,6 +48,9 @@
         <div class="row w-100 border border-success" id="toggleDIV2">
             @try{
                 @foreach (var followers in Model.UsersFollowed){
+                    @if (followers == null) {
+                        <p>No followers</p>
+                    }
                     @followers.Username
                 }
             }
@@ -58,7 +61,10 @@
         <div class="row w-100 border border-success" id="toggleDIV3">
             @try{
                 @foreach (var liked in Model.Likes){
-                    
+                    @if (liked == null) {
+                        <p>No likes</p>
+                    }
+                    @liked.UserName
                 }
             }
             catch(Exception){
