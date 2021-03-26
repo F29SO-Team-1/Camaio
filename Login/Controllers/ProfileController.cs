@@ -68,6 +68,9 @@ namespace Login.Controllers
             //gives the inital achievements to the user 
             await _achievementService.AssignAchievementsToUser(user);
 
+            //list of all the users that the user follows
+            var userloginFollowerList = _service.UserFollowingList(user);
+
             /*
              * Achievements HERE
              */
@@ -87,7 +90,7 @@ namespace Login.Controllers
                 MemmberSince = user.MemberSince,
                 Threads = threads,
                 Channels = channels,
-                UsersFollowed = listOfFollower,
+                UsersFollowed = userloginFollowerList,
                 Warnings = user.AccountWarnings,
                 Roles = userRoles
 

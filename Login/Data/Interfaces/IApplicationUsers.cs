@@ -34,5 +34,7 @@ namespace Login.Data
         Task GiveUserWarning(string userId);
 
         bool IfUserExists(string username);
+
+        List<LoginUser> UserFollowingList(LoginUser user);
     }
 }
