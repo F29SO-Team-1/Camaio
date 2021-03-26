@@ -1,6 +1,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Login.Areas.Identity.Data
 @model Login.Models.ApplicationUser.ProfileModel
+@inject SignInManager<LoginUser> SignInManager
 
 @{
     ViewData["Title"] = "Profile Page";
@@ -8,150 +9,95 @@
 }
 
 
-
-<div class="container">
-    <h2>Hello @Model.Username, @Model.UserRating</h2>
-    <a class="btn btn-primary"
-       asp-controller="Profile"
-       asp-action="Follow"
-       asp-route-id="@Model.Username">
-        Follow
-    </a>
-</div>
-
-
-@if (Model.ProfileImageUrl == null)
-{
-    <div>
-        No Image
+<div class="container-fluid d-flex flex-lg-row flex-column">
+    <div class="col-lg-2 col-md-12 mt-2">
+        <ul class="nav flex-column w-100">
+            <img class="img mx-auto" style="height:100px;width:100px;"src="@Model.ProfileImageUrl"></img>
+            <p class="mt-2 text-center">
+                Score:@Model.UserRating
+            </p>
+            </br>
+            <p class=" text-center">
+                Member since: @Model.MemmberSince
+            </p>
+            @foreach (var role in @Model.Roles.Result){
+                <p>@role</p> <br/>
+            }
+            @if (SignInManager.IsSignedIn(User)){
+                <a class="nav-item p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
+            }
+            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV1)">Followers</Button>
+            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV2)">Following</Button>
+            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV3)">Likes</Button>
+        </ul>
     </div>
-}
-else
-{
-    <img src="@Model.ProfileImageUrl" style="width: 20%; height:20%;" alt="ProfilePic" />
-}
+
+    <div class="col-lg-10 col-md-12 mt-2">
+        <div class="row w-100 border border-success" id="toggleDIV1">
+            @try{
+                @foreach (var followed in Model.FollowsUser){
+                    <a class="nav-item" asp-controller="Profile" asp-route-username="@followed.Id">
+                        @followed.Username
+                    </a>
+                }
+            }
+            catch(Exception){
+                <p>Not following anyone</p>
+            }
+        </div>
+        <div class="row w-100 border border-success" id="toggleDIV2">
+            @try{
+                @foreach (var followers in Model.UsersFollowed){
+                    @if (followers == null) {
+                        <p>No followers</p>
+                    }
+                    @followers.Username
+                }
+            }
+            catch(Exception){
+                <p>No followers</p>
+            }
+        </div>
+        <div class="row w-100 border border-success" id="toggleDIV3">
+            @try{
+                @foreach (var liked in Model.Likes){
+                    @if (liked == null) {
+                        <p>No likes</p>
+                    }
+                    @liked.UserName
+                }
+            }
+            catch(Exception){
+                <p>No likes</p>
+            }
+        </div>
 
 
-@if (User.Identity.Name == Model.Username)
-{
-    <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
-        <div id="form-group">
-            <div class="form-group">
-                <span asp-validation-for="ProfileImageUrl"></span>
-                <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
+        <div class="d-flex flex-wrap flex-row container-fluid rel">
+            <div class="col-md-3 col-sm-6 p-0 m-0" id="column-one">
             </div>
-            <button type="submit" id="submitProfilePicBtn" class="btn btn-light">
-                Submit
-            </button>
+            <div class="col-md-3 col-sm-6 p-0 m-0" id="column-two">
+            </div>
+            <div class="col-md-3 col-sm-6 p-0 m-0" id="column-three">
+            </div>
+            <div class="col-md-3 col-sm-6 p-0 m-0" id="column-four">
+            </div>
         </div>
-    </form>
-}
 
-<hr />
-Is Followed By :
-@foreach (var item in Model.UsersFollowed)
-{
-    @item.Username;
-}
-<hr />
-Number of Warnings : @Model.Warnings
-
-<hr />
-
-Roles:
-@foreach (var roles in @Model.Roles.Result)
-{
-    @roles
-}
-
-<hr />
-<div class="container">
-    <a asp-area="" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username">
-        Achievements
-    </a>
-    @*for loop through all the achieved Achievements HERE *@
-</div>
-
-
-
-<hr />
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <h2 style="text-align:center"> @Model.Username Posts</h2>
-            <hr />
-            <table class="table">
-                <thead>
-                    <tr>
-                        @if (User.Identity.Name == Model.Username || User.IsInRole("Admin"))
-                        {
-                            <th scope="col">Flaged</th>
-                        }
-                        <th scope="col">Title</th>
-                        <th scope="col">Rating</th>
-                        <th scope="col">Created</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Picture</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var thread in Model.Threads)
-                    {
-                        //if there is no picture dont display
-                        //@if (thread.Picture == null) continue;
-                        //loops through the db and displays it
-                    <tr>
-                        @if (User.Identity.Name == Model.Username || User.IsInRole("Admin"))
-                        {
-                            <th>
-                                @if (@thread.Flagged)
-                                {
-                                    <p style="color:red">Yes</p>
-                                }
-                                else
-                                {
-                                    <p style="color:green">No</p>
-                                }
-                            </th>
-                        }
-
-                        <th>
-                            <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                                @thread.Title
-                            </a>
-                        </th>
-                        <th>@thread.Rating</th>
-                        <td>@thread.Created</td>
-                        <td>@thread.Description</td>
-                        <td>
-                            <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="row">
+            @foreach (var thread in @Model.Threads)
+            {
+                <div class="m-1 rel">
+                    <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                        <img class="picture profile rounded" src="@thread.Picture" alt="Image"/>
+                    </a>
+                </div>
+            }
         </div>
-      
-      <div class="col-sm">
-            <h2 style="text-align:center"> @Model.Username Channels</h2>
-            <hr />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var channels in Model.Channels)
-                    {
-                        <tr>
-                            <th>@channels.Title</th>
-                            <th>@channels.Description</th>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+
+        
     </div>
+    
+        
+
 </div>

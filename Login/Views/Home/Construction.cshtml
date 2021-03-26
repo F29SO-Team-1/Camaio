@@ -1,33 +1,24 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using Login.Areas.Identity.Data
 @inject SignInManager<LoginUser> SignInManager
 @inject UserManager<LoginUser> UserManager
+@{
+    ViewData["Title"] = "Construction Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Camaio - A university driven project made by students providing a social media platform without any human in the pictures. " />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>@ViewData["Title"] Camaio</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-  
-	<header>
-        <partial name="_HeaderPartial" />
-	</header>
-
-    @RenderBody()
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Camaio - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+<p>Under Construction</p>
 </body>
 </html>
