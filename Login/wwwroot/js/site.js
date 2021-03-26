@@ -30,7 +30,7 @@ $(document).ready(
 		divheights.set(2,[parent3,0])
 		divheights.set(3,[parent4,0])
 		var shortest = divheights.get(0);
-		
+
 		// loops over each image placing it in the shortest column
 		for (var i = 0; i < pictures.length; i++) {
 			shortest[0].appendChild(pictures[i]);
@@ -50,14 +50,6 @@ function alertMessage() {
 	confirm("Your channel will be deleted");
 }
 
-function searchFunc(){
-	var userInputValue = document.getElementById('form1').value;
-	//document.location.href = "Search";
-	var pictures = document.getElementsByClassName("image-box");
-	//for (var i = 0; i < pictures.length; i++){
-		//pictures[i];
-	//}
-}
 
 function drawDiv(div){
 	console.log(div)
