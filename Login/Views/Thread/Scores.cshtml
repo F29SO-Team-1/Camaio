@@ -3,7 +3,6 @@
     ViewData["Title"] = "Score Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h1 style="text-align:center; margin-top:2%">Top Posts</h1>
 <div class="top-score-row">
 <br>
@@ -20,6 +19,7 @@
   </div>         
   </a>
 }
+
 @foreach (var threads in Model.ThreadLists){
     <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
    <div class="top-score-column">
@@ -33,6 +33,7 @@
   </div> 
   </a>
 }
+
 <br>
 @foreach (var threads in Model.ThreadLists){
     <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 

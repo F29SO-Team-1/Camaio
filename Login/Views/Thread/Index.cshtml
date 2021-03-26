@@ -7,19 +7,50 @@
 
 <div class="top-score-card-display">
     <div class="card-title"><h3>@Model.Title</h3></div>
-    <div class="white-space"><h3>.</h3></div> 
+<div class="row">
+  <div id="DIV_3">
+      <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 100%; height:100%">
+  </div>
 
- 
-    <div class="card-img">
+   <div id="DIV_0">
+    <div id="DIV_1"> 
+        <div class="card-descriptio"> <p class="card-text">@Model.Description this is the description</p> </div>
+    </div>
+
+    <div id="DIV_2">
+        <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
+        <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
+      </a>
+      <h5></h5>Likes: <h5 class="card-titl" id="like">@Model.Rating</h5>
+      <h5 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h5>
+    </div>
+  </div>
+
+</div>
+
+</div> 
+    <!--
+    <div class="card-title"><h3>@Model.Title</h3></div>
+    
+    <div class="card-img"> 
       <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 50%; height:50%">
+
+      <div class="card-img-right">
       <div class="card-description"> <p class="card-text">@Model.Description this is the description</p>
       <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
         <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
       </a>
       <h5></h5>Likes: <h5 class="card-titl" id="like">@Model.Rating</h5>
       <h5 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h5>
+      </div>
+
+
+    <div> <h4> hello</h4></div>  
       </div> 
-    </div>
+      
+      
+    </div> 
+    
 
 
     <div class="white-space"><h3>.</h3></div>
@@ -57,9 +88,7 @@
         </small>
     </div>
 </div>
-
-</div>  
-
+--> 
 
 
 

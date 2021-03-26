@@ -388,6 +388,29 @@ body {
 /*-----------------End of 'Upload Page' CSS-----------------------------*/
 
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
+#DIV_0 {
+    width: 50%;
+    float: right;
+    
+  }
+  
+  #DIV_1 {
+    height: 50%;
+    background-color: red;
+  }
+  
+  #DIV_2 {
+    height: 50%;
+    background-color: blue;
+  }
+  
+  #DIV_3 {
+    float: left;
+    height: 100%;
+    width: 50%;
+    
+  }
+
 .top-score-column {
   float: left;
   width: 33.33%;
@@ -424,6 +447,7 @@ body {
 .top-score-card-display {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 16px;
+    height:100%; 
     text-align: center;
     background-color: white; 
     border-radius: 25px;
@@ -463,18 +487,44 @@ body {
 .card-img > .card-description{
     
     background-color: green; 
-    text-align: center;
+    text-align: bottom;
     width:50%; 
-    float:right; 
+    height:50%; 
+    float:top; 
+    float:right;  
+     
+}
+.card-img > .tester-{
+    
+    background-color: blue; 
+    text-align: bottom;
+    height:50%; 
+    float:bottom; 
+
      
 }
 
+.card-img-right{
+    height:100%; 
+
+}
 .card-img-top{
     border-style: solid;
     border-width: 1px;
     border-radius: 10px;
 
 }
+
+.card-img-top> .top-right{
+    background-color: blue;
+}
+
+.card-img-top> .bottom-right{
+    background-color: yellow;
+}
+
+
+
 
 /* Responsive columns */
 @media screen and (max-width: 600px) {
