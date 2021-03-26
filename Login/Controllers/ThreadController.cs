@@ -309,12 +309,16 @@ namespace Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddThread(int albumId, Thread model, IFormFile file)
         {
-            var userId = _userManager.GetUserId(User);  //gets the usersId
-            var user = await _userManager.FindByIdAsync(userId);    //gets the userName
-            var thread = _service.Create(model, user, albumId);  //creates the thread
-            var threadId = thread.Result.ID;    //gets the Threads id
-            await UploadThreadImage(file, threadId);    //uploads the threadImage
-            return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
+            if (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/giff")
+            {
+                var userId = _userManager.GetUserId(User);  //gets the usersId
+                var user = await _userManager.FindByIdAsync(userId);    //gets the userName
+                var thread = _service.Create(model, user, albumId);  //creates the thread
+                var threadId = thread.Result.ID;    //gets the Threads id
+                await UploadThreadImage(file, threadId);    //uploads the threadImage
+                return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
+            }
+            return NotFound();
         }
 
         //Uploads the Image to the Azure blob container
@@ -332,7 +336,7 @@ namespace Login.Controllers
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
             //grab the filename
             var filename = contentDisposition.FileName.Trim('"');
-            var uniqueFileName = filename + userName + date;
+            var uniqueFileName = userName + date + filename;
             //get a refrence to a block blob
             var blockBlob = container.GetBlockBlobReference(uniqueFileName);
             //On that block blob, Upload our file <-- file uploaded to the cloud
