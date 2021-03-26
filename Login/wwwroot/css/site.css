@@ -397,7 +397,7 @@ body {
     padding:1%;
     background-color: #e6e6e6;
     border-radius: 5%;
-    padding:0%;
+    padding:1%;
     text-align: bottom;    
   }
   
@@ -405,23 +405,21 @@ body {
     height: 75%;
     top:100; 
     padding:1%;
-    border-color:#020202;
-    border-style: solid;
-    border-width: 1px;
-    padding:1%;
-    border-radius: 5%;
+    
 
   }
   
   #DIV_2 {
     height: 25%;
     bottom:100%;
-    padding:1%;
     border-color:#020202;
     border-style: solid;
     border-width: 1px;
-    padding:1%;
     border-radius: 5%;
+
+    
+
+   
   }
   
   #DIV_3 {
@@ -429,7 +427,7 @@ body {
     height: 100%;
     width: 70%;
     padding:1%;  
-    background-color: blue;
+   
   }
 
 
