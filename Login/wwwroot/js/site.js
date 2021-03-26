@@ -13,39 +13,35 @@ $(document).ready(
 	});	
 	},
 	window.onload = function(){
-		//this orders the pictures on the homepage into columns
+
+		/*
+		this orders the pictures on the homepage into columns
+		we define the columns and a map to store their heights,
+		and initialise the shortest as the first column
+		*/
 		var pictures = document.getElementsByClassName("image-box");
 		const parent1 = document.getElementById("column-one");
 		const parent2 = document.getElementById('column-two');
 		const parent3 = document.getElementById('column-three');
 		const parent4 = document.getElementById('column-four');
-		//var h1,h2,h3,h3 = 0;
-		for (var i = 0; i < pictures.length; i++) {
-			//var short = min(h1,h2,h3,h4);
-			if (i%4==0){
-				parent1.appendChild(pictures[i]);
-				//h1+=pictures[i].clientHeight;
-			}
-			else if (i%4==1){
-				parent2.appendChild(pictures[i]);
-				//h2+=pictures[i].clientHeight;
-			}
-			else if (i%4==2){
-				parent3.appendChild(pictures[i]);
-				//h3+=pictures[i].clientHeight;
-			}
-			else if (i%4==3){
-				parent4.appendChild(pictures[i]);
-				//h4+=pictures[i].clientHeight;
-			}
-		}
+		let divheights = new Map();
+		divheights.set(0,[parent1,0])
+		divheights.set(1,[parent2,0])
+		divheights.set(2,[parent3,0])
+		divheights.set(3,[parent4,0])
+		var shortest = divheights.get(0);
 		
-		console.log(window.location.pathname);
-		//This section hides specific elements in the navbar if you're on the page it links to
-		/*if (window.location.pathname == ""){
-
-		}
-		*/
+		// loops over each image placing it in the shortest column
+		for (var i = 0; i < pictures.length; i++) {
+			shortest[0].appendChild(pictures[i]);
+			shortest[1]+=pictures[i].clientHeight;
+			for (var j = 0; j < divheights.size; j++){
+				if (shortest[1] > divheights.get(j)[1]){
+					shortest = divheights.get(j);
+					
+				}
+			}
+		}	
 	}
 
 );
