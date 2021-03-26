@@ -73,6 +73,10 @@ namespace Login.Service
                 })
                 .ToList();
         }
+        public IEnumerable<Album> GetAll()
+        {
+            return _context.Albums;
+        }
 
         public string GetAlbumImage(Album album)
         {

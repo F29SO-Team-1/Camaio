@@ -12,6 +12,7 @@ namespace Login.Models
         public LoginUser Creator { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public int ChannelRating { get; set; }
         public DateTime CreationDate { get; set; }
         public IEnumerable<LoginUser> ChannelMembers { get; set; }
         public IEnumerable<AlbumModel> Albums { get; set; }
