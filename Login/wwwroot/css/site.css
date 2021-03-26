@@ -389,25 +389,33 @@ body {
 
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
 #DIV_0 {
-    width: 50%;
+    width: 30%;
     float: right;
+    padding:1%;
+    background-color: #e6e6e6;
+    border-radius: 25px;
+    padding:1%; 
+    text-align: bottom;
     
   }
   
   #DIV_1 {
-    height: 50%;
-    background-color: red;
+    height: 75%;
+    top:100; 
+    
   }
   
   #DIV_2 {
-    height: 50%;
-    background-color: blue;
+    height: 25%;
+    bottom:100%;
+     
   }
   
   #DIV_3 {
     float: left;
     height: 100%;
-    width: 50%;
+    width: 70%;
+    padding:1%; 
   }
 
 .card-footer{
