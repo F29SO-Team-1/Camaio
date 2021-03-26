@@ -408,8 +408,15 @@ body {
     float: left;
     height: 100%;
     width: 50%;
-    
   }
+
+.card-footer{
+
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+}
 
 .top-score-column {
   float: left;

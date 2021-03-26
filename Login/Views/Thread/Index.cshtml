@@ -7,26 +7,38 @@
 
 <div class="top-score-card-display">
     <div class="card-title"><h3>@Model.Title</h3></div>
-<div class="row">
+<div class="row"> 
   <div id="DIV_3">
       <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="width: 100%; height:100%">
   </div>
 
-   <div id="DIV_0">
+   <div id="DIV_0">  
     <div id="DIV_1"> 
         <div class="card-descriptio"> <p class="card-text">@Model.Description this is the description</p> </div>
     </div>
 
     <div id="DIV_2">
-        <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
-        <h5 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h5>
-      </a>
+        
       <h5></h5>Likes: <h5 class="card-titl" id="like">@Model.Rating</h5>
-      <h5 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h5>
+      <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
+        <h5 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h5>
+        <h5 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h5>
+      </a>     
     </div>
-  </div>
+  </div> 
 
 </div>
+
+    <div class="card-footer"> 
+        <small class="text-muted">
+            <a asp-action="Report" asp-route-threadId="@Model.Id">Report</a>
+            @if (User.Identity.Name == Model.AuthorUserName || User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-threadId="@Model.Id">Edit</a>
+                <a asp-action="Delete" asp-route-threadId="@Model.Id">Delete</a>
+            }
+        </small>
+    </div>
 
 </div> 
     <!--
