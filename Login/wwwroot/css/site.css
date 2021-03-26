@@ -390,24 +390,28 @@ body {
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
 #DIV_0 {
     width: 30%;
+    height:100%; 
     float: right;
     padding:1%;
     background-color: #e6e6e6;
-    border-radius: 25px;
+    border-radius: 5%;
     padding:1%; 
     text-align: bottom;
+    background-color: red;
     
   }
   
   #DIV_1 {
     height: 75%;
     top:100; 
+    background-color: blue;
     
   }
   
   #DIV_2 {
     height: 25%;
     bottom:100%;
+    background-color: yellow;
      
   }
   
@@ -416,6 +420,7 @@ body {
     height: 100%;
     width: 70%;
     padding:1%; 
+    background-color: green;
   }
 
 .card-footer{
@@ -461,15 +466,15 @@ body {
   
 .top-score-card-display {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
+    padding: 2%; 
     height:100%; 
-    text-align: center;
     background-color: white; 
-    border-radius: 25px;
+    border-radius: 2.5%;
     border-color: grey;
     border-width: 1px; 
     border-style: solid;
     color: #020202;
+    text-align: center;
 }
 
 .card-rl{
@@ -497,6 +502,12 @@ body {
 .card-img{
     float:left;
     background-color: red; 
+}
+
+.card-image{
+    border-radius: 1%;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .card-img > .card-description{
