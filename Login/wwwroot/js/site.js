@@ -15,7 +15,7 @@ $(document).ready(
 	window.onload = function(){
 
 		/*
-		this orders the pictures on the homepage into columns
+		this orders the pictures on the homepage into roughly equal columns.
 		we define the columns and a map to store their heights,
 		and initialise the shortest as the first column
 		*/
