@@ -42,7 +42,6 @@ namespace Login.Controllers
                 UsersIncluded = false
             };
             var keywords = GetSearchKeywords(searchInput);
-            ViewData["check"] = keywords.ElementAtOrDefault(0);
             if (searchArea.Equals("All")||searchArea.Equals("Threads"))
             {
                 searchResult.ThreadsIncluded = true;
