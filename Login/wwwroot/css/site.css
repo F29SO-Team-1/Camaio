@@ -396,16 +396,10 @@ body {
   }
   
   #DIV_1 {
-    height: 68%; 
-    background-color: blu;
-  
+    height: 60%; 
+    background-color: blu;  
   }
 
-  #DIV_1 > .likes {
-     bottom:0;
-    
-  }
-  
   #DIV_2 {
     height: 12%; 
     border-top: #020202;
@@ -413,7 +407,6 @@ body {
     border-top-width: 1px;
     background-color: yello;
     text-align: center;
-    
   }
 
   #DIV_5 {
@@ -423,7 +416,6 @@ body {
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
-    
   }
 
   #DIV_5 > .buttons{
@@ -436,14 +428,16 @@ body {
     height: 100%;
     width: 69%; 
     background-color: gree;
-   
   }
 
   #DIV_4 {
     width: 1%;
-    background-color: purpl; 
+    background-color: purpe; 
   }
 
+  #DIV_6 {
+    background-color: orang; 
+  }
 
 .card-footer{
 
