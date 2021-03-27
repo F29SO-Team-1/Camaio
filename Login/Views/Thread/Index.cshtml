@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Login.Areas.Identity.Data
+@using Login.Areas.Identity.Data  
 @model Login.Models.Threadl.ThreadModel  
 @inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
@@ -18,7 +18,7 @@
    
     <div id="DIV_1"> 
         <div class="card-description"> <p class="card-text">@Model.Description </p> </div>
-        <h5></h5>Likes: <h5 class="card-titl" id="like">@Model.Rating</h5>
+        <div class="likes"><h5></h5>Likes: <h5 class="card-titl" id="like">@Model.Rating</h5> </div>
     </div>
 
     <div id="DIV_5">

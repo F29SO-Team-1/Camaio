@@ -398,6 +398,12 @@ body {
   #DIV_1 {
     height: 68%; 
     background-color: blu;
+  
+  }
+
+  #DIV_1 > .likes {
+     bottom:0;
+    
   }
   
   #DIV_2 {
