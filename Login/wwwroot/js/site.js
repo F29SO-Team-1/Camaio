@@ -5,7 +5,7 @@
 
 // Function to change the follow button to follow 
 $(document).ready(
-	console.log(window.location.pathname),
+	//console.log(window.location.pathname),
 	function click(){
 	$('.follow-button').on("click", function(){
 		$('.follow-button').css('background-color','green');
@@ -52,7 +52,6 @@ function alertMessage() {
 
 
 function drawDiv(div){
-	console.log(div)
 	var x = div;//document.getElementById(div);
 	if (x.style.display == "block") {
 	  x.style.display = "none";
