@@ -50,25 +50,20 @@
             <h5 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h5>
         </a>  
         </div>
-
-    <div id="DIV_6">
-        <div class="card-foote"> 
-            <small class="text-mute">
-                <a asp-action="Report" asp-route-threadId="@Model.Id">Report</a>
-                @if (User.Identity.Name == Model.AuthorUserName || User.IsInRole("Admin"))
-                {
-                    <a asp-action="Edit" asp-route-threadId="@Model.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-threadId="@Model.Id">Delete</a>
-                }
-            </small>
-        </div>
     </div>
-
-    </div>
-
-    
-
 </div> 
+
+    <br> 
+    <div class="card-footer"> 
+                <small class="text-muted">
+                    <a asp-action="Report" asp-route-threadId="@Model.Id">Report</a>
+                    @if (User.Identity.Name == Model.AuthorUserName || User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-threadId="@Model.Id">Edit</a>
+                        <a asp-action="Delete" asp-route-threadId="@Model.Id">Delete</a>
+                    }
+                </small>
+            </div>
 
 
     <!--
