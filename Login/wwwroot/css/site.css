@@ -390,40 +390,40 @@ body {
     border-style: solid;
     border-width: 1px;
     float: right;
-    padding:1%;
-    background-color: #e6e6e6;
-    border-radius: 5%;
-    padding:1%;
-    text-align: bottom;    
+    text-align: bottom;   
+    background-color: re;
+    border-radius: 1%; 
   }
   
   #DIV_1 {
-    height: 75%;
+    height: 70%;
     top:100; 
-    padding:1%;
+    background-color: blu;
     
 
   }
   
   #DIV_2 {
-    height: 25%;
+    height: 30%;
     bottom:100%;
-    border-color:#020202;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 5%;
-
     
-
-   
+    border-top: #020202;
+    border-top-style: solid;
+    border-top-width: 1px;
+    
   }
   
   #DIV_3 {
     float: left;
     height: 100%;
-    width: 70%;
-    padding:1%;  
+    width: 69%; 
+    background-color: gree;
    
+  }
+
+  #DIV_4 {
+    width: 1%;
+    background-color: purpl; 
   }
 
 
@@ -547,7 +547,7 @@ body {
 .card-img-top{
     border-style: solid;
     border-width: 1px;
-    border-radius: 10px;
+    border-radius: 1%;
 
 }
 
@@ -564,13 +564,14 @@ body {
 
 /* Responsive columns */
 @media screen and (max-width: 600px) {
-    .column {
+    .top-score-column {
       width: 100%;
       display: block;
       margin-bottom: 20px;
     }
   }
-  
+
+
 /*-----------------End of 'Top Posts' CSS-----------------------------*/
 
 
