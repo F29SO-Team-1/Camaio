@@ -19,29 +19,21 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <div class="dropdown dropleft">
-                        <!--  
-                        @try{
-                            @if (ViewData["Title"].Equals("Home Page"))
-                            {
-                                <button class="overflow-hidden btn mt-1 pt-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Search
-                                </button>
-                            }
-                        }
-                        catch(Exception){
-
-                        }
+                    <form class="dropdown dropleft"asp-area="" asp-controller="Search" asp-action="Index">
+                        <button class="overflow-hidden btn mt-1 pt-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Search
+                        </button>
                         <div class="dropdown-menu bg-success mr-2" aria-labelledby="dropdownMenuButton">
                             <div class="input-group btn-group d-flex flex-row">
                                 <div class="form-outline">
-                                    <input type="search" id="form1" class="form-control rounded p-2 mx-2" onkeyup="searchFunc();"/>
+                                    <input type="search" name="searchInput" placeholder="Search" id="form1" class="form-control rounded p-2 mx-2" onkeyup="searchFunc();"/>
                                 </div>
                             </div>
                         </div>
-
-                        -->
-                    </div>
+                        <input name="searchArea" value="All" type="hidden">
+                        <input name="searchOptions" value="Keywords" type="hidden">
+                        <input name="sortingOptions" value="Votes" type="hidden">
+                    </form>
 
                 </li>
                 <li class="nav-item">

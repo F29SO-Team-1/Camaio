@@ -18,6 +18,7 @@ namespace Login.Models
         public ICollection<Album> Albums { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
         public IEnumerable<Notification> Notifications { get; set; }
+        public IEnumerable<WaitingToJoin> PendingRequests { get; set; }
 
     }
 }

@@ -13,35 +13,37 @@
     <div class="col-md-3 col-sm-6 p-0 m-0" id="column-four">
     </div>
 </div>
-@foreach (var thread in Model.ThreadLists)
-{
-    //if there is no picture, dont display
-    @if (thread.Picture == null) continue;
-    <div class="image-box m-1 rel">
-        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-            <img class="image rounded" src="@thread.Picture" alt="Image"/>
-        </a>
-        <div class="overlay abs d-flex rounded overflow-hidden">
-            <span class="col mr-auto mt-2">
-                <p class="overlaytext">
-                    <a class="" >
-                        @thread.Title
-                    </a>
-                </p><br/>
-                <p class="overlaytext mt-1">
-                    <a class="" asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
-                        @thread.AuthorUserName
-                    </a>
-                </p>
-            </span>
-            <span class="col-2 mt-2">
-                <p class="overlaytext text-right">
-                    @thread.Rating
-                </p><br/>
-                <p class="overlaytext button mt-1">
-                    <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
-                </p>
-            </span>
+<div style="display:none;">
+    @foreach (var thread in Model.ThreadLists)
+    {
+        //if there is no picture, dont display
+        @if (thread.Picture == null) continue;
+        <div class="image-box m-1 rel">
+            <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                <img class="image rounded" src="@thread.Picture" alt="Image"/>
+            </a>
+            <div class="overlay abs d-flex rounded overflow-hidden">
+                <span class="col mr-auto mt-2">
+                    <p class="overlaytext">
+                        <a class="" >
+                            @thread.Title
+                        </a>
+                    </p><br/>
+                    <p class="overlaytext mt-1">
+                        <a class="" asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
+                            @thread.AuthorUserName
+                        </a>
+                    </p>
+                </span>
+                <span class="col-2 mt-2">
+                    <p class="overlaytext text-right">
+                        @thread.Rating
+                    </p><br/>
+                    <p class="overlaytext button mt-1">
+                        <button type="button" id="likeBtn" class="btn btn-primary">Like</button>
+                    </p>
+                </span>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>

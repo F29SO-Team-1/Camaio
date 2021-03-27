@@ -39,6 +39,7 @@ namespace Login
             services.AddDbContext<EventContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
             services.AddDbContext<TagContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
             services.AddDbContext<NotificationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
+            services.AddDbContext<WaitingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LoginContextConnection")));
 
             //other services
             services.AddControllersWithViews();
