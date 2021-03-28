@@ -33,7 +33,7 @@ namespace Login.Controllers
             _userService = userService;
             _albumService = albumService;
         }
-
+        [ValidateAntiForgeryToken]
         public IActionResult Index(string searchInput, string searchArea, string searchOptions, string sortingOptions)
         {
             var searchResult = new SearchModel {

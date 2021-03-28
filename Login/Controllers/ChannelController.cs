@@ -2,6 +2,7 @@
 using Login.Data;
 using Login.Models;
 using Login.Models.ChannelList;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,6 +24,7 @@ namespace Login.Controllers
             _albumService = albumService;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             var user = _userManager.GetUserAsync(User).Result;
@@ -74,6 +76,7 @@ namespace Login.Controllers
             };
             return View(channelModel);
         }
+        [Authorize]
         public IActionResult JoinChannel(string id)
         {
             var channel = _service.GetChannel(id).Result;
@@ -82,6 +85,7 @@ namespace Login.Controllers
             _service.AddMember(channel, user);
             return RedirectToAction("Main", "Channel", new { id = channel.Title });
         }
+        [Authorize]
         public IActionResult RequestToJoin(string id)
         {
             var channel = _service.GetChannel(id).Result;
@@ -89,6 +93,7 @@ namespace Login.Controllers
             var userId = _userManager.GetUserId(User);
             return RedirectToAction("Main", "Channel", new { id = channel.Title });
         }
+        [Authorize]
         public IActionResult LeaveChannel(string id)
         {
             var channel = _service.GetChannel(id).Result;
@@ -98,7 +103,7 @@ namespace Login.Controllers
             _service.RemoveMember(channelMember);
             return RedirectToAction("Main", "Channel", new { id = channel.Title });
         }
-
+        [Authorize]
         public IActionResult Delete(string id)
         {   var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
@@ -109,6 +114,7 @@ namespace Login.Controllers
             }
             return NotFound();
         }
+        [Authorize]
         public async Task<IActionResult> ConfirmDelete(string id)
         {   var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
@@ -120,6 +126,7 @@ namespace Login.Controllers
             }
             return NotFound();
         }
+        [Authorize]
         public IActionResult RemoveMember(string id, string userName)
         {
             var channel = _service.GetChannel(id).Result;
@@ -136,7 +143,7 @@ namespace Login.Controllers
             }
             return NotFound();
         }
-
+        [Authorize]
         public IActionResult ConfirmRemove(string id, string userName)
         {   
             var channel = _service.GetChannel(id).Result;
@@ -154,12 +161,13 @@ namespace Login.Controllers
             }
             return NotFound();
         }
-
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["Exists"] = false;
             return View();
         }
+        [Authorize]
         public IActionResult Manage(string id)
         {
             if (id == null)
@@ -184,6 +192,7 @@ namespace Login.Controllers
             }
             return NotFound();
         }
+        [Authorize]
         public IActionResult CreateAlbum(string id)
         {
             if (id == null)
@@ -201,7 +210,8 @@ namespace Login.Controllers
             }
             return NotFound();
         }
-
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult NewAlbum(string id, string Title, bool NotVisible, bool NoPosting)
         {
             if (id == null)
@@ -229,7 +239,8 @@ namespace Login.Controllers
             }
             return NotFound();
         }
-
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult UpdateChannel(string id, string description, string tags)
         {   
             var channel = _service.GetChannel(id).Result;
@@ -243,7 +254,8 @@ namespace Login.Controllers
             }
             return NotFound();
         }
-
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateChannel(string title, string description, bool isPrivate, string tags)
         {
             var channel = _service.GetChannel(title).Result;

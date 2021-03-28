@@ -3,6 +3,7 @@ using Login.Data;
 using Login.Models;
 using Login.Models.Album1;
 using Login.Models.Threadl;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace Login.Controllers
 
             return View(model);
         }
-
+        [Authorize]
         public IActionResult Delete(int albumId)
         {
             var album = _service.GetAlbum(albumId);
@@ -77,7 +78,7 @@ namespace Login.Controllers
             if (channel.CreatorId != _userManager.GetUserId(User)) return NotFound();
             return View(album);
         }
-
+        [Authorize]
         public IActionResult DeleteAlbum(int albumId)
         {
             var album = _service.GetAlbum(albumId);
