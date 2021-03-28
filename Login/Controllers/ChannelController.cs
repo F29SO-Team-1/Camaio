@@ -23,7 +23,7 @@ namespace Login.Controllers
             _service = service;
             _albumService = albumService;
         }
-
+        //User channel list
         [Authorize]
         public IActionResult Index()
         {
@@ -31,7 +31,7 @@ namespace Login.Controllers
             var userChannels = new ChannelList { Channels = _service.GetChannels(user) };
             return View(userChannels);
         }
-
+        //Channel main page
         public IActionResult Main(string id)
         {
             if (id == null)
@@ -46,7 +46,7 @@ namespace Login.Controllers
             ViewData["public"] = _service.CheckIfPublic(channel);
             ViewData["owner"] = false;
             var user = _userManager.GetUserAsync(User).Result;
-            var channelMember = _service.GetChannelMember(user, channel).Result;
+            var channelMember = _service.GetChannelMember(user, channel).Result; //Check if the user is a channel member
             if (channelMember == null)
             {
                 ViewData["member"] = false;
@@ -59,10 +59,10 @@ namespace Login.Controllers
             {
                 ViewData["owner"] = true;
             }
-            var albums = _albumService.GetAlbumModels(channel);
-            var members = _service.GetChannelMembers(channel);
-            var creator = _userManager.FindByIdAsync(channel.CreatorId).Result;
-            var tags = _service.GetChannelTags(channel);
+            var albums = _albumService.GetAlbumModels(channel); //List of all channel albums
+            var members = _service.GetChannelMembers(channel); //List of all channel members
+            var creator = _userManager.FindByIdAsync(channel.CreatorId).Result; //Channel creator
+            var tags = _service.GetChannelTags(channel); //List of all channel tags
             var channelModel = new ChannelModel
             {
                 Id = channel.Id,
@@ -103,6 +103,7 @@ namespace Login.Controllers
             _service.RemoveMember(channelMember);
             return RedirectToAction("Main", "Channel", new { id = channel.Title });
         }
+        //Delete the channel
         [Authorize]
         public IActionResult Delete(string id)
         {   var channel = _service.GetChannel(id).Result;
@@ -126,6 +127,7 @@ namespace Login.Controllers
             }
             return RedirectToAction("NoAccess", "Home");
         }
+        //Kick a channel member
         [Authorize]
         public IActionResult RemoveMember(string id, string userName)
         {
@@ -134,7 +136,7 @@ namespace Login.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod")) 
             {
-                if (user.UserName != userName) 
+                if (channel.CreatorId != _service.GetByUserName(userName).Id)
                 {
                     var userToRemove = _service.GetByUserName(userName);
                     ViewData["Title"] = channel.Title;
@@ -154,13 +156,14 @@ namespace Login.Controllers
                 if (user.UserName != userName)
                 {
                     var userToRemove = _service.GetByUserName(userName);
-                    var channelMember = _service.GetChannelMember(userToRemove, channel).Result;
+                    var channelMember = _service.GetChannelMember(userToRemove, channel).Result; //Get the joint table between users and channels
                     _service.RemoveMember(channelMember);
                 }
                 return RedirectToAction("Main", "Channel", new { id = channel.Title });
             }
             return RedirectToAction("NoAccess", "Home");
         }
+        //Create a channel
         [Authorize]
         public IActionResult Create()
         {
@@ -181,13 +184,13 @@ namespace Login.Controllers
             {
                 var tags = _service.GetChannelTags(channel);
                 var tagline = "";
-                foreach (var tag in tags)
+                foreach (var tag in tags) //creates a line of tags separated by comas
                 {
                     tagline+=",";
                     tagline+=tag.Name;
                 }
                 if (tagline.Length!=0) tagline = tagline.Substring(1);
-                ViewData["Tags"] = tagline;
+                ViewData["Tags"] = tagline; //Used to display it
                 return View(channel);
             }
             return RedirectToAction("NoAccess", "Home");
@@ -223,7 +226,7 @@ namespace Login.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             if (user.Id == channel.CreatorId)
             {
-                var album = _albumService.GetAlbum(channel, Title);
+                var album = _albumService.GetAlbum(channel, Title); //Check if an album with this title already exists in this channel
                 if (album == null)
                 {
                     var albumId = _albumService.CreateNewAlbum(channel, Title, NotVisible, NoPosting);
@@ -232,7 +235,7 @@ namespace Login.Controllers
                 else
                 {
                     ViewData["channel"] = channel.Title;
-                    ViewData["Exists"] = true;
+                    ViewData["Exists"] = true;  //Displays a message that an album with this title already exists
                     return View("CreateAlbum");
                 }
 
@@ -271,7 +274,7 @@ namespace Login.Controllers
                     CreationDate = DateTime.Now
                 };
                 _service.CreateChannel(channel);
-                _service.AddMember(channel, user);
+                _service.AddMember(channel, user); //Adds the creator as a channel member
                 _service.ChangeTags(channel, tags);
                 return RedirectToAction("Main", "Channel", new { id = channel.Title} );
 

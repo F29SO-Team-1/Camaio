@@ -17,7 +17,7 @@ namespace Login.Service
             _context = context;
             _tagContext = tagContext;
         }
-
+        //Returns the list of user's channels
         public List<Channel> GetChannels(LoginUser user)
         {
             return _context.ChannelMember
@@ -25,20 +25,21 @@ namespace Login.Service
                 .Select(cm => cm.Channel)
                 .ToList();
         }
-
+        //Get a channel by its title
         public Task<Channel> GetChannel(string title)
         {
             var channel = _context.Channels
                 .FirstOrDefaultAsync(table => table.Title == title);
             return channel;
         }
+        //Get a channel by id
         public Task<Channel> GetChannel(int id)
         {
             var channel = _context.Channels
                 .FirstOrDefaultAsync(table => table.Id == id);
             return channel;
         }
-
+        //Returns a joint table that has both the user and channel. Returns null if user is not the channel member
         public async Task<ChannelMember> GetChannelMember(LoginUser user, Channel channel)
         {
             var channelMember = await _context.ChannelMember
@@ -70,7 +71,7 @@ namespace Login.Service
             _context.Channels.Remove(channel);
             await _context.SaveChangesAsync();
         }
-
+        //Returns the list of all channel members
         public IEnumerable<LoginUser> GetChannelMembers(Channel channel)
         {
             var channelMembers = _context.ChannelMember
@@ -80,6 +81,7 @@ namespace Login.Service
                 .ToList();
             return channelMembers;
         }
+        //Returns the list of all tags
         public IEnumerable<Tag> GetChannelTags(Channel channel)
         {
             return _tagContext.Tags
@@ -93,36 +95,37 @@ namespace Login.Service
             _context.AddRange(GetTagList(channel, tags));
             _context.SaveChanges();
         }
+        //Separates the tags into a list
         private List<Tag> GetTagList(Channel channel, string tags)
         {
             List<Tag> tagList = new List<Tag>();
             string tag = "";
-            if (tags==null) return tagList;
-            while (tags.Length!=0)
+            if (tags==null) return tagList; //If input is null, then return an empty list
+            while (tags.Length!=0) //Loops through the entire input
             {
-                if (tags.ElementAt(0).Equals((char)32) || tags.ElementAt(0).Equals((char)44))
+                if (tags.ElementAt(0).Equals((char)32) || tags.ElementAt(0).Equals((char)44)) //ASCII for whitespace and coma
                 {
-                    if(tag.Length>1)
+                    if(tag.Length>1) 
                     {
-                        tagList.Add( new Tag {
+                        tagList.Add( new Tag {  //Adds a tag to the list if it is 2 or more characters long
                             Name = tag,
                             Channel = channel
                         });
                     }
-                    tag = "";
-                    tags = tags.Substring(1);
+                    tag = ""; //reset the current tag
+                    tags = tags.Substring(1); //remove the first input character
                 } 
                 else
                 {
-                    tag+=(tags.ElementAt(0));
+                    tag+=(tags.ElementAt(0)); //adds a character to the current keyword if it is not whitespace or coma
                     if (tags.Length==1 && tag.Length>1)
                     {
-                        tagList.Add( new Tag {
+                        tagList.Add( new Tag { //Adds a tag to the list if it is 2 or more characters long
                             Name = tag,
                             Channel = channel
                         });
                     }
-                    tags = tags.Substring(1);
+                    tags = tags.Substring(1); //remove the first input character
                 }
             }
             return tagList;
@@ -139,6 +142,7 @@ namespace Login.Service
             _context.Add(channel);
             _context.SaveChanges();
         }
+        //Returns true if the channel is public. False otherwise
         public bool CheckIfPublic(Channel channel)
         {
             var isPublic = _context.Channels
@@ -147,11 +151,12 @@ namespace Login.Service
                     .FirstOrDefault();
             return isPublic;
         }
+        //Returns the list of all tags
         public IEnumerable<Tag> GetAllTags()
         {
             return _tagContext.Tags;
         }
-
+        //Returns the list of all channels
         public IEnumerable<Channel> GetAll()
         {
             return _context.Channels;
