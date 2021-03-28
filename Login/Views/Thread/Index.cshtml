@@ -20,6 +20,9 @@
             <h6 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h6>
         </a>
         <h6 class="card-subtitle mb-2 text-muted">Created On:@Model.Created</h6>
+        <a asp-action="Index" asp-controller="Map" asp-route-threadId="@Model.Id">
+            <h6 class="card-subtitle mb-2 text-muted">Location</h6>
+        </a>
     </div>
         
     <div class="card-rl">

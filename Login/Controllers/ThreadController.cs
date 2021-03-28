@@ -1,3 +1,4 @@
+using ExifLib;
 using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Data.Interfaces;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -311,6 +313,7 @@ namespace Login.Controllers
         {
             if (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/giff")
             {
+                cords(file);
                 var userId = _userManager.GetUserId(User);  //gets the usersId
                 var user = await _userManager.FindByIdAsync(userId);    //gets the userName
                 var thread = _service.Create(model, user, albumId);  //creates the thread
@@ -345,6 +348,33 @@ namespace Login.Controllers
             await _service.UploadPicture(thread.ID, blockBlob.Uri);
 
             return RedirectToAction("Index", "Profile");
+        }
+
+        private void cords(IFormFile file)
+        {
+            using var reader = new ExifReader(file.OpenReadStream());
+            reader.GetTagValue(ExifTags.GPSLatitude, out double[] lat);
+            reader.GetTagValue(ExifTags.GPSLongitude, out double[] lng);
+            Console.WriteLine(lat + " " + lng);
+            Console.WriteLine("OTHER");
+            var latT = GetCoordinate(reader, ExifTags.GPSLatitude);
+            var lngT = GetCoordinate(reader, ExifTags.GPSLongitude);
+            Console.WriteLine(latT + " " + lngT);
+        }
+
+        private double? GetCoordinate(ExifReader reader, ExifTags type)
+        {
+            if (reader.GetTagValue(type, out double[] coordinates))
+            {
+                return ToDoubleCoordinates(coordinates);
+            }
+
+            return null;
+        }
+
+        private double ToDoubleCoordinates(double[] coordinates)
+        {
+            return coordinates[0] + coordinates[1] / 60f + coordinates[2] / 3600f;
         }
 
         //functions for displaying the Delete thread page
