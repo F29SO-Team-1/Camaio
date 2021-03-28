@@ -1,6 +1,8 @@
-﻿using Login.Areas.Identity.Data;
+﻿using ExifLib;
+using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -226,6 +228,34 @@ namespace Login.Service
             Thread t = GetById(threadId);
             t.Flagged = true;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task AssignCords(IFormFile file, int threadId)
+        {
+            using var reader = new ExifReader(file.OpenReadStream());
+            var lat = GetCoordinate(reader, ExifTags.GPSLatitude);
+            var lng = GetCoordinate(reader, ExifTags.GPSLongitude);
+
+            Thread thread = GetById(threadId);
+            thread.Lat = lat;
+            thread.Lng = lng;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public double? GetCoordinate(ExifReader reader, ExifTags type)
+        {
+            if (reader.GetTagValue(type, out double[] coordinates))
+            {
+                return ToDoubleCoordinates(coordinates);
+            }
+
+            return null;
+        }
+
+        public double ToDoubleCoordinates(double[] coordinates)
+        {
+            return coordinates[0] + coordinates[1] / 60f + coordinates[2] / 3600f;
         }
 
     }

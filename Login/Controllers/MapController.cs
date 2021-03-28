@@ -22,7 +22,6 @@ namespace Login.Controllers
             var thread = _threadService.GetById(threadId);
 
             var model = new MapModel {  };
-
             return View(model);
         }
 

@@ -313,12 +313,13 @@ namespace Login.Controllers
         {
             if (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/giff")
             {
-                cords(file);
                 var userId = _userManager.GetUserId(User);  //gets the usersId
                 var user = await _userManager.FindByIdAsync(userId);    //gets the userName
                 var thread = _service.Create(model, user, albumId);  //creates the thread
                 var threadId = thread.Result.ID;    //gets the Threads id
+                await _service.AssignCords(file, threadId);    //assignes the cords from the picture
                 await UploadThreadImage(file, threadId);    //uploads the threadImage
+
                 return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
             }
             return NotFound();
@@ -326,7 +327,7 @@ namespace Login.Controllers
 
         //Uploads the Image to the Azure blob container
         [HttpPost]
-        public async Task<IActionResult> UploadThreadImage(IFormFile file, int id)
+        public async Task UploadThreadImage(IFormFile file, int id)
         {
             var thread = _service.GetById(id);
             var userName = thread.UserName;
@@ -346,36 +347,8 @@ namespace Login.Controllers
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
             //set the thread image to the URI
             await _service.UploadPicture(thread.ID, blockBlob.Uri);
-
-            return RedirectToAction("Index", "Profile");
         }
 
-        private void cords(IFormFile file)
-        {
-            using var reader = new ExifReader(file.OpenReadStream());
-            reader.GetTagValue(ExifTags.GPSLatitude, out double[] lat);
-            reader.GetTagValue(ExifTags.GPSLongitude, out double[] lng);
-            Console.WriteLine(lat + " " + lng);
-            Console.WriteLine("OTHER");
-            var latT = GetCoordinate(reader, ExifTags.GPSLatitude);
-            var lngT = GetCoordinate(reader, ExifTags.GPSLongitude);
-            Console.WriteLine(latT + " " + lngT);
-        }
-
-        private double? GetCoordinate(ExifReader reader, ExifTags type)
-        {
-            if (reader.GetTagValue(type, out double[] coordinates))
-            {
-                return ToDoubleCoordinates(coordinates);
-            }
-
-            return null;
-        }
-
-        private double ToDoubleCoordinates(double[] coordinates)
-        {
-            return coordinates[0] + coordinates[1] / 60f + coordinates[2] / 3600f;
-        }
 
         //functions for displaying the Delete thread page
         public IActionResult Delete(int? threadId)
