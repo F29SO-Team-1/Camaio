@@ -103,7 +103,7 @@ namespace Login.Controllers
         {   var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId) 
+            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod")) 
             {
                 return View(channel);
             }
@@ -113,7 +113,7 @@ namespace Login.Controllers
         {   var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId)
+            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod"))
             {
                 await _service.DeleteChannel(channel);
                 return RedirectToAction("Index", "Home");
@@ -125,7 +125,7 @@ namespace Login.Controllers
             var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId) 
+            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod")) 
             {
                 if (user.UserName != userName) 
                 {
@@ -142,7 +142,7 @@ namespace Login.Controllers
             var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId)
+            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod"))
             {
                 if (user.UserName != userName)
                 {
@@ -169,7 +169,7 @@ namespace Login.Controllers
             var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId)
+            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod"))
             {
                 var tags = _service.GetChannelTags(channel);
                 var tagline = "";
@@ -235,7 +235,7 @@ namespace Login.Controllers
             var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId)
+            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod"))
             {
                 _service.UpdateChannel(channel, description);
                 _service.ChangeTags(channel, tags);
@@ -255,7 +255,7 @@ namespace Login.Controllers
                     Creator = user,
                     Title = title,
                     Description = description,
-                    Public = !isPrivate,
+                    Public = true,
                     CreationDate = DateTime.Now
                 };
                 _service.CreateChannel(channel);
