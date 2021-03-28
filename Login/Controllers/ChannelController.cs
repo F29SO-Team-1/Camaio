@@ -175,9 +175,10 @@ namespace Login.Controllers
                 var tagline = "";
                 foreach (var tag in tags)
                 {
-                    tagline+=tag.Name;
                     tagline+=",";
+                    tagline+=tag.Name;
                 }
+                if (tagline.Length!=0) tagline = tagline.Substring(1);
                 ViewData["Tags"] = tagline;
                 return View(channel);
             }

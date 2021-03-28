@@ -16,6 +16,16 @@
 
    <div id="DIV_0">  
        <div class="card-title"><h3>@Model.Title</h3></div>
+       @foreach (var tag in Model.Tags)
+            {
+                    <th> 
+                        <a class="channelItem" asp-area="" asp-controller="Search" asp-action="Index">@tag.Name</a>
+                        <input type="hidden" name="searchInput" value=@tag.Name/>
+                        <input type="hidden" name="searchArea" value="Threads"/>
+                        <input type="hidden" name="searchOptions" value="Tags"/>
+                        <input type="hidden" name="sortingOptions" value="Votes"/>
+                    </th>
+            }
    
         <div id="DIV_1"> 
             <div class="card-description"> <p class="card-text">@Model.Description </p> </div>

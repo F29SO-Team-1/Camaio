@@ -53,6 +53,8 @@ namespace Login.Data
         //flags the thread
         Task FlagThread(int? threadId);
         string GetChannelCreator(Thread thread);
+        void ChangeTags(Thread thread, string tags);
+        IEnumerable<Tag> GetThreadTags(Thread thread);
 
 
 

@@ -13,9 +13,11 @@ namespace Login.Service
     {
 
         private readonly ThreadContext _context;
-        public ThreadService(ThreadContext context)
+        private readonly TagContext _tagContext;
+        public ThreadService(ThreadContext context, TagContext tagContext)
         {
             _context = context;
+            _tagContext = tagContext;
         }
 
         public async Task<Thread> Create(Thread model, LoginUser user, int albumId)
@@ -226,6 +228,53 @@ namespace Login.Service
             Thread t = GetById(threadId);
             t.Flagged = true;
             await _context.SaveChangesAsync();
+        }
+        public IEnumerable<Tag> GetThreadTags(Thread thread)
+        {
+            return _tagContext.Tags
+                .Where(tag => tag.ThreadId == thread.ID)
+                .Distinct()
+                .ToList();
+        }
+        public void ChangeTags(Thread thread, string tags)
+        {
+            _context.RemoveRange(_tagContext.Tags.Where(tag => tag.ThreadId == thread.ID && tag.ThreadId != 0).Distinct().ToList());
+            _context.AddRange(GetTagList(thread, tags));
+            _context.SaveChanges();
+        }
+        private List<Tag> GetTagList(Thread thread, string tags)
+        {
+            List<Tag> tagList = new List<Tag>();
+            string tag = "";
+            if (tags==null) return tagList;
+            while (tags.Length!=0)
+            {
+                if (tags.ElementAt(0).Equals((char)32) || tags.ElementAt(0).Equals((char)44))
+                {
+                    if(tag.Length>1)
+                    {
+                        tagList.Add( new Tag {
+                            Name = tag,
+                            Thread = thread
+                        });
+                    }
+                    tag = "";
+                    tags = tags.Substring(1);
+                } 
+                else
+                {
+                    tag+=(tags.ElementAt(0));
+                    if (tags.Length==1 && tag.Length>1)
+                    {
+                        tagList.Add( new Tag {
+                            Name = tag,
+                            Thread = thread
+                        });
+                    }
+                    tags = tags.Substring(1);
+                }
+            }
+            return tagList;
         }
 
     }

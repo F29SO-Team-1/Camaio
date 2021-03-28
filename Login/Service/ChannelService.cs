@@ -89,7 +89,7 @@ namespace Login.Service
         }
         public void ChangeTags(Channel channel, string tags)
         {
-            _context.RemoveRange(_tagContext.Tags.Where(tag => tag.ChannelId == channel.Id).Distinct().ToList());
+            _context.RemoveRange(_tagContext.Tags.Where(tag => tag.ChannelId == channel.Id && tag.ChannelId != 0).Distinct().ToList());
             _context.AddRange(GetTagList(channel, tags));
             _context.SaveChanges();
         }
@@ -100,7 +100,7 @@ namespace Login.Service
             if (tags==null) return tagList;
             while (tags.Length!=0)
             {
-                if (tags.ElementAt(0).Equals((char)44))
+                if (tags.ElementAt(0).Equals((char)32) || tags.ElementAt(0).Equals((char)44))
                 {
                     if(tag.Length>1)
                     {
@@ -146,6 +146,10 @@ namespace Login.Service
                     .Select(table => table.Public)
                     .FirstOrDefault();
             return isPublic;
+        }
+        public IEnumerable<Tag> GetAllTags()
+        {
+            return _tagContext.Tags;
         }
 
         public IEnumerable<Channel> GetAll()

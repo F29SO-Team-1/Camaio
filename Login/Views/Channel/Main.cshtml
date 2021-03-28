@@ -8,7 +8,7 @@
      @foreach (var tag in Model.Tags)
             {
                     <th> 
-                        <a class="channelItem" id="Title" asp-area="" asp-controller="Search" asp-action="Index">@tag.Name</a>
+                        <a class="channelItem" asp-area="" asp-controller="Search" asp-action="Index">@tag.Name</a>
                         <input type="hidden" name="searchInput" value=@tag.Name/>
                         <input type="hidden" name="searchArea" value="Channels"/>
                         <input type="hidden" name="searchOptions" value="Tags"/>

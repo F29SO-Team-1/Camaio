@@ -19,6 +19,10 @@
                 <span asp-validation-for="Description"></span>
                 <input asp-for="Description" class="form-control" maxlength="256"/>
             </div>
+            <div>
+                <label class="control-label">Thread tags</label>
+                <input type="tags" name="tags" placeholder="Separate tags with comas"/>
+            </div>
             <div class="form-group">
                 <label asp-for="Picture">Picture: </label>
                 <span asp-validation-for="Picture"></span>

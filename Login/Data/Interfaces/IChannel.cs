@@ -19,6 +19,7 @@ namespace Login.Data
         Task UpdateChannel(Channel channel, string description);
         void CreateChannel(Channel channel);
         bool CheckIfPublic(Channel channel);
+        IEnumerable<Tag> GetAllTags();
         void ChangeTags(Channel channel, string tags);
         IEnumerable<Channel> GetAll();
         LoginUser GetByUserName(string username);

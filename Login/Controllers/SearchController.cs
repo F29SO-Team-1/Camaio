@@ -105,7 +105,15 @@ namespace Login.Controllers
             }
             else if (searchOptions.Equals("Tags"))
             {
-                return null;
+                var tags = _channelService.GetAllTags();
+                foreach (var keyword in keywords)
+                {
+                    var oneStepLookup = tags
+                        .Where(tag => StringContains(tag.Name, keyword))
+                        .Where(tag => tag.ThreadId!=0);
+                    if (oneStepLookup.FirstOrDefault()!=null) tags = oneStepLookup;
+                }
+                if(tags.Select(tag => tag.Thread).FirstOrDefault()!=null) threads = tags.Select(tag => tag.Thread).Distinct();
             }
             if (sortingOptions.Equals("Votes"))
             {
@@ -136,7 +144,15 @@ namespace Login.Controllers
             }
             else if (searchOptions.Equals("Tags"))
             {
-                return null;
+                var tags = _channelService.GetAllTags();
+                foreach (var keyword in keywords)
+                {
+                    var oneStepLookup = tags
+                        .Where(tag => StringContains(tag.Name, keyword))
+                        .Where(tag => tag.ChannelId!=0);
+                    if (oneStepLookup.FirstOrDefault()!=null) tags = oneStepLookup;
+                }
+                if(tags.Select(tag => tag.Channel).FirstOrDefault()!=null) channels = tags.Select(tag => tag.Channel).Distinct();
             }
             if (sortingOptions.Equals("Votes"))
             {
@@ -164,17 +180,10 @@ namespace Login.Controllers
         private IEnumerable<ProfileModel> GetUsers(IEnumerable<string> keywords, string searchOptions, string sortingOptions)
         {
             var users = _userService.GetAll();
-            if (searchOptions.Equals("Keywords"))
+            foreach (var keyword in keywords)
             {
-                foreach (var keyword in keywords)
-                {
-                    var oneStepLookup = users.Where(user => StringContains(user.UserName, keyword));
-                    if (oneStepLookup.FirstOrDefault()!=null) users = oneStepLookup;
-                }
-            }
-            else if (searchOptions.Equals("Tags"))
-            {
-                return null;
+                var oneStepLookup = users.Where(user => StringContains(user.UserName, keyword));
+                if (oneStepLookup.FirstOrDefault()!=null) users = oneStepLookup;
             }
             if (sortingOptions.Equals("Votes"))
             {
