@@ -16,6 +16,7 @@ namespace Login.Models
         public DateTime CreationDate { get; set; }
         public IEnumerable<LoginUser> ChannelMembers { get; set; }
         public IEnumerable<AlbumModel> Albums { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
 
     }
 }

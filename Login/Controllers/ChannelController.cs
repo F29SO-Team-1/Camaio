@@ -60,6 +60,7 @@ namespace Login.Controllers
             var albums = _albumService.GetAlbumModels(channel);
             var members = _service.GetChannelMembers(channel);
             var creator = _userManager.FindByIdAsync(channel.CreatorId).Result;
+            var tags = _service.GetChannelTags(channel);
             var channelModel = new ChannelModel
             {
                 Id = channel.Id,
@@ -68,7 +69,8 @@ namespace Login.Controllers
                 Creator = creator,
                 CreationDate = channel.CreationDate,
                 Albums = albums,
-                ChannelMembers = members
+                ChannelMembers = members,
+                Tags = tags
             };
             return View(channelModel);
         }
@@ -169,6 +171,14 @@ namespace Login.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             if (user.Id == channel.CreatorId)
             {
+                var tags = _service.GetChannelTags(channel);
+                var tagline = "";
+                foreach (var tag in tags)
+                {
+                    tagline+=tag.Name;
+                    tagline+=",";
+                }
+                ViewData["Tags"] = tagline;
                 return View(channel);
             }
             return NotFound();
@@ -219,7 +229,7 @@ namespace Login.Controllers
             return NotFound();
         }
 
-        public IActionResult UpdateChannel(string id, string description)
+        public IActionResult UpdateChannel(string id, string description, string tags)
         {   
             var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
@@ -227,12 +237,13 @@ namespace Login.Controllers
             if (user.Id == channel.CreatorId)
             {
                 _service.UpdateChannel(channel, description);
+                _service.ChangeTags(channel, tags);
                 return RedirectToAction("Main", "Channel", new { id = channel.Title });
             }
             return NotFound();
         }
 
-        public IActionResult CreateChannel(string title, string description, bool isPrivate)
+        public IActionResult CreateChannel(string title, string description, bool isPrivate, string tags)
         {
             var channel = _service.GetChannel(title).Result;
             var user = _userManager.GetUserAsync(User).Result;
@@ -248,6 +259,7 @@ namespace Login.Controllers
                 };
                 _service.CreateChannel(channel);
                 _service.AddMember(channel, user);
+                _service.ChangeTags(channel, tags);
                 return RedirectToAction("Main", "Channel", new { id = channel.Title} );
 
             }

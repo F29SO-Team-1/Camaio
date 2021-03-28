@@ -17,8 +17,12 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <div>
+                <label class="control-label">Channel tags</label>
+                <input type="tags" name="tags" placeholder="Separate tags with comas" value=@ViewData["Tags"] />
+            </div>
             <div class="form-group">
-                <input type="submit" value="Update Description" class="createButton" />
+                <input type="submit" value="Update" class="createButton" />
                 <br>
                 <input onclick="alertMessage()" type="submit"  value="Delete Channel" class="createButton" asp-area="" asp-controller="Channel" asp-action="Delete" asp-route-id=@Model.Title>
             </div>

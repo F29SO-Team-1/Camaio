@@ -15,9 +15,11 @@ namespace Login.Data
         void RemoveMember(ChannelMember channelMember);
         Task DeleteChannel(Channel channel);
         IEnumerable<LoginUser> GetChannelMembers(Channel channel);
+        IEnumerable<Tag> GetChannelTags(Channel channel);
         Task UpdateChannel(Channel channel, string description);
         void CreateChannel(Channel channel);
         bool CheckIfPublic(Channel channel);
+        void ChangeTags(Channel channel, string tags);
         IEnumerable<Channel> GetAll();
         LoginUser GetByUserName(string username);
     }

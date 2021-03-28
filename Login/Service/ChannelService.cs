@@ -11,9 +11,11 @@ namespace Login.Service
     public class ChannelService : IChannel
     {
         private readonly ChannelContext _context;
-        public ChannelService(ChannelContext context)
+        private readonly TagContext _tagContext;
+        public ChannelService(ChannelContext context, TagContext tagContext)
         {
             _context = context;
+            _tagContext = tagContext;
         }
 
         public List<Channel> GetChannels(LoginUser user)
@@ -77,6 +79,53 @@ namespace Login.Service
                 .Distinct()
                 .ToList();
             return channelMembers;
+        }
+        public IEnumerable<Tag> GetChannelTags(Channel channel)
+        {
+            return _tagContext.Tags
+                .Where(tag => tag.ChannelId == channel.Id)
+                .Distinct()
+                .ToList();
+        }
+        public void ChangeTags(Channel channel, string tags)
+        {
+            _context.RemoveRange(_tagContext.Tags.Where(tag => tag.ChannelId == channel.Id).Distinct().ToList());
+            _context.AddRange(GetTagList(channel, tags));
+            _context.SaveChanges();
+        }
+        private List<Tag> GetTagList(Channel channel, string tags)
+        {
+            List<Tag> tagList = new List<Tag>();
+            string tag = "";
+            if (tags==null) return tagList;
+            while (tags.Length!=0)
+            {
+                if (tags.ElementAt(0).Equals((char)44))
+                {
+                    if(tag.Length>1)
+                    {
+                        tagList.Add( new Tag {
+                            Name = tag,
+                            Channel = channel
+                        });
+                    }
+                    tag = "";
+                    tags = tags.Substring(1);
+                } 
+                else
+                {
+                    tag+=(tags.ElementAt(0));
+                    if (tags.Length==1 && tag.Length>1)
+                    {
+                        tagList.Add( new Tag {
+                            Name = tag,
+                            Channel = channel
+                        });
+                    }
+                    tags = tags.Substring(1);
+                }
+            }
+            return tagList;
         }
 
         public async Task UpdateChannel(Channel channel, string description)

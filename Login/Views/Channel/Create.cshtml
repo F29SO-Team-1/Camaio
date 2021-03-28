@@ -27,6 +27,10 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <div>
+                <label class="control-label">Channel tags</label>
+                <input type="tags" name="tags" placeholder="Separate tags with comas"/>
+            </div>
             <div class="form-group">
                 <label>Private</label>
                 <input data-val="true" 

@@ -16,7 +16,6 @@ namespace Login.Models
         public DateTime CreationDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public IEnumerable<Tag> Tags { get; set; }
         public IEnumerable<EventParticipant> Participants { get; set; }
         public IEnumerable<Notification> Notifications { get; set; }
 

@@ -5,6 +5,16 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @Model.Title</h1>
+     @foreach (var tag in Model.Tags)
+            {
+                    <th> 
+                        <a class="channelItem" id="Title" asp-area="" asp-controller="Search" asp-action="Index">@tag.Name</a>
+                        <input type="hidden" name="searchInput" value=@tag.Name/>
+                        <input type="hidden" name="searchArea" value="Channels"/>
+                        <input type="hidden" name="searchOptions" value="Tags"/>
+                        <input type="hidden" name="sortingOptions" value="Votes"/>
+                    </th>
+            }
     <h2>@Model.Description</h2>
     <div>
         @if ((bool)ViewData["owner"]==false) 
