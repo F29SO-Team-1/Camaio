@@ -95,26 +95,29 @@ namespace Login.Controllers
         private IEnumerable<ThreadModel> GetThreads(List<string> keywords, string searchOptions, string sortingOptions)
         {
             var threads = _threadService.GetAll().Where(thread => thread.AlbumId==1);
-            if (searchOptions.Equals("Keywords"))
-            {
+            var tags = _channelService.GetAllTags();
+            // if (searchOptions.Equals("Keywords"))
+            // {
                 foreach (var keyword in keywords)
                 {
                     var oneStepLookup = threads.Where(thread => StringContains(thread.Title, keyword) || StringContains(thread.Description, keyword));
                     if (oneStepLookup.FirstOrDefault()!=null) threads = oneStepLookup;
                 }
-            }
-            else if (searchOptions.Equals("Tags"))
-            {
-                var tags = _channelService.GetAllTags();
-                foreach (var keyword in keywords)
-                {
-                    var oneStepLookup = tags
-                        .Where(tag => StringContains(tag.Name, keyword))
-                        .Where(tag => tag.ThreadId!=0);
-                    if (oneStepLookup.FirstOrDefault()!=null) tags = oneStepLookup;
-                }
-                if(tags.Select(tag => tag.Thread).FirstOrDefault()!=null) threads = tags.Select(tag => tag.Thread).Distinct();
-            }
+            // }
+            // else if (searchOptions.Equals("Tags"))
+            // {
+            //     foreach (var keyword in keywords)
+            //     {
+            //         var oneStepLookup = tags
+            //             .Where(tag => StringContains(tag.Name, keyword))
+            //             .Where(tag => tag.ThreadId!=0);
+            //         if (oneStepLookup.FirstOrDefault()!=null)
+            //         {
+            //             tags = oneStepLookup;
+            //             threads = tags.Select(tag => tag.Thread).Distinct(); 
+            //         }
+            //     }
+            // }
             if (sortingOptions.Equals("Votes"))
             {
                 threads = threads.OrderByDescending(thread => thread.Votes);
@@ -134,26 +137,26 @@ namespace Login.Controllers
         private IEnumerable<ChannelModel> GetChannels(IEnumerable<string> keywords, string searchOptions, string sortingOptions)
         {
             var channels = _channelService.GetAll();
-            if (searchOptions.Equals("Keywords"))
-            {
+            // if (searchOptions.Equals("Keywords"))
+            // {
                 foreach (var keyword in keywords)
                 {
                     var oneStepLookup = channels.Where(channel => StringContains(channel.Title, keyword) || StringContains(channel.Description, keyword));
                     if (oneStepLookup.FirstOrDefault()!=null) channels = oneStepLookup;
                 }
-            }
-            else if (searchOptions.Equals("Tags"))
-            {
-                var tags = _channelService.GetAllTags();
-                foreach (var keyword in keywords)
-                {
-                    var oneStepLookup = tags
-                        .Where(tag => StringContains(tag.Name, keyword))
-                        .Where(tag => tag.ChannelId!=0);
-                    if (oneStepLookup.FirstOrDefault()!=null) tags = oneStepLookup;
-                }
-                if(tags.Select(tag => tag.Channel).FirstOrDefault()!=null) channels = tags.Select(tag => tag.Channel).Distinct();
-            }
+            // }
+            // else if (searchOptions.Equals("Tags"))
+            // {
+            //     var tags = _channelService.GetAllTags();
+            //     foreach (var keyword in keywords)
+            //     {
+            //         var oneStepLookup = tags
+            //             .Where(tag => StringContains(tag.Name, keyword))
+            //             .Where(tag => tag.ChannelId!=0);
+            //         if (oneStepLookup.FirstOrDefault()!=null) tags = oneStepLookup;
+            //     }
+            //     if(tags.Select(tag => tag.Channel).FirstOrDefault()!=null) channels = tags.Select(tag => tag.Channel).Distinct();
+            // }
             if (sortingOptions.Equals("Votes"))
             {
                 channels.OrderByDescending(channel => GetChannelRating(channel));

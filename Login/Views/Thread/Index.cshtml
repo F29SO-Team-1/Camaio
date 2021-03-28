@@ -19,11 +19,7 @@
        @foreach (var tag in Model.Tags)
             {
                     <th> 
-                        <a class="channelItem" asp-area="" asp-controller="Search" asp-action="Index">@tag.Name</a>
-                        <input type="hidden" name="searchInput" value=@tag.Name/>
-                        <input type="hidden" name="searchArea" value="Threads"/>
-                        <input type="hidden" name="searchOptions" value="Tags"/>
-                        <input type="hidden" name="sortingOptions" value="Votes"/>
+                        @tag.Name
                     </th>
             }
    
