@@ -112,7 +112,7 @@ namespace Login.Controllers
             {
                 return View(channel);
             }
-            return NotFound();
+            return RedirectToAction("NoAccess", "Home");
         }
         [Authorize]
         public async Task<IActionResult> ConfirmDelete(string id)
@@ -124,7 +124,7 @@ namespace Login.Controllers
                 await _service.DeleteChannel(channel);
                 return RedirectToAction("Index", "Home");
             }
-            return NotFound();
+            return RedirectToAction("NoAccess", "Home");
         }
         [Authorize]
         public IActionResult RemoveMember(string id, string userName)
@@ -141,7 +141,7 @@ namespace Login.Controllers
                     return View(userToRemove);
                 }
             }
-            return NotFound();
+            return RedirectToAction("NoAccess", "Home");
         }
         [Authorize]
         public IActionResult ConfirmRemove(string id, string userName)
@@ -159,7 +159,7 @@ namespace Login.Controllers
                 }
                 return RedirectToAction("Main", "Channel", new { id = channel.Title });
             }
-            return NotFound();
+            return RedirectToAction("NoAccess", "Home");
         }
         [Authorize]
         public IActionResult Create()
@@ -190,7 +190,7 @@ namespace Login.Controllers
                 ViewData["Tags"] = tagline;
                 return View(channel);
             }
-            return NotFound();
+            return RedirectToAction("NoAccess", "Home");
         }
         [Authorize]
         public IActionResult CreateAlbum(string id)
@@ -208,7 +208,7 @@ namespace Login.Controllers
                 ViewData["channel"] = channel.Title;
                 return View();
             }
-            return NotFound();
+            return RedirectToAction("NoAccess", "Home");
         }
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -237,7 +237,7 @@ namespace Login.Controllers
                 }
 
             }
-            return NotFound();
+            return RedirectToAction("NoAccess", "Home");
         }
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -252,7 +252,7 @@ namespace Login.Controllers
                 _service.ChangeTags(channel, tags);
                 return RedirectToAction("Main", "Channel", new { id = channel.Title });
             }
-            return NotFound();
+            return RedirectToAction("NoAccess", "Home");
         }
         [Authorize]
         [ValidateAntiForgeryToken]

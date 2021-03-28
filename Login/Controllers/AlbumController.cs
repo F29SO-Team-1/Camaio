@@ -43,7 +43,7 @@ namespace Login.Controllers
                 {
                     if (!album.VisibleToGuests)
                     {
-                        return NotFound();
+                        return RedirectToAction("NoAccess", "Home");
                     }
                 }
                 else
@@ -75,7 +75,7 @@ namespace Login.Controllers
             var album = _service.GetAlbum(albumId);
             if (album == null) return NotFound();
             var channel = _service.GetChannel(album);
-            if (channel.CreatorId != _userManager.GetUserId(User)) return NotFound();
+            if (channel.CreatorId != _userManager.GetUserId(User)) return RedirectToAction("NoAccess", "Home");
             return View(album);
         }
         [Authorize]
@@ -84,7 +84,7 @@ namespace Login.Controllers
             var album = _service.GetAlbum(albumId);
             if (album == null) return NotFound();
             var channel = _service.GetChannel(album);
-            if (channel.CreatorId != _userManager.GetUserId(User)) return NotFound();
+            if (channel.CreatorId != _userManager.GetUserId(User)) return RedirectToAction("NoAccess", "Home");
             _service.DeleteAlbum(album);
             return RedirectToAction("Main", "Channel", new { id = channel.Title });
         }

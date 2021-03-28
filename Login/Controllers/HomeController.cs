@@ -44,6 +44,10 @@ namespace Login.Controllers
             var threadList = new ThreadList { ThreadLists = threadModel };
             return View(threadList);
         }
+        public IActionResult NoAccess()
+        {
+            return View();
+        }
 
 
     }
