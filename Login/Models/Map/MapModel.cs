@@ -7,13 +7,14 @@ namespace Login.Models.Map
 {
     public class MapModel
     {
-        public double? Lat { get; set; }
-        public double? Lng { get; set; }
-        public string Error { get; set; }
+        public string Lat { get; set; }
+        public string Lng { get; set; }
+        public string Url { get; set; }
 
-        public bool HasValidCords()
-        {
-            return Lat.HasValue && Lng.HasValue;
-        }
+    }
+
+    public class MapModelList
+    {
+        public IEnumerable<MapModel> MapCordsList { get; set; }
     }
 }

@@ -232,15 +232,26 @@ namespace Login.Service
 
         public async Task AssignCords(IFormFile file, int threadId)
         {
-            using var reader = new ExifReader(file.OpenReadStream());
-            var lat = GetCoordinate(reader, ExifTags.GPSLatitude);
-            var lng = GetCoordinate(reader, ExifTags.GPSLongitude);
+            try
+            {
+                using var reader = new ExifReader(file.OpenReadStream());
+                var lat = GetCoordinate(reader, ExifTags.GPSLatitude);
+                var lng = GetCoordinate(reader, ExifTags.GPSLongitude);
 
-            Thread thread = GetById(threadId);
-            thread.Lat = lat;
-            thread.Lng = lng;
+                reader.GetTagValue(ExifTags.GPSLatitude, out double[] Latitude);
+                reader.GetTagValue(ExifTags.GPSLongitude, out double[] Longitude);
 
-            await _context.SaveChangesAsync();
+                Thread thread = GetById(threadId);
+                thread.Lat = lat;
+                thread.Lng = lng;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
         }
 
         public double? GetCoordinate(ExifReader reader, ExifTags type)

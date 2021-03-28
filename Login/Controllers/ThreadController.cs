@@ -365,8 +365,9 @@ namespace Login.Controllers
         public async Task<IActionResult> DeleteThread(int? id)
         {
             if (id == null) return NotFound();
+            var thread = _service.GetById(id);
             await _service.Delete(id);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Profile", new { username = thread.UserName });
         }
     }
 }
