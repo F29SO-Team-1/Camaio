@@ -7,72 +7,72 @@
     
 <div class="top-score-card-display">   
     
-<div class="row">  
-    <div id="DIV_3">    
-        <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="with: 700px; heght:500px">
-    </div>
-    <div id="DIV_4"></div>
-
-    <div id="DIV_0">  
-        <div class="card-title"><h3>@Model.Title</h3></div>
-        @foreach (var tag in Model.Tags)
-            {
-                <th> 
-                    @tag.Name
-                </th>
-            }
-        <div id="DIV_1"> 
-            <div class="card-description"> 
-                <p class="card-text">@Model.Description </p> 
-            </div>
-            <div class="likes pt-2">
-                Likes: <h5 class="card-titl mt-1" id="like">@Model.Rating</h5> 
-            </div>
+    <div class="row">  
+        <div id="DIV_3">    
+            <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="with: 700px; heght:500px">
         </div>
+        <div id="DIV_4"></div>
 
-        <div id="DIV_5">
-            <div class="buttons"> 
-                @* Checks if a user is signed in and not viewing it as a guest *@
-                @if (User.Identity.Name != null)
+        <div id="DIV_0">  
+            <div class="card-title"><h3>@Model.Title</h3></div>
+            @foreach (var tag in Model.Tags)
                 {
-                    <div id="likeSection">
-                        @if (Model.LikedBy.Count() == 0)
-                        { 
-                            <button type="button p-2" id="likeBtn" class="createButto">Like</button>
-                        }
-                        else
-                        { 
-                            <button type="button p-2" id="disLikeBtn" class="createButto">Unlike</button>
-                            <button type="button" id="likeBtn" class="createButto">Like</button>
-                        }
-                    </div>
+                    <th> 
+                        @tag.Name
+                    </th>
                 }
-            </div> 
+            <div id="DIV_1"> 
+                <div class="card-description"> 
+                    <p class="card-text">@Model.Description </p> 
+                </div>
+                <div class="likes pt-2">
+                    Likes: <h5 class="card-titl mt-1" id="like">@Model.Rating</h5> 
+                </div>
+            </div>
+
+            <div id="DIV_5">
+                <div class="buttons"> 
+                    @* Checks if a user is signed in and not viewing it as a guest *@
+                    @if (User.Identity.Name != null)
+                    {
+                        <div id="likeSection">
+                            @if (Model.LikedBy.Count() == 0)
+                            { 
+                                <button type="button p-2" id="likeBtn" class="createButto">Like</button>
+                            }
+                            else
+                            { 
+                                <button type="button p-2" id="disLikeBtn" class="createButto">Unlike</button>
+                                <button type="button" id="likeBtn" class="createButto">Like</button>
+                            }
+                        </div>
+                    }
+                </div> 
+            </div>
+        
+            <div id="DIV_2">
+                <p></p>
+                <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
+                    <h5 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h5>
+                    <h5 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h5>
+                </a>  
+            </div>
         </div>
-    
-        <div id="DIV_2">
-            <p></p>
-            <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
-                <h5 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h5>
-                <h5 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h5>
-            </a>  
-        </div>
+    </div> 
+
+    <br> 
+    <div class="card-footer">  
+        <small class="text-muted">
+            <a asp-action="Report" asp-route-threadId="@Model.Id">Report</a>
+            @if (User.Identity.Name == Model.AuthorUserName || User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-threadId="@Model.Id">Edit</a>
+                <a asp-action="Delete" asp-route-threadId="@Model.Id">Delete</a>
+            }
+        </small>
     </div>
-</div> 
 
-<br> 
-<div class="card-footer">  
-    <small class="text-muted">
-        <a asp-action="Report" asp-route-threadId="@Model.Id">Report</a>
-        @if (User.Identity.Name == Model.AuthorUserName || User.IsInRole("Admin"))
-        {
-            <a asp-action="Edit" asp-route-threadId="@Model.Id">Edit</a>
-            <a asp-action="Delete" asp-route-threadId="@Model.Id">Delete</a>
-        }
-    </small>
 </div>
-
-
 <!--
 <div class="card-title"><h3>@Model.Title</h3></div>
 
