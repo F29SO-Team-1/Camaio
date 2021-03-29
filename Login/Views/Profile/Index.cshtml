@@ -46,6 +46,7 @@
                 <p>Not following anyone</p>
             }
         </div>
+
         <div class="row w-100 border border-success" id="toggleDIV2">
             @try{
                 @foreach (var followers in Model.UsersFollowed){
@@ -59,6 +60,7 @@
                 <p>No followers</p>
             }
         </div>
+
         <div class="row w-100 border border-success" id="toggleDIV3">
             @try{
                 @foreach (var liked in Model.Likes){
@@ -73,8 +75,6 @@
             }
         </div>
 
-
-
         <div class="row">
             @foreach (var thread in @Model.Threads)
             {
@@ -85,10 +85,5 @@
                 </div>
             }
         </div>
-
-        
     </div>
-    
-        
-
 </div>

@@ -64,7 +64,7 @@ a:hover {
 }
 
 .form-control{
-    width:200px;
+    width:500px;
 }
 
 
@@ -310,6 +310,11 @@ body {
 
 .upload-form .form-control{
     width: 100%;
+}
+
+.form-group{
+    display: block;
+    margin: auto;
 }
 
 .upload-form .form-group{
@@ -602,10 +607,17 @@ body {
     color: greenyellow;
     margin: 5% 0;
     text-align: center;
+    width: max-content;
 }
 
 .create-channel .form-control{
-    width: auto;
+    flex-direction: column;
+    color: greenyellow;
+    margin: 5% 0;
+    text-align: center;
+    width: max-content;
+
+
 }
 
 .create-channel h1 {

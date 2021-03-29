@@ -18,6 +18,9 @@ namespace Login.Models
         public int AlbumId { get; set; }
         public Album Album { get; set; }
 
+        //cords from the image
+        public double? Lat { get; set; }
+        public double? Lng { get; set; }
 
         public IEnumerable<Likes> LikedBy { get; set; }
 

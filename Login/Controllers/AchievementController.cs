@@ -43,6 +43,7 @@ namespace Login.Controllers
         public IActionResult IndexAsync(string username)
         {
             LoginUser user = _userService.GetByUserName(username);
+            if (user == null) return NotFound();
             int? usersAch = _service.GetUsersAchievement(user).Count();     //user's Achievements
             int totalAmountOfAch = _service.GetAllAchievements().Count();   //total amount of Achievements there is 
             if (usersAch == null || totalAmountOfAch == 0) return NotFound();
