@@ -96,6 +96,20 @@ namespace Login.Service
                 .ToList();
         }
 
+        //change the lsit of the users to the userLogin DAta type
+        public List<LoginUser> UserFollowingList(LoginUser user)
+        {
+            List<LoginUser> list = new List<LoginUser>();
+            var uF = UsersFollowers(user);
+
+            foreach (var t in uF)
+            {
+                list.Add(GetByUserName(t.Username));
+            }
+
+            return list;
+        }
+
         public async Task GiveUserWarning(string userId)
         {
             LoginUser u = GetById(userId);

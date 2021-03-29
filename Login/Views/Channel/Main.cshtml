@@ -87,18 +87,21 @@
         <tbody>
             @foreach (var member in Model.ChannelMembers)
             {
-                @if (member.Id == Model.Creator.Id) continue;
-                <tr>
-                    <th> 
-                        <a class="channelItem" id="Title" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username=@member.UserName>@member.UserName</a>
-                    </th>
-                    @if ((bool)ViewData["owner"]==true) 
-                    {
+                @try{
+                    @if (member.Id == Model.Creator.Id) continue;
+                    <tr>
                         <th> 
-                            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>Kick</a>
+                            <a class="channelItem" id="Title" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username=@member.UserName>@member.UserName</a>
                         </th>
-                    }
-                </tr>
+                        @if ((bool)ViewData["owner"]==true) 
+                        {
+                            <th> 
+                                <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>Kick</a>
+                            </th>
+                        }
+                    </tr>
+                }
+                catch(Exception){}
             }
         </tbody>
     </table>
