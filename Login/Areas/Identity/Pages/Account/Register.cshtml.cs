@@ -25,6 +25,7 @@ namespace Login.Areas.Identity.Pages.Account
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly string defaultAvatar = "https://camaiologinstorage.blob.core.windows.net/profile-images/avatar.png";
 
         public RegisterModel(
             UserManager<LoginUser> userManager,
@@ -78,7 +79,7 @@ namespace Login.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new LoginUser { UserName = Input.Email, Email = Input.Email, Ratting = 0, MemberSince = DateTime.Now };
+                var user = new LoginUser { UserName = Input.Email, Email = Input.Email, Ratting = 0, MemberSince = DateTime.Now, ProfileImageUrl = defaultAvatar };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 IdentityResult asignRole = await _userManager.AddToRoleAsync(user, "User");
 

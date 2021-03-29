@@ -3,6 +3,7 @@ using Login.Models;
 using Login.Models.Threadl;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Login.Data
@@ -36,5 +37,7 @@ namespace Login.Data
         bool IfUserExists(string username);
 
         List<LoginUser> UserFollowingList(LoginUser user);
+        IEnumerable<LoginUser> ListOfFollowing(LoginUser user);
+
     }
 }

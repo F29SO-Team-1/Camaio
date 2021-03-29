@@ -29,6 +29,8 @@ namespace Login.Controllers
         private readonly IChannel _channelSerivce;
         private readonly IAchievement _achievementService;
 
+        private readonly string defaultAvatar = "https://camaiologinstorage.blob.core.windows.net/profile-images/avatar.png";
+
         public ProfileController(
             UserManager<LoginUser> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -54,8 +56,10 @@ namespace Login.Controllers
         public async Task<IActionResult> Index(string username)
         {
             if (!_service.IfUserExists(username)) return NotFound();
+
             var user = _service.GetByUserName(username);
-            //want a list of threads, tick
+            if (user.ProfileImageUrl == null) user.ProfileImageUrl = defaultAvatar;
+            //want a list of threads
             // threads will only display if you press your username when logged in button other wise it will not display the users threads
             var threads = BuildThreadList(username);
             //want a list of channels that the user is part of, tick
@@ -68,9 +72,14 @@ namespace Login.Controllers
             var userRoles = _userManager.GetRolesAsync(user);
             //gives the inital achievements to the user 
             await _achievementService.AssignAchievementsToUser(user);
+            //list of all the threads a user likes
+            var likeList = _threadService.GetLikedThreads(user.Id);
 
-            //list of all the users that the user follows
-            var userloginFollowerList = _service.UserFollowingList(user);
+            //list of all the users that follow the user
+            var usersfollowing = _service.UserFollowingList(user);
+            //list of users that the user follows
+            var folllowingUsers = _service.ListOfFollowing(user);
+
 
             /*
              * Achievements HERE
@@ -91,10 +100,11 @@ namespace Login.Controllers
                 MemmberSince = user.MemberSince,
                 Threads = threads,
                 Channels = channels,
-                UsersFollowed = userloginFollowerList,
+                UsersFollowed = usersfollowing,
                 Warnings = user.AccountWarnings,
-                Roles = userRoles
-
+                Roles = userRoles,
+                Likes = likeList,
+                FollowsUser = folllowingUsers,
             };
             return View(model);
         }

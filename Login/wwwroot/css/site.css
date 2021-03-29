@@ -772,3 +772,8 @@ body {
 }
 
 /*-----------------End of the 'Account Page' CSS-----------------------*/
+
+#map {
+    height: 500px;
+    width: 100%;
+}

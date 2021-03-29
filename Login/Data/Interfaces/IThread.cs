@@ -14,6 +14,8 @@ namespace Login.Data
         Thread GetById(int? id);
         //returns all the threads in the database
         IEnumerable<Thread> GetAll();
+        //get all the threads that the user liked
+        IEnumerable<Thread> GetLikedThreads(string userName);
 
         //returns the list of the users thread
         IEnumerable<Thread> UserThreads(string userName);
@@ -35,6 +37,7 @@ namespace Login.Data
 
         //btn work
         bool CheckAreadyLiked(Thread threadId, string userId);
+        //this is a list of likes on a thread
         IEnumerable<Likes> ListOfLikes(int? threadId);
         Task UpdateLikes(int? threadId);
 

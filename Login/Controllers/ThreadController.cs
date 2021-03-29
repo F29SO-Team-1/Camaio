@@ -211,7 +211,7 @@ namespace Login.Controllers
 
         //takes in a ajax call from the view, returns a JSON back to the view, the like btn
         [Authorize]
-        public async Task<IActionResult> RatingIncrement([FromBody] int? id)
+        public async Task<JsonResult> RatingIncrement([FromBody] int? id)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var wholeThread = _service.GetById(id);
@@ -234,7 +234,7 @@ namespace Login.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> RatingDecrease([FromBody] int? id)
+        public async Task<JsonResult> RatingDecrease([FromBody] int? id)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
             var wholeThread = _service.GetById(id);

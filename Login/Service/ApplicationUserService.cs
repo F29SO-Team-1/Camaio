@@ -117,6 +117,10 @@ namespace Login.Service
             await _context.SaveChangesAsync();
         }
 
-
+        public IEnumerable<LoginUser> ListOfFollowing(LoginUser user)
+        {
+            return _context.Follow.Select(x=>x.FollowingUsers).Distinct().ToList();
+        }
     }
 }
+
