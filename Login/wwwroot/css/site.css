@@ -342,12 +342,14 @@ body {
     border-width: 1px;
     float: right;
     text-align: bottom;   
-    background-color: re; 
+    background-color: dd; 
     border-radius: 1%; 
-}
+    height:525px; 
+   
+  }
   
-#DIV_1 {
-    height: 60%; 
+  #DIV_1 {
+    height: 66%; 
     background-color: blu;  
 }
 
@@ -369,22 +371,35 @@ body {
     border-top-width: 1px;
 }
 
-#DIV_5 > .buttons{
-    position: relative;
-    top:25%; 
-}
+  #DIV_5 > .buttons{
+      position: relative;
+      top:25%; 
+      background-color: gree;
+  }
   
-#DIV_3 {
+  #DIV_3{
+    width: 750px;
+    height: 520px;
+    overflow: hidden;
+    margin: 10px;
+    position: relative; 
+    background-color: orang;
+  }
+
+
+  /*
+  #DIV_3 {
     float: left;
     height: 100%;
     width: 69%; 
     background-color: gree;
-}
+  }
+  */ 
 
 #DIV_4 {
     width: 1%;
-    background-color: purpe; 
-}
+    background-color: purpl; 
+  }
 
 #DIV_6 {
     background-color: orang; 
@@ -398,9 +413,10 @@ body {
 }
 
 .top-score-column {
-    float: left;
-    width: 33.33%;
-    padding: 0 10px;
+  float: left;
+  width: 33.33%;
+  padding: 0 10px;
+  margin-top: 1%;
 }
   
 /* Remove extra left and right margins, due to padding */
@@ -428,16 +444,28 @@ body {
     border-style: solid;
     color: #020202;
 }
-  
+
+.top-score-card-achieve {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white; 
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
+}
+ 
 .top-score-card-display {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 2%; 
+    padding: 1%; 
     height:80%;
-    width:80%;  
+    width:75%;  
     align-items: center;
-    background-color: white;  
+    background-color: #ededed; 
     border-radius: 2.5%;
-    border-color: grey;
+    border-color: black;
     border-width: 1px; 
     border-style: solid;
     color: #020202;
@@ -500,18 +528,19 @@ body {
 }
 
 .card-img-top{
+    position:absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
     border-style: solid;
     border-width: 1px;
     border-radius: 1%;
 }
-
-.card-img-top> .top-right{
-    background-color: blue;
-}
-
-.card-img-top> .bottom-right{
-    background-color: yellow;
-}
+/*
 
 /* Responsive columns */
 @media screen and (max-width: 600px) {
