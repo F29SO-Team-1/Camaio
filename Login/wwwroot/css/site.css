@@ -444,6 +444,18 @@ body {
     border-style: solid;
     color: #020202;
 }
+
+.top-score-card-achieve {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white; 
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
+}
  
 .top-score-card-display {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
