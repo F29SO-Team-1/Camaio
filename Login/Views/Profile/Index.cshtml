@@ -38,7 +38,7 @@
             @try{
                 @foreach (var followed in Model.FollowsUser){
                     <a class="nav-item" asp-controller="Profile" asp-route-username="@followed.Id">
-                        @followed.Username
+                        @followed.UserName
                     </a>
                 }
             }
@@ -53,7 +53,7 @@
                     @if (followers == null) {
                         <p>No followers</p>
                     }
-                    @followers.Username
+                    @followers.UserName
                 }
             }
             catch(Exception){
