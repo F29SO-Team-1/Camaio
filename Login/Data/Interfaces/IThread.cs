@@ -1,5 +1,7 @@
-﻿using Login.Areas.Identity.Data;
+﻿using ExifLib;
+using Login.Areas.Identity.Data;
 using Login.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -56,7 +58,9 @@ namespace Login.Data
         void ChangeTags(Thread thread, string tags);
         IEnumerable<Tag> GetThreadTags(Thread thread);
 
-
-
+        //getting cords from the image
+        double? GetCoordinate(ExifReader reader, ExifTags type);
+        public double ToDoubleCoordinates(double[] coordinates);
+        public Task AssignCords(IFormFile file, int threadId);
     }
 }

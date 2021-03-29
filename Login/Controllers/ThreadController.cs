@@ -1,4 +1,5 @@
-﻿using Login.Areas.Identity.Data;
+using ExifLib;
+using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Data.Interfaces;
 using Login.Models;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -88,6 +90,9 @@ namespace Login.Controllers
         }
 
         //only allow modertators and admins to access the page
+        /*
+         *      This is where you can change the number of reposts needed to be displayed on the report page
+         */
         [Route("Reported")]
         [Authorize(Roles = "Admin, Mod")]
         public IActionResult Reported()
@@ -318,18 +323,24 @@ namespace Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddThread(int albumId, Thread model, IFormFile file, string tags)
         {
-            var userId = _userManager.GetUserId(User);  //gets the usersId
-            var user = await _userManager.FindByIdAsync(userId);    //gets the userName
-            var thread = _service.Create(model, user, albumId);  //creates the thread
-            _service.ChangeTags(thread.Result, tags);
-            var threadId = thread.Result.ID;    //gets the Threads id
-            await UploadThreadImage(file, threadId);    //uploads the threadImage
-            return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
+            if (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/giff")
+            {
+                var userId = _userManager.GetUserId(User);  //gets the usersId
+                var user = await _userManager.FindByIdAsync(userId);    //gets the userName
+                var thread = _service.Create(model, user, albumId);  //creates the thread
+                _service.ChangeTags(thread.Result, tags);
+                var threadId = thread.Result.ID;    //gets the Threads id
+                await _service.AssignCords(file, threadId);    //assignes the cords from the picture
+                await UploadThreadImage(file, threadId);    //uploads the threadImage
+
+                return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
+            }
+            return NotFound();
         }
 
         //Uploads the Image to the Azure blob container
         [HttpPost]
-        public async Task<IActionResult> UploadThreadImage(IFormFile file, int id)
+        public async Task UploadThreadImage(IFormFile file, int id)
         {
             var thread = _service.GetById(id);
             var userName = thread.UserName;
@@ -342,16 +353,15 @@ namespace Login.Controllers
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
             //grab the filename
             var filename = contentDisposition.FileName.Trim('"');
-            var uniqueFileName = filename + userName + date;
+            var uniqueFileName = userName + date + filename;
             //get a refrence to a block blob
             var blockBlob = container.GetBlockBlobReference(uniqueFileName);
             //On that block blob, Upload our file <-- file uploaded to the cloud
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
             //set the thread image to the URI
             await _service.UploadPicture(thread.ID, blockBlob.Uri);
-
-            return RedirectToAction("Index", "Profile");
         }
+
 
         //functions for displaying the Delete thread page
         public IActionResult Delete(int? threadId)
@@ -368,8 +378,9 @@ namespace Login.Controllers
         public async Task<IActionResult> DeleteThread(int? id)
         {
             if (id == null) return NotFound();
+            var thread = _service.GetById(id);
             await _service.Delete(id);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Profile", new { username = thread.UserName });
         }
     }
 }
