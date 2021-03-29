@@ -69,6 +69,7 @@ namespace Login.Controllers
             var listOfLikes = _service.ListOfLikes(id);
             //get the list of reports
             var numberOfReports = _service.ListOfReports(id).Count();
+            var tags = _service.GetThreadTags(thread);
 
             //make a view model for the thread
             var model = new ThreadModel
@@ -82,7 +83,8 @@ namespace Login.Controllers
                 Title = thread.Title,
                 Rating = listOfLikes.Count(),
                 LikedBy = listOfLikes,
-                NoReports = numberOfReports
+                NoReports = numberOfReports,
+                Tags = tags
             };
             return View(model);
         }
@@ -277,6 +279,15 @@ namespace Login.Controllers
             var thread = _service.GetById(threadId);    //gets the thread Id
             if (thread == null) return NotFound();      //check if the thread is a real thread
             if (thread.UserName != userName) return NotFound(); //checks if the person accessing the thread is the owner
+            var tags = _service.GetThreadTags(thread);
+            var tagline = "";
+            foreach (var tag in tags)
+            {
+                tagline+=",";
+                tagline+=tag.Name;
+            }
+            if (tagline.Length!=0) tagline = tagline.Substring(1);
+            ViewData["Tags"] = tagline;
 
             return View(thread);
         }
@@ -284,7 +295,7 @@ namespace Login.Controllers
         // does the post to the db
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Thread thread)
+        public async Task<IActionResult> Edit(Thread thread, string tags)
         {
             if (thread == null) return NotFound();
 
@@ -299,6 +310,7 @@ namespace Login.Controllers
                     if (!_service.ThreadExists(thread.ID)) return NotFound();
                     else throw;
                 }
+                _service.ChangeTags(thread, tags);
                 return RedirectToAction("Index", "Thread", new { @id = thread.ID });
             }
 
@@ -309,13 +321,14 @@ namespace Login.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddThread(int albumId, Thread model, IFormFile file)
+        public async Task<IActionResult> AddThread(int albumId, Thread model, IFormFile file, string tags)
         {
             if (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/giff")
             {
                 var userId = _userManager.GetUserId(User);  //gets the usersId
                 var user = await _userManager.FindByIdAsync(userId);    //gets the userName
                 var thread = _service.Create(model, user, albumId);  //creates the thread
+                _service.ChangeTags(thread.Result, tags);
                 var threadId = thread.Result.ID;    //gets the Threads id
                 await _service.AssignCords(file, threadId);    //assignes the cords from the picture
                 await UploadThreadImage(file, threadId);    //uploads the threadImage

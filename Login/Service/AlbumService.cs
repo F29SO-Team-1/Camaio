@@ -29,6 +29,7 @@ namespace Login.Service
             return GetAlbum(channel, title).Id;
 
         }
+        //Get album by its channel and title
         public Album GetAlbum(Channel channel, string title)
         {
             var album = _context.Albums
@@ -37,6 +38,7 @@ namespace Login.Service
                 .FirstOrDefault();
             return album;
         }
+        //Get album by its id
         public Album GetAlbum(int id)
         {
             var album = _context.Albums
@@ -56,6 +58,7 @@ namespace Login.Service
             _context.RemoveRange(album);
             _context.SaveChanges();
         }
+        //Creates a list of AlbumModels that are used for display
         public IEnumerable<AlbumModel> GetAlbumModels(Channel channel)
         {
             return _context.Albums
@@ -69,7 +72,12 @@ namespace Login.Service
                 })
                 .ToList();
         }
-
+        //Returns a list of all albums
+        public IEnumerable<Album> GetAll()
+        {
+            return _context.Albums;
+        }
+        //Currently unused. Returns the image for the first thread in the album. Returns the default one if album is empty.
         public string GetAlbumImage(Album album)
         {
             var image = _context.Albums
@@ -78,7 +86,7 @@ namespace Login.Service
                 .FirstOrDefault();
             if (image == null)
             {
-                return "https://camaiologinstorage.blob.core.windows.net/thread-storage/Thumbs_Up_Skin-Color.pngtest2@gmail.com637516981283394465";
+                return "https://camaiologinstorage.blob.core.windows.net/thread-storage/Thumbs_Up_Skin-Color.pngtest2@gmail.com637516981283394465"; //Can be changed to whatever
             }
             else
             {

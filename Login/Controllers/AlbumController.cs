@@ -3,6 +3,7 @@ using Login.Data;
 using Login.Models;
 using Login.Models.Album1;
 using Login.Models.Threadl;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -25,13 +26,13 @@ namespace Login.Controllers
             _service = service;
             _threadService = threadService;
         }
-
+        //Main page of the album
         public IActionResult Main(int id)
         {
-            if (id == 1) return NotFound();
+            if (id == 1) return NotFound(); //"Public" album id, should not be displayer or found
             var user = _userManager.GetUserAsync(User).Result;
             var album = _service.GetAlbum(id);
-            if (album == null) return NotFound();
+            if (album == null) return NotFound(); //Album not found
             ViewData["CanPost"] = false;
             ViewData["CanManage"] = false;
             var channel = _channelService.GetChannel(album.ChannelId).Result;
@@ -42,7 +43,7 @@ namespace Login.Controllers
                 {
                     if (!album.VisibleToGuests)
                     {
-                        return NotFound();
+                        return RedirectToAction("NoAccess", "Home");
                     }
                 }
                 else
@@ -68,16 +69,28 @@ namespace Login.Controllers
 
             return View(model);
         }
-
+        //Delete an album
+        [Authorize]
         public IActionResult Delete(int albumId)
         {
             var album = _service.GetAlbum(albumId);
+            if (album == null) return NotFound();
             var channel = _service.GetChannel(album);
-            if (channel.CreatorId != _userManager.GetUserId(User)) return NotFound();
+            if (channel.CreatorId != _userManager.GetUserId(User)) return RedirectToAction("NoAccess", "Home");
+            return View(album);
+        }
+        //Confirm the deletion
+        [Authorize]
+        public IActionResult DeleteAlbum(int albumId)
+        {
+            var album = _service.GetAlbum(albumId);
+            if (album == null) return NotFound();
+            var channel = _service.GetChannel(album);
+            if (channel.CreatorId != _userManager.GetUserId(User)) return RedirectToAction("NoAccess", "Home");
             _service.DeleteAlbum(album);
             return RedirectToAction("Main", "Channel", new { id = channel.Title });
         }
-
+        //Returns a list of all threads in the album
         private IEnumerable<ThreadModel> BuildThreadList(Album album)
         {
             return _threadService.AlbumThreads(album).Select(threads => new ThreadModel

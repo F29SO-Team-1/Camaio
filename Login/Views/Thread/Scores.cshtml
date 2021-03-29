@@ -3,7 +3,6 @@
     ViewData["Title"] = "Score Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h1 style="text-align:center; margin-top:2%">Top Posts</h1>
 <div class="top-score-row">
 <br>
@@ -12,20 +11,22 @@
   <div class="top-score-column">
     <div class="top-score-card">
       <h3>@threads.Title</h3>
-      <img src="@threads.Picture" alt="Image" class="card-image" style="width: 200px; height:200px;" />
+      <img src="@threads.Picture" alt="Image" class="card-image"  style="width: 400px; height:275px;" />
       <p>Rating: @threads.Rating</p>
       <p>@threads.Created</p>
     </div>
     <br>
-  </div>         
+  </div>          
   </a>
 }
+
+
 @foreach (var threads in Model.ThreadLists){
     <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
    <div class="top-score-column">
     <div class="top-score-card">
       <h3>@threads.Title</h3>
-      <img src="@threads.Picture" alt="Image" class="card-image" style="width: 200px; height:200px;" />
+      <img src="@threads.Picture" alt="Image" class="card-image" style="width: 425px; height:300px;" />
       <p>Rating: @threads.Rating</p>
       <p>@threads.Created</p>
     </div>
@@ -33,13 +34,14 @@
   </div> 
   </a>
 }
+
 <br>
 @foreach (var threads in Model.ThreadLists){
     <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
    <div class="top-score-column"> 
     <div class="top-score-card">
       <h3>@threads.Title</h3>
-      <img src="@threads.Picture" alt="Image" class="card-image" style="width: 200px; height:200px;" />
+      <img src="@threads.Picture" alt="Image" class="card-image"  style="width: 425px; height:300px;" />
       <p>Rating: @threads.Rating </p>
       <p>@threads.Created</p>
     </div>
