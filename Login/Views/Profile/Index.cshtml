@@ -21,11 +21,12 @@
                 Member since: @Model.MemmberSince
             </p>
             @foreach (var role in @Model.Roles.Result){
-                <p>@role</p> <br/>
+                <p style="p-2 nav-item">@role</p> <br/>
             }
             @if (SignInManager.IsSignedIn(User)){
                 <a class="nav-item p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
             }
+            <a class="nav-item text-left p-2" asp-area="" asp-page="" title="">Achievements</a>
             <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV1)">Followers</Button>
             <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV2)">Following</Button>
             <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV3)">Likes</Button>
