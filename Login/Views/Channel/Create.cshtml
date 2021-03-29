@@ -18,18 +18,18 @@
             <div class="form-group">
                 <h1>Create Channel</h1>
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" maxlength="32" />
+                <input asp-for="Title" class="form-control w-100" maxlength="32" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div> 
 
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" maxlength="256" />
+                <input asp-for="Description" class="form-control w-100" maxlength="256" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Channel tags</label>
-                <input type="tags" name="tags" placeholder="Separate tags with coma." maxlength="64" class="form-control" />
+                <input class="form-control w-100" type="tags" name="tags" placeholder="Separate tags with commas" maxlength="64" />
             </div>
             @* <div class="form-group">
                 <label>Private</label>
