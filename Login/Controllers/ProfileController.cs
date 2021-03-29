@@ -68,6 +68,8 @@ namespace Login.Controllers
             var userRoles = _userManager.GetRolesAsync(user);
             //gives the inital achievements to the user 
             await _achievementService.AssignAchievementsToUser(user);
+            //list of all the threads a user likes
+            var likeList = _threadService.GetLikedThreads(user.Id);
 
             //list of all the users that the user follows
             var userloginFollowerList = _service.UserFollowingList(user);
@@ -93,7 +95,8 @@ namespace Login.Controllers
                 Channels = channels,
                 UsersFollowed = userloginFollowerList,
                 Warnings = user.AccountWarnings,
-                Roles = userRoles
+                Roles = userRoles,
+                Likes = likeList
 
             };
             return View(model);

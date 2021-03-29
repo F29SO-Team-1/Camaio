@@ -38,7 +38,7 @@
             @try{
                 @foreach (var followed in Model.FollowsUser){
                     <a class="nav-item" asp-controller="Profile" asp-route-username="@followed.Id">
-                        @followed.Username
+                        @followed.UserName
                     </a>
                 }
             }
@@ -49,11 +49,12 @@
 
         <div class="row w-100 border border-success" id="toggleDIV2">
             @try{
-                @foreach (var followers in Model.UsersFollowed){
+                @foreach (var followers in Model.UsersFollowed)
+                {
                     @if (followers == null) {
                         <p>No followers</p>
                     }
-                    @followers.Username
+                    @followers.UserName
                 }
             }
             catch(Exception){
@@ -63,12 +64,20 @@
 
         <div class="row w-100 border border-success" id="toggleDIV3">
             @try{
-                @foreach (var liked in Model.Likes){
-                    @if (liked == null) {
+            <div class="row">
+                @foreach (var liked in Model.Likes)
+                {
+                    @if (liked == null)
+                    {
                         <p>No likes</p>
                     }
-                    @liked.UserName
+                    <div class="m-1 rel">
+                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@liked.ID">
+                            <img class="picture profile rounded" src="@liked.Image" alt="Image" />
+                        </a>
+                    </div>
                 }
+            </div>
             }
             catch(Exception){
                 <p>No likes</p>

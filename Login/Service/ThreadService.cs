@@ -143,6 +143,14 @@ namespace Login.Service
             return _context.Likes.Where(l => l.Thread.ID == threadId);
         }
 
+        public IEnumerable<Thread> GetLikedThreads(string userId)
+        {
+            //get all the liked threads; and select the threads were the userID is mentioned
+            return _context.Likes.Select(x => x.Thread)
+                .Where(y=>y.UserID == userId)
+                .Distinct();
+        }
+
         public async Task RemoveUserFromLikeList(int? threadId, string userId)
         {
             var thread = GetById(threadId);
@@ -317,6 +325,5 @@ namespace Login.Service
         {
             return coordinates[0] + coordinates[1] / 60f + coordinates[2] / 3600f;
         }
-
     }
 }
