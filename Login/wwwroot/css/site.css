@@ -391,7 +391,7 @@ body {
     border-width: 1px;
     float: right;
     text-align: bottom;   
-    background-color: re; 
+    background-color: white;    
     border-radius: 1%; 
   }
   
@@ -486,7 +486,7 @@ body {
     height:80%;
     width:80%;  
     align-items: center;
-    background-color: white;  
+    background-color: #ededed; 
     border-radius: 2.5%;
     border-color: grey;
     border-width: 1px; 
