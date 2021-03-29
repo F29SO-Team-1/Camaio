@@ -1,9 +1,28 @@
 ﻿@model Login.Models.AchievementModelList
 @{
     ViewData["Title"] = "Achievements Page";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+ 
+
+@foreach (var achieve in Model.AchievementLists){ 
+  <div class="top-score-column">
+    <div class="top-score-card">
+      <h3>@achieve.Name</h3> 
+      <img src="@achieve.Picture" alt="Image" class="card-image"  style="width: 200px; height:200px;" />
+      <p>@achieve.Description</p>
+      <p>@achieve.Progress / @achieve.ProgressLimit</p>
+      <p> @if (@achieve.Completed) 
+                        {  <div>Completed on: @achieve.CompletedTime</div>} 
+                        else 
+                        { <div>Keep trying!</div> }
+      </p>
+    </div>
+    <br>
+  </div>          
 }
 
+<!--
 <div class="container">
     <table class="table">
         <thead>
@@ -57,3 +76,5 @@
         </tbody>
     </table>
 </div>
+
+-->

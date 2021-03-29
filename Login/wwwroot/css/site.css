@@ -466,6 +466,7 @@ body {
   float: left;
   width: 33.33%;
   padding: 0 10px;
+  margin-top: 1%;
 }
   
 /* Remove extra left and right margins, due to padding */
@@ -492,7 +493,19 @@ body {
     border-width: 1px; 
     border-style: solid;
     color: #020202;
-   
+}
+
+
+.top-score-card-achieve {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: red; 
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
 }
   
 .top-score-card-display {
