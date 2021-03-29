@@ -2,6 +2,7 @@
 @using Login.Areas.Identity.Data
 @model Login.Models.ApplicationUser.ProfileModel
 @inject SignInManager<LoginUser> SignInManager
+@inject UserManager<LoginUser> UserManager
 
 @{
     ViewData["Title"] = "Profile Page";
@@ -12,7 +13,7 @@
 <div class="container-fluid d-flex flex-lg-row flex-column">
     <div class="col-lg-2 col-md-12 mt-2">
         <ul class="nav flex-column w-100">
-            <img class="img mx-auto" style="height:100px;width:100px;"src="@Model.ProfileImageUrl"></img>
+            <img class="img mx-auto" style="height:100px;width:100px;" src="@Model.ProfileImageUrl"></img>
             <p class="mt-2 text-center">
                 Score:@Model.UserRating
             </p>
@@ -20,66 +21,87 @@
             <p class=" text-center">
                 Member since: @Model.MemmberSince
             </p>
-            @foreach (var role in @Model.Roles.Result){
-                <p style="p-2 nav-item">@role</p> <br/>
+            @foreach (var role in @Model.Roles.Result)
+            {
+                <p style="p-2 nav-item">@role</p>
+                <br />
             }
-            @if (SignInManager.IsSignedIn(User)){
+            @if (SignInManager.IsSignedIn(User))
+            {
                 <a class="nav-item p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
             }
-            <a class="nav-item text-left p-2" asp-area="" asp-page="" title="">Achievements</a>
-            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV1)">Followers</Button>
-            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV2)">Following</Button>
+            <a class="nav-item text-left p-2" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username" title="">Achievements</a>
+            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV1)">Following</Button>
+            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV2)">Followers</Button>
             <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV3)">Likes</Button>
         </ul>
     </div>
 
     <div class="col-lg-10 col-md-12 mt-2">
         <div class="row w-100 border border-success" id="toggleDIV1">
-            @try{
-                @foreach (var followed in Model.FollowsUser){
-                    <a class="nav-item" asp-controller="Profile" asp-route-username="@followed.Id">
-                        @followed.UserName
-                    </a>
-                }
+            @try
+            {
+                <div class="row">
+                    @foreach (var followed in Model.FollowsUser)
+                    {
+                        <div class="m-1 rel">
+                            <a asp-controller="Profile" asp-action="Index" asp-route-username="@followed.UserName">
+                                <img class="picture profile rounded" src="@followed.ProfileImageUrl" alt="Image" />
+                            </a>
+                        </div>
+                    }
+                </div>
             }
-            catch(Exception){
+            catch (Exception)
+            {
                 <p>Not following anyone</p>
             }
         </div>
 
         <div class="row w-100 border border-success" id="toggleDIV2">
-            @try{
-                @foreach (var followers in Model.UsersFollowed)
-                {
-                    @if (followers == null) {
-                        <p>No followers</p>
+            @try
+            {
+                <div class="row">
+                    @foreach (var followers in Model.UsersFollowed)
+                    {
+                        @if (@Model.UsersFollowed.Count() == 0)
+                        {
+                            <p>No followers</p>
+                        }
+                        <div class="m-1 rel">
+                            <a asp-controller="Profile" asp-action="Index" asp-route-username="@followers.UserName">
+                                <img class="picture profile rounded" src="@followers.ProfileImageUrl" alt="Image" />
+                            </a>
+                        </div>
                     }
-                    @followers.UserName
-                }
+                </div>
             }
-            catch(Exception){
+            catch (Exception)
+            {
                 <p>No followers</p>
             }
         </div>
 
         <div class="row w-100 border border-success" id="toggleDIV3">
-            @try{
-            <div class="row">
-                @foreach (var liked in Model.Likes)
-                {
-                    @if (liked == null)
+            @try
+            {
+                <div class="row">
+                    @foreach (var liked in Model.Likes)
                     {
-                        <p>No likes</p>
+                        @if (liked == null)
+                        {
+                            <p>No likes</p>
+                        }
+                        <div class="m-1 rel">
+                            <a asp-action="Index" asp-controller="Thread" asp-route-id="@liked.ID">
+                                <img class="picture profile rounded" src="@liked.Image" alt="Image" />
+                            </a>
+                        </div>
                     }
-                    <div class="m-1 rel">
-                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@liked.ID">
-                            <img class="picture profile rounded" src="@liked.Image" alt="Image" />
-                        </a>
-                    </div>
-                }
-            </div>
+                </div>
             }
-            catch(Exception){
+            catch (Exception)
+            {
                 <p>No likes</p>
             }
         </div>
@@ -89,7 +111,7 @@
             {
                 <div class="m-1 rel">
                     <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                        <img class="picture profile rounded" src="@thread.Picture" alt="Image"/>
+                        <img class="picture profile rounded" src="@thread.Picture" alt="Image" />
                     </a>
                 </div>
             }

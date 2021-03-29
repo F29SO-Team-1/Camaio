@@ -7,10 +7,16 @@
 
 
 
-<div class="container">
+<div class="row">
+    @if (Model.UserList.Count() == 0)
+    {
+        <p>You do not follow anyone yet</p>
+    }
     @foreach (var user in Model.UserList)
     {
-        @user.Username.UserName <br>
-        <img src="@user.Username.ProfileImageUrl" style="width: 20%; height:20%;" alt="ProfilePic" />
+        <div class="m-1 rel">
+            @user.Username.UserName <br>
+            <img src="@user.Username.ProfileImageUrl" alt="ProfilePic" />
+        </div>
     }
 </div>
