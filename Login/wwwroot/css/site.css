@@ -391,12 +391,14 @@ body {
     border-width: 1px;
     float: right;
     text-align: bottom;   
-    background-color: white;    
+    background-color: dd; 
     border-radius: 1%; 
+    height:525px; 
+   
   }
   
   #DIV_1 {
-    height: 60%; 
+    height: 66%; 
     background-color: blu;  
   }
 
@@ -421,14 +423,16 @@ body {
   #DIV_5 > .buttons{
       position: relative;
       top:25%; 
+      background-color: gree;
   }
   
   #DIV_3{
-    width: 700px;
-    height: 500px;
+    width: 750px;
+    height: 520px;
     overflow: hidden;
     margin: 10px;
-    position: relative;
+    position: relative; 
+    background-color: orang;
   }
 
 
@@ -443,7 +447,7 @@ body {
 
   #DIV_4 {
     width: 1%;
-    background-color: purpe; 
+    background-color: purpl; 
   }
 
   #DIV_6 {
@@ -493,13 +497,13 @@ body {
   
 .top-score-card-display {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 2%; 
+    padding: 1%; 
     height:80%;
-    width:80%;  
+    width:75%;  
     align-items: center;
     background-color: #ededed; 
     border-radius: 2.5%;
-    border-color: grey;
+    border-color: black;
     border-width: 1px; 
     border-style: solid;
     color: #020202;
@@ -577,15 +581,11 @@ body {
     margin: auto;
     min-height: 100%;
     min-width: 100%;
-}
-/*
-.card-img-top{
     border-style: solid;
     border-width: 1px;
     border-radius: 1%;
-
 }
-*/ 
+/*
 
 /* Responsive columns */
 @media screen and (max-width: 600px) {
