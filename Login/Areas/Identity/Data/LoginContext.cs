@@ -46,6 +46,10 @@ namespace Login.Data
                 .ToTable("AspNetUsers")
                 .HasMany(user => user.Notifications)
                 .WithOne(n => n.User);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.PendingRequests)
+                .WithOne(pending => pending.User);
 
         }
     }

@@ -12,6 +12,7 @@ namespace Login.Data
         string GetAlbumImage(Album album);
         Channel GetChannel(Album album);
         void DeleteAlbum(Album album);
+        IEnumerable<Album> GetAll();
         IEnumerable<AlbumModel> GetAlbumModels(Channel channel);
     }
 }

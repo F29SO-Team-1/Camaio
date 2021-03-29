@@ -55,6 +55,8 @@ namespace Login.Data
         //flags the thread
         Task FlagThread(int? threadId);
         string GetChannelCreator(Thread thread);
+        void ChangeTags(Thread thread, string tags);
+        IEnumerable<Tag> GetThreadTags(Thread thread);
 
         //getting cords from the image
         double? GetCoordinate(ExifReader reader, ExifTags type);

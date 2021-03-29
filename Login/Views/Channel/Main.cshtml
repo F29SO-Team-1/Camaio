@@ -1,10 +1,19 @@
 ﻿@model Login.Models.ChannelModel;
+@using Microsoft.AspNetCore.Identity
+@using Login.Areas.Identity.Data   
+@inject UserManager<LoginUser> UserManager
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @Model.Title</h1>
+     @foreach (var tag in Model.Tags)
+            {
+                    <th> 
+                        @tag.Name
+                    </th>
+            }
     <h2>@Model.Description</h2>
     <div>
         @if ((bool)ViewData["owner"]==false) 
@@ -20,7 +29,7 @@
             } else {
                 <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="LeaveChannel" asp-route-id=@Model.Title><h4>Leave</h4></a>
             }
-        } else {
+        } else if (User.IsInRole("Admin") || (bool)ViewData["owner"]==true || User.IsInRole("Mod")) {
             <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Manage" asp-route-id=@Model.Title><h2>Manage Channel</h2></a>
             <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="CreateAlbum" asp-route-id=@Model.Title><h4>Create Album</h4></a>
         }
@@ -78,18 +87,21 @@
         <tbody>
             @foreach (var member in Model.ChannelMembers)
             {
-                @if (member.Id == Model.Creator.Id) continue;
-                <tr>
-                    <th> 
-                        <a class="channelItem" id="Title" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username=@member.UserName>@member.UserName</a>
-                    </th>
-                    @if ((bool)ViewData["owner"]==true) 
-                    {
+                @try{
+                    @if (member.Id == Model.Creator.Id) continue;
+                    <tr>
                         <th> 
-                            <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>Remove</a>
+                            <a class="channelItem" id="Title" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username=@member.UserName>@member.UserName</a>
                         </th>
-                    }
-                </tr>
+                        @if ((bool)ViewData["owner"]==true) 
+                        {
+                            <th> 
+                                <a class="channelItem" id="Title" asp-area="" asp-controller="Channel" asp-action="RemoveMember" asp-route-id=@Model.Title asp-route-userName=@member.UserName>Kick</a>
+                            </th>
+                        }
+                    </tr>
+                }
+                catch(Exception){}
             }
         </tbody>
     </table>
