@@ -2,15 +2,11 @@
 using Login.Models.Search;
 using Login.Models.Threadl;
 using Login.Models.ApplicationUser;
-using Login.Models.Album1;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Login.Areas.Identity.Data;
 using Login.Data;
@@ -33,7 +29,7 @@ namespace Login.Controllers
             _userService = userService;
             _albumService = albumService;
         }
-
+        [ValidateAntiForgeryToken]
         public IActionResult Index(string searchInput, string searchArea, string searchOptions, string sortingOptions)
         {
             var searchResult = new SearchModel {
@@ -41,7 +37,7 @@ namespace Login.Controllers
                 ChannelsIncluded = false,
                 UsersIncluded = false
             };
-            var keywords = GetSearchKeywords(searchInput);
+            var keywords = GetSearchKeywords(searchInput);  //Returns a list of search keywords
             if (searchArea.Equals("All")||searchArea.Equals("Threads"))
             {
                 searchResult.ThreadsIncluded = true;
@@ -63,30 +59,31 @@ namespace Login.Controllers
         {
             List<string> keywords = new List<string>();
             string keyword = "";
-            if (searchInput==null) return keywords;
-            while (searchInput.Length!=0)
+            if (searchInput==null) return keywords;  //If input is null, then return an empty list
+            while (searchInput.Length!=0)  //Loops through the entire input
             {
-                if (searchInput.ElementAt(0).Equals((char)32) || searchInput.ElementAt(0).Equals((char)44))
+                if (searchInput.ElementAt(0).Equals((char)32) || searchInput.ElementAt(0).Equals((char)44)) //ASCII for whitespace and coma
                 {
                     if(keyword.Length>1)
                     {
-                        keywords.Add(keyword);
+                        keywords.Add(keyword); //Adds a keyword to the list if it is 2 or more characters long
                     }
-                    keyword = "";
-                    searchInput = searchInput.Substring(1);
+                    keyword = ""; //reset the current keyword
+                    searchInput = searchInput.Substring(1); //remove the first input character
                 } 
                 else
                 {
-                    keyword+=(searchInput.ElementAt(0));
+                    keyword+=(searchInput.ElementAt(0)); //adds a character to the current keyword if it is not whitespace or coma
                     if (searchInput.Length==1 && keyword.Length>1)
                     {
-                        keywords.Add(keyword);
+                        keywords.Add(keyword); //Adds a keyword to the list if it is 2 or more characters long
                     }
-                    searchInput = searchInput.Substring(1);
+                    searchInput = searchInput.Substring(1); //remove the first input character
                 }
             }
             return keywords;
         }
+        //Returns true if originalString either contains or equal to the keyword
         private bool StringContains(string originalString, string keyword)
         {
             return originalString.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0;
@@ -95,18 +92,29 @@ namespace Login.Controllers
         private IEnumerable<ThreadModel> GetThreads(List<string> keywords, string searchOptions, string sortingOptions)
         {
             var threads = _threadService.GetAll().Where(thread => thread.AlbumId==1);
-            if (searchOptions.Equals("Keywords"))
-            {
-                foreach (var keyword in keywords)
+            // var tags = _channelService.GetAllTags();
+            // if (searchOptions.Equals("Keywords"))
+            // {
+                foreach (var keyword in keywords) //Performs one step lookup further into the search. If the next keyword lookup produces an empty result, then skip it
                 {
                     var oneStepLookup = threads.Where(thread => StringContains(thread.Title, keyword) || StringContains(thread.Description, keyword));
                     if (oneStepLookup.FirstOrDefault()!=null) threads = oneStepLookup;
                 }
-            }
-            else if (searchOptions.Equals("Tags"))
-            {
-                return null;
-            }
+            // }
+            // else if (searchOptions.Equals("Tags"))
+            // {
+            //     foreach (var keyword in keywords)
+            //     {
+            //         var oneStepLookup = tags
+            //             .Where(tag => StringContains(tag.Name, keyword))
+            //             .Where(tag => tag.ThreadId!=0);
+            //         if (oneStepLookup.FirstOrDefault()!=null)
+            //         {
+            //             tags = oneStepLookup;
+            //             threads = tags.Select(tag => tag.Thread).Distinct(); 
+            //         }
+            //     }
+            // }
             if (sortingOptions.Equals("Votes"))
             {
                 threads = threads.OrderByDescending(thread => thread.Votes);
@@ -126,18 +134,26 @@ namespace Login.Controllers
         private IEnumerable<ChannelModel> GetChannels(IEnumerable<string> keywords, string searchOptions, string sortingOptions)
         {
             var channels = _channelService.GetAll();
-            if (searchOptions.Equals("Keywords"))
-            {
-                foreach (var keyword in keywords)
+            // if (searchOptions.Equals("Keywords"))
+            // {
+                foreach (var keyword in keywords) //Performs one step lookup further into the search. If the next keyword lookup produces an empty result, then skip it
                 {
                     var oneStepLookup = channels.Where(channel => StringContains(channel.Title, keyword) || StringContains(channel.Description, keyword));
                     if (oneStepLookup.FirstOrDefault()!=null) channels = oneStepLookup;
                 }
-            }
-            else if (searchOptions.Equals("Tags"))
-            {
-                return null;
-            }
+            // }
+            // else if (searchOptions.Equals("Tags"))
+            // {
+            //     var tags = _channelService.GetAllTags();
+            //     foreach (var keyword in keywords)
+            //     {
+            //         var oneStepLookup = tags
+            //             .Where(tag => StringContains(tag.Name, keyword))
+            //             .Where(tag => tag.ChannelId!=0);
+            //         if (oneStepLookup.FirstOrDefault()!=null) tags = oneStepLookup;
+            //     }
+            //     if(tags.Select(tag => tag.Channel).FirstOrDefault()!=null) channels = tags.Select(tag => tag.Channel).Distinct();
+            // }
             if (sortingOptions.Equals("Votes"))
             {
                 channels.OrderByDescending(channel => GetChannelRating(channel));
@@ -164,17 +180,10 @@ namespace Login.Controllers
         private IEnumerable<ProfileModel> GetUsers(IEnumerable<string> keywords, string searchOptions, string sortingOptions)
         {
             var users = _userService.GetAll();
-            if (searchOptions.Equals("Keywords"))
+            foreach (var keyword in keywords) //Performs one step lookup further into the search. If the next keyword lookup produces an empty result, then skip it
             {
-                foreach (var keyword in keywords)
-                {
-                    var oneStepLookup = users.Where(user => StringContains(user.UserName, keyword));
-                    if (oneStepLookup.FirstOrDefault()!=null) users = oneStepLookup;
-                }
-            }
-            else if (searchOptions.Equals("Tags"))
-            {
-                return null;
+                var oneStepLookup = users.Where(user => StringContains(user.UserName, keyword));
+                if (oneStepLookup.FirstOrDefault()!=null) users = oneStepLookup;
             }
             if (sortingOptions.Equals("Votes"))
             {

@@ -4,20 +4,10 @@ for details on configuring this project to bundle and minify static web assets. 
 
 /*Shared styles*/
 
-.overlaytext.button{
-    
-}
-
-.fade-in {
-    animation: fadeIn ease 1s;
-    -webkit-animation: fadeIn ease 1s;
-    -moz-animation: fadeIn ease 1s;
-    -o-animation: fadeIn ease 1s;
-    -ms-animation: fadeIn ease 1s;
-}
 .nav-item{
     color: black;
 }
+
 a:hover {
     outline: none;
     color:black;
@@ -32,16 +22,9 @@ a:hover {
 .rel{
     position:relative;
 }
+
 .abs{
     position:absolute;
-}
-
-hr.headrule{
-    margin-top: 1rem;
-    width:98%;
-    margin-bottom: 1rem;
-    border: 0;
-    border: 1px solid green;
 }
 
 .imagebutton{
@@ -51,6 +34,7 @@ hr.headrule{
     padding: 0;
     border: none;
 }
+
 .btn{
     padding: 0;
     outline: none;
@@ -106,7 +90,6 @@ li a {
     color: white;
     text-decoration: none;
 }
-
 */
 
 /* Provide sufficient contrast against white background */
@@ -130,16 +113,6 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
 .border-top {
     border-top: 1px solid #e5e5e5;
 }
@@ -183,28 +156,6 @@ body {
 
 .userProfile {
     padding: 32px 0 64px 24px;
-
-  
-}
-.user-profile{
-    position: absolute;
-    left: 32%;
-}
-
-#userProfileImage {
-    display: inline-block;
-    width: 500px;
-    height:500px;
-    background-color: #ddd;
-    top: 10%;
-    bottom: 100px;  
-    background-color: white;
-    transition: 1s;
-}
-
-.avatar-picture{
-    width: 15%;
-    height: 15%; 
 }
 
 .col-md-4{
@@ -212,26 +163,35 @@ body {
     width: 500px;
     height: 500px; 
 }
+
+/*unused - to be removed
 .user-followers-info{
     margin-top: .6em;
-    color: #81878b; }
-    .user-followers-info li {
-      width: 32%;
-      text-align: center;
-      display: inline-block;
-      font-size: 1.5em;
-      font-family: 'Lato';
-      border-right: solid 1px #bdc3c7; }
-      .user-followers-info li:last-child {
-        border: none; }
-        .user-followers-info li span {
-        display: block;
-        text-transform: uppercase;
-        font-family: 'Quicksand';
-        font-size: .5em;
-        margin-top: .6em;
-        font-weight:700;
+    color: #81878b; 
 }
+
+.user-followers-info li {
+    width: 32%;
+    text-align: center;
+    display: inline-block;
+    font-size: 1.5em;
+    font-family: 'Lato';
+    border-right: solid 1px #bdc3c7; 
+}
+
+.user-followers-info li:last-child {
+    border: none; 
+}
+
+.user-followers-info li span {
+    display: block;
+    text-transform: uppercase;
+    font-family: 'Quicksand';
+    font-size: .5em;
+    margin-top: .6em;
+    font-weight:700;
+}
+*/
 
 .follow-button{
     margin: 1.5em auto 0 auto;
@@ -250,60 +210,57 @@ body {
 }
 
 
-
-
-
-
 /*-----------------Start of 'Home Page' CSS---------------------------*/
-* {
+*{
     box-sizing: border-box;
-  }
+}
   
-
-  .row {
+.row {
     display: -ms-flexbox; /* IE10 */
     display: flex;
     -ms-flex-wrap: wrap; /* IE10 */
     flex-wrap: wrap;
     padding: 0 4px;
-  }
+}
   
-  /* Create four equal columns that sits next to each other */
-  .column {
+/* Create four equal columns that sits next to each other */
+.column {
     -ms-flex: 25%; /* IE10 */
     flex: 25%;
     max-width: 25%;
     padding: 0 4px;
-  }
+}
   
-  .column img {
+.column img {
     margin-top: 8px;
     vertical-align: middle;
     width: 100%;
-  }
+}
 
-  /* Responsive layout - makes a two column-layout instead of four columns */
+/* TODO - Remake the responsive functionality below with bootstrap classes
+
+/* Responsive layout - makes a two column-layout instead of four columns 
 @media screen and (max-width: 800px) {
     .column {
-      -ms-flex: 50%;
-      flex: 50%;
-      max-width: 50%;
-    }
-  }
-  
-  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-  @media screen and (max-width: 600px) {
-    .column {
-      -ms-flex: 100%;
-      flex: 100%;
-      max-width: 100%;
+        -ms-flex: 50%;
+        flex: 50%;
+        max-width: 50%;
     }
 }
+  
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other 
+@media screen and (max-width: 600px) {
+    .column {
+        -ms-flex: 100%;
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+*/
   
 .image{
     width:100%;
 }
-
 
 .image-box:hover .overlay {
     height:80px;
@@ -336,7 +293,6 @@ body {
 
 
 /*-----------------Start of 'Upload Page' CSS -----------------------*/
-
 .upload-form  {
     width: 100%;
     max-width: 40%;
@@ -346,7 +302,6 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     box-sizing: relative;
 }
-
 
 .upload-form .form-group {
     flex-direction: column;
@@ -377,10 +332,6 @@ body {
     color: greenyellow;
 }
 
-
-
-
-
 /*-----------------End of 'Upload Page' CSS-----------------------------*/
 
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
@@ -400,25 +351,25 @@ body {
   #DIV_1 {
     height: 66%; 
     background-color: blu;  
-  }
+}
 
-  #DIV_2 {
+#DIV_2 {
     height: 12%; 
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
     background-color: yello;
     text-align: center;
-  }
+}
 
-  #DIV_5 {
+#DIV_5 {
     height: 10%;
     bottom:100%;
     background-color: pin;
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
-  }
+}
 
   #DIV_5 > .buttons{
       position: relative;
@@ -445,17 +396,16 @@ body {
   }
   */ 
 
-  #DIV_4 {
+#DIV_4 {
     width: 1%;
     background-color: purpl; 
   }
 
-  #DIV_6 {
+#DIV_6 {
     background-color: orang; 
-  }
+}
 
 .card-footer{
-
     border-radius: 25px;
     border-color: grey;
     border-width: 1px; 
@@ -478,9 +428,9 @@ body {
   
 /* Clear floats after the columns */
 .top-score-row:after {
-  content: "";
-  display: table;
-  clear: both;
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .top-score-card {
@@ -494,20 +444,7 @@ body {
     border-style: solid;
     color: #020202;
 }
-
-
-.top-score-card-achieve {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    text-align: center;
-    background-color: red; 
-    border-radius: 25px;
-    border-color: grey;
-    border-width: 1px; 
-    border-style: solid;
-    color: #020202;
-}
-  
+ 
 .top-score-card-display {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 1%; 
@@ -561,28 +498,21 @@ body {
 }
 
 .card-img > .card-description{
-    
-    
     text-align: bottom;
     width:50%; 
     height:50%; 
     float:top; 
     float:right;  
-     
 }
+
 .card-img > .tester-{
-    
-    
     text-align: bottom;
     height:50%; 
     float:bottom; 
-
-     
 }
 
 .card-img-right{
     height:100%; 
-
 }
 
 .card-img-top{
@@ -603,15 +533,13 @@ body {
 /* Responsive columns */
 @media screen and (max-width: 600px) {
     .top-score-column {
-      width: 100%;
-      display: block;
-      margin-bottom: 20px;
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
     }
-  }
-
+}
 
 /*-----------------End of 'Top Posts' CSS-----------------------------*/
-
 
 /*-----------------Start of 'Channels Page' CSS -----------------------*/
 
@@ -703,8 +631,6 @@ body {
 }
 
 
-
-
 /*-----------------End of 'Channels Page' CSS --------------------------*/ 
 
 /*-----------------Start of 'Privacy Page' CSS---------------------------*/
@@ -714,8 +640,6 @@ body {
 }
 
 /*-----------------End of 'Privacy Page' CSS-----------------------------*/
-
-
 
 /*-----------------Start of 'Auth Form' CSS---------------------------*/
 
@@ -824,4 +748,3 @@ body {
 }
 
 /*-----------------End of the 'Account Page' CSS-----------------------*/
-

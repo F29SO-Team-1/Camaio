@@ -14,10 +14,6 @@ namespace Login.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tag>().ToTable("Tag");
-            modelBuilder.Entity<Event>()
-                .ToTable("Event")
-                .HasMany(eventThing => eventThing.Tags)
-                .WithOne(tag => tag.Event);
             modelBuilder.Entity<Channel>()
                 .ToTable("Channel")
                 .HasMany(channel => channel.Tags)
