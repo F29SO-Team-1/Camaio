@@ -184,6 +184,8 @@ namespace Login.Controllers
         public async Task<IActionResult> UploadProfileImage(IFormFile file)
         {
             var userName = _userManager.GetUserName(User);
+            var user = _service.GetByUserName(userName);
+            var date = user.MemberSince.Ticks;
             if (file == null) return RedirectToAction("Index", "Profile", new { username = userName });
             //connect to azure account container
             var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
@@ -193,8 +195,9 @@ namespace Login.Controllers
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
             //grab the filename
             var filename = contentDisposition.FileName.Trim('"');
+            var uniqueFileName = userName + date + filename;
             //get a refrence to a block blob
-            var blockBlob = container.GetBlockBlobReference(filename);
+            var blockBlob = container.GetBlockBlobReference(uniqueFileName);
             //On that block blob, Upload our file <-- file uploaded to the cloud
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
             //set the users profileimage to the URI
