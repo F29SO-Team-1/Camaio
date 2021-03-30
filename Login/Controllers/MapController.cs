@@ -1,6 +1,7 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Models.Map;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,7 @@ namespace Login.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("Profile/{userName}/Map/")]
         public ActionResult UsersThreadsListMap(string userName)
         {
@@ -54,6 +56,7 @@ namespace Login.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("/map/api/{username}")]
         public JsonResult DataTest(string userName)
         {
