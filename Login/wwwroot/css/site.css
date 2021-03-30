@@ -348,30 +348,33 @@ body {
     border-width: 1px;
     float: right;
     text-align: bottom;   
-    background-color: re; 
+    background-color: red; 
     border-radius: 1%; 
-    height:525px; 
+    height:520px;
+    margin-top: 1%; 
    
   }
   
   #DIV_1 {
     height: 66%; 
-    background-color: blu;  
+    background-color: blue;
+    width: auto;   
 }
 
 #DIV_2 {
     height: 12%; 
+    width: auto;
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
-    background-color: yello;
+    background-color: yellow;
     text-align: center;
 }
 
 #DIV_5 {
     height: 10%;
     bottom:100%;
-    background-color: pin;
+    background-color: pink;
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
@@ -380,7 +383,7 @@ body {
   #DIV_5 > .buttons{
       position: relative;
       top:25%; 
-      background-color: gree;
+      background-color: green;
   }
   
   #DIV_3{
@@ -389,7 +392,12 @@ body {
     overflow: hidden;
     margin: 10px;
     position: relative; 
-    background-color: orang;
+    background-color: orange;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 1%;
+
   }
 
 
@@ -408,7 +416,7 @@ body {
   }
 
 #DIV_6 {
-    background-color: orang; 
+    background-color: orange; 
 }
 
 .card-footer{
@@ -542,9 +550,7 @@ body {
     margin: auto;
     min-height: 100%;
     min-width: 100%;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 1%;
+   
 }
 /*
 
