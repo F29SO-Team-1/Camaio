@@ -1,16 +1,22 @@
-﻿@model  Login.Models.Threadl.ThreadList
+﻿@using Microsoft.AspNetCore.Identity
+@using Login.Areas.Identity.Data
+@model  Login.Models.Threadl.ThreadList
+@inject SignInManager<LoginUser> SignInManager
+
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="d-flex flex-wrap flex-row container-fluid rel mt-2">
-    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-one">
+    <noscript id="JSwarning">Please enable JavaScript </noscript>
+
+    <div class="col-lg-3 col-md-6 col-xs-12 p-0 m-0" id="column-one">
     </div>
-    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-two">
+    <div class="col-lg-3 col-md-6 col-xs-12 p-0 m-0" id="column-two">
     </div>
-    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-three">
+    <div class="col-lg-3 col-md-6 col-xs-12 p-0 m-0" id="column-three">
     </div>
-    <div class="col-md-3 col-sm-6 p-0 m-0" id="column-four">
+    <div class="col-lg-3 col-md-6 col-xs-12 p-0 m-0" id="column-four">
     </div>
 </div>
 <div style="display:none;">
