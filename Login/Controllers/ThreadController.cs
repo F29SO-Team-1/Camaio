@@ -324,7 +324,7 @@ namespace Login.Controllers
         public async Task<IActionResult> AddThread(int albumId, Thread model, IFormFile file, string tags)
         {
             //the type of files that the system ONLY accepts
-            if (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/heif" || file.ContentType == "image/heic")
+            if (file.ContentType == "image/jpeg" || file.ContentType == "image/png")
             {
                 var userId = _userManager.GetUserId(User);  //gets the usersId
                 var user = await _userManager.FindByIdAsync(userId);    //gets the userName
