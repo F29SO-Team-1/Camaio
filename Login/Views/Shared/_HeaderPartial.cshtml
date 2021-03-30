@@ -10,10 +10,7 @@
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h1>Camaio</h1></a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Followers" asp-route-username="@UserManager.GetUserName(User)">following</a>
-                </li>
-                <li class="nav-item">
+                <li class="nav-item d-none d-lg-block">
                     <a class="nav-link" asp-area="" asp-controller="Channel" asp-action="Index">Channels</a>
                 </li>
             </ul>
@@ -53,6 +50,7 @@
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">Top Users</a>
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Score" asp-action="Threads">Top Posts</a>
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievements" asp-action="IndexAsync" asp-route-username="@UserManager.GetUserName(User)">Achievements</a>
+                    <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Followers" asp-route-username="@UserManager.GetUserName(User)">following</a>
                     @if (User.IsInRole("Admin"))
                     {
                         <div class="dropdown-divider"></div>
