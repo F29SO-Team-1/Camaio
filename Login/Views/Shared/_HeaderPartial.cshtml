@@ -48,6 +48,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <p class="mx-3">@UserManager.GetUserName(User)</p>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Profile</a>
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">Top Users</a>
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Score" asp-action="Threads">Top Posts</a>
