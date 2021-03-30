@@ -31,7 +31,8 @@ namespace Login.Controllers.Tests
         [TestMethod]
         public void IndexTest()
         {
-            var controller = new ProfileController();
+            //var controller = new ProfileController();
+            Assert.Fail();
         }
 
         [TestMethod()]
