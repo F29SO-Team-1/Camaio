@@ -675,6 +675,7 @@ body {
 /*-----------------Start of 'Auth Form' CSS---------------------------*/
 
 .auth-form {
+    overflow: hidden;
     display: flex;
     justify-content: center;
     justify-self: center;
