@@ -1,10 +1,5 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-// Function to change the follow button to follow 
-$(document).ready(
+﻿$(document).ready(
+	// Function to change the follow button to follow 
 	//console.log(window.location.pathname),
 	function click(){
 	$('.follow-button').on("click", function(){
@@ -12,7 +7,15 @@ $(document).ready(
 		$('.follow-button').html('<div class="icon-ok"></div> Following');
 	});	
 	},
+
 	window.onload = function(){
+		/* This hides the messages warning theuser to enable JS */
+		try{
+			var hideme = document.getElementById("JSwarning");
+			hideme.style.display = "none";
+		}catch{}
+
+
 		/* This checks and sets wether or not the user is on mobile for future use */
 		var isMobile = false; //initiate as false
 		// device detection
@@ -28,9 +31,9 @@ $(document).ready(
 		*/
 		var pictures = document.getElementsByClassName("image-box");
 		const parent1 = document.getElementById("column-one");
-		const parent2 = document.getElementById('column-two');
-		const parent3 = document.getElementById('column-three');
-		const parent4 = document.getElementById('column-four');
+		const parent2 = document.getElementById("column-two");
+		const parent3 = document.getElementById("column-three");
+		const parent4 = document.getElementById("column-four");
 		let divheights = new Map();
 		divheights.set(0,[parent1,0])
 		divheights.set(1,[parent2,0])
@@ -42,6 +45,7 @@ $(document).ready(
 		for (var i = 0; i < pictures.length; i++) {
 			shortest[0].appendChild(pictures[i]);
 			shortest[1]+=pictures[i].clientHeight;
+			//re-calculates the shortest column
 			for (var j = 0; j < divheights.size; j++){
 				if (shortest[1] > divheights.get(j)[1]){
 					shortest = divheights.get(j);
@@ -64,5 +68,21 @@ function drawDiv(div){
 	  x.style.display = "none";
 	} else {
 	  x.style.display = "block";
+	}
+}
+
+function toggleLikeButton(){
+	var likeBtn = document.getElementById("likeBtn");
+	var dislikeBtn = document.getElementById("disLikeBtn");
+
+	if (likeBtn.classList.contains("d-none")){
+		likeBtn.classList.remove("d-none");
+		dislikeBtn.classList.add("d-none")
+		console.log("test1")
+	}
+	else if (dislikeBtn.classList.contains("d-none")){
+		dislikeBtn.classList.remove("d-none");
+		likeBtn.classList.add("d-none")
+		console.log("test2")
 	}
 }
