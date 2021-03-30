@@ -147,7 +147,8 @@ namespace Login.Service
         {
             //get all the liked threads; and select the threads were the userID is mentioned
             return _context.Likes.Select(x => x.Thread)
-                .Where(y=>y.UserID == userId)
+                .Where(y=>y.Votes >= 1)
+                .Where(z=>z.LikedBy.Any(v=>v.UserId == user))
                 .Distinct();
         }
 
