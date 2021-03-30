@@ -348,7 +348,7 @@ body {
     border-width: 1px;
     float: right;
     text-align: bottom;   
-    background-color: red; 
+    background-color: re; 
     border-radius: 1%; 
     height:520px;
     margin-top: 1%; 
@@ -357,7 +357,7 @@ body {
   
   #DIV_1 {
     height: 66%; 
-    background-color: blue;
+    background-color: blu;
     width: auto;   
 }
 
@@ -367,14 +367,14 @@ body {
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
-    background-color: yellow;
+    background-color: yello;
     text-align: center;
 }
 
 #DIV_5 {
     height: 10%;
     bottom:100%;
-    background-color: pink;
+    background-color: pik;
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
@@ -383,7 +383,7 @@ body {
   #DIV_5 > .buttons{
       position: relative;
       top:25%; 
-      background-color: green;
+      background-color: gren;
   }
   
   #DIV_3{
@@ -392,7 +392,7 @@ body {
     overflow: hidden;
     margin: 10px;
     position: relative; 
-    background-color: orange;
+    background-color: orang;
     border-color: black;
     border-style: solid;
     border-width: 1px;
@@ -416,7 +416,7 @@ body {
   }
 
 #DIV_6 {
-    background-color: orange; 
+    background-color: orang; 
 }
 
 .card-footer{
