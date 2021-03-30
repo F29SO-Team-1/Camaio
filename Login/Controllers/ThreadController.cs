@@ -336,7 +336,7 @@ namespace Login.Controllers
 
                 return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
             }
-            return NotFound();
+            return View("../Shared/Error");
         }
 
         //Uploads the Image to the Azure blob container
