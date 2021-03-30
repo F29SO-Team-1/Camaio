@@ -323,7 +323,8 @@ namespace Login.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddThread(int albumId, Thread model, IFormFile file, string tags)
         {
-            if (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/giff")
+            //the type of files that the system ONLY accepts
+            if (file.ContentType == "image/jpeg" || file.ContentType == "image/png")
             {
                 var userId = _userManager.GetUserId(User);  //gets the usersId
                 var user = await _userManager.FindByIdAsync(userId);    //gets the userName
@@ -335,7 +336,7 @@ namespace Login.Controllers
 
                 return RedirectToAction("Index", "Thread", new { @id = threadId });    //shows the thread that was created
             }
-            return NotFound();
+            return View("../Shared/Error");
         }
 
         //Uploads the Image to the Azure blob container
