@@ -502,7 +502,7 @@ body {
 }
 
 .top-score-card:hover {
-    background-color: #e6e6e6;
+    background-color: greenyellow;
     -ms-transform: scale(1.5); /* IE 9 */
     -webkit-transform: scale(1.5); /* Safari 3-8 */
     transform: scale(1.05); 
