@@ -78,11 +78,9 @@ function toggleLikeButton(){
 	if (likeBtn.classList.contains("d-none")){
 		likeBtn.classList.remove("d-none");
 		dislikeBtn.classList.add("d-none")
-		console.log("test1")
 	}
 	else if (dislikeBtn.classList.contains("d-none")){
 		dislikeBtn.classList.remove("d-none");
 		likeBtn.classList.add("d-none")
-		console.log("test2")
 	}
 }
