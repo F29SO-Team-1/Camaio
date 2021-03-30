@@ -301,6 +301,7 @@ body {
     background-color: #39603D;
     font-family: Arial, Helvetica, sans-serif;
     box-sizing: relative;
+    border-radius: 1%;
 }
 
 .upload-form .form-group {
@@ -347,7 +348,7 @@ body {
     border-width: 1px;
     float: right;
     text-align: bottom;   
-    background-color: dd; 
+    background-color: re; 
     border-radius: 1%; 
     height:525px; 
    
