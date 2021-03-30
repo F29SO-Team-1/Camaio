@@ -55,9 +55,12 @@
                     <h5 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h5>
                     <h5 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h5>
                 </a>
-              <a asp-action="Index" asp-controller="Map" asp-route-threadId="@Model.Id">
-                  <h6 class="card-subtitle mb-2 text-muted">Location</h6>
-              </a>
+                @if (Model.Lng != null || Model.Lat != null)
+                { 
+                    <a asp-action="Index" asp-controller="Map" asp-route-threadId="@Model.Id">
+                        <h6 class="card-subtitle mb-2 text-muted">Location</h6>
+                    </a>
+                }
             </div>
         </div>
     </div> 
