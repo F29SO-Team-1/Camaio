@@ -84,7 +84,9 @@ namespace Login.Controllers
                 Rating = listOfLikes.Count(),
                 LikedBy = listOfLikes,
                 NoReports = numberOfReports,
-                Tags = tags
+                Tags = tags,
+                Lat = thread.Lat,
+                Lng = thread.Lng
             };
             return View(model);
         }
@@ -214,10 +216,10 @@ namespace Login.Controllers
         public async Task<JsonResult> RatingIncrement([FromBody] int? id)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
+            if (id == null) return Json("Error");
             var wholeThread = _service.GetById(id);
             //make a list of users that liked the thread
             var listOfLikes = _service.ListOfLikes(id);
-            if (id == null) NotFound();
             //check if the user already pressed the btn
             if (_service.CheckAreadyLiked(wholeThread, userId) == true)
             {

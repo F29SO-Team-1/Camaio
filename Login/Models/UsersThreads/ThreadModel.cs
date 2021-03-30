@@ -23,6 +23,10 @@ namespace Login.Models.Threadl
         public int NoReports { get; set; }
         public bool Flagged { get; set; }
 
+        //location
+        public double? Lat { get; set; }
+        public double? Lng { get; set; }
+
         public int EventId { get; set; }
         public Event Event { get; set; }
         public int AlbumId { get; set; }
