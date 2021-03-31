@@ -22,7 +22,7 @@ namespace Login.Controllers
         }
 
         //there is a issue that it needs a 20, in the url for some reason i dont know why
-
+        [Authorize]
         [Route("/Thread/Map/{threadId}")]
         public ActionResult Index(int threadId)
         {
