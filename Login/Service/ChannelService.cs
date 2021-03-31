@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login.Service
 {
@@ -12,10 +13,12 @@ namespace Login.Service
     {
         private readonly ChannelContext _context;
         private readonly TagContext _tagContext;
-        public ChannelService(ChannelContext context, TagContext tagContext)
+        private readonly UserManager<LoginUser> _userManager;
+        public ChannelService(ChannelContext context, TagContext tagContext, UserManager<LoginUser> userManager)
         {
             _context = context;
             _tagContext = tagContext;
+            _userManager = userManager;
         }
         //Returns the list of user's channels
         public List<Channel> GetChannels(LoginUser user)
@@ -44,7 +47,7 @@ namespace Login.Service
         {
             var channelMember = await _context.ChannelMember
                 .Where(table => table.Channel == channel)
-                .Where(table => table.User == user)
+                .Where(table => table.UserId == user.Id)
                 .FirstOrDefaultAsync();
             return channelMember;
         }
@@ -54,7 +57,7 @@ namespace Login.Service
             var channelMember = new ChannelMember
             {
                 Channel = channel,
-                User = user
+                UserId = user.Id
             };
             _context.Add(channelMember);
             _context.SaveChanges();
@@ -75,8 +78,8 @@ namespace Login.Service
         public IEnumerable<LoginUser> GetChannelMembers(Channel channel)
         {
             var channelMembers = _context.ChannelMember
-                .Where(table => table.ChannelId == channel.Id)
-                .Select(table => table.User)
+                .Where(table => table.Channel == channel)
+                .Select(table => _userManager.FindByIdAsync(table.UserId).Result)
                 .Distinct()
                 .ToList();
             return channelMembers;

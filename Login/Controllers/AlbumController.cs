@@ -43,7 +43,7 @@ namespace Login.Controllers
                 {
                     if (!album.VisibleToGuests)
                     {
-                        return RedirectToAction("NoAccess", "Home");
+                        return RedirectToAction("Index", "Thread", new { id = 30 });
                     }
                 }
                 else
@@ -76,7 +76,7 @@ namespace Login.Controllers
             var album = _service.GetAlbum(albumId);
             if (album == null) return NotFound();
             var channel = _service.GetChannel(album);
-            if (channel.CreatorId != _userManager.GetUserId(User)) return RedirectToAction("NoAccess", "Home");
+            if (channel.CreatorId != _userManager.GetUserId(User)) return RedirectToAction("Index", "Thread", new { id = 30 });
             return View(album);
         }
         //Confirm the deletion
@@ -86,7 +86,7 @@ namespace Login.Controllers
             var album = _service.GetAlbum(albumId);
             if (album == null) return NotFound();
             var channel = _service.GetChannel(album);
-            if (channel.CreatorId != _userManager.GetUserId(User)) return RedirectToAction("NoAccess", "Home");
+            if (channel.CreatorId != _userManager.GetUserId(User)) return RedirectToAction("Index", "Thread", new { id = 30 });
             _service.DeleteAlbum(album);
             return RedirectToAction("Main", "Channel", new { id = channel.Title });
         }

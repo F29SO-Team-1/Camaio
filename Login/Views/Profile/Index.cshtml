@@ -13,10 +13,11 @@
 <div class="container-fluid d-flex flex-lg-row flex-column">
     <div class="col-lg-2 col-md-12 mt-2">
         <ul class="nav flex-column w-100">
+            <p class="text-center">@Model.Username</p>
             <img class="img mx-auto" style="height:100px;width:100px;" src="@Model.ProfileImageUrl"></img>
             @if (SignInManager.IsSignedIn(User)){
                 @if (User.Identity.Name != Model.Username){
-                    <button type="button" class="follow-button"> Follow </button>
+                    <a type="button" class="follow-button" asp-controller="Profile" asp-action="Follow" asp-route-id="@Model.Username"> Follow </a>
                 }
             }
             <p class="mt-2 text-center">
@@ -28,7 +29,9 @@
             </p>
             @foreach (var role in @Model.Roles.Result)
             {
-                <p style="p-2 nav-item text-dark">@role</p>
+                <p style="p-2 nav-item text-dark" class="text-center">
+                    @role
+                </p>
                 <br />
             }
             <a class="nav-item text-dark text-left p-2" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username" title="">Achievements</a>

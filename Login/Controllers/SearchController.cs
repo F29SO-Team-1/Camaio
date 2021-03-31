@@ -92,7 +92,7 @@ namespace Login.Controllers
 
         private IEnumerable<ThreadModel> GetThreads(List<string> keywords, string searchOptions, string sortingOptions)
         {
-            var threads = _threadService.GetAll().Where(thread => thread.AlbumId==1);
+            var threads = _threadService.GetAll().Where(thread => thread.AlbumId==1).Where(thread => thread.Flagged == false);
             // var tags = _channelService.GetAllTags();
             // if (searchOptions.Equals("Keywords"))
             // {

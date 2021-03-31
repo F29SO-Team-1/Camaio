@@ -46,18 +46,21 @@ namespace Login.Controllers
             ViewData["public"] = _service.CheckIfPublic(channel);
             ViewData["owner"] = false;
             var user = _userManager.GetUserAsync(User).Result;
-            var channelMember = _service.GetChannelMember(user, channel).Result; //Check if the user is a channel member
-            if (channelMember == null)
+            if (user != null) 
             {
-                ViewData["member"] = false;
-            }
-            else
-            {
-                ViewData["member"] = true;
-            }
-            if (channel.CreatorId == user.Id)
-            {
-                ViewData["owner"] = true;
+                var channelMember = _service.GetChannelMember(user, channel).Result; //Check if the user is a channel member
+                if (channelMember == null)
+                {
+                    ViewData["member"] = false;
+                }
+                else
+                {
+                    ViewData["member"] = true;
+                }
+                if (channel.CreatorId == user.Id)
+                {
+                    ViewData["owner"] = true;
+                }
             }
             var albums = _albumService.GetAlbumModels(channel); //List of all channel albums
             var members = _service.GetChannelMembers(channel); //List of all channel members
@@ -113,7 +116,7 @@ namespace Login.Controllers
             {
                 return View(channel);
             }
-            return RedirectToAction("NoAccess", "Home");
+            return RedirectToAction("Index", "Thread", new { id = 30 });
         }
         [Authorize]
         public async Task<IActionResult> ConfirmDelete(string id)
@@ -125,7 +128,7 @@ namespace Login.Controllers
                 await _service.DeleteChannel(channel);
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("NoAccess", "Home");
+            return RedirectToAction("Index", "Thread", new { id = 30 });
         }
         //Kick a channel member
         [Authorize]
@@ -143,7 +146,7 @@ namespace Login.Controllers
                     return View(userToRemove);
                 }
             }
-            return RedirectToAction("NoAccess", "Home");
+            return RedirectToAction("Index", "Thread", new { id = 30 });
         }
         [Authorize]
         public IActionResult ConfirmRemove(string id, string userName)
@@ -161,7 +164,7 @@ namespace Login.Controllers
                 }
                 return RedirectToAction("Main", "Channel", new { id = channel.Title });
             }
-            return RedirectToAction("NoAccess", "Home");
+            return RedirectToAction("Index", "Thread", new { id = 30 });
         }
         //Create a channel
         [Authorize]
@@ -193,7 +196,7 @@ namespace Login.Controllers
                 ViewData["Tags"] = tagline; //Used to display it
                 return View(channel);
             }
-            return RedirectToAction("NoAccess", "Home");
+            return RedirectToAction("Index", "Thread", new { id = 30 });
         }
         [Authorize]
         public IActionResult CreateAlbum(string id)
@@ -211,7 +214,7 @@ namespace Login.Controllers
                 ViewData["channel"] = channel.Title;
                 return View();
             }
-            return RedirectToAction("NoAccess", "Home");
+            return RedirectToAction("Index", "Thread", new { id = 30 });
         }
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -240,7 +243,7 @@ namespace Login.Controllers
                 }
 
             }
-            return RedirectToAction("NoAccess", "Home");
+            return RedirectToAction("Index", "Thread", new { id = 30 });
         }
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -255,7 +258,7 @@ namespace Login.Controllers
                 _service.ChangeTags(channel, tags);
                 return RedirectToAction("Main", "Channel", new { id = channel.Title });
             }
-            return RedirectToAction("NoAccess", "Home");
+            return RedirectToAction("Index", "Thread", new { id = 30 });
         }
         [Authorize]
         [ValidateAntiForgeryToken]
