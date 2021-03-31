@@ -7,6 +7,10 @@
 <div class="top-score-row">
     <br>
     @foreach (var threads in Model.ThreadLists){
+        if (threads.Flagged == true || threads.AlbumId != 1)
+        {
+            continue;
+        }
         <a asp-action="Index" asp-controller="Thread" asp-route-id="@threads.Id"> 
             <div class="top-score-column">
                 <div class="top-score-card">
