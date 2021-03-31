@@ -14,6 +14,11 @@
     <div class="col-lg-2 col-md-12 mt-2">
         <ul class="nav flex-column w-100">
             <img class="img mx-auto" style="height:100px;width:100px;" src="@Model.ProfileImageUrl"></img>
+            @if (SignInManager.IsSignedIn(User)){
+                @if (User.Identity.Name != Model.Username){
+                    <button type="button" class="follow-button"> Follow </button>
+                }
+            }
             <p class="mt-2 text-center">
                 Score:@Model.UserRating
             </p>
@@ -23,17 +28,33 @@
             </p>
             @foreach (var role in @Model.Roles.Result)
             {
-                <p style="p-2 nav-item">@role</p>
+                <p style="p-2 nav-item text-dark">@role</p>
                 <br />
             }
-            @if (SignInManager.IsSignedIn(User))
+            <a class="nav-item text-dark text-left p-2" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username" title="">Achievements</a>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV1)">Following</Button>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV2)">Followers</Button>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV3)">Likes</Button>
+
+            
+            @if (User.Identity.Name == Model.Username)
             {
-                <a class="nav-item p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
+                <a class="nav-item text-dark p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
+                <hr/>
+                <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
+                    <div class="nav-item border p-2" id="form-group">
+                        <div class="form-group">
+                            <p>Change your profile image</p>
+                            <span asp-validation-for="ProfileImageUrl"></span>
+                            <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
+                        </div>
+                        <button type="submit" id="submitProfilePicBtn" class="btn btn-submitProfilePic btn-primary">
+                            Submit
+                        </button>
+                    </div>
+                </form>
             }
-            <a class="nav-item text-left p-2" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username" title="">Achievements</a>
-            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV1)">Following</Button>
-            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV2)">Followers</Button>
-            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV3)">Likes</Button>
+
         </ul>
     </div>
 

@@ -4,13 +4,24 @@ for details on configuring this project to bundle and minify static web assets. 
 
 /*Shared styles*/
 
+/*remove if this breaks other stuff*/
+.overflow-hidden{
+    color:white;
+    font-size: 16px;
+}
+
+.overflow-hidden:hover{
+    color:white;
+}
+/*---------*/
+
 .navbar{
     background-color: #39603D;
     color: white;
 }
 
 .nav-item{
-    color: white;
+    color: inherit;
 }
 
 .dropdown-menu{
@@ -65,8 +76,6 @@ for details on configuring this project to bundle and minify static web assets. 
     width:500px;
 }
 
-
-
 /* lists styling*/
 
 /*
@@ -104,11 +113,34 @@ a:hover {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    padding: 1px 5px;
 }
+
+.btn-primary:hover {
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
 /*
+
+.auth-form .btn-primary {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+}
+
+.auth-form .btn-primary:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
 .nav-pills, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -285,12 +317,10 @@ body {
 
 .image-box{
     border-radius: 10px;
-    border: 5px solid green; 
     transition-duration: 0.3s;
 }
 
 .image-box:hover {
-    border: 5px solid greenyellow; 
     background-color:white;
 }
 
@@ -299,6 +329,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
+    background-color: #39603D;
 }
 
 .image-box:hover .overlaytext {
@@ -313,7 +344,6 @@ body {
     height: 0px;
     width: 100%;
     transition: .5s;
-    background-color: greenyellow;
 }
 
 .overlaytext{

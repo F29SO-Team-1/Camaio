@@ -50,7 +50,7 @@
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">Top Users</a>
                     <a class="dropdown-item" id="manage" asp-area="" asp-controller="Score" asp-action="Threads">Top Posts</a>
                     <a class="dropdown-item" id="manage" asp-controller="Achievement" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Achievements</a>
-                    <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Followers" asp-route-username="@UserManager.GetUserName(User)">following</a>
+                    <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Followers" asp-route-username="@UserManager.GetUserName(User)">Following</a>
                     @if (User.IsInRole("Admin"))
                     {
                         <div class="dropdown-divider"></div>
