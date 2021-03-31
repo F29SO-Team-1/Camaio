@@ -3,6 +3,8 @@ for details on configuring this project to bundle and minify static web assets. 
 
 
 /*Shared styles*/
+
+/*remove if this breaks other stuff*/
 .overflow-hidden{
     color:white;
     font-size: 16px;
@@ -11,6 +13,7 @@ for details on configuring this project to bundle and minify static web assets. 
 .overflow-hidden:hover{
     color:white;
 }
+/*---------*/
 
 .navbar{
     background-color: #39603D;
@@ -110,11 +113,34 @@ a:hover {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    padding: 1px 5px;
 }
+
+.btn-primary:hover {
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
 /*
+
+.auth-form .btn-primary {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+}
+
+.auth-form .btn-primary:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
 .nav-pills, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -305,6 +331,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
+    background-color: #39603D;
 }
 
 .image-box:hover .overlaytext {
