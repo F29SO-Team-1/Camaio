@@ -38,17 +38,17 @@
                     </p><br />
                     <p class="overlaytext mt-1">
                         <a class="" asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
-                            @thread.AuthorUserName
+                            By: @thread.AuthorUserName
                         </a>
                     </p>
                 </span>
                 <span class="col-2 mt-2">
                     <p class="overlaytext text-right" id="like">
-                        @thread.Rating
+                        Rating
                     </p><br />
-                    <p class="overlaytext button mt-1">
-                        <button type="button" onclick="" value="@thread.Id" class="btn btn-primary">Like</button>
-                    </p>
+                        <p class="overlaytext button mt-1">
+                            @thread.Rating
+                        </p>
                 </span>
             </div>
         </div>
