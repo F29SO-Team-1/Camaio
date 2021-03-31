@@ -14,7 +14,7 @@ namespace Login.Data
 
         //gets the users name
         LoginUser GetByUserName(string username);
-        
+
         //gets all users
         IEnumerable<LoginUser> GetAll();
 
@@ -34,5 +34,9 @@ namespace Login.Data
         Task GiveUserWarning(string userId);
 
         bool IfUserExists(string username);
+
+        List<LoginUser> UserFollowingList(LoginUser user);
+        IEnumerable<LoginUser> ListOfFollowing(LoginUser user);
+
     }
 }

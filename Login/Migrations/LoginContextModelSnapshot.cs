@@ -96,6 +96,37 @@ namespace Login.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Login.Models.Album", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ChannelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("MembersCanPost")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("VisibleToGuests")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId");
+
+                    b.HasIndex("LoginUserId");
+
+                    b.ToTable("Album");
+                });
+
             modelBuilder.Entity("Login.Models.Channel", b =>
                 {
                     b.Property<int>("Id")
@@ -106,14 +137,11 @@ namespace Login.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("MembersCanPost")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("Public")
                         .HasColumnType("bit");
@@ -121,10 +149,9 @@ namespace Login.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("VisibleToGuests")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Channel");
                 });
@@ -139,19 +166,76 @@ namespace Login.Migrations
                     b.Property<int>("ChannelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("LoginUserId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ChannelId");
 
-                    b.HasIndex("LoginUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ChannelMember");
+                });
+
+            modelBuilder.Entity("Login.Models.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Public")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Event");
+                });
+
+            modelBuilder.Entity("Login.Models.EventParticipant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EventId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId1");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EventParticipant");
                 });
 
             modelBuilder.Entity("Login.Models.Following", b =>
@@ -172,6 +256,178 @@ namespace Login.Migrations
                     b.HasIndex("FollowingUsersId");
 
                     b.ToTable("Follow");
+                });
+
+            modelBuilder.Entity("Login.Models.Likes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ThreadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ThreadID");
+
+                    b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("Login.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ChannelId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ChannelId1")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EventId1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ThreadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ThreadId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId1");
+
+                    b.HasIndex("EventId1");
+
+                    b.HasIndex("ThreadID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("Login.Models.Report", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ThreadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ThreadID");
+
+                    b.ToTable("Report");
+                });
+
+            modelBuilder.Entity("Login.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ChannelId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ChannelId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EventId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ThreadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ThreadId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId1");
+
+                    b.HasIndex("EventId1");
+
+                    b.HasIndex("ThreadID");
+
+                    b.ToTable("Tag");
+                });
+
+            modelBuilder.Entity("Login.Models.Thread", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Flagged")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NoReports")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Votes")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Thread");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -252,12 +508,10 @@ namespace Login.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -294,12 +548,10 @@ namespace Login.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -307,6 +559,26 @@ namespace Login.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Login.Models.Album", b =>
+                {
+                    b.HasOne("Login.Models.Channel", "Channel")
+                        .WithMany("Albums")
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", null)
+                        .WithMany("Albums")
+                        .HasForeignKey("LoginUserId");
+                });
+
+            modelBuilder.Entity("Login.Models.Channel", b =>
+                {
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "Creator")
+                        .WithMany("CreatedChannels")
+                        .HasForeignKey("CreatorId");
                 });
 
             modelBuilder.Entity("Login.Models.ChannelMember", b =>
@@ -317,9 +589,27 @@ namespace Login.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "LoginUser")
-                        .WithMany("ChannelMembers")
-                        .HasForeignKey("LoginUserId");
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "User")
+                        .WithMany("Channels")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Login.Models.Event", b =>
+                {
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "Creator")
+                        .WithMany("CreatedEvents")
+                        .HasForeignKey("CreatorId");
+                });
+
+            modelBuilder.Entity("Login.Models.EventParticipant", b =>
+                {
+                    b.HasOne("Login.Models.Event", "Event")
+                        .WithMany("Participants")
+                        .HasForeignKey("EventId1");
+
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "User")
+                        .WithMany("Events")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Login.Models.Following", b =>
@@ -327,6 +617,69 @@ namespace Login.Migrations
                     b.HasOne("Login.Areas.Identity.Data.LoginUser", "FollowingUsers")
                         .WithMany("FollowsUser")
                         .HasForeignKey("FollowingUsersId");
+                });
+
+            modelBuilder.Entity("Login.Models.Likes", b =>
+                {
+                    b.HasOne("Login.Models.Thread", "Thread")
+                        .WithMany("LikedBy")
+                        .HasForeignKey("ThreadID");
+                });
+
+            modelBuilder.Entity("Login.Models.Notification", b =>
+                {
+                    b.HasOne("Login.Models.Channel", "Channel")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ChannelId1");
+
+                    b.HasOne("Login.Models.Event", "Event")
+                        .WithMany("Notifications")
+                        .HasForeignKey("EventId1");
+
+                    b.HasOne("Login.Models.Thread", "Thread")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ThreadID");
+
+                    b.HasOne("Login.Areas.Identity.Data.LoginUser", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Login.Models.Report", b =>
+                {
+                    b.HasOne("Login.Models.Thread", "Thread")
+                        .WithMany("Reports")
+                        .HasForeignKey("ThreadID");
+                });
+
+            modelBuilder.Entity("Login.Models.Tag", b =>
+                {
+                    b.HasOne("Login.Models.Channel", "Channel")
+                        .WithMany("Tags")
+                        .HasForeignKey("ChannelId1");
+
+                    b.HasOne("Login.Models.Event", "Event")
+                        .WithMany("Tags")
+                        .HasForeignKey("EventId1");
+
+                    b.HasOne("Login.Models.Thread", "Thread")
+                        .WithMany("Tags")
+                        .HasForeignKey("ThreadID");
+                });
+
+            modelBuilder.Entity("Login.Models.Thread", b =>
+                {
+                    b.HasOne("Login.Models.Album", "Album")
+                        .WithMany("Threads")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Login.Models.Event", "Event")
+                        .WithMany("Threads")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

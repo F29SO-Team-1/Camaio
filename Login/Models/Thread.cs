@@ -15,10 +15,17 @@ namespace Login.Models
         public int Votes { get; set; }
         public int NoReports { get; set; }
         public bool Flagged { get; set; }
+        public int AlbumId { get; set; }
+        public Album Album { get; set; }
 
+        //cords from the image
+        public double? Lat { get; set; }
+        public double? Lng { get; set; }
 
         public IEnumerable<Likes> LikedBy { get; set; }
 
         public IEnumerable<Report> Reports { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
+        public IEnumerable<Notification> Notifications { get; set; }
     }
 }

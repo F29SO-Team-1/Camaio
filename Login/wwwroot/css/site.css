@@ -2,6 +2,63 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 
+/*Shared styles*/
+
+/*remove if this breaks other stuff*/
+.overflow-hidden{
+    color:white;
+    font-size: 16px;
+}
+
+.overflow-hidden:hover{
+    color:white;
+}
+/*---------*/
+
+.navbar{
+    background-color: #39603D;
+    color: white;
+}
+
+.nav-item{
+    color: inherit;
+}
+
+.dropdown-menu{
+    background-color: white;
+}
+
+.rel{
+    position:relative;
+}
+
+.abs{
+    position:absolute;
+}
+
+.imagebutton{
+    height:50px;
+    width:50px;
+    background: none;
+    padding: 0;
+    border: none;
+}
+
+.btn{
+    padding: 0;
+    outline: none;
+    background: none;
+    border: 0;
+}
+
+.btn-link{
+    max-height:60px;
+    max-width:60px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
 .content-box{
     width:600px;
     margin:auto;
@@ -16,105 +73,17 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 .form-control{
-    width:200px;
-}
-
-.form-group{
-    display:flex;
-}
-
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
-header{
-    height:66px;
-    width:100%;
-    background: #39603D;
-    display: flex;
-    justify-content: flex-start;
-    overflow: hidden;
-}
-head-spacer{
-    height:20px;
-    width:100%;
-}
-
-.home-image{
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    left: 17px;
-    top: 8px;
-}
-@media only screen and (max-width:870px){
-    .input-group{
-        display:none;
-    }
-    .login-details{
-        position: absolute;
-        left:80px;
-    }
-}
-
-
-.input-group{
-    max-width:500px;
-    margin: auto;
-    color:#fff;
-    background: #020202;
-}
-
-.rounded{
-    background-color: #020202;
-    border:none;
-}
-
-.login-details{
-    float: right;
-    padding-top:2px;
-}
-
-.user-button{
-    background:url(../pictures/avatar.png);
-    border:none;
-}
-
-.profile-img{
-    width: 50px;
-    height: 50px;
-    margin-top: 8px;
-    border:5px;
-    margin-right:20px;
-}
-
-.logout-container{
-    padding-top:30px;
-    margin-left:20px;
-}
-
-.upload-image img{
-    background:url(../pictures/upload-button.png);
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    left: 86px;
-    top: 13px;
-}
-.upload-image{
-    margin-left:50px;
-}
-
-.search-button {
-    background-color: #DADED4;
-    border-color: #DADED4;
+    width:500px;
 }
 
 /* lists styling*/
+
+/*
+
+Made this commented to fix errors; Please be specific if you want
+to change something used elsewhere!
+
 ul {
-    overflow: hidden;
     list-style-type: none;
 }
   
@@ -128,20 +97,48 @@ li a {
     color: white;
     text-decoration: none;
 }
+*/
 
-.nav-link{
-    margin-top:10px;
-}
-  
 /* Provide sufficient contrast against white background */
 a {
-    color: #0366d6;
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    outline: none;
+    color:black;
+    text-decoration: none;
+    color: inherit;
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    padding: 1px 5px;
+}
+
+.btn-primary:hover {
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
+/*
+
+.auth-form .btn-primary {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+}
+
+.auth-form .btn-primary:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
 }
 
 .nav-pills, .nav-pills .show > .nav-link {
@@ -149,23 +146,10 @@ a {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-
-.nav-link:hover{
-    color:black;
-}
+*/
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
 .border-top {
     border-top: 1px solid #e5e5e5;
 }
@@ -192,9 +176,11 @@ html {
 
 body {
     /* Margin bottom by footer height */
+    margin: 0;
     margin-bottom: 60px;
-    background-color: #DADED4;
+    background-color: #e6f9eb;
     width:100%;
+    font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
 }
 
 .footer {
@@ -207,53 +193,12 @@ body {
 
 .userProfile {
     padding: 32px 0 64px 24px;
-
-  
-}
-.user-profile{
-    position: absolute;
-    left: 32%;
-}
-
-#userProfileImage {
-    display: inline-block;
-    width: 500px;
-    height:500px;
-    background-color: #ddd;
-    top: 10%;
-    bottom: 100px;  
-    background-color: green;
-}
-
-.avatar-picture{
-    width: 15%;
-    height: 15%; 
 }
 
 .col-md-4{
     top: 25px;
     width: 500px;
     height: 500px; 
-}
-.user-followers-info{
-    margin-top: .6em;
-    color: #81878b; }
-    .user-followers-info li {
-      width: 32%;
-      text-align: center;
-      display: inline-block;
-      font-size: 1.5em;
-      font-family: 'Lato';
-      border-right: solid 1px #bdc3c7; }
-      .user-followers-info li:last-child {
-        border: none; }
-        .user-followers-info li span {
-        display: block;
-        text-transform: uppercase;
-        font-family: 'Quicksand';
-        font-size: .5em;
-        margin-top: .6em;
-        font-weight:700;
 }
 
 .follow-button{
@@ -273,84 +218,440 @@ body {
 }
 
 
-
-
-
-
 /*-----------------Start of 'Home Page' CSS---------------------------*/
-* {
+*{
     box-sizing: border-box;
-  }
+}
   
-  body {
-    margin: 0;
-    font-family: Arial;
-  }
-  
-  .header {
-    text-align: center;
-    padding: 32px;
-  }
-
-  .row {
+.row {
     display: -ms-flexbox; /* IE10 */
     display: flex;
     -ms-flex-wrap: wrap; /* IE10 */
     flex-wrap: wrap;
     padding: 0 4px;
-  }
+}
   
-  /* Create four equal columns that sits next to each other */
-  .column {
+/* Create four equal columns that sits next to each other */
+.column {
     -ms-flex: 25%; /* IE10 */
     flex: 25%;
     max-width: 25%;
     padding: 0 4px;
-  }
+}
   
-  .column img {
+.column img {
     margin-top: 8px;
     vertical-align: middle;
     width: 100%;
-  }
-
-  /* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 800px) {
-    .column {
-      -ms-flex: 50%;
-      flex: 50%;
-      max-width: 50%;
-    }
-  }
-  
-  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-  @media screen and (max-width: 600px) {
-    .column {
-      -ms-flex: 100%;
-      flex: 100%;
-      max-width: 100%;
-    }
 }
+
   
+.image{
+    width:100%;
+}
 
+/*
+.auth-form .btn-primary {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+}
 
+.auth-form .btn-primary:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+*/
+
+.image-box{
+    border-radius: 10px;
+    transition-duration: 0.3s;
+}
+
+.image-box:hover {
+    background-color:white;
+}
+
+.image-box:hover .overlay {
+    height:80px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #39603D;
+}
+
+.image-box:hover .overlaytext {
+    display: block;
+}
+
+.overlay{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0px;
+    width: 100%;
+    transition: .5s;
+}
+
+.overlaytext{
+    position: absolute;
+}
 
 
 /*-----------------End of 'Home Page' CSS-----------------------------*/
 
-/*-----------------Start of 'Privacy Page' CSS---------------------------*/
 
-.h1 {
+/*-----------------Start of 'Upload Page' CSS -----------------------*/
+.upload-form  {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+    border-radius: 1%;
+}
+
+.upload-form .form-group {
+    flex-direction: column;
+    color: greenyellow;
+}
+
+.upload-form .form-control{
+    width: 100%;
+}
+
+.form-group{
+    display: block;
+    margin: auto;
+}
+
+.upload-form .form-group{
+    flex-direction: column;
+    margin: 5% 0;
+    text-align: center;
+    color: greenyellow;
+}
+
+.upload-form h1 {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.upload-form a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: greenyellow;
+}
+
+/*-----------------End of 'Upload Page' CSS-----------------------------*/
+
+/*-----------------Start of 'Top Posts Page' CSS -----------------------*/
+
+.display-card{
+    border : 2px solid #000; 
+    overflow:hidden;
+}
+
+.display-card div {
+    min-height: 200px;
+    padding: 10px;
+ }
+ #DIV-1 {
+   background-color: gray;
+   float:left; 
+   margin-right:20px;
+   width:140px;
+   border-right:2px solid #000;
+ }
+ #DIV-2 { 
+   background-color: white;
+   overflow:hidden;
+   margin:10px;
+   min-height:170px;
+ }
+ 
+ @media screen and (max-width: 400px) {
+    #DIV-1 { 
+     float: none;
+     margin-right:0;
+     width:auto;
+     border:0;
+     border-bottom:2px solid #000;    
+   }
+ }
+
+
+
+
+
+#DIV_0 {
+    width: 30%;
+    border-color:black;  
+    border-style: solid;
+    border-width: 1px;
+    float: right;
+    text-align: bottom;   
+    background-color: re;   
+    border-radius: 1%; 
+    height:520px;
+    margin-top: 1%; 
+   
+  }
+  
+  #DIV_1 {
+    height: 66%; 
+    background-color: blu;
+    width: 100%;   
+}
+
+#DIV_2 {
+    height: 12%; 
+    width: 100%;
+    border-top: #020202;
+    border-top-style: solid;
+    border-top-width: 1px;
+    
+    text-align: center;
+}
+
+
+#DIV_5 {
+    height: 10%;
+    bottom:100%;
+    background-color: pik;
+    border-top: #020202;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+  #DIV_5 > .buttons{
+      position: relative;
+      top:25%; 
+      background-color: gren;
+  }
+  
+  #DIV_3{
+    width: 750px;
+    height: 520px;
+    overflow: hidden;
+    margin: 10px;
+    position: relative; 
+    background-color: orang;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 1%;
+
+  }
+
+#DIV_4 {
+    width: 1%;
+    background-color: purpl; 
+  }
+
+#DIV_6 {
+    background-color: orang; 
+}
+
+/* Responsive columns */
+@media screen and (max-width: 1500px) {
+    #DIV_0 {
+        width: 100%;
+        display: block;
+        margin:1%; 
+    }
+}
+
+
+.card-footer{
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+}
+
+.top-score-column {
+  float: left;
+  width: 33.33%;
+  padding: 0 10px;
+  margin-top: 1%;
+}
+  
+/* Remove extra left and right margins, due to padding */
+.top-score-row {
+    margin: 0 -5px;
+    color: #020202;
+}
+
+  
+/* Clear floats after the columns */
+.top-score-row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.top-score-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white; 
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
+}
+
+.top-score-card-achieve {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: white; 
+    border-radius: 25px;
+    border-color: grey;
+    border-width: 1px; 
+    border-style: solid;
+    color: #020202;
+}
+ 
+.top-score-card-display {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 1%; 
+    height:80%;
+    width:75%;  
+    align-items: center;
+    background-color: #ededed; 
+    border-radius: 2.5%;
+    border-color: black;
+    border-width: 1px; 
+    border-style: solid;
+    color: black; 
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:1%;
+    margin-bottom: 1%;
+}
+
+.card-rl{
+    float:right;
+    width:100%;
+    padding:15px;
+    text-align: left; 
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    
+}
+
+.top-score-card:hover {
+    background-color: greenyellow;
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.05); 
+}
+
+.white-space{
+    color: white;
+}
+
+.card-img{
+    float:left;
+    
+}
+
+.card-image{
+    border-radius: 1%;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.card-img > .card-description{
+    text-align: bottom;
+    width:50%; 
+    height:50%; 
+    float:top; 
+    float:right;  
+}
+
+.card-img > .tester-{
+    text-align: bottom;
+    height:50%; 
+    float:bottom; 
+}
+
+.card-img-right{
+    height:100%; 
+}
+
+.card-img-top{
+    position:absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+   
+}
+/*
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+    .top-score-column {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+/*-----------------End of 'Top Posts' CSS-----------------------------*/
+
+/*-----------------Start of 'Channels Page' CSS -----------------------*/
+
+.createButton {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    color: white; 
+}
+
+.createButton:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
     color: green;
 }
 
-/*-----------------End of 'Privacy Page' CSS-----------------------------*/
+.createButton1 {
+    width: 30%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    color: white;
+    text-decoration: none; 
+}
 
+.createButton1:hover {
+    width: 30%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+    text-decoration: none;
+}
 
-
-/*-----------------Start of 'Login Page' CSS---------------------------*/
-
-.auth-form {
+.create-channel  {
     width: 100%;
     max-width: 40%;
     padding: 2.5% 10%;
@@ -360,9 +661,88 @@ body {
     box-sizing: relative;
 }
 
-.auth-form .content {
+.create-channel .form-group {
     flex-direction: column;
-    margin: 30% 0;
+    color: greenyellow;
+    margin: 5% 0;
+    text-align: center;
+    width: max-content;
+}
+
+.create-channel .form-control{
+    flex-direction: column;
+    color: greenyellow;
+    margin: 5% 0;
+    text-align: center;
+    width: max-content;
+
+
+}
+
+.create-channel h1 {
+    color: white;
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.create-channel a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: greenyellow;
+}
+
+.manage-channel .form-group{
+    flex-direction: column;
+    color: greenyellow;
+    margin: 5% 0;
+    text-align: center;
+}
+
+.manage-channel  {
+    width: 100%;
+    max-width: 40%;
+    padding: 2.5% 10%;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+.manage-channel .form-control{
+    width: auto;
+}
+
+
+/*-----------------End of 'Channels Page' CSS --------------------------*/ 
+
+/*-----------------Start of 'Privacy Page' CSS---------------------------*/
+
+.h1 {
+    color: green;
+}
+
+/*-----------------End of 'Privacy Page' CSS-----------------------------*/
+
+/*-----------------Start of 'Auth Form' CSS---------------------------*/
+
+.auth-form {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+    width: 50%;
+    min-width: 275px;
+    max-width: 400px;
+    margin: 10% auto;
+    background-color: #39603D;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: relative;
+}
+
+.auth-form .content {
+    margin: 10% auto;
+    flex-direction: column;
     color: white;
 }
 
@@ -372,7 +752,7 @@ body {
 }
 
 .auth-form .form-control{
-    width: auto;
+    width: 100%;
 }
 
 .auth-form .submit-group{
@@ -408,12 +788,7 @@ body {
     color: green;
 }
   
-/*-----------------End of 'Login Page' CSS-----------------------------*/
-
-
-/*-----------------Start of the 'Register Page' CSS---------------------*/
-
-/*-----------------End of the 'Register Page' CSS-----------------------*/
+/*-----------------End of 'Auth Form' CSS-----------------------------*/
 
 /*-----------------Start of the 'Account' Page' CSS---------------------*/
 
@@ -428,27 +803,37 @@ body {
     max-width:220px;
 }
 
-.nav-item {
-    color: black;
-    background-color: #39603D;
-    margin: 6px;
-    font-size: 20px;
-    text-align: center;
-    line-height: 14px;
-    max-height: 48px;
-    border-radius: 7px;
-}
-
-.p{
-    font-family: Arial, sans-serif;
-}
 
 .account-button{
     border-radius: 25px;
 }
 
+.profile-link{
+    border: 1px;
+    border-radius:2px;
+    margin:10px;
+}
+
+.image-box.profile{
+    width:200px;
+    height:100%;
+    border-radius: 2px;
+}
+
+.picture.profile{
+    height:200px;
+    width:auto;
+    background-color: lightgreen;
+    overflow:hidden;
+}
+
+#toggleDIV1, #toggleDIV2, #toggleDIV3{
+    display: none;
+}
+
 /*-----------------End of the 'Account Page' CSS-----------------------*/
 
-
-
-
+#map {
+    height: 500px;
+    width: 100%;
+}

@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Login.Models.Map.MapModelList
+
+@{
+    ViewData["Title"] = "Users Map Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Google maps demo</h3>
+<br />
+<div id="map"></div>
+
+Username @Model.Username;
+
+@section Scripts {
+
+    <script>
+        let map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: new google.maps.LatLng(55.888, -3.529),
+                zoom: 8,
+            });
+            // Create a <script> tag and set the USGS URL as the source.
+            const script = document.createElement("script");
+
+            const username = (@Model.Username);
+
+            script.src =
+                "https://localhost:5001/map/api/" + username;
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+
+
+        const api_call = function (results) {
+            results.forEach(cord =>
+            {
+                const coords = results.mapCordsList;
+                const latLng = new google.maps.LatLng(coords[0], coords[1]);
+                new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                });
+            });
+        }
+
+
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtN6zSCAPIyvKcVHC_NL3mvkq5w9zixqg&callback=initMap"
+            async>
+    </script>
+}
+

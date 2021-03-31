@@ -1,0 +1,22 @@
+@model Login.Models.Followers.FollowersModelList
+
+@{
+    ViewData["Title"] = "Followers Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    @if (Model.UserList.Count() == 0)
+    {
+        <p>You do not follow anyone yet</p>
+    }
+    @foreach (var user in Model.UserList)
+    {
+        <div class="m-1 rel">
+            @user.Username.UserName <br>
+            <img src="@user.Username.ProfileImageUrl" alt="ProfilePic" />
+        </div>
+    }
+</div>

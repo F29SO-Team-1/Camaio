@@ -21,10 +21,36 @@ namespace Login.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            //this is for the list of users that follow a user 
             builder.Entity<LoginUser>()
                .ToTable("AspNetUsers")
                .HasMany(user => user.FollowsUser)
                .WithOne(following => following.FollowingUsers);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.Events)
+                .WithOne(ep => ep.User);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.CreatedEvents)
+                .WithOne(eventThing => eventThing.Creator);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.CreatedChannels)
+                .WithOne(channel => channel.Creator);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.Channels)
+                .WithOne(cm => cm.User);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.Notifications)
+                .WithOne(n => n.User);
+            builder.Entity<LoginUser>()
+                .ToTable("AspNetUsers")
+                .HasMany(user => user.PendingRequests)
+                .WithOne(pending => pending.User);
+
         }
     }
 }

@@ -4,6 +4,7 @@
 @inject SignInManager<LoginUser> SignInManager
 @inject UserManager<LoginUser> UserManager
 
+@*This file is redundant - remove?*@
 @if (SignInManager.IsSignedIn(User))
 {
     <button type="button" style="border-radius: 50%;" class="user-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -11,16 +12,17 @@
     </button>
     <div class="dropdown-menu">
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">@UserManager.GetUserName(User)</a>
-        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Create">Upload</a>
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Create" asp-route-albumId=1>Upload</a>
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Channel" asp-action="Index">Channels</a>
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Scores">Post Score</a>
         <a class="dropdown-item" id="manage" asp-area="" asp-controller="Profile" asp-action="Scores">User Score</a>
+        <a class="dropdown-item" id="manage" asp-area="" asp-controller="Map" asp-action="UsersThreadsListMap" asp-route-username="@UserManager.GetUserName(User)">Map</a>
+        <a class="dropdown-item" id="manage" asp-controller="Achievement" asp-action="Index" asp-route-username="@UserManager.GetUserName(User)">Achievements</a>
         @*<a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>*@
-
-
-
+        
         @if (User.IsInRole("Admin"))
         {
+            <a class="dropdown-item" id="manage" asp-area="" asp-controller="Achievement" asp-action="Create">Create Achievement</a>
             <a class="dropdown-item" id="manage" asp-area="" asp-controller="Thread" asp-action="Reported">Reported Posts</a>
             <a class="dropdown-item" id="manage" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
         }

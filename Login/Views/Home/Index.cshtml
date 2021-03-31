@@ -1,48 +1,85 @@
-﻿@model  Login.Models.Threadl.ThreadList
+﻿@using Microsoft.AspNetCore.Identity
+@using Login.Areas.Identity.Data
+@model  Login.Models.Threadl.ThreadList
+@inject SignInManager<LoginUser> SignInManager
+
 @{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="d-flex flex-wrap flex-row container-fluid rel mt-2">
+    <noscript id="JSwarning">Please enable JavaScript </noscript>
 
-<div style="height:80px;"></div>   
-
-
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">By</th>
-                <th scope="col">Rating</th>
-                <th scope="col">Created</th>
-                <th scope="col">Description</th>
-                <th scope="col">Picture</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var thread in Model.ThreadLists)
-            {
-                //if there is no picture dont display
-                @if (thread.Picture == null) continue;
-                //loops through the db and displays it
-                <tr>
-                    <th>
-                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+    <div class="col-lg-3 col-md-6 col-xs-12 p-0 m-0" id="column-one">
+    </div>
+    <div class="col-lg-3 col-md-6 col-xs-12 p-0 m-0" id="column-two">
+    </div>
+    <div class="col-lg-3 col-md-6 col-xs-12 p-0 m-0" id="column-three">
+    </div>
+    <div class="col-lg-3 col-md-6 col-xs-12 p-0 m-0" id="column-four">
+    </div>
+</div>
+<div style="display:none;">
+    @foreach (var thread in Model.ThreadLists)
+    {
+        //if there is no picture, dont display
+        @if (thread.Picture == null) continue;
+        @if (thread.Flagged == true) continue;
+        <div class="image-box m-1 rel">
+            <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                <img class="image rounded" src="@thread.Picture" alt="Image" />
+            </a>
+            <div class="overlay abs d-flex rounded overflow-hidden">
+                <span class="col mr-auto mt-2">
+                    <p class="overlaytext">
+                        <a class="">
                             @thread.Title
                         </a>
-                    </th>
-                    <th>
-                        <a asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
-                            @thread.AuthorUserName
+                    </p><br />
+                    <p class="overlaytext mt-1">
+                        <a class="" asp-action="Index" asp-controller="Profile" asp-route-username="@thread.AuthorUserName">
+                            By: @thread.AuthorUserName
                         </a>
-                    </th>
-                    <th>@thread.Rating</th>
-                    <td>@thread.Created</td>
-                    <td>@thread.Description</td>
-                    <td>
-                        <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </p>
+                </span>
+                <span class="col-4 mr-auto mt-2">
+                    <p class="overlaytext text-right" id="like">
+                        Rating
+                    </p><br />
+                        <p class="overlaytext button mt-1">
+                            @thread.Rating
+                        </p>
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready (function () {
+            $('#likeBtn').click(function (e) {
+                console.log("pressed");
+                var that = this;
+                var value = document.getElementById('likeBtn').value;
+                var id = $('button[likeBtn]').val();
+                console.log(value);
+                $.ajax({
+                    type: "POST",
+                    url: "/Thread/RatingIncrement",
+                    dataType: 'JSON',
+                    data: value, @*Passes the current Id of the thread*@
+                    contentType: "application/json",
+                    success: function (result) {    @*If the response from the contoler is correct then do the following*@
+                        $('#like').html(result);
+                        console.log(result);
+                    },
+                    error: function (err) {
+                        console.log("Error: " + err);
+                    }
+                })
+            });
+        });
+    </script>
+}

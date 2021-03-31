@@ -1,0 +1,27 @@
+﻿@model Login.Areas.Identity.Data.LoginUser
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Kick</h1>
+
+<h3>Are you sure you want to kick this member?</h3>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <img src="@Model.ProfileImageUrl" alt="Image" style="width: 200px; height:200px;" />
+    </dl>
+
+    <form asp-action="ConfirmRemove" asp-route-id=@ViewData["Title"] asp-route-userName=@Model.UserName>
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+</div>

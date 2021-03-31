@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using ExifLib;
 using Login.Areas.Identity.Data;
 using Login.Models;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Login.Data
 {
@@ -12,23 +14,30 @@ namespace Login.Data
         Thread GetById(int? id);
         //returns all the threads in the database
         IEnumerable<Thread> GetAll();
+        //get all the threads that the user liked
+        IEnumerable<Thread> GetLikedThreads(string userName);
 
         //returns the list of the users thread
         IEnumerable<Thread> UserThreads(string userName);
+        //returns the list of threads in the album
+        IEnumerable<Thread> AlbumThreads(Album album);
+        //returns the list of the users thread that are not in any albums
+        IEnumerable<Thread> UserThreadsWithoutAlbum(string userName);
 
         //checks if the thread exists by Id
         bool ThreadExists(int id);
         //makes a thread
-        Task<Thread> Create(Thread thread, LoginUser user);
+        Task<Thread> Create(Thread thread, LoginUser user, int id);
         //edit of the thread
         Task Edit(Thread thread);
         //delete of a thread
-        Task Delete(int? threadId);     
+        Task Delete(int? threadId);
         //upload image function
         Task UploadPicture(int threadId, Uri pic);
 
         //btn work
         bool CheckAreadyLiked(Thread threadId, string userId);
+        //this is a list of likes on a thread
         IEnumerable<Likes> ListOfLikes(int? threadId);
         Task UpdateLikes(int? threadId);
 
@@ -48,8 +57,13 @@ namespace Login.Data
 
         //flags the thread
         Task FlagThread(int? threadId);
+        string GetChannelCreator(Thread thread);
+        void ChangeTags(Thread thread, string tags);
+        IEnumerable<Tag> GetThreadTags(Thread thread);
 
-
-
+        //getting cords from the image
+        double? GetCoordinate(ExifReader reader, ExifTags type);
+        public double ToDoubleCoordinates(double[] coordinates);
+        public Task AssignCords(IFormFile file, int threadId);
     }
 }

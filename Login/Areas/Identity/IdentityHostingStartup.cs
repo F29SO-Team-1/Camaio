@@ -1,9 +1,7 @@
-﻿using System;
-using Login.Areas.Identity.Data;
+﻿using Login.Areas.Identity.Data;
 using Login.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +13,8 @@ namespace Login.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<LoginContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("LoginContextConnection")));

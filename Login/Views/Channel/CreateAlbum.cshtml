@@ -1,0 +1,56 @@
+﻿@model Login.Models.Album
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if ((bool)ViewData["Exists"]) 
+{
+    <h2>Album with this name already exists!</h2>
+}
+
+<hr />
+<div class="container auth-form content mx-auto">
+    <div class="new-album">
+        <form asp-action="NewAlbum" asp-route-id=@ViewData["channel"]>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <h1>New Album</h1>
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" maxlength="32" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Not visible to guests</label>
+                <input data-val="true" 
+                    data-val-required="The NotVisible field is required." 
+                    id="checkbox" 
+                    name="NotVisible" 
+                    type="checkbox" 
+                    value="true" />
+
+                <input name="NotVisible" type="hidden" value="false" />
+            </div>
+            <div class="form-group">
+                <label>Only creator can upload</label>
+                <input data-val="true" 
+                    data-val-required="The NoPosting field is required." 
+                    id="checkbox" 
+                    name="NoPosting" 
+                    type="checkbox" 
+                    value="true" />
+
+                <input name="NoPosting" type="hidden" value="false" />
+            </div>
+            <br> 
+            <div class="form-group">
+                <input type="submit" value="Create Album" class="createButton" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

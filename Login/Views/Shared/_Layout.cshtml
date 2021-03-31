@@ -11,39 +11,21 @@
     <title>@ViewData["Title"] Camaio</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="icon" type="image/x-icon" href="~/pictures/logo.png">
 </head>
 <body>
   
-	<header class="border-bottom box-shadow">
-		<a class="home-image" asp-area="" asp-controller="Home" asp-action="Index">
-			<img src="~/pictures/home.png" style="width: 50px" />
-		</a>
-
-		<div class="input-group rounded">
-			<input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
-			<div class="input-group-append">
-				<button type="submit" class="btn btn-light search-button" >
-                    <img src="~/pictures/search.png" style="width:23px"/> 
-                </button>
-			</div>
-		</div>
-
-		<div class="login-details">
-			<partial name="_LoginPartial" />
-		</div>
+	<header>
+        <partial name="_HeaderPartial" />
 	</header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    @RenderBody()
 
-    <footer class="border-top footer text-muted">
+    @*<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - Camaio - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

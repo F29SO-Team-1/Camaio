@@ -1,0 +1,150 @@
+﻿@model Login.Models.Search.SearchModel;
+
+<form asp-action="Index">
+    <input class="searchInput" name="searchInput" placeholder="Search" maxlength="128"/>
+    <button type="submit" class="button">
+        Search
+    </button>
+    <table class="table">
+            <tbody>
+                    <tr>
+                        <th scope="col">Search in
+                            <select name="searchArea">
+                                <option Selected="True" Value="All"> All </option>
+                                <option Value="Threads"> Threads </option>
+                                <option Value="Channels"> Channels </option>
+                                <option Value="Users"> Users </option>
+                            </select>
+                        </th>
+                        <th scope="col">Search with
+                            <select name="searchOptions">
+                                <option Selected="True" Value="Keywords"> Keywords </option>
+                                <option Value="Tags"> Tags </option>
+                            </select>
+                        </th>
+                        <th scope="col">Sort by
+                            <select name="sortingOptions">
+                                <option Selected="True" Value="Votes"> Votes </option>
+                                <option Value="Newest"> Newest </option>
+                            </select>
+                        </th>
+                    </tr>
+            </tbody>
+    </table>
+</form>
+@ViewData["check"]
+@if (Model.ThreadsIncluded)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h2 style="text-align:center">Threads</h2>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Picture</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var thread in Model.Threads)
+                        {
+                            <tr>
+                                <th>
+                                    <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                                        @thread.Title
+                                    </a>
+                                </th>
+                                <th>@thread.Rating</th>
+                                <td>@thread.Created</td>
+                                <td>@thread.Description</td>
+                                <td>
+                                    <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.ChannelsIncluded)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h2 style="text-align:center">Channels</h2>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            @* <th scope="col">Rating</th> *@
+                            <th scope="col">Created</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var channel in Model.Channels)
+                        {
+                            <tr>
+                                <th>
+                                    <a asp-action="Main" asp-controller="Channel" asp-route-id="@channel.Title">
+                                        @channel.Title
+                                    </a>
+                                </th>
+                                @* Rating no work :( *@
+                                @* <th>@channel.ChannelRating</th> *@
+                                <td>@channel.CreationDate</td>
+                                <td>@channel.Description</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.UsersIncluded)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h2 style="text-align:center">Users</h2>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Username</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Member since</th>
+                            <th scope="col">Profile Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <th>
+                                    <a asp-action="Index" asp-controller="Profile" asp-route-username="@user.Username">
+                                        @user.Username
+                                    </a>
+                                </th>
+                                <th>@user.UserRating</th>
+                                <td>@user.MemmberSince</td>
+                                <td>
+                                    <img src="@user.ProfileImageUrl" alt="Image" style="width: 200px; height:200px;" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

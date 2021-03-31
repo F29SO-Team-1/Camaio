@@ -5,19 +5,14 @@
 }
 
 <h1 style="text-align:center; margin-top:2%">Top Profiles</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col"></th>
-            <th scope="col">Username</th>
-            <th scope="col">Rating</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var users in Model.ProfileList)
-        {
-        <tr>
-            <th>
+<div class="top-score-row">
+    <br>
+    @foreach (var users in Model.ProfileList){
+        <div class="top-score-column">
+            <div class="top-score-card">
+                <a asp-action="Index" asp-controller="Profile" asp-route-username="@users.Username">
+                    <h3>@users.Username</h3>
+                </a>
                 @if (users.ProfileImageUrl == null)
                 {
                     <div>
@@ -28,14 +23,14 @@
                 {
                     <img src="@users.ProfileImageUrl" alt="Image" style="width: 200px; height:200px;" />
                 }
-            </th>
-            <th>
-                <a asp-action="Index" asp-controller="Profile" asp-route-username="@users.Username">
-                    @users.Username
-                </a>
-            </th>
-            <th>@users.UserRating</th>
-        </tr>
-        }
-    </tbody>
-</table>
+                <p>Rating: @users.UserRating</p>
+            </div>
+            <br>
+        </div>          
+    }
+</div>
+
+
+
+
+

@@ -1,6 +1,8 @@
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using Login.Areas.Identity.Data
 @model Login.Models.ApplicationUser.ProfileModel
+@inject SignInManager<LoginUser> SignInManager
+@inject UserManager<LoginUser> UserManager
 
 @{
     ViewData["Title"] = "Profile Page";
@@ -8,139 +10,146 @@
 }
 
 
+<div class="container-fluid d-flex flex-lg-row flex-column">
+    <div class="col-lg-2 col-md-12 mt-2">
+        <ul class="nav flex-column w-100">
+            <p class="text-center">@Model.Username</p>
+            <img class="img mx-auto" style="height:100px;width:100px;" src="@Model.ProfileImageUrl"></img>
+            @if (SignInManager.IsSignedIn(User)){
+                @if (User.Identity.Name != Model.Username){
+                    <a type="button" class="follow-button" asp-controller="Profile" asp-action="Follow" asp-route-id="@Model.Username"> Follow </a>
+                }
+            }
+            <p class="mt-2 text-center">
+                Score:@Model.UserRating
+            </p>
+            </br>
+            <p class=" text-center">
+                Member since: @Model.MemmberSince
+            </p>
+            @foreach (var role in @Model.Roles.Result)
+            {
+                <p style="p-2 nav-item text-dark" class="text-center">
+                    @role
+                </p>
+                <br />
+            }
+            <a class="nav-item text-dark text-left p-2" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username" title="">Achievements</a>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV1)">Following</Button>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV2)">Followers</Button>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV3)">Likes</Button>
 
-<div class="container">
-    <h2>Hello @Model.Username, @Model.UserRating</h2>
-    <a class="btn btn-primary"
-       asp-controller="Profile"
-       asp-action="Follow"
-       asp-route-id="@Model.Username">
-        Follow
-    </a>
-</div>
+            
+            @if (User.Identity.Name == Model.Username)
+            {
+                <a class="nav-item text-dark p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
+                <hr/>
+                <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
+                    <div class="nav-item border p-2" id="form-group">
+                        <div class="form-group">
+                            <p>Change your profile image</p>
+                            <span asp-validation-for="ProfileImageUrl"></span>
+                            <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
+                        </div>
+                        <button type="submit" id="submitProfilePicBtn" class="btn btn-submitProfilePic btn-primary">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            }
 
-
-@if (Model.ProfileImageUrl == null)
-{
-    <div>
-        No Image
+        </ul>
     </div>
-}
-else
-{
-<img src="@Model.ProfileImageUrl" style="width: 20%; height:20%;" alt="ProfilePic" />
-}
 
-
-@if (User.Identity.Name == Model.Username)
-{
-    <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="UploadProfileImage">
-        <div id="form-group">
-            <div class="form-group">
-                <span asp-validation-for="ProfileImageUrl"></span>
-                <input asp-for="ProfileImageUrl" type="file" id="file" name="file" />
-            </div>
-            <button type="submit" id="submitProfilePicBtn" class="btn btn-light">
-                Submit
-            </button>
+    <div class="col-lg-10 col-md-12 mt-2">
+        <div class="row w-100 border border-success" id="toggleDIV1">
+            @try
+            {
+                <div class="row">
+                    @foreach (var followed in Model.FollowsUser)
+                    {
+                        <div class="m-1 rel">
+                            <a asp-controller="Profile" asp-action="Index" asp-route-username="@followed.UserName">
+                                <p>@followed.UserName</p>
+                                <img class="picture profile rounded" src="@followed.ProfileImageUrl" alt="Image" />
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+            catch (Exception)
+            {
+                <p>Not following anyone</p>
+            }
         </div>
-    </form>
-}
 
-<hr />
-Is Followed By :
-@foreach (var item in Model.UsersFollowed)
-{
-    @item.Username;
-}
-<hr />
-Number of Warnings : @Model.Warnings
-
-<hr />
-
-Roles:
-@foreach (var roles in @Model.Roles.Result)
-{
-    @roles
-}
-
-<hr />
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <h2 style="text-align:center"> @Model.Username Posts</h2>
-            <hr />
-            <table class="table">
-                <thead>
-                    <tr>
-                        @if (User.Identity.Name == Model.Username)
+        <div class="row w-100 border border-success" id="toggleDIV2">
+            @try
+            {
+                <div class="row">
+                    @foreach (var followers in Model.UsersFollowed)
+                    {
+                        @if (@Model.UsersFollowed.Count() == 0)
                         {
-                            <th scope="col">Flaged</th>
+                            <p>No followers</p>
                         }
-                        <th scope="col">Title</th>
-                        <th scope="col">Rating</th>
-                        <th scope="col">Created</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Picture</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var thread in Model.Threads)
-                    {
-                        //if there is no picture dont display
-                        //@if (thread.Picture == null) continue;
-                        //loops through the db and displays it
-                        <tr>
-                            @if (User.Identity.Name == Model.Username)
-                            {
-                                <th>
-                                    @if (@thread.Flagged)
-                                    {
-                                        <p style="color:red">Yes</p>
-                                    }
-                                    else
-                                    {
-                                        <p style="color:green">No</p>
-                                    }
-                                </th>
-                            }
-
-                            <th>
-                                <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                                    @thread.Title
-                                </a>
-                            </th>
-                            <th>@thread.Rating</th>
-                            <td>@thread.Created</td>
-                            <td>@thread.Description</td>
-                            <td>
-                                <img src="@thread.Picture" alt="Image" style="width: 200px; height:200px;" />
-                            </td>
-                        </tr>
+                        <div class="m-1 rel">
+                            <a asp-controller="Profile" asp-action="Index" asp-route-username="@followers.UserName">
+                                <p>@followers.UserName</p>
+                                <img class="picture profile rounded" src="@followers.ProfileImageUrl" alt="Image" />
+                            </a>
+                        </div>
                     }
-                </tbody>
-            </table>
+                </div>
+            }
+            catch (Exception)
+            {
+                <p>No followers</p>
+            }
         </div>
-        <div class="col-sm">
-            <h2 style="text-align:center"> @Model.Username Channels</h2>
-            <hr />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var channels in Model.Channels)
+
+        <div class="row w-100 border border-success" id="toggleDIV3">
+            @try
+            {
+                <div class="row">
+                    @foreach (var liked in Model.Likes)
                     {
-                        <tr>
-                            <th>@channels.Title</th>
-                            <th>@channels.Description</th>
-                        </tr>
+                        @if (liked == null)
+                        {
+                            <p>No likes</p>
+                        }
+                        <div class="m-1 rel">
+                            <a asp-action="Index" asp-controller="Thread" asp-route-id="@liked.ID">
+                                <img class="picture profile rounded" src="@liked.Image" alt="Image" />
+                            </a>
+                        </div>
                     }
-                </tbody>
-            </table>
+                </div>
+            }
+            catch (Exception)
+            {
+                <p>No likes</p>
+            }
+        </div>
+
+        <div class="row">
+            @foreach (var thread in @Model.Threads)
+            {
+                <div class="m-1 rel">
+                    @if(thread.Flagged == true && User.Identity.Name == Model.Username)
+                    {
+                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                            <img class="picture profile rounded" style="border-color:red; border-style:solid" src="@thread.Picture" alt="Image" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                            <img class="picture profile rounded" src="@thread.Picture" alt="Image" />
+                        </a>
+                    }
+                </div>
+            }
         </div>
     </div>
 </div>

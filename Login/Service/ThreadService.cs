@@ -1,6 +1,8 @@
-﻿using Login.Areas.Identity.Data;
+﻿using ExifLib;
+using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,20 +15,22 @@ namespace Login.Service
     {
 
         private readonly ThreadContext _context;
-        public ThreadService(ThreadContext context)
+        private readonly TagContext _tagContext;
+        public ThreadService(ThreadContext context, TagContext tagContext)
         {
             _context = context;
+            _tagContext = tagContext;
         }
 
-        public async Task<Thread> Create(Thread model, LoginUser user)
+        public async Task<Thread> Create(Thread model, LoginUser user, int albumId)
         {
             var thread = new Thread
             {
                 Title = model.Title,
                 CreateDate = DateTime.Now,
                 Description = model.Description,
-                ID = model.ID,
                 UserID = user.Id,
+                AlbumId = albumId,
                 Votes = model.Votes,
                 UserName = user.UserName,
                 Flagged = false,
@@ -79,6 +83,18 @@ namespace Login.Service
         {
             return GetAll().Where(thread => thread.UserName == userName);
         }
+        //list of all users post that are not a part of an album
+        public IEnumerable<Thread> UserThreadsWithoutAlbum(string userName)
+        {
+            return GetAll()
+                .Where(thread => thread.UserName == userName)
+                .Where(thread => thread.AlbumId == 1);
+        }
+        //list of all album threads
+        public IEnumerable<Thread> AlbumThreads(Album album)
+        {
+            return GetAll().Where(thread => thread.AlbumId == album.Id);
+        }
 
         public async Task UploadPicture(int threadId, Uri pic)
         {
@@ -97,8 +113,8 @@ namespace Login.Service
         {
             var thread = GetById(threadId);
             //add user to a list
-            var liked = new Likes 
-            { 
+            var liked = new Likes
+            {
                 Thread = thread,
                 UserId = userId
             };
@@ -115,7 +131,7 @@ namespace Login.Service
             if (record.Count() == 0)
             {
                 return false;
-            } 
+            }
             else
             {
                 return true;
@@ -127,13 +143,22 @@ namespace Login.Service
             return _context.Likes.Where(l => l.Thread.ID == threadId);
         }
 
+        public IEnumerable<Thread> GetLikedThreads(string userId)
+        {
+            //get all the liked threads; and select the threads were the userID is mentioned
+            return _context.Likes.Select(x => x.Thread)
+                .Where(y => y.Votes >= 1)
+                .Where(z => z.LikedBy.Any(v => v.UserId == userId))
+                .Distinct();
+        }
+
         public async Task RemoveUserFromLikeList(int? threadId, string userId)
         {
             var thread = GetById(threadId);
             //remove from list
             var liked = await _context.Likes
                 .Where(x => x.Thread.ID == threadId)
-                .Where(x=> x.UserId == userId)
+                .Where(x => x.UserId == userId)
                 .FirstOrDefaultAsync();
 
             _context.Likes.Remove(liked);
@@ -178,6 +203,21 @@ namespace Login.Service
             t.NoReports = q;
             await _context.SaveChangesAsync();
         }
+        public string GetChannelCreator(Thread thread)
+        {
+            var albumId = _context.Threads
+                .Where(t => t.ID == thread.ID)
+                .Select(t => t.AlbumId)
+                .FirstOrDefault();
+            if (albumId != 1)
+            {
+                return _context.Threads
+                    .Where(t => t.ID == thread.ID)
+                    .Select(t => t.Album.Channel.Creator.UserName)
+                    .FirstOrDefault();
+            }
+            return null;
+        }
 
         //makes a list of reports for a thread
         public IEnumerable<Report> ListOfReports(int? threadId)
@@ -200,6 +240,93 @@ namespace Login.Service
             t.Flagged = true;
             await _context.SaveChangesAsync();
         }
+        public IEnumerable<Tag> GetThreadTags(Thread thread)
+        {
+            return _tagContext.Tags
+                .Where(tag => tag.ThreadId == thread.ID)
+                .Distinct()
+                .ToList();
+        }
+        public void ChangeTags(Thread thread, string tags)
+        {
+            _context.RemoveRange(_tagContext.Tags.Where(tag => tag.ThreadId == thread.ID && tag.ThreadId != 0).Distinct().ToList());
+            _context.AddRange(GetTagList(thread, tags));
+            _context.SaveChanges();
+        }
+        private List<Tag> GetTagList(Thread thread, string tags)
+        {
+            List<Tag> tagList = new List<Tag>();
+            string tag = "";
+            if (tags == null) return tagList;
+            while (tags.Length != 0)
+            {
+                if (tags.ElementAt(0).Equals((char)32) || tags.ElementAt(0).Equals((char)44))
+                {
+                    if (tag.Length > 1)
+                    {
+                        tagList.Add(new Tag
+                        {
+                            Name = tag,
+                            Thread = thread
+                        });
+                    }
+                    tag = "";
+                    tags = tags.Substring(1);
+                }
+                else
+                {
+                    tag += (tags.ElementAt(0));
+                    if (tags.Length == 1 && tag.Length > 1)
+                    {
+                        tagList.Add(new Tag
+                        {
+                            Name = tag,
+                            Thread = thread
+                        });
+                    }
+                    tags = tags.Substring(1);
+                }
+            }
+            return tagList;
+        }
 
+        public async Task AssignCords(IFormFile file, int threadId)
+        {
+            try
+            {
+                using var reader = new ExifReader(file.OpenReadStream());
+                var lat = GetCoordinate(reader, ExifTags.GPSLatitude);
+                var lng = GetCoordinate(reader, ExifTags.GPSLongitude);
+
+                reader.GetTagValue(ExifTags.GPSLatitude, out double[] Latitude);
+                reader.GetTagValue(ExifTags.GPSLongitude, out double[] Longitude);
+
+                Thread thread = GetById(threadId);
+                thread.Lat = lat;
+                thread.Lng = lng;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+        }
+
+        public double? GetCoordinate(ExifReader reader, ExifTags type)
+        {
+            if (reader.GetTagValue(type, out double[] coordinates))
+            {
+                return ToDoubleCoordinates(coordinates);
+            }
+
+            return null;
+        }
+
+        public double ToDoubleCoordinates(double[] coordinates)
+        {
+            return coordinates[0] + coordinates[1] / 60f + coordinates[2] / 3600f;
+        }
     }
 }

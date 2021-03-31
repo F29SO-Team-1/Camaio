@@ -2,6 +2,7 @@
 using Login.Data;
 using Login.Models;
 using Login.Models.ApplicationUser;
+using Login.Models.Followers;
 using Login.Models.Threadl;
 using Login.Service;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -27,6 +27,9 @@ namespace Login.Controllers
         private readonly IUpload _uploadService;
         private readonly IThread _threadService;
         private readonly IChannel _channelSerivce;
+        private readonly IAchievement _achievementService;
+
+        private readonly string defaultAvatar = "https://camaiologinstorage.blob.core.windows.net/profile-images/avatar.png";
 
         public ProfileController(
             UserManager<LoginUser> userManager,
@@ -35,7 +38,8 @@ namespace Login.Controllers
             IUpload uploadService,
             IConfiguration configuration,
             IThread threadService,
-            IChannel channelSerivce
+            IChannel channelSerivce,
+            IAchievement achievementService
             )
         {
             _userManager = userManager;
@@ -45,14 +49,17 @@ namespace Login.Controllers
             _uploadService = uploadService;
             _threadService = threadService;
             _channelSerivce = channelSerivce;
+            _achievementService = achievementService;
         }
 
         [Route("Profile/{username}")]
-        public IActionResult Index(string username)
+        public async Task<IActionResult> Index(string username)
         {
             if (!_service.IfUserExists(username)) return NotFound();
+
             var user = _service.GetByUserName(username);
-            //want a list of threads, tick
+            if (user.ProfileImageUrl == null) user.ProfileImageUrl = defaultAvatar;
+            //want a list of threads
             // threads will only display if you press your username when logged in button other wise it will not display the users threads
             var threads = BuildThreadList(username);
             //want a list of channels that the user is part of, tick
@@ -63,6 +70,24 @@ namespace Login.Controllers
             var listOfFollower = _service.UsersFollowers(user);
             //user roles 
             var userRoles = _userManager.GetRolesAsync(user);
+            //gives the inital achievements to the user 
+            await _achievementService.AssignAchievementsToUser(user);
+            //list of all the threads a user likes
+            var likeList = _threadService.GetLikedThreads(user.Id);
+
+            //list of all the users that follow the user
+            var usersfollowing = _service.UserFollowingList(user);
+            //list of users that the user follows
+            var folllowingUsers = _service.ListOfFollowing(user);
+
+
+            /*
+             * Achievements HERE
+             */
+            //makes sure that the user is the user
+            if (username == user.UserName) await GiveUserLoginAch(user);
+            if (listOfFollower.Count() != _achievementService.FollowAchievementProgress(user)
+                && _achievementService.GetUsersAchievement(user).Count() != 0) GiveTenFollowAch(user);
 
             //build model
             var model = new ProfileModel()
@@ -75,14 +100,15 @@ namespace Login.Controllers
                 MemmberSince = user.MemberSince,
                 Threads = threads,
                 Channels = channels,
-                UsersFollowed = listOfFollower,
+                UsersFollowed = usersfollowing,
                 Warnings = user.AccountWarnings,
-                Roles = userRoles
-
+                Roles = userRoles,
+                Likes = likeList,
+                FollowsUser = folllowingUsers,
             };
             return View(model);
         }
-        
+
         [Authorize]
         public async Task<IActionResult> Follow(string id)
         {
@@ -90,6 +116,21 @@ namespace Login.Controllers
             var user = _userManager.GetUserName(User);
             await _service.Follows(user, id);
             return RedirectToAction(id);
+        }
+
+
+        [Route("Profile/{username}/Followers")]
+        public IActionResult Followers(string username)
+        {
+            var user = _service.GetByUserName(username);
+
+            var model = _service.UserFollowingList(user).Select(f => new FollowersModel
+            {
+                Username = f
+            });
+
+            var listmodle = new FollowersModelList { UserList = model };
+            return View(listmodle);
         }
 
 
@@ -113,7 +154,8 @@ namespace Login.Controllers
 
         private IEnumerable<ChannelModel> BuildChannelsList(string username)
         {
-            return _channelSerivce.UserChannel(username).Select(c => new ChannelModel
+            var user = _userManager.FindByNameAsync(username).Result;
+            return _channelSerivce.GetChannels(user).Select(c => new ChannelModel
             {
                 Id = c.Id,
                 Title = c.Title,
@@ -125,7 +167,7 @@ namespace Login.Controllers
         //makes the model to me passed in the view
         private IEnumerable<ThreadModel> BuildThreadList(string userName)
         {
-            return _threadService.UserThreads(userName).Select(threads => new ThreadModel
+            return _threadService.UserThreadsWithoutAlbum(userName).Select(threads => new ThreadModel
             {
                 Title = threads.Title,
                 Description = threads.Description,
@@ -142,6 +184,8 @@ namespace Login.Controllers
         public async Task<IActionResult> UploadProfileImage(IFormFile file)
         {
             var userName = _userManager.GetUserName(User);
+            var user = _service.GetByUserName(userName);
+            var date = user.MemberSince.Ticks;
             if (file == null) return RedirectToAction("Index", "Profile", new { username = userName });
             //connect to azure account container
             var connectionString = _configuration.GetConnectionString("AzureStorageAccount");
@@ -151,14 +195,44 @@ namespace Login.Controllers
             var contentDisposition = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
             //grab the filename
             var filename = contentDisposition.FileName.Trim('"');
+            var uniqueFileName = userName + date + filename;
             //get a refrence to a block blob
-            var blockBlob = container.GetBlockBlobReference(filename);
+            var blockBlob = container.GetBlockBlobReference(uniqueFileName);
             //On that block blob, Upload our file <-- file uploaded to the cloud
             await blockBlob.UploadFromStreamAsync(file.OpenReadStream());
             //set the users profileimage to the URI
             await _service.SetProfileImage(userName, blockBlob.Uri);
             //redirects to the users's profile page
             return RedirectToAction("Index", "Profile", new { username = userName });
+        }
+
+        private async Task GiveUserLoginAch(LoginUser user)
+        {
+            if (_achievementService.GetUsersAchievement(user).Count() == 0) return;
+
+            // if the user has the following achievement then do the following else ignore
+            if (!_achievementService.CheckProgression(user, 1))
+            {
+                await _achievementService.GiveFirstLoginAchievement(user);
+            }
+        }
+
+        private void GiveTenFollowAch(LoginUser user)
+        {
+            int numberOfFollowing = _service.UsersFollowers(user).Count();
+
+            if (_achievementService.CheckProgression(user, 3))
+            {
+                return;
+            }
+            else
+            {
+                if (numberOfFollowing >= 10)
+                {
+                    _achievementService.GiveTenAchievement(user);
+                }
+                _achievementService.IncrementAchievementProgress(user, 3);
+            }
         }
     }
 }

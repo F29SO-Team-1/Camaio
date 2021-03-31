@@ -1,7 +1,6 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Models.Threadl;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,14 +21,14 @@ namespace Login.Models.ApplicationUser
         public int Warnings { get; set; }
 
         public Task<IList<string>> Roles { get; set; }
-        public IEnumerable<ThreadModel> Threads {get;set;}
-                
+        public IEnumerable<ThreadModel> Threads { get; set; }
+
         public IEnumerable<ChannelModel> Channels { get; set; }
 
         public IEnumerable<Thread> Likes { get; set; }
 
-        public IEnumerable<Following> FollowsUser { get; set; } //which users the person follows
+        public IEnumerable<LoginUser> FollowsUser { get; set; } //which users the person follows
 
-        public IEnumerable<Following> UsersFollowed { get; set; } //which people follow this user
+        public IEnumerable<LoginUser> UsersFollowed { get; set; } //which people follow this user
     }
 }
