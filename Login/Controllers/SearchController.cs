@@ -111,7 +111,7 @@ namespace Login.Controllers
                         .Where(tag => tag.ThreadId!=0);
                     if (oneStepLookup.FirstOrDefault()!=null) tags = oneStepLookup;
                 }
-                if(tags.Select(tag => tag.Channel).FirstOrDefault()!=null) threads = tags.Select(tag => _threadService.GetById(tag.ThreadId)).Distinct();
+                if(tags.Select(tag => _threadService.GetById(tag.ThreadId)).FirstOrDefault()!=null) threads = tags.Select(tag => _threadService.GetById(tag.ThreadId)).Distinct();
             }
             if (sortingOptions.Equals("Votes"))
             {
@@ -151,7 +151,7 @@ namespace Login.Controllers
                         .Where(tag => tag.ChannelId!=0);
                     if (oneStepLookup.FirstOrDefault()!=null) tags = oneStepLookup;
                 }
-                if(tags.Select(tag => tag.Channel).FirstOrDefault()!=null) channels = tags.Select(tag => _channelService.GetChannel(tag.ChannelId).Result).Distinct();
+                if(tags.Select(tag => _channelService.GetChannel(tag.ChannelId).Result).FirstOrDefault()!=null) channels = tags.Select(tag => _channelService.GetChannel(tag.ChannelId).Result).Distinct();
             }
             if (sortingOptions.Equals("Votes"))
             {
