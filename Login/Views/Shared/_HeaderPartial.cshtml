@@ -73,32 +73,16 @@ else
     <div class="navbar navbar-expand navbar-fixed-top border-bottom border-success">
         <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Index"><h1>Camaio</h1></a>
         <ul class="navbar-nav">
-            @try{
-                @if (!ViewData["Title"].Equals("Log in"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                    </li>
-                }
-            }
-            catch(Exception){
+            @if (!ViewData["Title"].Equals("Register"))
+            {
                 <li class="nav-item">
-                    <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
                 </li>
             }
-
-            @try
+            @if (!ViewData["Title"].Equals("Log In"))
             {
-                if (!ViewData["Title"].Equals("Register"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                    </li>
-                }
-            }
-            catch(Exception){
                 <li class="nav-item">
-                    <a class="nav-link navbar-text" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
                 </li>
             }
         </ul>
