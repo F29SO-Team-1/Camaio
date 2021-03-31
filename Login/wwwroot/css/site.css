@@ -201,35 +201,6 @@ body {
     height: 500px; 
 }
 
-/*unused - to be removed
-.user-followers-info{
-    margin-top: .6em;
-    color: #81878b; 
-}
-
-.user-followers-info li {
-    width: 32%;
-    text-align: center;
-    display: inline-block;
-    font-size: 1.5em;
-    font-family: 'Lato';
-    border-right: solid 1px #bdc3c7; 
-}
-
-.user-followers-info li:last-child {
-    border: none; 
-}
-
-.user-followers-info li span {
-    display: block;
-    text-transform: uppercase;
-    font-family: 'Quicksand';
-    font-size: .5em;
-    margin-top: .6em;
-    font-weight:700;
-}
-*/
-
 .follow-button{
     margin: 1.5em auto 0 auto;
     background-color: #2589cc;
@@ -274,26 +245,6 @@ body {
     width: 100%;
 }
 
-/* TODO - Remake the responsive functionality below with bootstrap classes
-
-/* Responsive layout - makes a two column-layout instead of four columns 
-@media screen and (max-width: 800px) {
-    .column {
-        -ms-flex: 50%;
-        flex: 50%;
-        max-width: 50%;
-    }
-}
-  
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other 
-@media screen and (max-width: 600px) {
-    .column {
-        -ms-flex: 100%;
-        flex: 100%;
-        max-width: 100%;
-    }
-}
-*/
   
 .image{
     width:100%;
@@ -403,6 +354,44 @@ body {
 /*-----------------End of 'Upload Page' CSS-----------------------------*/
 
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
+
+.display-card{
+    border : 2px solid #000; 
+    overflow:hidden;
+}
+
+.display-card div {
+    min-height: 200px;
+    padding: 10px;
+ }
+ #DIV-1 {
+   background-color: gray;
+   float:left; 
+   margin-right:20px;
+   width:140px;
+   border-right:2px solid #000;
+ }
+ #DIV-2 { 
+   background-color: white;
+   overflow:hidden;
+   margin:10px;
+   min-height:170px;
+ }
+ 
+ @media screen and (max-width: 400px) {
+    #DIV-1 { 
+     float: none;
+     margin-right:0;
+     width:auto;
+     border:0;
+     border-bottom:2px solid #000;    
+   }
+ }
+
+
+
+
+
 #DIV_0 {
     width: 30%;
     border-color:black;  
@@ -420,16 +409,16 @@ body {
   #DIV_1 {
     height: 66%; 
     background-color: blu;
-    width: auto;   
+    width: 100%;   
 }
 
 #DIV_2 {
     height: 12%; 
-    width: auto;
+    width: 100%;
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
-    background-color: yello;
+    
     text-align: center;
 }
 
@@ -471,6 +460,16 @@ body {
 #DIV_6 {
     background-color: orang; 
 }
+
+/* Responsive columns */
+@media screen and (max-width: 1500px) {
+    #DIV_0 {
+        width: 100%;
+        display: block;
+        margin:1%; 
+    }
+}
+
 
 .card-footer{
     border-radius: 25px;

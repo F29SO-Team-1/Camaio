@@ -70,6 +70,7 @@
                     {
                         <div class="m-1 rel">
                             <a asp-controller="Profile" asp-action="Index" asp-route-username="@followed.UserName">
+                                <p>@followed.UserName</p>
                                 <img class="picture profile rounded" src="@followed.ProfileImageUrl" alt="Image" />
                             </a>
                         </div>
@@ -94,6 +95,7 @@
                         }
                         <div class="m-1 rel">
                             <a asp-controller="Profile" asp-action="Index" asp-route-username="@followers.UserName">
+                                <p>@followers.UserName</p>
                                 <img class="picture profile rounded" src="@followers.ProfileImageUrl" alt="Image" />
                             </a>
                         </div>
