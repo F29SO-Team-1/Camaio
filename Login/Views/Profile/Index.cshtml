@@ -110,9 +110,18 @@
             @foreach (var thread in @Model.Threads)
             {
                 <div class="m-1 rel">
-                    <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
-                        <img class="picture profile rounded" src="@thread.Picture" alt="Image" />
-                    </a>
+                    @if(thread.Flagged == true && User.Identity.Name == Model.Username)
+                    {
+                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                            <img class="picture profile rounded" style="border-color:red; border-style:solid" src="@thread.Picture" alt="Image" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Thread" asp-route-id="@thread.Id">
+                            <img class="picture profile rounded" src="@thread.Picture" alt="Image" />
+                        </a>
+                    }
                 </div>
             }
         </div>
