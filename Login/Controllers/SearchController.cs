@@ -86,6 +86,7 @@ namespace Login.Controllers
         //Returns true if originalString either contains or equal to the keyword
         private bool StringContains(string originalString, string keyword)
         {
+            if (originalString==null) return false;
             return originalString.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
@@ -124,6 +125,7 @@ namespace Login.Controllers
                 threads = threads.OrderByDescending(thread => thread.CreateDate);
             }
             return threads.Select(thread => new ThreadModel {
+                Id = thread.ID,
                 Title = thread.Title,
                 Rating = thread.Votes,
                 Description = thread.Description,

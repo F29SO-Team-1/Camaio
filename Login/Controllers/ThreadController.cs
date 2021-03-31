@@ -84,7 +84,9 @@ namespace Login.Controllers
                 Rating = listOfLikes.Count(),
                 LikedBy = listOfLikes,
                 NoReports = numberOfReports,
-                Tags = tags
+                Tags = tags,
+                Lat = thread.Lat,
+                Lng = thread.Lng
             };
             return View(model);
         }
@@ -200,7 +202,9 @@ namespace Login.Controllers
                 Rating = threads.Votes,
                 Created = threads.CreateDate,
                 Picture = threads.Image,
-                Id = threads.ID
+                Id = threads.ID,
+                Flagged = threads.Flagged,
+                AlbumId = threads.AlbumId
             })
                 .OrderByDescending(x => x.Rating)
                 .ToList();
@@ -214,10 +218,10 @@ namespace Login.Controllers
         public async Task<JsonResult> RatingIncrement([FromBody] int? id)
         {
             var userId = _userManager.GetUserId(User);  //gets the usersId
+            if (id == null) return Json("Error");
             var wholeThread = _service.GetById(id);
             //make a list of users that liked the thread
             var listOfLikes = _service.ListOfLikes(id);
-            if (id == null) NotFound();
             //check if the user already pressed the btn
             if (_service.CheckAreadyLiked(wholeThread, userId) == true)
             {
@@ -272,24 +276,31 @@ namespace Login.Controllers
         }
 
         //Get request, View
-        public IActionResult Edit(int? threadId)
+        public async Task<IActionResult> Edit(int? threadId)
         {
             var userName = _userManager.GetUserName(User); //gets the usersName
+            LoginUser user = _userService.GetByUserName(userName);
+            var userRole = await _userManager.GetRolesAsync(user);
             if (threadId == null) return NotFound();    //check if the threadId is passed as a param
             var thread = _service.GetById(threadId);    //gets the thread Id
             if (thread == null) return NotFound();      //check if the thread is a real thread
-            if (thread.UserName != userName) return NotFound(); //checks if the person accessing the thread is the owner
-            var tags = _service.GetThreadTags(thread);
-            var tagline = "";
-            foreach (var tag in tags)
+            //checks if the person accessing the thread is the owner
+            if (userRole.Contains("Admin") || thread.UserName == userName)
             {
-                tagline+=",";
-                tagline+=tag.Name;
-            }
-            if (tagline.Length!=0) tagline = tagline.Substring(1);
-            ViewData["Tags"] = tagline;
+                var tags = _service.GetThreadTags(thread);
+                var tagline = "";
+                foreach (var tag in tags)
+                {
+                    tagline += ",";
+                    tagline += tag.Name;
+                }
+                if (tagline.Length != 0) tagline = tagline.Substring(1);
+                ViewData["Tags"] = tagline;
 
-            return View(thread);
+                return View(thread);
+            }
+            if (thread.UserName != userName) return NotFound();
+            return RedirectToAction("Index", "Thread", new { @id = threadId });
         }
 
         // does the post to the db

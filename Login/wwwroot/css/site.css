@@ -4,14 +4,23 @@ for details on configuring this project to bundle and minify static web assets. 
 
 /*Shared styles*/
 
-.nav-item{
-    color: black;
+/*remove if this breaks other stuff*/
+.overflow-hidden{
+    color:white;
+    font-size: 16px;
 }
 
-a:hover {
-    outline: none;
-    color:black;
-    text-decoration: none;
+.overflow-hidden:hover{
+    color:white;
+}
+/*---------*/
+
+.navbar{
+    background-color: #39603D;
+    color: white;
+}
+
+.nav-item{
     color: inherit;
 }
 
@@ -67,8 +76,6 @@ a:hover {
     width:500px;
 }
 
-
-
 /* lists styling*/
 
 /*
@@ -98,12 +105,42 @@ a {
     text-decoration: none;
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+a:hover {
+    outline: none;
+    color:black;
+    text-decoration: none;
+    color: inherit;
 }
+
+.btn-primary {
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+    padding: 1px 5px;
+}
+
+.btn-primary:hover {
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
 /*
+
+.auth-form .btn-primary {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+}
+
+.auth-form .btn-primary:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+
 .nav-pills, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -141,7 +178,7 @@ body {
     /* Margin bottom by footer height */
     margin: 0;
     margin-bottom: 60px;
-    background-color: #fff;
+    background-color: #e6f9eb;
     width:100%;
     font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
 }
@@ -262,11 +299,37 @@ body {
     width:100%;
 }
 
+/*
+.auth-form .btn-primary {
+    width: 100%;
+    border: 2px solid greenyellow; 
+    background-color:green;
+    transition-duration: 0.3s;
+}
+
+.auth-form .btn-primary:hover {
+    width: 100%;
+    border: 2px solid green; 
+    background-color:greenyellow;
+    color: green;
+}
+*/
+
+.image-box{
+    border-radius: 10px;
+    transition-duration: 0.3s;
+}
+
+.image-box:hover {
+    background-color:white;
+}
+
 .image-box:hover .overlay {
     height:80px;
     bottom: 0;
     left: 0;
     right: 0;
+    background-color: #39603D;
 }
 
 .image-box:hover .overlaytext {
@@ -281,7 +344,6 @@ body {
     height: 0px;
     width: 100%;
     transition: .5s;
-    background-color: greenyellow;
 }
 
 .overlaytext{
@@ -666,6 +728,7 @@ body {
 /*-----------------Start of 'Auth Form' CSS---------------------------*/
 
 .auth-form {
+    overflow: hidden;
     display: flex;
     justify-content: center;
     justify-self: center;

@@ -32,21 +32,29 @@
                     Likes: <h5 class="card-titl mt-1" id="like">@Model.Rating</h5> 
                 </div>
             </div>
-
+            
             <div id="DIV_5">
                 <div class="buttons"> 
                     @* Checks if a user is signed in and not viewing it as a guest *@
                     @if (User.Identity.Name != null)
                     {
                         <div id="likeSection">
-                            @if (Model.LikedBy.Count() == 0)
-                            { 
-                                <button type="button p-2" id="likeBtn" class="createButto">Like</button>
-                            }
-                            else
-                            { 
-                                <button type="button p-2" id="disLikeBtn" class="createButto">Unlike</button>
-                                <button type="button" id="likeBtn" class="createButto">Like</button>
+                            @{
+                                bool isLiked = false;
+                                @foreach (var person in @Model.LikedBy){
+                                    if (person.UserId == @UserManager.GetUserId(User)){
+                                        isLiked = true;
+                                        break;
+                                    }
+                                }
+                                if (isLiked){
+                                    <button type="button" id="likeBtn" class="createButton d-none" onclick="toggleLikeButton()">Like</button>
+                                    <button type="button" id="disLikeBtn" class="createButton" onclick="toggleLikeButton()">Undo like</button>
+                                }
+                                else{
+                                    <button type="button" id="disLikeBtn" class="createButton d-none" onclick="toggleLikeButton()">Undo like</button>
+                                    <button type="button" id="likeBtn" class="createButton" onclick="toggleLikeButton()">Like</button>
+                                }
                             }
                         </div>
                     }
@@ -59,9 +67,12 @@
                     <h5 class="card-subtitle mb-2 text-muted">By: @Model.AuthorUserName</h5>
                     <h5 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h5>
                 </a>
-              <a asp-action="Index" asp-controller="Map" asp-route-threadId="@Model.Id">
-                  <h6 class="card-subtitle mb-2 text-muted">Location</h6>
-              </a>
+                @if (Model.Lng != null || Model.Lat != null)
+                { 
+                    <a asp-action="Index" asp-controller="Map" asp-route-threadId="@Model.Id">
+                        <h6 class="card-subtitle mb-2 text-muted">Location</h6>
+                    </a>
+                }
             </div>
         </div>
     </div> 
