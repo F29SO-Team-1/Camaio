@@ -6,7 +6,7 @@
 
 # Project Status (Developer Branch)
 
-![.NET](https://github.com/F29SO-Team-1/Camaio/workflows/.NET/badge.svg?branch=featurev2)
+![.NET](https://github.com/F29SO-Team-1/Camaio/workflows/.NET/badge.svg?branch=develop)
 
 ## Installation
 
