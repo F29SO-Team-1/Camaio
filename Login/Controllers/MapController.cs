@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 
 namespace Login.Controllers
 {
@@ -28,8 +27,8 @@ namespace Login.Controllers
         public ActionResult Index(int threadId)
         {
             var thread = _threadService.GetById(threadId);
-            
-            if(thread.Lat == null || thread.Lng == null)
+
+            if (thread.Lat == null || thread.Lng == null)
             {
                 return RedirectToAction("Index", "Thread", new { id = threadId });
             }
@@ -51,7 +50,7 @@ namespace Login.Controllers
             LoginUser user = _userService.GetByUserName(userName);
             if (user == null) NotFound();
             var listOfCords = UsersPostsLocation(userName);
-            var model = new MapModelList {Username= userName, MapCordsList = listOfCords };
+            var model = new MapModelList { Username = userName, MapCordsList = listOfCords };
 
             return View(model);
         }
@@ -63,11 +62,11 @@ namespace Login.Controllers
             LoginUser user = _userService.GetByUserName(userName);
             if (user == null) NotFound();
             var listOfCords = UsersPostsLocation(userName);
-            if (listOfCords.Count() == 0 )
+            if (listOfCords.Count() == 0)
             {
                 return Json(null);
             }
-            var model = new MapModelList {Username = userName, MapCordsList = listOfCords };
+            var model = new MapModelList { Username = userName, MapCordsList = listOfCords };
 
             return Json(model);
         }
@@ -80,7 +79,7 @@ namespace Login.Controllers
                 Lng = thread.Lng
 
             })
-                .Where(x=> x.Lat != null);
+                .Where(x => x.Lat != null);
         }
 
     }

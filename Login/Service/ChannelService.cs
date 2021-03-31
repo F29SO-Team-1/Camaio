@@ -1,11 +1,11 @@
 ﻿using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
 namespace Login.Service
 {
@@ -103,27 +103,29 @@ namespace Login.Service
         {
             List<Tag> tagList = new List<Tag>();
             string tag = "";
-            if (tags==null) return tagList; //If input is null, then return an empty list
-            while (tags.Length!=0) //Loops through the entire input
+            if (tags == null) return tagList; //If input is null, then return an empty list
+            while (tags.Length != 0) //Loops through the entire input
             {
                 if (tags.ElementAt(0).Equals((char)32) || tags.ElementAt(0).Equals((char)44)) //ASCII for whitespace and coma
                 {
-                    if(tag.Length>1) 
+                    if (tag.Length > 1)
                     {
-                        tagList.Add( new Tag {  //Adds a tag to the list if it is 2 or more characters long
+                        tagList.Add(new Tag
+                        {  //Adds a tag to the list if it is 2 or more characters long
                             Name = tag,
                             Channel = channel
                         });
                     }
                     tag = ""; //reset the current tag
                     tags = tags.Substring(1); //remove the first input character
-                } 
+                }
                 else
                 {
-                    tag+=(tags.ElementAt(0)); //adds a character to the current keyword if it is not whitespace or coma
-                    if (tags.Length==1 && tag.Length>1)
+                    tag += (tags.ElementAt(0)); //adds a character to the current keyword if it is not whitespace or coma
+                    if (tags.Length == 1 && tag.Length > 1)
                     {
-                        tagList.Add( new Tag { //Adds a tag to the list if it is 2 or more characters long
+                        tagList.Add(new Tag
+                        { //Adds a tag to the list if it is 2 or more characters long
                             Name = tag,
                             Channel = channel
                         });

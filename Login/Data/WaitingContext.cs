@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Login.Models;
+﻿using Login.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Login.Data
 {
     public class WaitingContext : DbContext
     {
-        public WaitingContext(DbContextOptions<WaitingContext> options) 
+        public WaitingContext(DbContextOptions<WaitingContext> options)
             : base(options)
         {
         }

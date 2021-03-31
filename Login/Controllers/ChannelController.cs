@@ -46,7 +46,7 @@ namespace Login.Controllers
             ViewData["public"] = _service.CheckIfPublic(channel);
             ViewData["owner"] = false;
             var user = _userManager.GetUserAsync(User).Result;
-            if (user != null) 
+            if (user != null)
             {
                 var channelMember = _service.GetChannelMember(user, channel).Result; //Check if the user is a channel member
                 if (channelMember == null)
@@ -109,10 +109,11 @@ namespace Login.Controllers
         //Delete the channel
         [Authorize]
         public IActionResult Delete(string id)
-        {   var channel = _service.GetChannel(id).Result;
+        {
+            var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod")) 
+            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod"))
             {
                 return View(channel);
             }
@@ -120,7 +121,8 @@ namespace Login.Controllers
         }
         [Authorize]
         public async Task<IActionResult> ConfirmDelete(string id)
-        {   var channel = _service.GetChannel(id).Result;
+        {
+            var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
             if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod"))
@@ -137,7 +139,7 @@ namespace Login.Controllers
             var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
-            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod")) 
+            if (user.Id == channel.CreatorId || User.IsInRole("Admin") || User.IsInRole("Mod"))
             {
                 if (channel.CreatorId != _service.GetByUserName(userName).Id)
                 {
@@ -150,7 +152,7 @@ namespace Login.Controllers
         }
         [Authorize]
         public IActionResult ConfirmRemove(string id, string userName)
-        {   
+        {
             var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
@@ -189,10 +191,10 @@ namespace Login.Controllers
                 var tagline = "";
                 foreach (var tag in tags) //creates a line of tags separated by comas
                 {
-                    tagline+=",";
-                    tagline+=tag.Name;
+                    tagline += ",";
+                    tagline += tag.Name;
                 }
-                if (tagline.Length!=0) tagline = tagline.Substring(1);
+                if (tagline.Length != 0) tagline = tagline.Substring(1);
                 ViewData["Tags"] = tagline; //Used to display it
                 return View(channel);
             }
@@ -248,7 +250,7 @@ namespace Login.Controllers
         [Authorize]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateChannel(string id, string description, string tags)
-        {   
+        {
             var channel = _service.GetChannel(id).Result;
             if (channel == null) return NotFound();
             var user = _userManager.GetUserAsync(User).Result;
@@ -279,7 +281,7 @@ namespace Login.Controllers
                 _service.CreateChannel(channel);
                 _service.AddMember(channel, user); //Adds the creator as a channel member
                 _service.ChangeTags(channel, tags);
-                return RedirectToAction("Main", "Channel", new { id = channel.Title} );
+                return RedirectToAction("Main", "Channel", new { id = channel.Title });
 
             }
             else

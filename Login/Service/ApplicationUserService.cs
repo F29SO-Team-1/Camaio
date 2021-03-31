@@ -120,7 +120,7 @@ namespace Login.Service
         //TODO
         public IEnumerable<LoginUser> ListOfFollowing(LoginUser user)
         {
-            return _context.Follow.Where(x => x.Username == user.UserName).Select(x=>x.FollowingUsers);
+            return _context.Follow.Where(x => x.Username == user.UserName).Select(x => x.FollowingUsers);
         }
     }
 }
