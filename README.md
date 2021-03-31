@@ -4,9 +4,9 @@
 
 **It is unlikely that this project will be maintained after May 2021**
 
-# Project Status (Develop Branch)
+# Project Status (Developer Branch)
 
-![.NET](https://github.com/F29SO-Team-1/Camaio/workflows/.NET/badge.svg?branch=develop)
+![.NET](https://github.com/F29SO-Team-1/Camaio/workflows/.NET/badge.svg?branch=featurev2)
 
 ## Installation
 
