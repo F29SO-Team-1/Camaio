@@ -29,7 +29,7 @@
             } else {
                 <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="LeaveChannel" asp-route-id=@Model.Title><h4>Leave</h4></a>
             }
-        } else if (User.IsInRole("Admin") || (bool)ViewData["owner"]==true || User.IsInRole("Mod")) {
+        } @if (User.IsInRole("Admin") || (bool)ViewData["owner"]==true || User.IsInRole("Mod")) {
             <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="Manage" asp-route-id=@Model.Title><h2>Manage Channel</h2></a>
             <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="CreateAlbum" asp-route-id=@Model.Title><h4>Create Album</h4></a>
         }

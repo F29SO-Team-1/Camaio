@@ -168,7 +168,7 @@ namespace Login.Service
         {
             return _context.ChannelMember
                         .Where(u => u.User.UserName == username)
-                        .Select(table => table.User)
+                        .Select(table => _userManager.FindByIdAsync(table.UserId).Result)
                         .FirstOrDefault();
         }
     }
