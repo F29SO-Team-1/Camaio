@@ -125,6 +125,7 @@ namespace Login.Controllers
                 threads = threads.OrderByDescending(thread => thread.CreateDate);
             }
             return threads.Select(thread => new ThreadModel {
+                Id = thread.ID,
                 Title = thread.Title,
                 Rating = thread.Votes,
                 Description = thread.Description,
