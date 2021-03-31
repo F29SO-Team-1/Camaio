@@ -317,12 +317,10 @@ body {
 
 .image-box{
     border-radius: 10px;
-    border: 5px solid green; 
     transition-duration: 0.3s;
 }
 
 .image-box:hover {
-    border: 5px solid greenyellow; 
     background-color:white;
 }
 
@@ -346,7 +344,6 @@ body {
     height: 0px;
     width: 100%;
     transition: .5s;
-    background-color: greenyellow;
 }
 
 .overlaytext{
