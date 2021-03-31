@@ -270,7 +270,7 @@ namespace Login.Controllers
             {
                 channel = new Channel()
                 {
-                    Creator = user,
+                    CreatorId = user.Id,
                     Title = title,
                     Description = description,
                     Public = true,
