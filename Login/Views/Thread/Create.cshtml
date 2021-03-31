@@ -21,12 +21,18 @@
                     <div class="form-group">
                         <label>Description: </label>
                         <span asp-validation-for="Description"></span>
-                        <input asp-for="Description" class="form-control" maxlength="256"/>
+                        <input asp-for="Description" class="form-control" maxlength="256" />
                     </div>
                     <div class="form-group">
                         <label>Threads tags:</label>
-                        <!--<label class="control-label"></label> --> 
-                        <input type="tags" name="tags" placeholder="Separate with commas" maxlength="64" class="form-control"/>
+                        <!--<label class="control-label"></label> -->
+                        <input type="tags" name="tags" placeholder="Separate with commas" maxlength="64" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Picture">Picture: </label>
+                        <span asp-validation-for="Picture"></span>
+                        <input asp-for="Picture" type="file" id="file" name="file" />
                     </div>
                     <br />
                     <button type="submit" id="btn-light submitThreadBtn" class="createButton">
