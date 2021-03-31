@@ -405,12 +405,12 @@ body {
 /*-----------------Start of 'Top Posts Page' CSS -----------------------*/
 #DIV_0 {
     width: 30%;
-    border-color:#020202;
+    border-color:black;  
     border-style: solid;
     border-width: 1px;
     float: right;
     text-align: bottom;   
-    background-color: re; 
+    background-color: re;   
     border-radius: 1%; 
     height:520px;
     margin-top: 1%; 
@@ -432,6 +432,7 @@ body {
     background-color: yello;
     text-align: center;
 }
+
 
 #DIV_5 {
     height: 10%;
@@ -461,16 +462,6 @@ body {
     border-radius: 1%;
 
   }
-
-
-  /*
-  #DIV_3 {
-    float: left;
-    height: 100%;
-    width: 69%; 
-    background-color: gree;
-  }
-  */ 
 
 #DIV_4 {
     width: 1%;
@@ -544,7 +535,7 @@ body {
     border-color: black;
     border-width: 1px; 
     border-style: solid;
-    color: #020202;
+    color: black; 
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -564,7 +555,7 @@ body {
 }
 
 .top-score-card:hover {
-    background-color: #e6e6e6;
+    background-color: greenyellow;
     -ms-transform: scale(1.5); /* IE 9 */
     -webkit-transform: scale(1.5); /* Safari 3-8 */
     transform: scale(1.05); 

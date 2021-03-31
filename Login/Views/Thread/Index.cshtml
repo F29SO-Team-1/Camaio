@@ -15,10 +15,14 @@
             <div class="card-title"><h3>@Model.Title</h3></div>
             @foreach (var tag in Model.Tags)
 
-                {
+                {   <tr>
                     <th> 
-                        @tag.Name
+                       #@tag.Name
                     </th>
+                    <th>
+
+                    </th>
+                    </tr>
                 }
             <div id="DIV_1"> 
                 <div class="card-description"> 
