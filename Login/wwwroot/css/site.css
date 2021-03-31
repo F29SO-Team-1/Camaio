@@ -3,6 +3,14 @@ for details on configuring this project to bundle and minify static web assets. 
 
 
 /*Shared styles*/
+.overflow-hidden{
+    color:white;
+    font-size: 16px;
+}
+
+.overflow-hidden:hover{
+    color:white;
+}
 
 .navbar{
     background-color: #39603D;
@@ -10,7 +18,7 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 .nav-item{
-    color: white;
+    color: inherit;
 }
 
 .dropdown-menu{
@@ -64,8 +72,6 @@ for details on configuring this project to bundle and minify static web assets. 
 .form-control{
     width:500px;
 }
-
-
 
 /* lists styling*/
 
