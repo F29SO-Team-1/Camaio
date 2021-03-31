@@ -16,7 +16,7 @@
             <img class="img mx-auto" style="height:100px;width:100px;" src="@Model.ProfileImageUrl"></img>
             @if (SignInManager.IsSignedIn(User)){
                 @if (User.Identity.Name != Model.Username){
-                    <button type="button" class="follow-button"> Follow </button>
+                    <a type="button" class="follow-button" asp-controller="Profile" asp-action="Follow" asp-route-id="@Model.Username"> Follow </a>
                 }
             }
             <p class="mt-2 text-center">
