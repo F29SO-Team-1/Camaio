@@ -23,17 +23,17 @@
             </p>
             @foreach (var role in @Model.Roles.Result)
             {
-                <p style="p-2 nav-item">@role</p>
+                <p style="p-2 nav-item text-dark">@role</p>
                 <br />
             }
             @if (SignInManager.IsSignedIn(User))
             {
-                <a class="nav-item p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
+                <a class="nav-item text-dark p-2 mt-2" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Settings</a>
             }
-            <a class="nav-item text-left p-2" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username" title="">Achievements</a>
-            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV1)">Following</Button>
-            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV2)">Followers</Button>
-            <Button class="nav-item btn text-left p-2" onClick="drawDiv(toggleDIV3)">Likes</Button>
+            <a class="nav-item text-dark text-left p-2" asp-controller="Achievement" asp-action="Index" asp-route-username="@Model.Username" title="">Achievements</a>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV1)">Following</Button>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV2)">Followers</Button>
+            <Button class="nav-item text-dark btn text-left p-2" onClick="drawDiv(toggleDIV3)">Likes</Button>
         </ul>
     </div>
 
