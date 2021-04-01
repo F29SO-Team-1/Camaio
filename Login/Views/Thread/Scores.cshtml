@@ -3,8 +3,8 @@
     ViewData["Title"] = "Score Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1 style="text-align:center; margin-top:2%">Top Posts</h1>
-<div class="top-score-row">
+<h1 style="text-align:center; margin-top:2%">Top Posts</h1>   
+<div class="top-score-row">  
     <br>
     @foreach (var threads in Model.ThreadLists){
         if (threads.Flagged == true || threads.AlbumId != 1)
@@ -15,7 +15,7 @@
             <div class="top-score-column">
                 <div class="top-score-card">
                     <h3>@threads.Title</h3>
-                        <img src="@threads.Picture" alt="Image" class="card-image"  style="width: 400px; height:275px;" />
+                                <img class="top-posts-img" src="@threads.Picture" alt="Image" class="card-image"  style="width: 70%; height:275px;" />
                         <p>Rating: @threads.Rating</p>
                     <p>@threads.Created</p>
                 </div>
