@@ -20,7 +20,7 @@
         {
             @if ((bool)ViewData["member"]==false) 
             {
-                @if ((bool)ViewData["public"]==true)
+                @if ((bool)ViewData["public"]==false)
                 {
                     <a class="clickthing" asp-area="" asp-controller="Channel" asp-action="RequestToJoin" asp-route-id=@Model.Title><h4>Ask to join</h4></a>
                 } else {
