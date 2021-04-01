@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Login.Models.Map
 {
@@ -17,7 +14,7 @@ namespace Login.Models.Map
     {
         public string Username { get; set; }
         public IEnumerable<MapModel> MapCordsList { get; set; }
-        
+
     }
 
 }

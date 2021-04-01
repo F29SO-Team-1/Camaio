@@ -1,5 +1,5 @@
-﻿using Login.Models.Threadl;
-using Login.Models.ApplicationUser;
+﻿using Login.Models.ApplicationUser;
+using Login.Models.Threadl;
 using System.Collections.Generic;
 
 

@@ -20,11 +20,19 @@ namespace Login.Areas.Identity
                         context.Configuration.GetConnectionString("LoginContextConnection")));
 
                 services.AddIdentity<LoginUser, IdentityRole>(options =>
-                    options.SignIn.RequireConfirmedAccount = false)
-                        .AddEntityFrameworkStores<LoginContext>()
-                        .AddDefaultTokenProviders()
-                        .AddRoles<IdentityRole>()
-                        .AddDefaultUI();
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    // Default Password settings.
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                })
+                .AddEntityFrameworkStores<LoginContext>()
+                .AddDefaultTokenProviders()
+                .AddRoles<IdentityRole>()
+                .AddDefaultUI();
             });
         }
     }

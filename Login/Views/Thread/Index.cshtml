@@ -1,26 +1,23 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Login.Areas.Identity.Data  
-@model Login.Models.Threadl.ThreadModel   
+@using Login.Areas.Identity.Data
+@model Login.Models.Threadl.ThreadModel
 @inject UserManager<LoginUser> UserManager
 @*this is the model that can be used within the View, check the path what can be passed in*@
-<div class="header"></div>  
-     
-<div class="top-score-card-display">   
-    <div class="row">  
-        <div id="DIV_3">    
+@{
+    ViewData["Title"] = "Thread Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header"></div>
+
+<div class="top-score-card-display">
+    <div class="row">
+        <div id="DIV_3">
             <img class="card-img-top" src="@Model.Picture" alt="Card image cap" style="with: 700px; heght:500px">
         </div>
         <div id="DIV_4"></div>
-        <div id="DIV_0">  
+        <div id="DIV_0">
             <div class="card-title"><h3>@Model.Title</h3></div>
-            <!--
-            @foreach (var tag in Model.Tags)
-                {   <tr>
-                        <th>#@tag.Name</th>
-                        <th></th>
-                    </tr>
-                }
-                -->
             <div id="DIV_1"> 
                 @foreach (var tag in Model.Tags)
                 {   <tr>
@@ -32,38 +29,42 @@
                     <p class="card-text">@Model.Description </p> 
                 </div>
                 <div class="likes pt-2">
-                    Likes: <h5 class="card-titl mt-1" id="like">@Model.Rating</h5> 
+                    Likes: <h5 class="card-titl mt-1" id="like">@Model.Rating</h5>
                 </div>
             </div>
-            
+
             <div id="DIV_5">
-                <div class="buttons"> 
+                <div class="buttons">
                     @* Checks if a user is signed in and not viewing it as a guest *@
                     @if (User.Identity.Name != null)
                     {
                         <div id="likeSection">
                             @{
                                 bool isLiked = false;
-                                @foreach (var person in @Model.LikedBy){
-                                    if (person.UserId == @UserManager.GetUserId(User)){
+                                @foreach (var person in @Model.LikedBy)
+                                {
+                                    if (person.UserId == @UserManager.GetUserId(User))
+                                    {
                                         isLiked = true;
                                         break;
                                     }
                                 }
-                                if (isLiked){
+                                if (isLiked)
+                                {
                                     <button type="button" id="likeBtn" class="createButton d-none" onclick="toggleLikeButton()">Like</button>
                                     <button type="button" id="disLikeBtn" class="createButton" onclick="toggleLikeButton()">Undo like</button>
                                 }
-                                else{
+                                else
+                                {
                                     <button type="button" id="disLikeBtn" class="createButton d-none" onclick="toggleLikeButton()">Undo like</button>
                                     <button type="button" id="likeBtn" class="createButton" onclick="toggleLikeButton()">Like</button>
                                 }
                             }
                         </div>
                     }
-                </div> 
+                </div>
             </div>
-        
+
             <div id="DIV_2">
                 <p></p>
                 <a asp-action="Index" asp-controller="Profile" asp-route-username="@Model.AuthorUserName">
@@ -71,17 +72,17 @@
                     <h5 class="card-subtitle mb-2 text-muted">Created On: @Model.Created</h5>
                 </a>
                 @if (Model.Lng != null || Model.Lat != null)
-                { 
+                {
                     <a asp-action="Index" asp-controller="Map" asp-route-threadId="@Model.Id">
                         <h6 class="card-subtitle mb-2 text-muted">Location</h6>
                     </a>
                 }
             </div>
         </div>
-    </div> 
+    </div>
 
-    <br> 
-    <div class="card-footer">  
+    <br>
+    <div class="card-footer">
         <small class="text-muted">
             <a asp-action="Report" asp-route-threadId="@Model.Id">Report </a>
             @if (User.Identity.Name == Model.AuthorUserName || User.IsInRole("Admin"))
@@ -101,7 +102,7 @@
 
 @section Scripts
 {
-    
+
     <script type="text/javascript">
         $(document).ready (function () {
 
