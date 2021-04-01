@@ -3,6 +3,7 @@ using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,12 @@ namespace Login.Service
 
         private readonly ThreadContext _context;
         private readonly TagContext _tagContext;
-        public ThreadService(ThreadContext context, TagContext tagContext)
+        private readonly UserManager<LoginUser> _userManager;
+        public ThreadService(ThreadContext context, TagContext tagContext, UserManager<LoginUser> userManager)
         {
             _context = context;
             _tagContext = tagContext;
+            _userManager = userManager;
         }
 
         public async Task<Thread> Create(Thread model, LoginUser user, int albumId)
@@ -213,7 +216,7 @@ namespace Login.Service
             {
                 return _context.Threads
                     .Where(t => t.ID == thread.ID)
-                    .Select(t => t.Album.Channel.Creator.UserName)
+                    .Select(t => _userManager.FindByIdAsync(t.Album.Channel.CreatorId).Result.UserName)
                     .FirstOrDefault();
             }
             return null;
