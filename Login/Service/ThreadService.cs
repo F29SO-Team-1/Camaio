@@ -147,8 +147,8 @@ namespace Login.Service
         {
             //get all the liked threads; and select the threads were the userID is mentioned
             return _context.Likes.Select(x => x.Thread)
-                .Where(y=>y.Votes >= 1)
-                .Where(z=>z.LikedBy.Any(v=>v.UserId == userId))
+                .Where(y => y.Votes >= 1)
+                .Where(z => z.LikedBy.Any(v => v.UserId == userId))
                 .Distinct();
         }
 
@@ -257,27 +257,29 @@ namespace Login.Service
         {
             List<Tag> tagList = new List<Tag>();
             string tag = "";
-            if (tags==null) return tagList;
-            while (tags.Length!=0)
+            if (tags == null) return tagList;
+            while (tags.Length != 0)
             {
                 if (tags.ElementAt(0).Equals((char)32) || tags.ElementAt(0).Equals((char)44))
                 {
-                    if(tag.Length>1)
+                    if (tag.Length > 1)
                     {
-                        tagList.Add( new Tag {
+                        tagList.Add(new Tag
+                        {
                             Name = tag,
                             Thread = thread
                         });
                     }
                     tag = "";
                     tags = tags.Substring(1);
-                } 
+                }
                 else
                 {
-                    tag+=(tags.ElementAt(0));
-                    if (tags.Length==1 && tag.Length>1)
+                    tag += (tags.ElementAt(0));
+                    if (tags.Length == 1 && tag.Length > 1)
                     {
-                        tagList.Add( new Tag {
+                        tagList.Add(new Tag
+                        {
                             Name = tag,
                             Thread = thread
                         });
@@ -309,7 +311,7 @@ namespace Login.Service
             {
                 return;
             }
-            
+
         }
 
         public double? GetCoordinate(ExifReader reader, ExifTags type)

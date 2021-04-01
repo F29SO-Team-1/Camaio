@@ -388,10 +388,6 @@ body {
    }
  }
 
-
-
-
-
 #DIV_0 {
     width: 30%;
     border-color:black;  
@@ -402,7 +398,7 @@ body {
     background-color: re;   
     border-radius: 1%; 
     height:520px;
-    margin-top: 1%; 
+    margin-top: 1%;
    
   }
   
@@ -426,7 +422,7 @@ body {
 #DIV_5 {
     height: 10%;
     bottom:100%;
-    background-color: pik;
+    background-color: pin;
     border-top: #020202;
     border-top-style: solid;
     border-top-width: 1px;
@@ -435,7 +431,7 @@ body {
   #DIV_5 > .buttons{
       position: relative;
       top:25%; 
-      background-color: gren;
+      background-color: gree;
   }
   
   #DIV_3{
@@ -458,7 +454,7 @@ body {
   }
 
 #DIV_6 {
-    background-color: orang; 
+    background-color: orane; 
 }
 
 /* Responsive columns */
@@ -466,10 +462,22 @@ body {
     #DIV_0 {
         width: 100%;
         display: block;
-        margin:1%; 
+        margin:1%;
+        border-style: none; 
+    }
+
+    #DIV_5{
+        border-top-style: none;
+    }
+
+    #DIV_2{
+        border-top-style: none;
+    }
+
+    .top-posts-img{
+        width: 80vw; 
     }
 }
-
 
 .card-footer{
     border-radius: 25px;
@@ -509,6 +517,7 @@ body {
     border-width: 1px; 
     border-style: solid;
     color: #020202;
+    position: relative;
 }
 
 .top-score-card-achieve {
@@ -613,6 +622,8 @@ body {
         display: block;
         margin-bottom: 20px;
     }
+
+   
 }
 
 /*-----------------End of 'Top Posts' CSS-----------------------------*/

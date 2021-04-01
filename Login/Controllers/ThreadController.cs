@@ -1,4 +1,3 @@
-using ExifLib;
 using Login.Areas.Identity.Data;
 using Login.Data;
 using Login.Data.Interfaces;
@@ -13,7 +12,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
